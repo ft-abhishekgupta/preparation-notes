@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preparation Notes</title>
+    <meta name="description" content="Interview preparation notes on DBMS, SQL and Git." />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --fg: #24292f;
+        --muted: #57606a;
+        --border: #d0d7de;
+        --card: #f6f8fa;
+        --accent: #0969da;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0d1117;
+          --fg: #e6edf3;
+          --muted: #9198a1;
+          --border: #30363d;
+          --card: #161b22;
+          --accent: #4493f8;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 48px 20px 80px;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+      }
+      main { max-width: 860px; margin: 0 auto; }
+      h1 { font-size: 2.2rem; margin: 0 0 8px; }
+      .tagline { color: var(--muted); margin: 0 0 40px; }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+      .card {
+        display: block;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--card);
+        text-decoration: none;
+        color: inherit;
+        transition: border-color .15s ease, transform .15s ease;
+      }
+      .card:hover, .card:focus-visible {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+      .card h2 { margin: 0 0 6px; font-size: 1.15rem; color: var(--accent); }
+      .card p { margin: 0; color: var(--muted); font-size: .92rem; }
+      footer {
+        max-width: 860px;
+        margin: 56px auto 0;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: .88rem;
+      }
+      footer a { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Preparation Notes</h1>
+      <p class="tagline">Study notes rendered from Markdown. Pick a topic to start reading.</p>
+      <ul class="cards" id="notes"></ul>
+    </main>
+    <footer>
+      Source on
+      <a href="https://github.com/ft-abhishekgupta/preparation-notes">GitHub</a>.
+    </footer>
+
+    <script>
+      // Add a new entry here after exporting a note to HTML.
+      const notes = [
+        { title: "DBMS", href: "DBMS/DBMS.html", description: "Database management system concepts and fundamentals." },
+        { title: "SQL", href: "SQL/SQL.html", description: "SQL syntax, queries, joins and practice problems." },
+        { title: "Git", href: "Git/Git.html", description: "Git commands, workflows and version control internals." },
+      ];
+
+      const list = document.getElementById("notes");
+      for (const note of notes) {
+        const item = document.createElement("li");
+        const link = document.createElement("a");
+        link.className = "card";
+        link.href = note.href;
+
+        const heading = document.createElement("h2");
+        heading.textContent = note.title;
+
+        const description = document.createElement("p");
+        description.textContent = note.description;
+
+        link.append(heading, description);
+        item.append(link);
+        list.append(item);
+      }
+    </script>
+  </body>
+</html>
