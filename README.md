@@ -19,9 +19,10 @@ to HTML with [Markdown Preview Enhanced](https://shd101wyy.github.io/markdown-pr
 - `index.html` is the landing page that links to every exported note.
 - `.nojekyll` disables Jekyll processing so files and folders are served as-is.
 - `.github/workflows/deploy-pages.yml` publishes the repository root to GitHub Pages
-  on every push to `main`. The workflow enables Pages automatically, so no manual
-  repository setting is required (if the first run fails on the *Configure Pages*
-  step, set **Settings → Pages → Source** to **GitHub Actions** and re-run it).
+  on every push to `main` (and on manual *Run workflow*).
+- **Settings → Pages → Source** must be **GitHub Actions** (already configured). The
+  workflow's `GITHUB_TOKEN` cannot create the Pages site itself, so this one-time
+  setting has to be made in the repository settings.
 
 ## Adding a new note
 
