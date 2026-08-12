@@ -515,11 +515,17 @@ body {
   .mermaid .edgeLabel span,
   .mermaid .edgeLabel div {
     margin: 0 !important;
-    padding: 2px 4px !important;
+    padding: 0 4px !important;
     background: transparent !important;
     color: #ffffff !important;
     font-weight: 600 !important;
-    line-height: 1.2 !important;
+    line-height: 1.15 !important;
+    overflow: visible !important;
+  }
+
+  .mermaid foreignObject,
+  .mermaid .edgeLabel {
+    overflow: visible !important;
   }
 
   .mermaid .nodeLabel,

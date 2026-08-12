@@ -5,6 +5,7 @@ SQL (Structured Query Language) is a standard programming language used to manag
 ## Table of Contents
 
 - [SQL Overview and Architecture](#sql-overview-and-architecture)
+- [Sample Database Used in All Examples](#sample-database-used-in-all-examples)
 - [Database Management](#database-management)
 - [Data Types](#data-types)
 - [SQL Command Categories](#sql-command-categories)
@@ -28,14 +29,68 @@ D --> S
 S --> R[Result]
 ```
 
+## Sample Database Used in All Examples
+
+Every example in this sheet uses the following `company_db` database. Run this setup first if you want to try the queries.
+
+```sql
+CREATE DATABASE company_db;
+USE company_db;
+
+CREATE TABLE departments (
+department_id INT PRIMARY KEY,
+department_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE employees (
+employee_id INT PRIMARY KEY,
+employee_name VARCHAR(50) NOT NULL,
+email VARCHAR(100) UNIQUE,
+department_id INT,
+salary DECIMAL(10, 2),
+age INT CHECK (age >= 18),
+city VARCHAR(50),
+joining_date DATE,
+manager_id INT,
+status VARCHAR(20) DEFAULT 'Active',
+CONSTRAINT fk_employee_department
+FOREIGN KEY (department_id) REFERENCES departments(department_id)
+ON UPDATE CASCADE
+ON DELETE SET NULL,
+FOREIGN KEY (manager_id) REFERENCES employees(employee_id)
+);
+
+INSERT INTO departments (department_id, department_name) VALUES
+(1, 'Engineering'),
+(2, 'HR'),
+(3, 'Sales');
+
+INSERT INTO employees
+(employee_id, employee_name, email, department_id, salary, age, city, joining_date, manager_id, status)
+VALUES
+(1, 'Aman', 'aman@example.com', 1, 80000, 28, 'Delhi', '2022-01-15', NULL, 'Active'),
+(2, 'Anita', 'anita@example.com', 1, 65000, 30, 'Mumbai', '2021-03-10', 1, 'Active'),
+(3, 'Ravi', 'ravi@example.com', 2, 55000, 26, 'Bengaluru', '2022-06-18', 1, 'Active'),
+(4, 'Neha', NULL, NULL, 45000, 24, 'Pune', '2023-02-20', 2, 'Inactive');
+```
+
+### Sample Data
+
+| employee_id | employee_name | department_id | salary | age | city      | joining_date | manager_id | status   |
+| ----------- | ------------- | ------------- | ------ | --- | --------- | ------------ | ---------- | -------- |
+| 1           | Aman          | 1             | 80000  | 28  | Delhi     | 2022-01-15   | `NULL`     | Active   |
+| 2           | Anita         | 1             | 65000  | 30  | Mumbai    | 2021-03-10   | 1          | Active   |
+| 3           | Ravi          | 2             | 55000  | 26  | Bengaluru | 2022-06-18   | 1          | Active   |
+| 4           | Neha          | `NULL`        | 45000  | 24  | Pune      | 2023-02-20   | 2          | Inactive |
+
 ## Database Management
 
 | Operation | Command           | Purpose                                      | Syntax                           | Example                       |
 | --------- | ----------------- | -------------------------------------------- | -------------------------------- | ----------------------------- |
-| Create    | `CREATE DATABASE` | Creates a new database.                      | `CREATE DATABASE database_name;` | `CREATE DATABASE college_db;` |
-| Use       | `USE`             | Selects the database for subsequent queries. | `USE database_name;`             | `USE college_db;`             |
+| Create    | `CREATE DATABASE` | Creates a new database.                      | `CREATE DATABASE database_name;` | `CREATE DATABASE company_db;` |
+| Use       | `USE`             | Selects the database for subsequent queries. | `USE database_name;`             | `USE company_db;`             |
 | Show      | `SHOW DATABASES`  | Lists available databases.                   | `SHOW DATABASES;`                | `SHOW DATABASES;`             |
-| Delete    | `DROP DATABASE`   | Permanently deletes a database and its data. | `DROP DATABASE database_name;`   | `DROP DATABASE college_db;`   |
+| Delete    | `DROP DATABASE`   | Permanently deletes a database and its data. | `DROP DATABASE database_name;`   | `DROP DATABASE company_db;`   |
 
 > **Warning:** `DROP DATABASE` permanently removes the database. `USE` and `SHOW DATABASES` are supported by MySQL; equivalent commands vary across database systems.
 
@@ -67,13 +122,13 @@ S --> R[Result]
 
 ### Data Definition Language (DDL)
 
-| Command    | Syntax                                                  | Example                                                     |
-| ---------- | ------------------------------------------------------- | ----------------------------------------------------------- |
-| `CREATE`   | `CREATE TABLE table_name (column_name data_type, ...);` | `CREATE TABLE students (student_id INT, name VARCHAR(50));` |
-| `ALTER`    | `ALTER TABLE table_name ADD column_name data_type;`     | `ALTER TABLE students ADD email VARCHAR(100);`              |
-| `DROP`     | `DROP TABLE table_name;`                                | `DROP TABLE students;`                                      |
-| `TRUNCATE` | `TRUNCATE TABLE table_name;`                            | `TRUNCATE TABLE students;`                                  |
-| `RENAME`   | `ALTER TABLE old_name RENAME TO new_name;`              | `ALTER TABLE students RENAME TO learners;`                  |
+| Command    | Syntax                                                  | Example                                                                |
+| ---------- | ------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `CREATE`   | `CREATE TABLE table_name (column_name data_type, ...);` | `CREATE TABLE employees (employee_id INT, employee_name VARCHAR(50));` |
+| `ALTER`    | `ALTER TABLE table_name ADD column_name data_type;`     | `ALTER TABLE employees ADD phone VARCHAR(20);`                         |
+| `DROP`     | `DROP TABLE table_name;`                                | `DROP TABLE employees;`                                                |
+| `TRUNCATE` | `TRUNCATE TABLE table_name;`                            | `TRUNCATE TABLE employees;`                                            |
+| `RENAME`   | `ALTER TABLE old_name RENAME TO new_name;`              | `ALTER TABLE employees RENAME TO staff;`                               |
 
 ### Table Constraints and Defaults
 
@@ -81,9 +136,9 @@ Constraints are rules defined in DDL statements to enforce valid data and relati
 
 | Constraint    | Purpose                                                        | Example                                                             |
 | ------------- | -------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `PRIMARY KEY` | Uniquely identifies each row; implies `UNIQUE` and `NOT NULL`. | `student_id INT PRIMARY KEY`                                        |
+| `PRIMARY KEY` | Uniquely identifies each row; implies `UNIQUE` and `NOT NULL`. | `employee_id INT PRIMARY KEY`                                       |
 | `FOREIGN KEY` | Links a column to a primary or unique key in another table.    | `FOREIGN KEY (department_id) REFERENCES departments(department_id)` |
-| `NOT NULL`    | Prevents null values.                                          | `name VARCHAR(50) NOT NULL`                                         |
+| `NOT NULL`    | Prevents null values.                                          | `employee_name VARCHAR(50) NOT NULL`                                |
 | `UNIQUE`      | Prevents duplicate values.                                     | `email VARCHAR(100) UNIQUE`                                         |
 | `CHECK`       | Allows only values satisfying a condition.                     | `age INT CHECK (age >= 18)`                                         |
 | `DEFAULT`     | Supplies a default value when none is provided.                | `status VARCHAR(20) DEFAULT 'Active'`                               |
@@ -100,21 +155,10 @@ Constraints are rules defined in DDL statements to enforce valid data and relati
 #### Foreign Keys and Cascading Actions
 
 ```sql
-CREATE TABLE departments (
-department_id INT PRIMARY KEY,
-department_name VARCHAR(50) UNIQUE NOT NULL
-);
-
-CREATE TABLE students (
-student_id INT PRIMARY KEY,
-name VARCHAR(50) NOT NULL,
-department_id INT,
-status VARCHAR(20) DEFAULT 'Active',
-CONSTRAINT fk_student_department
+CONSTRAINT fk_employee_department
 FOREIGN KEY (department_id) REFERENCES departments(department_id)
 ON UPDATE CASCADE
 ON DELETE SET NULL
-);
 ```
 
 | Referential Action       | Effect                                                             |
@@ -128,12 +172,12 @@ ON DELETE SET NULL
 
 ### Data Manipulation Language (DML)
 
-| Command  | Syntax                                                                               | Example                                                                          |
-| -------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| `INSERT` | `INSERT INTO table_name (column1, column2) VALUES (value1, value2);`                 | `INSERT INTO students (student_id, name) VALUES (1, 'Aman');`                    |
-| `UPDATE` | `UPDATE table_name SET column = value WHERE condition;`                              | `UPDATE students SET name = 'Anita' WHERE student_id = 1;`                       |
-| `DELETE` | `DELETE FROM table_name WHERE condition;`                                            | `DELETE FROM students WHERE student_id = 1;`                                     |
-| `MERGE`  | `MERGE INTO target USING source ON condition WHEN MATCHED ... WHEN NOT MATCHED ...;` | `MERGE INTO students s USING new_students n ON s.student_id = n.student_id ...;` |
+| Command  | Syntax                                                                               | Example                                                                                                                    |
+| -------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| `INSERT` | `INSERT INTO table_name (column1, column2) VALUES (value1, value2);`                 | `INSERT INTO employees (employee_id, employee_name) VALUES (5, 'Kiran');`                                                  |
+| `UPDATE` | `UPDATE table_name SET column = value WHERE condition;`                              | `UPDATE employees SET salary = 70000 WHERE employee_id = 2;`                                                               |
+| `DELETE` | `DELETE FROM table_name WHERE condition;`                                            | `DELETE FROM employees WHERE employee_id = 4;`                                                                             |
+| `MERGE`  | `MERGE INTO target USING source ON condition WHEN MATCHED ... WHEN NOT MATCHED ...;` | `MERGE INTO employees e USING (SELECT 5 AS employee_id, 'Kiran' AS employee_name) u ON e.employee_id = u.employee_id ...;` |
 
 #### Delete vs Truncate vs Drop
 
@@ -151,35 +195,35 @@ ON DELETE SET NULL
 
 #### Insert Forms
 
-| Form            | Syntax                                                    | Example                                                                                             |
-| --------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Single row      | `INSERT INTO table (columns) VALUES (values);`            | `INSERT INTO students (student_id, name) VALUES (1, 'Aman');`                                       |
-| Multiple rows   | `INSERT INTO table (columns) VALUES (...), (...);`        | `INSERT INTO students (student_id, name) VALUES (2, 'Anita'), (3, 'Ravi');`                         |
-| From a query    | `INSERT INTO table (columns) SELECT columns FROM source;` | `INSERT INTO alumni (student_id, name) SELECT student_id, name FROM students;`                      |
-| Omitted columns | `INSERT INTO table (columns) VALUES (values);`            | `INSERT INTO students (student_id, name) VALUES (4, 'Neha');` implicitly uses the default `status`. |
+| Form            | Syntax                                                    | Example                                                                                                     |
+| --------------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Single row      | `INSERT INTO table (columns) VALUES (values);`            | `INSERT INTO employees (employee_id, employee_name) VALUES (5, 'Kiran');`                                   |
+| Multiple rows   | `INSERT INTO table (columns) VALUES (...), (...);`        | `INSERT INTO employees (employee_id, employee_name) VALUES (5, 'Kiran'), (6, 'Meera');`                     |
+| From a query    | `INSERT INTO table (columns) SELECT columns FROM source;` | `INSERT INTO employees (employee_id, employee_name) SELECT employee_id + 10, employee_name FROM employees;` |
+| Omitted columns | `INSERT INTO table (columns) VALUES (values);`            | `INSERT INTO employees (employee_id, employee_name) VALUES (5, 'Kiran');` uses the default `status`.        |
 
 ### Data Control Language (DCL)
 
-| Command  | Syntax                                            | Example                                   |
-| -------- | ------------------------------------------------- | ----------------------------------------- |
-| `GRANT`  | `GRANT privilege ON object_name TO user_name;`    | `GRANT SELECT ON students TO analyst;`    |
-| `REVOKE` | `REVOKE privilege ON object_name FROM user_name;` | `REVOKE SELECT ON students FROM analyst;` |
+| Command  | Syntax                                            | Example                                    |
+| -------- | ------------------------------------------------- | ------------------------------------------ |
+| `GRANT`  | `GRANT privilege ON object_name TO user_name;`    | `GRANT SELECT ON employees TO analyst;`    |
+| `REVOKE` | `REVOKE privilege ON object_name FROM user_name;` | `REVOKE SELECT ON employees FROM analyst;` |
 
 > **Security:** Use parameterized queries or prepared statements for user input. Never build SQL by concatenating untrusted values.
 
 ### Transaction Control Language (TCL)
 
-| Command           | Syntax                              | Example                                                            |
-| ----------------- | ----------------------------------- | ------------------------------------------------------------------ |
-| `COMMIT`          | `COMMIT;`                           | `UPDATE students SET name = 'Anita' WHERE student_id = 1; COMMIT;` |
-| `ROLLBACK`        | `ROLLBACK;`                         | `DELETE FROM students WHERE student_id = 1; ROLLBACK;`             |
-| `SAVEPOINT`       | `SAVEPOINT savepoint_name;`         | `SAVEPOINT before_update;`                                         |
-| `SET TRANSACTION` | `SET TRANSACTION transaction_mode;` | `SET TRANSACTION READ ONLY;`                                       |
+| Command           | Syntax                              | Example                                                              |
+| ----------------- | ----------------------------------- | -------------------------------------------------------------------- |
+| `COMMIT`          | `COMMIT;`                           | `UPDATE employees SET salary = 70000 WHERE employee_id = 2; COMMIT;` |
+| `ROLLBACK`        | `ROLLBACK;`                         | `DELETE FROM employees WHERE employee_id = 4; ROLLBACK;`             |
+| `SAVEPOINT`       | `SAVEPOINT savepoint_name;`         | `SAVEPOINT before_update;`                                           |
+| `SET TRANSACTION` | `SET TRANSACTION transaction_mode;` | `SET TRANSACTION READ ONLY;`                                         |
 
 ```sql
 START TRANSACTION;
-UPDATE accounts SET balance = balance - 500 WHERE account_id = 1;
-UPDATE accounts SET balance = balance + 500 WHERE account_id = 2;
+UPDATE employees SET salary = salary + 5000 WHERE employee_id = 2;
+UPDATE employees SET salary = salary - 5000 WHERE employee_id = 1;
 COMMIT;
 ```
 
@@ -189,19 +233,19 @@ COMMIT;
 
 ## Querying and Filtering
 
-| Keyword/Clause | Purpose                                                          | Syntax                                                      | Example                                                   |
-| -------------- | ---------------------------------------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------- |
-| `SELECT`       | Retrieves data from a table.                                     | `SELECT column1, column2 FROM table_name;`                  | `SELECT student_id, name FROM students;`                  |
-| `WHERE`        | Filters rows based on a condition.                               | `SELECT columns FROM table_name WHERE condition;`           | `SELECT * FROM students WHERE age >= 18;`                 |
-| `DISTINCT`     | Removes duplicate values from the result.                        | `SELECT DISTINCT column FROM table_name;`                   | `SELECT DISTINCT city FROM students;`                     |
-| `ORDER BY`     | Sorts results in ascending (`ASC`) or descending (`DESC`) order. | `SELECT columns FROM table_name ORDER BY column ASC\|DESC;` | `SELECT * FROM students ORDER BY name ASC;`               |
-| `LIMIT`        | Restricts the number of returned rows.                           | `SELECT columns FROM table_name LIMIT count;`               | `SELECT * FROM students LIMIT 5;`                         |
-| `OFFSET`       | Skips a number of rows before returning results.                 | `LIMIT count OFFSET count`                                  | `SELECT * FROM students LIMIT 5 OFFSET 10;`               |
-| `TOP`          | Restricts returned rows in SQL Server.                           | `SELECT TOP count columns FROM table_name;`                 | `SELECT TOP 5 * FROM students;`                           |
-| `BETWEEN`      | Filters values within an inclusive range.                        | `WHERE column BETWEEN value1 AND value2`                    | `SELECT * FROM students WHERE age BETWEEN 18 AND 25;`     |
-| `IN`           | Matches any value in a specified list.                           | `WHERE column IN (value1, value2, ...)`                     | `SELECT * FROM students WHERE city IN ('Delhi', 'Pune');` |
-| `LIKE`         | Matches text against a pattern using wildcards.                  | `WHERE column LIKE pattern`                                 | `SELECT * FROM students WHERE name LIKE 'A%';`            |
-| `IS NULL`      | Finds missing values.                                            | `WHERE column IS NULL`                                      | `SELECT * FROM students WHERE department_id IS NULL;`     |
+| Keyword/Clause | Purpose                                                          | Syntax                                                      | Example                                                         |
+| -------------- | ---------------------------------------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------- |
+| `SELECT`       | Retrieves data from a table.                                     | `SELECT column1, column2 FROM table_name;`                  | `SELECT employee_id, employee_name FROM employees;`             |
+| `WHERE`        | Filters rows based on a condition.                               | `SELECT columns FROM table_name WHERE condition;`           | `SELECT * FROM employees WHERE salary >= 60000;`                |
+| `DISTINCT`     | Removes duplicate values from the result.                        | `SELECT DISTINCT column FROM table_name;`                   | `SELECT DISTINCT city FROM employees;`                          |
+| `ORDER BY`     | Sorts results in ascending (`ASC`) or descending (`DESC`) order. | `SELECT columns FROM table_name ORDER BY column ASC\|DESC;` | `SELECT * FROM employees ORDER BY employee_name ASC;`           |
+| `LIMIT`        | Restricts the number of returned rows.                           | `SELECT columns FROM table_name LIMIT count;`               | `SELECT * FROM employees LIMIT 5;`                              |
+| `OFFSET`       | Skips a number of rows before returning results.                 | `LIMIT count OFFSET count`                                  | `SELECT * FROM employees LIMIT 5 OFFSET 2;`                     |
+| `TOP`          | Restricts returned rows in SQL Server.                           | `SELECT TOP count columns FROM table_name;`                 | `SELECT TOP 5 * FROM employees;`                                |
+| `BETWEEN`      | Filters values within an inclusive range.                        | `WHERE column BETWEEN value1 AND value2`                    | `SELECT * FROM employees WHERE salary BETWEEN 50000 AND 70000;` |
+| `IN`           | Matches any value in a specified list.                           | `WHERE column IN (value1, value2, ...)`                     | `SELECT * FROM employees WHERE city IN ('Delhi', 'Pune');`      |
+| `LIKE`         | Matches text against a pattern using wildcards.                  | `WHERE column LIKE pattern`                                 | `SELECT * FROM employees WHERE employee_name LIKE 'A%';`        |
+| `IS NULL`      | Finds missing values.                                            | `WHERE column IS NULL`                                      | `SELECT * FROM employees WHERE department_id IS NULL;`          |
 
 ### Comparisons and Null Handling
 
@@ -214,10 +258,10 @@ COMMIT;
 
 ### Conditional Logic and Type Conversion
 
-| Feature | Syntax                                          | Example                                                                                   |
-| ------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `CASE`  | `CASE WHEN condition THEN value ELSE value END` | `SELECT name, CASE WHEN marks >= 40 THEN 'Pass' ELSE 'Fail' END AS result FROM students;` |
-| `CAST`  | `CAST(value AS data_type)`                      | `SELECT CAST(marks AS DECIMAL(5, 2)) FROM students;`                                      |
+| Feature | Syntax                                          | Example                                                                                                    |
+| ------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `CASE`  | `CASE WHEN condition THEN value ELSE value END` | `SELECT employee_name, CASE WHEN salary >= 60000 THEN 'Senior' ELSE 'Junior' END AS level FROM employees;` |
+| `CAST`  | `CAST(value AS data_type)`                      | `SELECT CAST(salary AS DECIMAL(10, 2)) FROM employees;`                                                    |
 
 > **Note:** `CONVERT` syntax is vendor-specific; `CAST` is the portable SQL form.
 
@@ -225,17 +269,17 @@ COMMIT;
 
 Aliases are query-scoped names for columns or tables; they do not change the schema.
 
-| Type         | Syntax            | Example                                      |
-| ------------ | ----------------- | -------------------------------------------- |
-| Column alias | `column AS alias` | `SELECT name AS student_name FROM students;` |
-| Table alias  | `table AS alias`  | `SELECT s.name FROM students AS s;`          |
+| Type         | Syntax            | Example                                        |
+| ------------ | ----------------- | ---------------------------------------------- |
+| Column alias | `column AS alias` | `SELECT employee_name AS name FROM employees;` |
+| Table alias  | `table AS alias`  | `SELECT e.employee_name FROM employees AS e;`  |
 
 ### Logical and Arithmetic Operators
 
-| Category   | Operators               | Purpose                         | Example                                          |
-| ---------- | ----------------------- | ------------------------------- | ------------------------------------------------ |
-| Logical    | `AND`, `OR`, `NOT`      | Combines or negates conditions. | `WHERE age >= 18 AND status = 'Active'`          |
-| Arithmetic | `+`, `-`, `*`, `/`, `%` | Performs numeric calculations.  | `SELECT marks + 5 AS bonus_marks FROM students;` |
+| Category   | Operators               | Purpose                         | Example                                                  |
+| ---------- | ----------------------- | ------------------------------- | -------------------------------------------------------- |
+| Logical    | `AND`, `OR`, `NOT`      | Combines or negates conditions. | `WHERE age >= 18 AND status = 'Active'`                  |
+| Arithmetic | `+`, `-`, `*`, `/`, `%` | Performs numeric calculations.  | `SELECT salary * 1.10 AS revised_salary FROM employees;` |
 
 > **Note:** Use parentheses to make mixed expressions explicit. The remainder operator is `%` in many databases; Oracle uses `MOD`. MySQL/PostgreSQL use `LIMIT`, while SQL Server uses `TOP`. In `LIKE`, `%` matches any number of characters and `_` matches one.
 
@@ -245,47 +289,47 @@ String and date functions are scalar functions, separated here for quick referen
 
 ### Aggregate Functions
 
-| Function | Purpose                                   | Syntax                       | Example                            |
-| -------- | ----------------------------------------- | ---------------------------- | ---------------------------------- |
-| `COUNT`  | Counts rows or non-null values.           | `COUNT(*)` / `COUNT(column)` | `SELECT COUNT(*) FROM students;`   |
-| `SUM`    | Calculates the total of numeric values.   | `SUM(column)`                | `SELECT SUM(marks) FROM students;` |
-| `AVG`    | Calculates the average of numeric values. | `AVG(column)`                | `SELECT AVG(marks) FROM students;` |
-| `MIN`    | Returns the smallest value.               | `MIN(column)`                | `SELECT MIN(marks) FROM students;` |
-| `MAX`    | Returns the largest value.                | `MAX(column)`                | `SELECT MAX(marks) FROM students;` |
+| Function | Purpose                                   | Syntax                       | Example                              |
+| -------- | ----------------------------------------- | ---------------------------- | ------------------------------------ |
+| `COUNT`  | Counts rows or non-null values.           | `COUNT(*)` / `COUNT(column)` | `SELECT COUNT(*) FROM employees;`    |
+| `SUM`    | Calculates the total of numeric values.   | `SUM(column)`                | `SELECT SUM(salary) FROM employees;` |
+| `AVG`    | Calculates the average of numeric values. | `AVG(column)`                | `SELECT AVG(salary) FROM employees;` |
+| `MIN`    | Returns the smallest value.               | `MIN(column)`                | `SELECT MIN(salary) FROM employees;` |
+| `MAX`    | Returns the largest value.                | `MAX(column)`                | `SELECT MAX(salary) FROM employees;` |
 
 > **Aggregate and NULL behavior:** `COUNT(*)` counts rows; `COUNT(column)` counts non-null values. `SUM`, `AVG`, `MIN`, and `MAX` ignore `NULL` values.
 
 ### Scalar Functions
 
-| Function   | Purpose                                                  | Syntax                          | Example                                                  |
-| ---------- | -------------------------------------------------------- | ------------------------------- | -------------------------------------------------------- |
-| `ABS`      | Returns the absolute value of a number.                  | `ABS(number)`                   | `SELECT ABS(-25);`                                       |
-| `ROUND`    | Rounds a number to a specified number of decimal places. | `ROUND(number, decimals)`       | `SELECT ROUND(85.476, 2);`                               |
-| `CEILING`  | Rounds a number up to the nearest integer.               | `CEILING(number)`               | `SELECT CEILING(8.2);`                                   |
-| `FLOOR`    | Rounds a number down to the nearest integer.             | `FLOOR(number)`                 | `SELECT FLOOR(8.9);`                                     |
-| `COALESCE` | Returns the first non-null value in a list.              | `COALESCE(value1, value2, ...)` | `SELECT COALESCE(phone, 'Not available') FROM students;` |
+| Function   | Purpose                                                  | Syntax                          | Example                                                   |
+| ---------- | -------------------------------------------------------- | ------------------------------- | --------------------------------------------------------- |
+| `ABS`      | Returns the absolute value of a number.                  | `ABS(number)`                   | `SELECT ABS(-25);`                                        |
+| `ROUND`    | Rounds a number to a specified number of decimal places. | `ROUND(number, decimals)`       | `SELECT ROUND(85.476, 2);`                                |
+| `CEILING`  | Rounds a number up to the nearest integer.               | `CEILING(number)`               | `SELECT CEILING(8.2);`                                    |
+| `FLOOR`    | Rounds a number down to the nearest integer.             | `FLOOR(number)`                 | `SELECT FLOOR(8.9);`                                      |
+| `COALESCE` | Returns the first non-null value in a list.              | `COALESCE(value1, value2, ...)` | `SELECT COALESCE(email, 'Not available') FROM employees;` |
 
 ### String Functions
 
-| Function    | Purpose                                       | Syntax                                | Example                                                    |
-| ----------- | --------------------------------------------- | ------------------------------------- | ---------------------------------------------------------- |
-| `CONCAT`    | Joins two or more strings.                    | `CONCAT(string1, string2, ...)`       | `SELECT CONCAT(first_name, ' ', last_name) FROM students;` |
-| `UPPER`     | Converts text to uppercase.                   | `UPPER(string)`                       | `SELECT UPPER(name) FROM students;`                        |
-| `LOWER`     | Converts text to lowercase.                   | `LOWER(string)`                       | `SELECT LOWER(name) FROM students;`                        |
-| `LENGTH`    | Returns the number of characters in a string. | `LENGTH(string)`                      | `SELECT LENGTH(name) FROM students;`                       |
-| `SUBSTRING` | Extracts part of a string.                    | `SUBSTRING(string, start, length)`    | `SELECT SUBSTRING(name, 1, 3) FROM students;`              |
-| `TRIM`      | Removes leading and trailing spaces.          | `TRIM(string)`                        | `SELECT TRIM(name) FROM students;`                         |
-| `REPLACE`   | Replaces occurrences of text within a string. | `REPLACE(string, old_text, new_text)` | `SELECT REPLACE(name, 'Aman', 'Amit') FROM students;`      |
+| Function    | Purpose                                       | Syntax                                | Example                                                         |
+| ----------- | --------------------------------------------- | ------------------------------------- | --------------------------------------------------------------- |
+| `CONCAT`    | Joins two or more strings.                    | `CONCAT(string1, string2, ...)`       | `SELECT CONCAT(employee_name, ' - ', city) FROM employees;`     |
+| `UPPER`     | Converts text to uppercase.                   | `UPPER(string)`                       | `SELECT UPPER(employee_name) FROM employees;`                   |
+| `LOWER`     | Converts text to lowercase.                   | `LOWER(string)`                       | `SELECT LOWER(employee_name) FROM employees;`                   |
+| `LENGTH`    | Returns the number of characters in a string. | `LENGTH(string)`                      | `SELECT LENGTH(employee_name) FROM employees;`                  |
+| `SUBSTRING` | Extracts part of a string.                    | `SUBSTRING(string, start, length)`    | `SELECT SUBSTRING(employee_name, 1, 3) FROM employees;`         |
+| `TRIM`      | Removes leading and trailing spaces.          | `TRIM(string)`                        | `SELECT TRIM(employee_name) FROM employees;`                    |
+| `REPLACE`   | Replaces occurrences of text within a string. | `REPLACE(string, old_text, new_text)` | `SELECT REPLACE(employee_name, 'Aman', 'Amit') FROM employees;` |
 
 > **Note:** Function names and syntax may vary between database systems. For example, SQL Server commonly uses `LEN` instead of `LENGTH`.
 
 ### Date and Time Functions
 
-| Function            | Purpose                            | Example                                                   |
-| ------------------- | ---------------------------------- | --------------------------------------------------------- |
-| `CURRENT_DATE`      | Returns the current date.          | `SELECT CURRENT_DATE;`                                    |
-| `CURRENT_TIMESTAMP` | Returns the current date and time. | `SELECT CURRENT_TIMESTAMP;`                               |
-| `EXTRACT`           | Extracts a date part.              | `SELECT EXTRACT(YEAR FROM admission_date) FROM students;` |
+| Function            | Purpose                            | Example                                                  |
+| ------------------- | ---------------------------------- | -------------------------------------------------------- |
+| `CURRENT_DATE`      | Returns the current date.          | `SELECT CURRENT_DATE;`                                   |
+| `CURRENT_TIMESTAMP` | Returns the current date and time. | `SELECT CURRENT_TIMESTAMP;`                              |
+| `EXTRACT`           | Extracts a date part.              | `SELECT EXTRACT(YEAR FROM joining_date) FROM employees;` |
 
 > Date arithmetic is vendor-specific; common forms include `DATEADD`, `DATEDIFF`, and interval expressions.
 
@@ -317,11 +361,11 @@ O --> L[8. LIMIT / OFFSET]
 
 ### Distinct vs Group By
 
-| Aspect     | `DISTINCT`                            | `GROUP BY`                                           |
-| ---------- | ------------------------------------- | ---------------------------------------------------- |
-| Purpose    | Removes duplicate result rows.        | Forms groups, usually for aggregation.               |
-| Aggregates | Not required.                         | Commonly used with aggregate functions.              |
-| Example    | `SELECT DISTINCT city FROM students;` | `SELECT city, COUNT(*) FROM students GROUP BY city;` |
+| Aspect     | `DISTINCT`                             | `GROUP BY`                                            |
+| ---------- | -------------------------------------- | ----------------------------------------------------- |
+| Purpose    | Removes duplicate result rows.         | Forms groups, usually for aggregation.                |
+| Aggregates | Not required.                          | Commonly used with aggregate functions.               |
+| Example    | `SELECT DISTINCT city FROM employees;` | `SELECT city, COUNT(*) FROM employees GROUP BY city;` |
 
 ### Grouping Syntax
 
@@ -366,29 +410,6 @@ FROM table1 AS t1
 ```
 
 Brackets show alternatives and optional parts; they are not literal SQL. `CROSS JOIN` omits `ON`. A self join uses the same table with different aliases.
-
-### Sample Join Tables
-
-#### Employees
-
-| employee_id | employee_name | department_id | manager_id |
-| ----------- | ------------- | ------------- | ---------- |
-| 1           | Aman          | 1             | `NULL`     |
-| 2           | Anita         | 1             | 1          |
-| 3           | Ravi          | 2             | 1          |
-| 4           | Neha          | `NULL`        | 2          |
-
-#### Departments
-
-| department_id | department_name |
-| ------------- | --------------- |
-| 1             | Engineering     |
-| 2             | HR              |
-| 3             | Sales           |
-
-### Join Examples and Outputs
-
-Output pairs are shown as `(employee, department)`, except for the self join, which shows `(employee, manager)`.
 
 | Join         | Example Query                                                                                                                    | Output                                                           |
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
@@ -466,8 +487,8 @@ SELECT column1, column2 FROM table2;
 ### Views and Routines
 
 ```sql
-CREATE VIEW active_students AS
-SELECT student_id, name FROM students WHERE status = 'Active';
+CREATE VIEW active_employees AS
+SELECT employee_id, employee_name FROM employees WHERE status = 'Active';
 ```
 
 | Object            | Description                                                             |
@@ -481,8 +502,8 @@ SELECT student_id, name FROM students WHERE status = 'Active';
 ### Indexes
 
 ```sql
-CREATE INDEX idx_students_department ON students (department_id);
-CREATE UNIQUE INDEX idx_students_email ON students (email);
+CREATE INDEX idx_employees_department ON employees (department_id);
+CREATE UNIQUE INDEX idx_employees_email ON employees (email);
 ```
 
 | Type          | Use                                                                 |

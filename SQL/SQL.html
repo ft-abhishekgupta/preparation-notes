@@ -486,11 +486,16 @@ body {
 .markdown-preview.markdown-preview .mermaid .edgeLabel span,
 .markdown-preview.markdown-preview .mermaid .edgeLabel div {
   margin: 0 !important;
-  padding: 2px 4px !important;
+  padding: 0 4px !important;
   background: transparent !important;
   color: #ffffff !important;
   font-weight: 600 !important;
-  line-height: 1.2 !important;
+  line-height: 1.15 !important;
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid foreignObject,
+.markdown-preview.markdown-preview .mermaid .edgeLabel {
+  overflow: visible !important;
 }
 .markdown-preview.markdown-preview .mermaid .nodeLabel,
 .markdown-preview.markdown-preview .mermaid .nodeLabel p,
@@ -609,6 +614,7 @@ Markdown Preview Enhanced index / sidebar
 <h2 id="table-of-contents">Table of Contents </h2>
 <ul>
 <li><a href="#sql-overview-and-architecture">SQL Overview and Architecture</a></li>
+<li><a href="#sample-database-used-in-all-examples">Sample Database Used in All Examples</a></li>
 <li><a href="#database-management">Database Management</a></li>
 <li><a href="#data-types">Data Types</a></li>
 <li><a href="#sql-command-categories">SQL Command Categories</a></li>
@@ -627,7 +633,109 @@ I --&gt; S[Database Server]
 S --&gt; D[(Database)]
 D --&gt; S
 S --&gt; R[Result]
-</div><h2 id="database-management">Database Management </h2>
+</div><h2 id="sample-database-used-in-all-examples">Sample Database Used in All Examples </h2>
+<p>Every example in this sheet uses the following <code>company_db</code> database. Run this setup first if you want to try the queries.</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-DATABASE">DATABASE</span> company_db<span class="token punctuation">;</span>
+<span class="token keyword keyword-USE">USE</span> company_db<span class="token punctuation">;</span>
+
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-TABLE">TABLE</span> departments <span class="token punctuation">(</span>
+department_id <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-PRIMARY">PRIMARY</span> <span class="token keyword keyword-KEY">KEY</span><span class="token punctuation">,</span>
+department_name <span class="token keyword keyword-VARCHAR">VARCHAR</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span> <span class="token keyword keyword-UNIQUE">UNIQUE</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-TABLE">TABLE</span> employees <span class="token punctuation">(</span>
+employee_id <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-PRIMARY">PRIMARY</span> <span class="token keyword keyword-KEY">KEY</span><span class="token punctuation">,</span>
+employee_name <span class="token keyword keyword-VARCHAR">VARCHAR</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+email <span class="token keyword keyword-VARCHAR">VARCHAR</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span> <span class="token keyword keyword-UNIQUE">UNIQUE</span><span class="token punctuation">,</span>
+department_id <span class="token keyword keyword-INT">INT</span><span class="token punctuation">,</span>
+salary <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+age <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-CHECK">CHECK</span> <span class="token punctuation">(</span>age <span class="token operator">&gt;=</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+city <span class="token keyword keyword-VARCHAR">VARCHAR</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+joining_date <span class="token keyword keyword-DATE">DATE</span><span class="token punctuation">,</span>
+manager_id <span class="token keyword keyword-INT">INT</span><span class="token punctuation">,</span>
+<span class="token keyword keyword-status">status</span> <span class="token keyword keyword-VARCHAR">VARCHAR</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token keyword keyword-DEFAULT">DEFAULT</span> <span class="token string">'Active'</span><span class="token punctuation">,</span>
+<span class="token keyword keyword-CONSTRAINT">CONSTRAINT</span> fk_employee_department
+<span class="token keyword keyword-FOREIGN">FOREIGN</span> <span class="token keyword keyword-KEY">KEY</span> <span class="token punctuation">(</span>department_id<span class="token punctuation">)</span> <span class="token keyword keyword-REFERENCES">REFERENCES</span> departments<span class="token punctuation">(</span>department_id<span class="token punctuation">)</span>
+<span class="token keyword keyword-ON">ON</span> <span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token keyword keyword-CASCADE">CASCADE</span>
+<span class="token keyword keyword-ON">ON</span> <span class="token keyword keyword-DELETE">DELETE</span> <span class="token keyword keyword-SET">SET</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+<span class="token keyword keyword-FOREIGN">FOREIGN</span> <span class="token keyword keyword-KEY">KEY</span> <span class="token punctuation">(</span>manager_id<span class="token punctuation">)</span> <span class="token keyword keyword-REFERENCES">REFERENCES</span> employees<span class="token punctuation">(</span>employee_id<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> departments <span class="token punctuation">(</span>department_id<span class="token punctuation">,</span> department_name<span class="token punctuation">)</span> <span class="token keyword keyword-VALUES">VALUES</span>
+<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'Engineering'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'HR'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">'Sales'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> employees
+<span class="token punctuation">(</span>employee_id<span class="token punctuation">,</span> employee_name<span class="token punctuation">,</span> email<span class="token punctuation">,</span> department_id<span class="token punctuation">,</span> salary<span class="token punctuation">,</span> age<span class="token punctuation">,</span> city<span class="token punctuation">,</span> joining_date<span class="token punctuation">,</span> manager_id<span class="token punctuation">,</span> <span class="token keyword keyword-status">status</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-VALUES">VALUES</span>
+<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'Aman'</span><span class="token punctuation">,</span> <span class="token string">'aman@example.com'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">80000</span><span class="token punctuation">,</span> <span class="token number">28</span><span class="token punctuation">,</span> <span class="token string">'Delhi'</span><span class="token punctuation">,</span> <span class="token string">'2022-01-15'</span><span class="token punctuation">,</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span> <span class="token string">'Active'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'Anita'</span><span class="token punctuation">,</span> <span class="token string">'anita@example.com'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">65000</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">,</span> <span class="token string">'Mumbai'</span><span class="token punctuation">,</span> <span class="token string">'2021-03-10'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'Active'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">'Ravi'</span><span class="token punctuation">,</span> <span class="token string">'ravi@example.com'</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">55000</span><span class="token punctuation">,</span> <span class="token number">26</span><span class="token punctuation">,</span> <span class="token string">'Bengaluru'</span><span class="token punctuation">,</span> <span class="token string">'2022-06-18'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'Active'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token string">'Neha'</span><span class="token punctuation">,</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span> <span class="token number">45000</span><span class="token punctuation">,</span> <span class="token number">24</span><span class="token punctuation">,</span> <span class="token string">'Pune'</span><span class="token punctuation">,</span> <span class="token string">'2023-02-20'</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'Inactive'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><h3 id="sample-data">Sample Data </h3>
+<table>
+<thead>
+<tr>
+<th>employee_id</th>
+<th>employee_name</th>
+<th>department_id</th>
+<th>salary</th>
+<th>age</th>
+<th>city</th>
+<th>joining_date</th>
+<th>manager_id</th>
+<th>status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Aman</td>
+<td>1</td>
+<td>80000</td>
+<td>28</td>
+<td>Delhi</td>
+<td>2022-01-15</td>
+<td><code>NULL</code></td>
+<td>Active</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Anita</td>
+<td>1</td>
+<td>65000</td>
+<td>30</td>
+<td>Mumbai</td>
+<td>2021-03-10</td>
+<td>1</td>
+<td>Active</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Ravi</td>
+<td>2</td>
+<td>55000</td>
+<td>26</td>
+<td>Bengaluru</td>
+<td>2022-06-18</td>
+<td>1</td>
+<td>Active</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Neha</td>
+<td><code>NULL</code></td>
+<td>45000</td>
+<td>24</td>
+<td>Pune</td>
+<td>2023-02-20</td>
+<td>2</td>
+<td>Inactive</td>
+</tr>
+</tbody>
+</table>
+<h2 id="database-management">Database Management </h2>
 <table>
 <thead>
 <tr>
@@ -644,14 +752,14 @@ S --&gt; R[Result]
 <td><code>CREATE DATABASE</code></td>
 <td>Creates a new database.</td>
 <td><code>CREATE DATABASE database_name;</code></td>
-<td><code>CREATE DATABASE college_db;</code></td>
+<td><code>CREATE DATABASE company_db;</code></td>
 </tr>
 <tr>
 <td>Use</td>
 <td><code>USE</code></td>
 <td>Selects the database for subsequent queries.</td>
 <td><code>USE database_name;</code></td>
-<td><code>USE college_db;</code></td>
+<td><code>USE company_db;</code></td>
 </tr>
 <tr>
 <td>Show</td>
@@ -665,7 +773,7 @@ S --&gt; R[Result]
 <td><code>DROP DATABASE</code></td>
 <td>Permanently deletes a database and its data.</td>
 <td><code>DROP DATABASE database_name;</code></td>
-<td><code>DROP DATABASE college_db;</code></td>
+<td><code>DROP DATABASE company_db;</code></td>
 </tr>
 </tbody>
 </table>
@@ -768,27 +876,27 @@ Also, <strong>Precision (<code>p</code>)</strong> : total number of digits, <str
 <tr>
 <td><code>CREATE</code></td>
 <td><code>CREATE TABLE table_name (column_name data_type, ...);</code></td>
-<td><code>CREATE TABLE students (student_id INT, name VARCHAR(50));</code></td>
+<td><code>CREATE TABLE employees (employee_id INT, employee_name VARCHAR(50));</code></td>
 </tr>
 <tr>
 <td><code>ALTER</code></td>
 <td><code>ALTER TABLE table_name ADD column_name data_type;</code></td>
-<td><code>ALTER TABLE students ADD email VARCHAR(100);</code></td>
+<td><code>ALTER TABLE employees ADD phone VARCHAR(20);</code></td>
 </tr>
 <tr>
 <td><code>DROP</code></td>
 <td><code>DROP TABLE table_name;</code></td>
-<td><code>DROP TABLE students;</code></td>
+<td><code>DROP TABLE employees;</code></td>
 </tr>
 <tr>
 <td><code>TRUNCATE</code></td>
 <td><code>TRUNCATE TABLE table_name;</code></td>
-<td><code>TRUNCATE TABLE students;</code></td>
+<td><code>TRUNCATE TABLE employees;</code></td>
 </tr>
 <tr>
 <td><code>RENAME</code></td>
 <td><code>ALTER TABLE old_name RENAME TO new_name;</code></td>
-<td><code>ALTER TABLE students RENAME TO learners;</code></td>
+<td><code>ALTER TABLE employees RENAME TO staff;</code></td>
 </tr>
 </tbody>
 </table>
@@ -806,7 +914,7 @@ Also, <strong>Precision (<code>p</code>)</strong> : total number of digits, <str
 <tr>
 <td><code>PRIMARY KEY</code></td>
 <td>Uniquely identifies each row; implies <code>UNIQUE</code> and <code>NOT NULL</code>.</td>
-<td><code>student_id INT PRIMARY KEY</code></td>
+<td><code>employee_id INT PRIMARY KEY</code></td>
 </tr>
 <tr>
 <td><code>FOREIGN KEY</code></td>
@@ -816,7 +924,7 @@ Also, <strong>Precision (<code>p</code>)</strong> : total number of digits, <str
 <tr>
 <td><code>NOT NULL</code></td>
 <td>Prevents null values.</td>
-<td><code>name VARCHAR(50) NOT NULL</code></td>
+<td><code>employee_name VARCHAR(50) NOT NULL</code></td>
 </tr>
 <tr>
 <td><code>UNIQUE</code></td>
@@ -868,21 +976,10 @@ Also, <strong>Precision (<code>p</code>)</strong> : total number of digits, <str
 </tbody>
 </table>
 <h4 id="foreign-keys-and-cascading-actions">Foreign Keys and Cascading Actions </h4>
-<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-TABLE">TABLE</span> departments <span class="token punctuation">(</span>
-department_id <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-PRIMARY">PRIMARY</span> <span class="token keyword keyword-KEY">KEY</span><span class="token punctuation">,</span>
-department_name <span class="token keyword keyword-VARCHAR">VARCHAR</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span> <span class="token keyword keyword-UNIQUE">UNIQUE</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-TABLE">TABLE</span> students <span class="token punctuation">(</span>
-student_id <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-PRIMARY">PRIMARY</span> <span class="token keyword keyword-KEY">KEY</span><span class="token punctuation">,</span>
-name <span class="token keyword keyword-VARCHAR">VARCHAR</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
-department_id <span class="token keyword keyword-INT">INT</span><span class="token punctuation">,</span>
-<span class="token keyword keyword-status">status</span> <span class="token keyword keyword-VARCHAR">VARCHAR</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token keyword keyword-DEFAULT">DEFAULT</span> <span class="token string">'Active'</span><span class="token punctuation">,</span>
-<span class="token keyword keyword-CONSTRAINT">CONSTRAINT</span> fk_student_department
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CONSTRAINT">CONSTRAINT</span> fk_employee_department
 <span class="token keyword keyword-FOREIGN">FOREIGN</span> <span class="token keyword keyword-KEY">KEY</span> <span class="token punctuation">(</span>department_id<span class="token punctuation">)</span> <span class="token keyword keyword-REFERENCES">REFERENCES</span> departments<span class="token punctuation">(</span>department_id<span class="token punctuation">)</span>
 <span class="token keyword keyword-ON">ON</span> <span class="token keyword keyword-UPDATE">UPDATE</span> <span class="token keyword keyword-CASCADE">CASCADE</span>
 <span class="token keyword keyword-ON">ON</span> <span class="token keyword keyword-DELETE">DELETE</span> <span class="token keyword keyword-SET">SET</span> <span class="token boolean">NULL</span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre><table>
 <thead>
 <tr>
@@ -925,22 +1022,22 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <tr>
 <td><code>INSERT</code></td>
 <td><code>INSERT INTO table_name (column1, column2) VALUES (value1, value2);</code></td>
-<td><code>INSERT INTO students (student_id, name) VALUES (1, 'Aman');</code></td>
+<td><code>INSERT INTO employees (employee_id, employee_name) VALUES (5, 'Kiran');</code></td>
 </tr>
 <tr>
 <td><code>UPDATE</code></td>
 <td><code>UPDATE table_name SET column = value WHERE condition;</code></td>
-<td><code>UPDATE students SET name = 'Anita' WHERE student_id = 1;</code></td>
+<td><code>UPDATE employees SET salary = 70000 WHERE employee_id = 2;</code></td>
 </tr>
 <tr>
 <td><code>DELETE</code></td>
 <td><code>DELETE FROM table_name WHERE condition;</code></td>
-<td><code>DELETE FROM students WHERE student_id = 1;</code></td>
+<td><code>DELETE FROM employees WHERE employee_id = 4;</code></td>
 </tr>
 <tr>
 <td><code>MERGE</code></td>
 <td><code>MERGE INTO target USING source ON condition WHEN MATCHED ... WHEN NOT MATCHED ...;</code></td>
-<td><code>MERGE INTO students s USING new_students n ON s.student_id = n.student_id ...;</code></td>
+<td><code>MERGE INTO employees e USING (SELECT 5 AS employee_id, 'Kiran' AS employee_name) u ON e.employee_id = u.employee_id ...;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1015,22 +1112,22 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <tr>
 <td>Single row</td>
 <td><code>INSERT INTO table (columns) VALUES (values);</code></td>
-<td><code>INSERT INTO students (student_id, name) VALUES (1, 'Aman');</code></td>
+<td><code>INSERT INTO employees (employee_id, employee_name) VALUES (5, 'Kiran');</code></td>
 </tr>
 <tr>
 <td>Multiple rows</td>
 <td><code>INSERT INTO table (columns) VALUES (...), (...);</code></td>
-<td><code>INSERT INTO students (student_id, name) VALUES (2, 'Anita'), (3, 'Ravi');</code></td>
+<td><code>INSERT INTO employees (employee_id, employee_name) VALUES (5, 'Kiran'), (6, 'Meera');</code></td>
 </tr>
 <tr>
 <td>From a query</td>
 <td><code>INSERT INTO table (columns) SELECT columns FROM source;</code></td>
-<td><code>INSERT INTO alumni (student_id, name) SELECT student_id, name FROM students;</code></td>
+<td><code>INSERT INTO employees (employee_id, employee_name) SELECT employee_id + 10, employee_name FROM employees;</code></td>
 </tr>
 <tr>
 <td>Omitted columns</td>
 <td><code>INSERT INTO table (columns) VALUES (values);</code></td>
-<td><code>INSERT INTO students (student_id, name) VALUES (4, 'Neha');</code> implicitly uses the default <code>status</code>.</td>
+<td><code>INSERT INTO employees (employee_id, employee_name) VALUES (5, 'Kiran');</code> uses the default <code>status</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -1047,12 +1144,12 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <tr>
 <td><code>GRANT</code></td>
 <td><code>GRANT privilege ON object_name TO user_name;</code></td>
-<td><code>GRANT SELECT ON students TO analyst;</code></td>
+<td><code>GRANT SELECT ON employees TO analyst;</code></td>
 </tr>
 <tr>
 <td><code>REVOKE</code></td>
 <td><code>REVOKE privilege ON object_name FROM user_name;</code></td>
-<td><code>REVOKE SELECT ON students FROM analyst;</code></td>
+<td><code>REVOKE SELECT ON employees FROM analyst;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1072,12 +1169,12 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <tr>
 <td><code>COMMIT</code></td>
 <td><code>COMMIT;</code></td>
-<td><code>UPDATE students SET name = 'Anita' WHERE student_id = 1; COMMIT;</code></td>
+<td><code>UPDATE employees SET salary = 70000 WHERE employee_id = 2; COMMIT;</code></td>
 </tr>
 <tr>
 <td><code>ROLLBACK</code></td>
 <td><code>ROLLBACK;</code></td>
-<td><code>DELETE FROM students WHERE student_id = 1; ROLLBACK;</code></td>
+<td><code>DELETE FROM employees WHERE employee_id = 4; ROLLBACK;</code></td>
 </tr>
 <tr>
 <td><code>SAVEPOINT</code></td>
@@ -1092,8 +1189,8 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 </tbody>
 </table>
 <pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-START">START</span> <span class="token keyword keyword-TRANSACTION">TRANSACTION</span><span class="token punctuation">;</span>
-<span class="token keyword keyword-UPDATE">UPDATE</span> accounts <span class="token keyword keyword-SET">SET</span> balance <span class="token operator">=</span> balance <span class="token operator">-</span> <span class="token number">500</span> <span class="token keyword keyword-WHERE">WHERE</span> account_id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token keyword keyword-UPDATE">UPDATE</span> accounts <span class="token keyword keyword-SET">SET</span> balance <span class="token operator">=</span> balance <span class="token operator">+</span> <span class="token number">500</span> <span class="token keyword keyword-WHERE">WHERE</span> account_id <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-UPDATE">UPDATE</span> employees <span class="token keyword keyword-SET">SET</span> salary <span class="token operator">=</span> salary <span class="token operator">+</span> <span class="token number">5000</span> <span class="token keyword keyword-WHERE">WHERE</span> employee_id <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-UPDATE">UPDATE</span> employees <span class="token keyword keyword-SET">SET</span> salary <span class="token operator">=</span> salary <span class="token operator">-</span> <span class="token number">5000</span> <span class="token keyword keyword-WHERE">WHERE</span> employee_id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
 <span class="token keyword keyword-COMMIT">COMMIT</span><span class="token punctuation">;</span>
 </code></pre><blockquote>
 <p><strong>Note:</strong> Exact command syntax and supported options may vary between database systems.</p>
@@ -1114,67 +1211,67 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <td><code>SELECT</code></td>
 <td>Retrieves data from a table.</td>
 <td><code>SELECT column1, column2 FROM table_name;</code></td>
-<td><code>SELECT student_id, name FROM students;</code></td>
+<td><code>SELECT employee_id, employee_name FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>WHERE</code></td>
 <td>Filters rows based on a condition.</td>
 <td><code>SELECT columns FROM table_name WHERE condition;</code></td>
-<td><code>SELECT * FROM students WHERE age &gt;= 18;</code></td>
+<td><code>SELECT * FROM employees WHERE salary &gt;= 60000;</code></td>
 </tr>
 <tr>
 <td><code>DISTINCT</code></td>
 <td>Removes duplicate values from the result.</td>
 <td><code>SELECT DISTINCT column FROM table_name;</code></td>
-<td><code>SELECT DISTINCT city FROM students;</code></td>
+<td><code>SELECT DISTINCT city FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>ORDER BY</code></td>
 <td>Sorts results in ascending (<code>ASC</code>) or descending (<code>DESC</code>) order.</td>
 <td><code>SELECT columns FROM table_name ORDER BY column ASC|DESC;</code></td>
-<td><code>SELECT * FROM students ORDER BY name ASC;</code></td>
+<td><code>SELECT * FROM employees ORDER BY employee_name ASC;</code></td>
 </tr>
 <tr>
 <td><code>LIMIT</code></td>
 <td>Restricts the number of returned rows.</td>
 <td><code>SELECT columns FROM table_name LIMIT count;</code></td>
-<td><code>SELECT * FROM students LIMIT 5;</code></td>
+<td><code>SELECT * FROM employees LIMIT 5;</code></td>
 </tr>
 <tr>
 <td><code>OFFSET</code></td>
 <td>Skips a number of rows before returning results.</td>
 <td><code>LIMIT count OFFSET count</code></td>
-<td><code>SELECT * FROM students LIMIT 5 OFFSET 10;</code></td>
+<td><code>SELECT * FROM employees LIMIT 5 OFFSET 2;</code></td>
 </tr>
 <tr>
 <td><code>TOP</code></td>
 <td>Restricts returned rows in SQL Server.</td>
 <td><code>SELECT TOP count columns FROM table_name;</code></td>
-<td><code>SELECT TOP 5 * FROM students;</code></td>
+<td><code>SELECT TOP 5 * FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>BETWEEN</code></td>
 <td>Filters values within an inclusive range.</td>
 <td><code>WHERE column BETWEEN value1 AND value2</code></td>
-<td><code>SELECT * FROM students WHERE age BETWEEN 18 AND 25;</code></td>
+<td><code>SELECT * FROM employees WHERE salary BETWEEN 50000 AND 70000;</code></td>
 </tr>
 <tr>
 <td><code>IN</code></td>
 <td>Matches any value in a specified list.</td>
 <td><code>WHERE column IN (value1, value2, ...)</code></td>
-<td><code>SELECT * FROM students WHERE city IN ('Delhi', 'Pune');</code></td>
+<td><code>SELECT * FROM employees WHERE city IN ('Delhi', 'Pune');</code></td>
 </tr>
 <tr>
 <td><code>LIKE</code></td>
 <td>Matches text against a pattern using wildcards.</td>
 <td><code>WHERE column LIKE pattern</code></td>
-<td><code>SELECT * FROM students WHERE name LIKE 'A%';</code></td>
+<td><code>SELECT * FROM employees WHERE employee_name LIKE 'A%';</code></td>
 </tr>
 <tr>
 <td><code>IS NULL</code></td>
 <td>Finds missing values.</td>
 <td><code>WHERE column IS NULL</code></td>
-<td><code>SELECT * FROM students WHERE department_id IS NULL;</code></td>
+<td><code>SELECT * FROM employees WHERE department_id IS NULL;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1223,12 +1320,12 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <tr>
 <td><code>CASE</code></td>
 <td><code>CASE WHEN condition THEN value ELSE value END</code></td>
-<td><code>SELECT name, CASE WHEN marks &gt;= 40 THEN 'Pass' ELSE 'Fail' END AS result FROM students;</code></td>
+<td><code>SELECT employee_name, CASE WHEN salary &gt;= 60000 THEN 'Senior' ELSE 'Junior' END AS level FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>CAST</code></td>
 <td><code>CAST(value AS data_type)</code></td>
-<td><code>SELECT CAST(marks AS DECIMAL(5, 2)) FROM students;</code></td>
+<td><code>SELECT CAST(salary AS DECIMAL(10, 2)) FROM employees;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1249,12 +1346,12 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <tr>
 <td>Column alias</td>
 <td><code>column AS alias</code></td>
-<td><code>SELECT name AS student_name FROM students;</code></td>
+<td><code>SELECT employee_name AS name FROM employees;</code></td>
 </tr>
 <tr>
 <td>Table alias</td>
 <td><code>table AS alias</code></td>
-<td><code>SELECT s.name FROM students AS s;</code></td>
+<td><code>SELECT e.employee_name FROM employees AS e;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1279,7 +1376,7 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <td>Arithmetic</td>
 <td><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code></td>
 <td>Performs numeric calculations.</td>
-<td><code>SELECT marks + 5 AS bonus_marks FROM students;</code></td>
+<td><code>SELECT salary * 1.10 AS revised_salary FROM employees;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1303,31 +1400,31 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <td><code>COUNT</code></td>
 <td>Counts rows or non-null values.</td>
 <td><code>COUNT(*)</code> / <code>COUNT(column)</code></td>
-<td><code>SELECT COUNT(*) FROM students;</code></td>
+<td><code>SELECT COUNT(*) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>SUM</code></td>
 <td>Calculates the total of numeric values.</td>
 <td><code>SUM(column)</code></td>
-<td><code>SELECT SUM(marks) FROM students;</code></td>
+<td><code>SELECT SUM(salary) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>AVG</code></td>
 <td>Calculates the average of numeric values.</td>
 <td><code>AVG(column)</code></td>
-<td><code>SELECT AVG(marks) FROM students;</code></td>
+<td><code>SELECT AVG(salary) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>MIN</code></td>
 <td>Returns the smallest value.</td>
 <td><code>MIN(column)</code></td>
-<td><code>SELECT MIN(marks) FROM students;</code></td>
+<td><code>SELECT MIN(salary) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>MAX</code></td>
 <td>Returns the largest value.</td>
 <td><code>MAX(column)</code></td>
-<td><code>SELECT MAX(marks) FROM students;</code></td>
+<td><code>SELECT MAX(salary) FROM employees;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1373,7 +1470,7 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <td><code>COALESCE</code></td>
 <td>Returns the first non-null value in a list.</td>
 <td><code>COALESCE(value1, value2, ...)</code></td>
-<td><code>SELECT COALESCE(phone, 'Not available') FROM students;</code></td>
+<td><code>SELECT COALESCE(email, 'Not available') FROM employees;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1392,43 +1489,43 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <td><code>CONCAT</code></td>
 <td>Joins two or more strings.</td>
 <td><code>CONCAT(string1, string2, ...)</code></td>
-<td><code>SELECT CONCAT(first_name, ' ', last_name) FROM students;</code></td>
+<td><code>SELECT CONCAT(employee_name, ' - ', city) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>UPPER</code></td>
 <td>Converts text to uppercase.</td>
 <td><code>UPPER(string)</code></td>
-<td><code>SELECT UPPER(name) FROM students;</code></td>
+<td><code>SELECT UPPER(employee_name) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>LOWER</code></td>
 <td>Converts text to lowercase.</td>
 <td><code>LOWER(string)</code></td>
-<td><code>SELECT LOWER(name) FROM students;</code></td>
+<td><code>SELECT LOWER(employee_name) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>LENGTH</code></td>
 <td>Returns the number of characters in a string.</td>
 <td><code>LENGTH(string)</code></td>
-<td><code>SELECT LENGTH(name) FROM students;</code></td>
+<td><code>SELECT LENGTH(employee_name) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>SUBSTRING</code></td>
 <td>Extracts part of a string.</td>
 <td><code>SUBSTRING(string, start, length)</code></td>
-<td><code>SELECT SUBSTRING(name, 1, 3) FROM students;</code></td>
+<td><code>SELECT SUBSTRING(employee_name, 1, 3) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>TRIM</code></td>
 <td>Removes leading and trailing spaces.</td>
 <td><code>TRIM(string)</code></td>
-<td><code>SELECT TRIM(name) FROM students;</code></td>
+<td><code>SELECT TRIM(employee_name) FROM employees;</code></td>
 </tr>
 <tr>
 <td><code>REPLACE</code></td>
 <td>Replaces occurrences of text within a string.</td>
 <td><code>REPLACE(string, old_text, new_text)</code></td>
-<td><code>SELECT REPLACE(name, 'Aman', 'Amit') FROM students;</code></td>
+<td><code>SELECT REPLACE(employee_name, 'Aman', 'Amit') FROM employees;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1458,7 +1555,7 @@ department_id <span class="token keyword keyword-INT">INT</span><span class="tok
 <tr>
 <td><code>EXTRACT</code></td>
 <td>Extracts a date part.</td>
-<td><code>SELECT EXTRACT(YEAR FROM admission_date) FROM students;</code></td>
+<td><code>SELECT EXTRACT(YEAR FROM joining_date) FROM employees;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1548,8 +1645,8 @@ O --&gt; L[8. LIMIT / OFFSET]
 </tr>
 <tr>
 <td>Example</td>
-<td><code>SELECT DISTINCT city FROM students;</code></td>
-<td><code>SELECT city, COUNT(*) FROM students GROUP BY city;</code></td>
+<td><code>SELECT DISTINCT city FROM employees;</code></td>
+<td><code>SELECT city, COUNT(*) FROM employees GROUP BY city;</code></td>
 </tr>
 </tbody>
 </table>
@@ -1591,69 +1688,6 @@ O --&gt; L[8. LIMIT / OFFSET]
 <span class="token punctuation">[</span><span class="token keyword keyword-INNER">INNER</span> <span class="token operator">|</span> <span class="token keyword keyword-LEFT">LEFT</span> <span class="token operator">|</span> <span class="token keyword keyword-RIGHT">RIGHT</span> <span class="token operator">|</span> <span class="token keyword keyword-FULL">FULL</span> <span class="token keyword keyword-OUTER">OUTER</span> <span class="token operator">|</span> <span class="token keyword keyword-CROSS">CROSS</span><span class="token punctuation">]</span> <span class="token keyword keyword-JOIN">JOIN</span> table2 <span class="token keyword keyword-AS">AS</span> t2
 <span class="token punctuation">[</span><span class="token keyword keyword-ON">ON</span> t1<span class="token punctuation">.</span><span class="token keyword keyword-column">column</span> <span class="token operator">=</span> t2<span class="token punctuation">.</span><span class="token keyword keyword-column">column</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 </code></pre><p>Brackets show alternatives and optional parts; they are not literal SQL. <code>CROSS JOIN</code> omits <code>ON</code>. A self join uses the same table with different aliases.</p>
-<h3 id="sample-join-tables">Sample Join Tables </h3>
-<h4 id="employees">Employees </h4>
-<table>
-<thead>
-<tr>
-<th>employee_id</th>
-<th>employee_name</th>
-<th>department_id</th>
-<th>manager_id</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Aman</td>
-<td>1</td>
-<td><code>NULL</code></td>
-</tr>
-<tr>
-<td>2</td>
-<td>Anita</td>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Ravi</td>
-<td>2</td>
-<td>1</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Neha</td>
-<td><code>NULL</code></td>
-<td>2</td>
-</tr>
-</tbody>
-</table>
-<h4 id="departments">Departments </h4>
-<table>
-<thead>
-<tr>
-<th>department_id</th>
-<th>department_name</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Engineering</td>
-</tr>
-<tr>
-<td>2</td>
-<td>HR</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Sales</td>
-</tr>
-</tbody>
-</table>
-<h3 id="join-examples-and-outputs">Join Examples and Outputs </h3>
-<p>Output pairs are shown as <code>(employee, department)</code>, except for the self join, which shows <code>(employee, manager)</code>.</p>
 <table>
 <thead>
 <tr>
@@ -1828,8 +1862,8 @@ SET_OPERATOR
 <hr>
 <h2 id="database-objects-and-indexes">Database Objects and Indexes </h2>
 <h3 id="views-and-routines">Views and Routines </h3>
-<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-VIEW">VIEW</span> active_students <span class="token keyword keyword-AS">AS</span>
-<span class="token keyword keyword-SELECT">SELECT</span> student_id<span class="token punctuation">,</span> name <span class="token keyword keyword-FROM">FROM</span> students <span class="token keyword keyword-WHERE">WHERE</span> <span class="token keyword keyword-status">status</span> <span class="token operator">=</span> <span class="token string">'Active'</span><span class="token punctuation">;</span>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-VIEW">VIEW</span> active_employees <span class="token keyword keyword-AS">AS</span>
+<span class="token keyword keyword-SELECT">SELECT</span> employee_id<span class="token punctuation">,</span> employee_name <span class="token keyword keyword-FROM">FROM</span> employees <span class="token keyword keyword-WHERE">WHERE</span> <span class="token keyword keyword-status">status</span> <span class="token operator">=</span> <span class="token string">'Active'</span><span class="token punctuation">;</span>
 </code></pre><table>
 <thead>
 <tr>
@@ -1861,8 +1895,8 @@ SET_OPERATOR
 </tbody>
 </table>
 <h3 id="indexes">Indexes </h3>
-<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-INDEX">INDEX</span> idx_students_department <span class="token keyword keyword-ON">ON</span> students <span class="token punctuation">(</span>department_id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-UNIQUE">UNIQUE</span> <span class="token keyword keyword-INDEX">INDEX</span> idx_students_email <span class="token keyword keyword-ON">ON</span> students <span class="token punctuation">(</span>email<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-INDEX">INDEX</span> idx_employees_department <span class="token keyword keyword-ON">ON</span> employees <span class="token punctuation">(</span>department_id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-UNIQUE">UNIQUE</span> <span class="token keyword keyword-INDEX">INDEX</span> idx_employees_email <span class="token keyword keyword-ON">ON</span> employees <span class="token punctuation">(</span>email<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre><table>
 <thead>
 <tr>

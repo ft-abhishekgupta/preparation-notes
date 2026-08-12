@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>DBMS</title>
+      <title>REST</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -486,11 +486,16 @@ body {
 .markdown-preview.markdown-preview .mermaid .edgeLabel span,
 .markdown-preview.markdown-preview .mermaid .edgeLabel div {
   margin: 0 !important;
-  padding: 2px 4px !important;
+  padding: 0 4px !important;
   background: transparent !important;
   color: #ffffff !important;
   font-weight: 600 !important;
-  line-height: 1.2 !important;
+  line-height: 1.15 !important;
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid foreignObject,
+.markdown-preview.markdown-preview .mermaid .edgeLabel {
+  overflow: visible !important;
 }
 .markdown-preview.markdown-preview .mermaid .nodeLabel,
 .markdown-preview.markdown-preview .mermaid .nodeLabel p,
@@ -604,143 +609,598 @@ Markdown Preview Enhanced index / sidebar
     <body for="html-export">
       <div class="crossnote markdown-preview  ">
       
-<h1 id="dbms">DBMS </h1>
-<p><strong>Database</strong> : A database is an <strong>organized</strong> collection of digital data stored in a structured format that allows easy access, management, and updates.</p>
-<p>DBMS</p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Atomicity</td>
-<td>All transaction operations succeed or all are undone.</td>
-</tr>
-<tr>
-<td>Consistency</td>
-<td>Constraints remain valid before and after the transaction.</td>
-</tr>
-<tr>
-<td>Isolation</td>
-<td>Concurrent transactions behave as if sufficiently separated.</td>
-</tr>
-<tr>
-<td>Durability</td>
-<td>Committed changes survive failures.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="isolation-levels">Isolation Levels </h3>
-<table>
-<thead>
-<tr>
-<th>Level</th>
-<th>Dirty Reads</th>
-<th>Non-repeatable Reads</th>
-<th>Phantom Reads</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Read Uncommitted</td>
-<td>Possible</td>
-<td>Possible</td>
-<td>Possible</td>
-</tr>
-<tr>
-<td>Read Committed</td>
-<td>Prevented</td>
-<td>Possible</td>
-<td>Possible</td>
-</tr>
-<tr>
-<td>Repeatable Read</td>
-<td>Prevented</td>
-<td>Prevented</td>
-<td>Database dependent</td>
-</tr>
-<tr>
-<td>Serializable</td>
-<td>Prevented</td>
-<td>Prevented</td>
-<td>Prevented</td>
-</tr>
-</tbody>
-</table>
+<h1 id="rest-api-design">REST API Design </h1>
+<p>Representational State Transfer (REST) is an architectural style for designing networked applications.</p>
+<h3 id="glossary">Glossary </h3>
+<p><strong>Resource</strong>: An object or representation of something that can be accessed and manipulated via a RESTful API.<br>
+<strong>RESTful APIs</strong> use HTTP methods to perform operations on resources.<br>
+<strong>API (Application Programming Interface)</strong>: A set of rules that allows different software applications to communicate with each other.<br>
+<strong>HTTP (Hypertext Transfer Protocol)</strong>: The protocol used for communication between clients and servers in RESTful APIs.</p>
+<h2 id="rest-principles">REST Principles </h2>
+<ol>
+<li><strong>Stateless</strong>: The server does not store any client context between requests. Helps in scalability and caching.</li>
+<li><strong>Client-Server Architecture</strong>: The client and server are separate entities that communicate over a network.</li>
+<li><strong>Cacheable</strong>: Responses must define themselves as cacheable or not to prevent clients from reusing stale data.</li>
+<li><strong>Uniform Interface</strong>: A standardized and consistent way of interacting with resources</li>
+<li><strong>Layered System</strong>: The architecture can be composed of multiple layers, each with its own responsibilities. API Gateways, Load Balancers, and Proxies</li>
+<li><strong>Resource-Based</strong>: Resources are identified by URIs (Uniform Resource Identifiers) and can be manipulated using standard HTTP methods.</li>
+</ol>
+<h3 id="benefits-of-rest">Benefits of REST </h3>
+<ul>
+<li>Simple | Standardized | Scalable | Flexible | Language-agnostic | Widely adopted</li>
+</ul>
+<h2 id="rest-view-of-client-server-architecture">REST View of Client-Server Architecture </h2>
 <div class="mermaid">flowchart LR
-RU[Read Uncommitted] --&gt;|increasing isolation| RC[Read Committed]
-RC --&gt; RR[Repeatable Read]
-RR --&gt; S[Serializable]
-</div><blockquote>
-<p><strong>Note:</strong> Higher isolation reduces anomalies but can reduce concurrency. Defaults and exact behavior vary by database and MVCC implementation.</p>
-</blockquote>
-<h2 id="database-design-and-normalization">Database Design and Normalization </h2>
-<table>
-<thead>
-<tr>
-<th>Form</th>
-<th>Requirement</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1NF</td>
-<td>Atomic values; no repeating groups.</td>
-</tr>
-<tr>
-<td>2NF</td>
-<td>1NF plus no partial dependency on part of a composite key.</td>
-</tr>
-<tr>
-<td>3NF</td>
-<td>2NF plus no transitive dependency on a non-key column.</td>
-</tr>
-<tr>
-<td>BCNF</td>
-<td>Every determinant is a candidate key.</td>
-</tr>
-</tbody>
-</table>
-<p>Normalization reduces duplicate data and insertion, update, and deletion anomalies. <strong>Denormalization</strong> intentionally duplicates data to improve read performance, trading simpler reads for more storage and update complexity.</p>
-<h3 id="common-key-types">Common Key Types </h3>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Super key</td>
-<td>Any column set that uniquely identifies a row.</td>
-</tr>
-<tr>
-<td>Candidate key</td>
-<td>Minimal super key.</td>
-</tr>
-<tr>
-<td>Primary key</td>
-<td>Chosen candidate key.</td>
-</tr>
-<tr>
-<td>Alternate key</td>
-<td>Candidate key not chosen as primary.</td>
-</tr>
-<tr>
-<td>Composite key</td>
-<td>Key made of multiple columns.</td>
-</tr>
-<tr>
-<td>Surrogate key</td>
-<td>Artificial key such as an identity value or UUID.</td>
-</tr>
-</tbody>
-</table>
+    C["Client&lt;br/&gt;(Web / Mobile / App)"]
+    S["Server&lt;br/&gt;(API Server)"]
+    D[("Database")]
 
+    C --&gt;|"Request&lt;br/&gt;(HTTP)"| S
+    S --&gt;|"Response&lt;br/&gt;(JSON / XML)"| C
+    S &lt;--&gt;|"CRUD&lt;br/&gt;Operations"| D
+</div><hr>
+<h2 id="http-methods">HTTP Methods </h2>
+<p>Used to perform operations on resources.</p>
+<ul>
+<li><strong>Idempotent</strong>: An operation that can be performed multiple times without changing the result beyond the initial application.</li>
+<li><strong>Safe</strong>: An operation that does not modify the resource state (e.g., GET, HEAD).</li>
+<li><strong>CRUD</strong>: Create, Read, Update, Delete</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Idempotent</th>
+<th>Safe</th>
+<th>Request Body</th>
+<th>Response Body</th>
+<th>example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>Retrieve a resource</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>GET /users</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>Create a new resource</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>POST /users</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Update an existing resource</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>PUT /users/1</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Delete a resource</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>DELETE /users/1</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>Partially update a resource</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td>PATCH /users/1</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>Describe communication options</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>OPTIONS /users</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>Retrieve headers for a resource</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>HEAD /users/1</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>NOTE</strong>: For custom operations use post method with a descriptive endpoint (e.g., POST /users/{id}/activate).</p>
+</blockquote>
+<h2 id="http-request">HTTP Request </h2>
+<p>Message sent by the client to the server which contains information that the server needs to process the request.</p>
+<h3 id="components">Components </h3>
+<ol>
+<li><em>Request Line</em>: <code>&lt;HTTP Method&gt; &lt;URL&gt; &lt;HTTP Version&gt;</code></li>
+<li><em>Headers</em>: Key-value pairs providing metadata about the request.</li>
+<li><em>Body</em>: Optional data sent with the request, typically in JSON or XML format.</li>
+</ol>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code><span class="token request-line"><span class="token method property">POST</span> <span class="token request-target url">/users?role=admin</span> <span class="token http-version property">HTTP/1.1</span></span>
+
+<span class="token header"><span class="token header-name keyword">Host</span><span class="token punctuation">:</span> <span class="token header-value">api.example.com</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">application/json</span></span>
+<span class="token header"><span class="token header-name keyword">Authorization</span><span class="token punctuation">:</span> <span class="token header-value">Bearer &lt;token&gt;</span></span>
+<span class="token header"><span class="token header-name keyword">Accept</span><span class="token punctuation">:</span> <span class="token header-value">application/json</span></span>
+<span class="token application-json">
+<span class="token punctuation">{</span>
+  <span class="token string-property property">"name"</span><span class="token operator">:</span> <span class="token string">"Jane Doe"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"email"</span><span class="token operator">:</span> <span class="token string">"jane.doe@example.com"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"age"</span><span class="token operator">:</span> <span class="token number">30</span>
+<span class="token punctuation">}</span>
+</span></code></pre><ul>
+<li><strong>URL</strong>: The endpoint to which the request is sent, including the protocol, domain, path, and query parameters.</li>
+<li><strong>HTTP Version</strong>: The version of the HTTP protocol being used (e.g., HTTP/1.1, HTTP/2).</li>
+<li><strong>Headers</strong>: Metadata about the request (e.g., Content-Type, Authorization). Key Value Pairs.</li>
+<li><strong>Path Parameters</strong>: Variables in the URL path (e.g., /users/{id}).</li>
+<li><strong>Query Parameters</strong>: Key-value pairs in the URL (e.g., /users?age=30). (Optional)</li>
+<li><strong>Body</strong>: The payload sent with the request, typically in JSON or XML format.</li>
+</ul>
+<h2 id="http-response-and-status-codes">HTTP Response and Status Codes </h2>
+<p>HTTP responses contains results of the request made by the client, including a status code and data.</p>
+<h3 id="components-1">Components </h3>
+<ol>
+<li><em>Status Line</em>: <code>&lt;HTTP Version&gt; &lt;Status Code&gt; &lt;Reason Phrase&gt;</code></li>
+<li><em>Headers</em>: Key-value pairs providing metadata about the response.</li>
+<li><em>Body</em>: Optional data/payload sent with the response</li>
+</ol>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code><span class="token response-status"><span class="token http-version property">HTTP/1.1</span> <span class="token status-code number">200</span> <span class="token reason-phrase string">OK</span></span>
+<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">application/json</span></span>
+<span class="token application-json">
+<span class="token punctuation">{</span>
+  <span class="token string-property property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"name"</span><span class="token operator">:</span> <span class="token string">"Jane Doe"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"email"</span><span class="token operator">:</span> <span class="token string">"jane.doe@example.com"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"age"</span><span class="token operator">:</span> <span class="token number">30</span>
+<span class="token punctuation">}</span>
+</span></code></pre><ul>
+<li><strong>Status Code</strong>: A three-digit code indicating the result of the request (e.g., 200 OK, 404 Not Found).</li>
+<li><strong>Reason Phrase</strong>: A brief description of the status code (e.g., OK, Not Found).</li>
+</ul>
+<h3 id="status-codes">Status Codes </h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>When it Occurs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1xx</strong></td>
+<td><strong>Informational</strong></td>
+<td>Request received, still processing</td>
+</tr>
+<tr>
+<td><strong>2xx</strong></td>
+<td><strong>Success</strong></td>
+<td>Request understood and accepted</td>
+</tr>
+<tr>
+<td>↳ 200</td>
+<td>OK</td>
+<td>Request succeeded</td>
+</tr>
+<tr>
+<td>↳ 201</td>
+<td>Created</td>
+<td>Resource created</td>
+</tr>
+<tr>
+<td>↳ 204</td>
+<td>No Content</td>
+<td>Succeeded, no data returned</td>
+</tr>
+<tr>
+<td><strong>3xx</strong></td>
+<td><strong>Redirection</strong></td>
+<td>Further action needed</td>
+</tr>
+<tr>
+<td>↳ 301</td>
+<td>Moved Permanently</td>
+<td>Resource moved to a new URL</td>
+</tr>
+<tr>
+<td>↳ 304</td>
+<td>Not Modified</td>
+<td>Cached version is still valid</td>
+</tr>
+<tr>
+<td><strong>4xx</strong></td>
+<td><strong>Client Error</strong></td>
+<td>Invalid or unfulfillable request</td>
+</tr>
+<tr>
+<td>↳ 400</td>
+<td>Bad Request</td>
+<td>Invalid syntax or data</td>
+</tr>
+<tr>
+<td>↳ 401</td>
+<td>Unauthorized</td>
+<td>Authentication required or failed</td>
+</tr>
+<tr>
+<td>↳ 403</td>
+<td>Forbidden</td>
+<td>Authenticated but no access</td>
+</tr>
+<tr>
+<td>↳ 404</td>
+<td>Not Found</td>
+<td>Resource not found</td>
+</tr>
+<tr>
+<td>↳ 405</td>
+<td>Method Not Allowed</td>
+<td>HTTP method not supported</td>
+</tr>
+<tr>
+<td>↳ 409</td>
+<td>Conflict</td>
+<td>Conflicts with current state</td>
+</tr>
+<tr>
+<td>↳ 422</td>
+<td>Unprocessable Entity</td>
+<td>Validation failed</td>
+</tr>
+<tr>
+<td>↳ 429</td>
+<td>Too Many Requests</td>
+<td>Rate limit exceeded</td>
+</tr>
+<tr>
+<td><strong>5xx</strong></td>
+<td><strong>Server Error</strong></td>
+<td>Server failed a valid request</td>
+</tr>
+<tr>
+<td>↳ 500</td>
+<td>Internal Server Error</td>
+<td>Something went wrong on server</td>
+</tr>
+<tr>
+<td>↳ 502</td>
+<td>Bad Gateway</td>
+<td>Invalid response from upstream</td>
+</tr>
+<tr>
+<td>↳ 503</td>
+<td>Service Unavailable</td>
+<td>Server overloaded or down</td>
+</tr>
+<tr>
+<td>↳ 504</td>
+<td>Gateway Timeout</td>
+<td>Upstream server did not respond</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="authentication-and-authorization">Authentication and Authorization </h2>
+<table>
+<thead>
+<tr>
+<th>Authentication</th>
+<th>Authorization</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Verifying the identity of a user or system.</td>
+<td>Determining what actions or resources a user or system is allowed to access.</td>
+</tr>
+<tr>
+<td>WHO YOU ARE</td>
+<td>WHAT YOU CAN DO</td>
+</tr>
+<tr>
+<td>Confirms identity</td>
+<td>Checks Permissions</td>
+</tr>
+<tr>
+<td>Examples: Basic Auth, OAuth, JWT</td>
+<td>Examples: RBAC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="authentication-methods">Authentication Methods </h3>
+<ul>
+<li>JWT (JSON Web Token)</li>
+<li>Bearer Token</li>
+<li>OAuth 2.0</li>
+<li>API Key</li>
+</ul>
+<h3 id="authorization-methods">Authorization Methods </h3>
+<ul>
+<li>RBAC (Role-Based Access Control)</li>
+<li>ABAC (Attribute-Based Access Control)</li>
+</ul>
+<hr>
+<h3 id="https">HTTPS </h3>
+<p>HTTPS + SSL/TLS ensures secure communication between the client and server by encrypting data in transit.</p>
+<h3 id="cors-cross-origin-resource-sharing">CORS (Cross-Origin Resource Sharing) </h3>
+<p>Allows or restricts resources on a web page to be requested from another domain outside the domain from which the resource originated.</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Access-Control-Allow-Origin: https://example.com  // Allow specific origin
+Access-Control-Allow-Methods: GET, POST  // Allow specific methods
+Access-Control-Allow-Headers: Content-Type, Authorization  // Allow specific headers
+</code></pre><h3 id="rate-limiting">Rate Limiting </h3>
+<p>Limits the number of requests a client can make to an API within a specified time frame to prevent abuse and ensure fair usage.</p>
+<h3 id="input-validation">Input Validation </h3>
+<p>Validate and sanitize user input to prevent injection attacks and ensure data integrity.</p>
+<ul>
+<li>Usually done on both client and server sides (crucial).</li>
+<li>Validate at boundary</li>
+</ul>
+<h3 id="common-security-vulnerabilities">Common Security Vulnerabilities </h3>
+<table>
+<thead>
+<tr>
+<th>Vulnerability</th>
+<th>Description</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>SQL Injection</em></td>
+<td>Malicious SQL queries are executed</td>
+<td>Use parameterized queries and ORM</td>
+</tr>
+<tr>
+<td><em>XSS (Cross-Site Scripting)</em></td>
+<td>Malicious scripts executed in the browser</td>
+<td>Sanitize and validate input</td>
+</tr>
+<tr>
+<td><em>CSRF (Cross-Site Request Forgery)</em></td>
+<td>Unauthorized commands transmitted from a user</td>
+<td>Use anti-CSRF tokens</td>
+</tr>
+<tr>
+<td><em>Insecure Direct Object References</em></td>
+<td>Unauthorized access to objects</td>
+<td>Implement proper access controls</td>
+</tr>
+<tr>
+<td><em>Security Misconfiguration</em></td>
+<td>Improperly configured security settings</td>
+<td>Regularly review and update configurations</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="caching">Caching </h2>
+<h2 id="versioning">Versioning </h2>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Example</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URI versioning</td>
+<td><code>/api/v1/users</code></td>
+<td>Explicit, easy to route and document</td>
+<td>Version leaks into URL forever</td>
+</tr>
+<tr>
+<td>Header versioning</td>
+<td><code>Accept-Version: 2</code></td>
+<td>Cleaner URLs</td>
+<td>Less visible and harder to test manually</td>
+</tr>
+<tr>
+<td>Media type versioning</td>
+<td><code>Accept: application/vnd.company.v2+json</code></td>
+<td>Flexible for representation changes</td>
+<td>More complex for consumers</td>
+</tr>
+<tr>
+<td>Query param versioning</td>
+<td><code>/users?version=2</code></td>
+<td>Easy to experiment</td>
+<td>Usually weakest contract signal</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pagination-filtering-and-sorting">Pagination, Filtering, and Sorting </h2>
+<pre data-role="codeBlock" data-info="http" class="language-http http"><code>GET /users?status=active&amp;sort=-createdAt&amp;page=1&amp;limit=10
+
+// Cursor-based pagination [Large Dataset]
+GET /users?status=active&amp;sort=-createdAt&amp;cursor=eyJpZ
+</code></pre><hr>
+<h2 id="error-handling">Error Handling </h2>
+<p>Responses to have proper status codes and error messages to help clients understand what went wrong.</p>
+<blockquote>
+<p>Best Practices</p>
+<ul>
+<li>Consistent error response format</li>
+<li>Include error codes, messages, and details in the response body</li>
+<li>Avoid exposing sensitive information in error messages</li>
+<li>Log errors on the server side for debugging and monitoring purposes</li>
+</ul>
+</blockquote>
+<h2 id="testing-restful-apis">Testing RESTful APIs </h2>
+<p>Testing RESTful APIs involves verifying that the API endpoints work as expected and handle various scenarios correctly.</p>
+<h3 id="tools">Tools </h3>
+<ul>
+<li><strong>Postman</strong>: A popular tool for manual API testing.</li>
+<li><strong>cURL</strong>: Command-line tool for making HTTP requests.</li>
+<li><strong>Automated Testing Frameworks</strong>: Such as JUnit (Java), pytest (Python), or Mocha (JavaScript) for writing automated tests.</li>
+</ul>
+<h3 id="types-of-tests">Types of Tests </h3>
+<ol>
+<li><strong>Unit Tests</strong>: Test individual components of the API in isolation.</li>
+<li><strong>Integration Tests</strong>: Test the interaction between different components of the API.</li>
+<li><strong>End-to-End Tests</strong>: Test the entire API workflow from the client's perspective.</li>
+<li><strong>Performance Tests</strong>: Test the API's response time and scalability under load.</li>
+<li><strong>Security Tests</strong>: Test for vulnerabilities such as authentication, authorization, and data protection.</li>
+</ol>
+<h4 id="sample-test-cases">Sample Test Cases </h4>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Test Case ID    : TC_GET_USERS_01
+Description     : Verify GET /users returns list of users
+Preconditions   : User should have valid access
+Request         : GET /users
+Expected Status : 200 OK
+Expected Result : List of users is returned
+Test Data       : N/A
+Actual Result   : Pass / Fail
+</code></pre><h2 id="api-documentation">API Documentation </h2>
+<p>API documentation provides information about the available endpoints, request/response formats, and usage examples.<br>
+<em>Tools</em> - Swagger/OpenAPI, Postman, Redoc, Slate</p>
+<h3 id="components-of-api-documentation">Components of API Documentation </h3>
+<ul>
+<li>Endpoint descriptions</li>
+<li>Request and response formats</li>
+<li>Authentication and authorization details</li>
+<li>Error codes and messages</li>
+<li>Usage examples and sample requests/responses</li>
+<li>Versioning information</li>
+</ul>
+<h3 id="sample-api-documentation">Sample API Documentation </h3>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Endpoint    : GET /users/{id}
+Description : Get user details by ID
+Method      : GET
+URL         : /users/{id}
+Path Param  : id (integer) — User ID
+Response    : 200 OK
+
+Response Body (JSON):
+{
+  "id"    : 1,
+  "name"  : "Aman",
+  "email" : "aman@example.com"
+}
+</code></pre><hr>
+<h2 id="restful-api-design-best-practices">RESTful API Design Best Practices </h2>
+<ol>
+<li>Use nouns for resource names (e.g., <code>/users</code>, <code>/products</code>).</li>
+<li>Use plural nouns for collections (e.g., <code>/users</code>, <code>/products</code>).</li>
+<li>URIs should be hierarchical and reflect resource relationships (e.g., <code>/users/{userId}/orders</code>).</li>
+<li>Use HTTP methods appropriately (GET for retrieval, POST for creation, PUT/PATCH for updates, DELETE for deletion).</li>
+<li>Use query parameters for filtering, sorting, and pagination (e.g., <code>/users?age=30&amp;sort=name</code>).</li>
+<li>Use consistent and meaningful status codes to indicate the result of operations.</li>
+<li>Provide clear and descriptive error messages in the response body for client errors.</li>
+<li>API Versioning: Include versioning in the URI (e.g., <code>/v1/users</code>) or in headers to manage changes over time.</li>
+<li>Stateless API Design for scalability</li>
+<li>Use JSON as the data format</li>
+<li>Follow Security best practices - HTTPS | Auth | Validate | Rate Limit | Prevent Injection | CORS | Logging</li>
+</ol>
+<hr>
+<h2 id="rest-vs-soap">REST vs SOAP </h2>
+<table>
+<thead>
+<tr>
+<th>REST</th>
+<th>SOAP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Representational State Transfer</td>
+<td>Simple Object Access Protocol</td>
+</tr>
+<tr>
+<td>Architectural style</td>
+<td>Protocol</td>
+</tr>
+<tr>
+<td>Uses HTTP</td>
+<td>Uses XML over various protocols</td>
+</tr>
+<tr>
+<td>Lightweight</td>
+<td>Heavyweight</td>
+</tr>
+<tr>
+<td>JSON, XML, etc.</td>
+<td>Only XML</td>
+</tr>
+<tr>
+<td>Stateless</td>
+<td>Can be stateful</td>
+</tr>
+<tr>
+<td>Easy to use and scalable</td>
+<td>Complex and less flexible</td>
+</tr>
+<tr>
+<td>Widely used in web and mobile apps</td>
+<td>Used in enterprise applications</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rest-vs-graphql-vs-grpc">REST vs GraphQL vs gRPC </h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>REST</th>
+<th>GraphQL</th>
+<th>gRPC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Style</td>
+<td>Resource-based API</td>
+<td>Query language for APIs</td>
+<td>Contract-based RPC (protobuf)</td>
+</tr>
+<tr>
+<td>Data fetched</td>
+<td>Fixed per endpoint</td>
+<td>Client picks exact fields</td>
+<td>Fixed by contract</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Public APIs, web, mobile</td>
+<td>Complex, data-rich UIs</td>
+<td>Fast service-to-service calls</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Good</td>
+<td>Good</td>
+<td>Fastest</td>
+</tr>
+</tbody>
+</table>
+<p>Example — fetching a user's name:</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>REST     : GET /users/1          → returns the whole user object
+
+GraphQL  : query { user(id: 1) { name } }   → returns only the name
+
+gRPC     : userService.GetUser({ id: 1 })   → typed call defined in .proto
+</code></pre>
       </div>
       
       
