@@ -1,24 +1,4 @@
-# System Design
-
-Design complex systems that are scalable, reliable, and maintainable and solves a real world problem
-
-- Product Design - Uber, Whatsapp, Instagram, Twitter, Netflix
-- Infrastructure Design - Load Balancer, Caching, Sharding, Data Modeling, Message Queues
-
-## Framework
-
-![alt text](image-41.png)
-
-1. Requirements Gathering - Functional and Non-Functional Requirements
-2. Core Entities
-3. API Design
-4. Data Flow
-5. High Level Design > Satisfy Functional Requirements
-6. Deep Dives > Satisfy Non-Functional Requirements
-
-## Evaluatiuon Criteria
-
-![alt text](image-42.png)
+# System Designs
 
 ## Fundamentals
 
@@ -35,241 +15,6 @@ Design complex systems that are scalable, reliable, and maintainable and solves 
 ## Components
 
 ![alt text](image-45.png)
-
-## Problems
-
-## ![alt text](image-46.png)
-
-# Caching
-
-A cache is a temporary storage area that stores frequently accessed data to improve performance and reduce latency. Caching can be implemented at various levels, including application-level caching, database caching, and distributed caching.
-
-Disk - 1 ms
-Cache - 100 ns
-
-- Cache Hit
-- Cache Miss
-
-## Where to cache
-
-### 1. External Cache
-
-![alt text](image-8.png){width=500}
-
-- Shared and Scalable
-- Redis, Memcached
-
-> Default Choice
-
-### 2. In-Process Cache / In-Memory Cache
-
-![alt text](image-9.png){width=500}
-
-- Fastest
-- Local to the process, not shared across processes
-
-### 3. CDN Cache
-
-![alt text](image-10.png){width=500}
-
-- Cache static assets like images, videos, and scripts at the edge servers closer to the users to reduce latency and improve performance.
-
-### 4. Client Side Cache
-
-![alt text](image-11.png){width=500}
-
-- Cache data on the client side, such as in the browser or mobile app, to reduce the number of requests to the server and improve performance.
-- Not suitable for sensitive data, as it can be accessed by the client.
-- Not controlled by the server, and can be cleared by the client at any time.
-- Can go stale
-
-## Cache Architecture
-
-### 1. Cache Aside
-
-![alt text](image-12.png){width=500}
-
-- On cache miss, the application loads data from the database and puts it in the cache. On cache hit, the application reads data from the cache.
-- Advantage: Only cache what is needed, and the cache is always up to date with the database.
-- Disadvantage: Cache miss can cause high latency, and the application needs to handle cache
-
-> Default choice for most applications
-
-### 2. Write Through
-
-![alt text](image-13.png){width=500}
-
-- On write, the application writes data to the cache and the database. On read, the application reads data from the cache.
-- Advantage: Cache is always up to date with the database, and cache hit is fast.
-- Disadvantage: Write latency is higher, and the cache can become a bottleneck if the write load is high. Bloated cache, as all writes go through the cache.
-
-### 3. Write Behind / Write Back
-
-![alt text](image-14.png){width=500}
-
-- On write, the application writes data to the cache and asynchronously writes data to the database. On read, the application reads data from the cache.
-- Advantage: Write latency is lower, and the cache can handle high write load. Cache is always up to date with the database.
-- Disadvantage: Cache can become a bottleneck if the write load is high, and there is a risk of data loss if the cache fails before the data is written to the database.
-
-### 4. Read Through
-
-![alt text](image-15.png){width=500}
-
-- On read, the application reads data from the cache. If the data is not in the cache, the cache loads data from the database and puts it in the cache. On write, the application writes data to the database and invalidates the cache.
-- Advantage: Cache is always up to date with the database, and cache hit is fast.
-- Disadvantage: Cache miss can cause high latency, and the cache can become a bottleneck if the read load is high.
-
-## Cache Eviction Policies
-
-![alt text](image-16.png){width=500}
-
-## Deep Dives
-
-### 1. Cache Stampede
-
-![alt text](image-17.png){width=500}
-
-All requests for the same data miss the cache and go to the database, causing high load on the database. This can happen when the cache expires or is invalidated, and multiple requests for the same data arrive at the same time.
-
-Prevention:
-
-1. Request Coalescing / Single Flight - Only one request goes to the database, and the other requests wait for the response from the first request.
-2. Cache Warming - Preload the cache with frequently accessed data before it is requested by the application.
-
-### 2. Cache consistency
-
-![alt text](image-18.png){width=500}
-Cache consistency ensures that the cache and the database have the same data. Inconsistent cache can lead to stale or incorrect data being served to the application.
-
-Prevention:
-
-1. Write Through / Write Behind - Ensures that writes go through the cache, keeping it consistent with the database.
-2. Cache Invalidation on write- Invalidate the cache when the underlying data changes, forcing the application to fetch fresh data from the database.
-3. Short TTL - Set a short time-to-live for cache entries, so that they expire quickly and are refreshed from the database.
-4. Eventual Consistency - Accept that the cache and the database may be temporarily inconsistent, but will eventually converge to the same state.
-
-### 3. Hot Key
-
-![alt text](image-19.png){width=500}
-
-Single key that is accessed frequently, causing high load on the cache and the database. This can happen when a popular item is requested by many users at the same time.
-
-Prevention:
-
-1. Sharding - Split the hot key into multiple keys, so that requests can be served from multiple keys on different cache nodes.
-2. Fallback Cahche - In Memory Cache
-
-## Interview Perspective
-
-## ![alt text](image-20.png){width=500}
-
----
-
-# Sharding
-
-Sharding is a process of dividing a large database into smaller, more manageable pieces called shards. Each shard is a separate database that contains a subset of the data. Sharding can improve performance, scalability, and availability of the database. Horizontal Scaline technique
-
-![alt text](image-21.png)
-
-But sharding also introduces complexity in terms of data distribution, query routing, and maintaining consistency across shards.
-
-## Sharding Strategies
-
-1. What to shard by
-2. How to distribute data across shards
-
-### Choosing a sharding key
-
-![alt text](image-22.png)
-Good Example - User ID, Product ID, Order ID
-Bad Example - Timestamp, Random ID, Auto Increment ID
-
-### Distributing data across shards
-
-- Range Sharding
-  - Divide the data into ranges based on the sharding key and assign each range to a shard.
-  - Example: User IDs 1-1000 go to Shard 1, 1001-2000 go to Shard 2
-  - But if the data is not evenly distributed, some shards may become hot and overloaded while others are underutilized.
-- Hash Sharding
-  - Distribute the data across shards based on a hash function applied to the sharding key. This can help to evenly distribute the data across shards.
-  - Example: Hash(User ID) % Number of Shards
-  - But if the hash function is not good, it may lead to uneven distribution of data across shards.
-  - On increasing the number of shards, the hash function needs to be changed, which can lead to data migration and downtime.
-  - Consistent Hashing [Default]
-    - Distribute the data across shards based on a hash function applied to the sharding key, and use a hash ring to map the hash values to shards. This allows for dynamic addition and removal of shards without affecting the existing data distribution.
-    - Example: Hash(User ID) % Number of Shards, but the number of shards can change dynamically without affecting the existing data distribution.
-    - But if the hash function is not good, it may lead to uneven distribution of data across shards.
-- Directory Based Sharding
-  - Use a directory service to map the sharding key to the shard that contains the data. This allows for dynamic addition and removal of shards without affecting the existing data distribution.
-  - Example: Use a directory service to map keys to shards, allowing for dynamic addition and removal of shards without affecting the existing data distribution.
-  - But if the directory service fails, it can lead to unavailability of the data. Also latency can be introduced due to the extra hop to the directory service.
-
-![alt text](image-23.png)
-![alt text](image-24.png)
-![alt text](image-25.png)
-
-## Challenges of Sharding
-
-### 1. Hot Spots
-
-![alt text](image-26.png)
-One shard receives a disproportionate amount of traffic, causing it to become a bottleneck and degrade performance. This can happen when the sharding key is not chosen properly, or when the data is not evenly distributed across shards.
-
-Solution
-
-- Dedicated Shard for Hot Key
-- Sharding by a different key [Composite Key] to evenly distribute the load across shards.
-
-### 2. Cross Shard Queries
-
-![alt text](image-27.png)
-When data is distributed across multiple shards, queries that need to access data from multiple shards can become complex and inefficient. This can happen when the sharding key is not chosen properly, or when the data is not evenly distributed across shards. Data is not distributed according to the query pattern, which can lead to cross shard queries.
-
-Solution
-
-- Choose a sharding key that aligns with the query patterns, so that most queries can be satisfied by a single shard.
-- Cache the results of cross shard queries to reduce the load on the shards and improve performance.
-- Denormalize the data to reduce the need for cross shard queries, at the cost of increased storage and complexity.
-
-### 3. Maintaining Consistency
-
-![alt text](image-28.png)
-
-When data is distributed across multiple shards, maintaining consistency can become challenging. Data can live in multiple shards, and updates to the data may need to be propagated to all relevant shards. This can lead to inconsistencies if the updates are not properly synchronized.
-
-Solution
-
-- 2 Phase Commit - Use a distributed transaction protocol to ensure that updates to the data are atomic and consistent across all relevant shards. This technique can be complex and may introduce latency, but it ensures that the data remains consistent across shards.
-- Saga Pattern - Use a series of local transactions that are coordinated to achieve eventual consistency across all relevant shards. This technique can be more flexible and scalable than 2 Phase Commit, but it may require more complex application logic to handle failures and retries.
-
-## Sharding in Practice
-
-![alt text](image-29.png)
-
-Shard only when single db cant handle the load.
-
----
-
-# Consistent Hashing
-
-Problem with Traditional Hashing
-
-- Redistribution of keys when the number of shards changes, leading to data migration and downtime.
-- Removing a shard can cause a large number of keys to be remapped to different shards, leading to data loss and downtime.
-
-1. Create a hash ring
-2. Map each shard to a point on the hash ring using a hash function
-3. Map each key to a point on the hash ring using the same hash function, Move clockwise on the ring until a shard is found, and assign the key to that shard.
-
-![alt text](image-59.png)
-
-- If new shard is added, only the keys that fall between the new shard and its predecessor on the hash ring need to be remapped to the new shard.
-- If a shard is removed, only the keys that were assigned to that shard need to be remapped to its successor on the hash ring.
-  - But this can lead to uneven distribution of keys across shards
-  - Solution - Use virtual nodes, where each shard is mapped to multiple points on the hash ring. This allows for more even distribution of keys across shards, and reduces the impact of adding or removing shards.
-  - ![alt text](image-60.png)
-
-Used by Redis, Cassandra, Amazon DynamoDB, and CDNs
 
 ---
 
@@ -354,52 +99,6 @@ Horizontal Scaling - Distribute the data across multiple database instances (sha
 ## Data Modeling in Practice
 
 ## ![alt text](image-40.png)
-
----
-
-# API Design
-
-> Dont spend too much time on API design in interviews, focus on the core entities and data flow.
-
-APIs enables communication between different software components using set of definitions and protocols.
-
-REST [Default], GraphQL, RPC [S2S], SOAP, WebSockets, gRPC
-
-## REST
-
-![alt text](image-47.png)
-Resources are mapped to core entities.
-![alt text](image-48.png)
-![alt text](image-49.png)
-![alt text](image-50.png)
-
-## GraphQL -
-
-Client specify required data, and server returns only the requested data in single call.
-
-### N++1 Problem
-
-The N+1 problem occurs when an application executes N+1 queries to fetch related data, instead of using a single optimized query. This can lead to performance issues, especially in database-driven applications.
-
-SOLUTION - Use JOINs or batch queries to fetch related data in a single query, reducing the number of database round trips and improving performance.
-
-### Schema Resolver
-
-Permissions are field by field in graphql, and the resolver is responsible for fetching the data for each field.
-
-## RPC - Remote Procedure Call
-
-Intra Microsservice communincation
-Efficient, Direct function calls between services, Proto Buffers - Binary serialization format
-![alt text](image-51.png)
-![alt text](image-52.png)
-
-- Strongly Typed, Contract based, Language agnostic - Proto Buffers, gRPC
-
-## Follow Ups
-
-![alt text](image-53.png)
-![alt text](image-54.png)
 
 ---
 
@@ -551,3 +250,103 @@ Not stored in DB as it bloats, replication is expensive, and DB is not optimized
 ![alt text](image-56.png)
 ![alt text](image-57.png)
 ![alt text](image-58.png)
+
+---
+
+# Networking Essentials
+
+![alt text](image-61.png)
+
+- Latency Involved
+- Connection Establishment
+
+## Internet Protocols
+
+Routing and IP Addressing
+
+- IPv4 vs IPv6
+- Public [Externally Facing Components] vs Private IP Address
+
+## Transport Layer
+
+![alt text](image-62.png)
+
+- UDP is not supported by browsers by default, and is not suitable for reliable communication. It is used for real-time applications like video streaming, online gaming, and VoIP, where low latency is more important than reliability.
+
+## HTTP
+
+![alt text](image-63.png)
+
+- REST, GraphQL, RPC, SOAP, WebSockets, gRPC
+
+REST
+
+- APIs
+
+GraphQL
+
+- Client specify required data, and server returns only the requested data in single call.
+
+gRPC
+
+- Efficient serialization format, Strongly Typed, Contract based, Language agnostic - Proto Buffers, gRPC
+  ![alt text](image-64.png)
+  ![alt text](image-65.png)
+  ![alt text](image-66.png)
+
+Server Sent Events (SSE) - Server can push data to the client over a single HTTP connection. It is a unidirectional communication from server to client, and is suitable for real-time applications like notifications, live updates, and AI chat applications.
+
+Web Sockets
+
+- Bidirectional communication.
+- Stateful connection between client and server, allowing for low latency and real-time communication.
+- But requires a separate connection, and is not suitable for all use cases. It is suitable for real-time applications like chat applications, online gaming, and collaborative editing.
+
+WebRTC
+
+- Peer to peer communication between browsers, allowing for low latency and real-time communication. It is suitable for real-time applications like video conferencing, audio calling, online gaming, and file sharing.
+  ![alt text](image-67.png)
+
+## Scaling
+
+![alt text](image-68.png)
+
+### Load Balancing
+
+- Client Side Load Balancing - Client can choose which server to send the request to, based on the server's health and load. This can be done using DNS round-robin, or by using a service discovery mechanism like Consul or etcd. Usually in internal microsservices.
+- Load Balancer - A load balancer is a reverse proxy that distributes incoming requests to multiple backend servers, based on a load balancing algorithm. It can also perform health checks on the backend servers, and remove unhealthy servers from the pool.
+
+![alt text](image-69.png)
+
+Layer 4 or Layer 7 Load Balancer
+![alt text](image-70.png)
+![alt text](image-71.png)
+
+| Layer 4 Load Balancer                                   | Layer 7 Load Balancer                                                                       |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Operates at the transport layer (TCP/UDP)               | Operates at the application layer (HTTP/HTTPS)                                              |
+| Cannot inspect application layer data                   | Can inspect application layer data                                                          |
+| Can perform load balancing based on IP address and port | Can perform load balancing based on URL, headers, cookies, and other application layer data |
+| Simple and fast                                         | More complex and slower                                                                     |
+| Used for non-HTTP traffic, such as TCP and UDP          | Used for HTTP and HTTPS traffic                                                             |
+
+## Regionalization
+
+Networking across the world
+
+> Regional Servers
+> Database and Servers should be close by
+> Data Replication and Sharding
+> CDNs
+> Caching
+
+## Timeouts, Backoff, and Retries
+
+![alt text](image-72.png)
+Jitter - Randomized delay to avoid thundering herd problem, where multiple clients retry at the same time, causing a spike in traffic and overwhelming the server.
+Exponential Backoff Retries with Jitter : Best Choice
+
+## Cascading Failures
+
+Circuit Breaker - Prevents a service from being overwhelmed by requests when it is experiencing high latency or errors. It monitors the health of the service, and if the error rate exceeds a certain threshold, it trips the circuit breaker and stops sending requests to the service for a certain period of time. This allows the service to recover and prevents cascading failures in the system.
+![alt text](image-74.png)
