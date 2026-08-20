@@ -1,3 +1,5 @@
+# Trees and Graphs
+
 ## Tree
 
 Tree is a hierarchical data structure that consists of nodes connected by edges.

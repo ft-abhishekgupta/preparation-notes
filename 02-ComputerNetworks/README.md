@@ -1,4 +1,4 @@
-# Computer Network
+# Computer Networks
 
 A computer network is a system that connects two or more computing devices so they can communicate, share resources, and exchange data with each other
 
@@ -25,7 +25,7 @@ A global network connecting billions of devices : LAN + MAN + WAN
 - 1983: Scientists adopted TCP/IP Standards
 - 1991: Tim Berners-Lee introduced the World Wide Web
 
-## Network Toplogies
+## Network Topologies
 
 Network topology is the arrangement (physical or logical layout) of computers, devices, and connections in a network.
 It shows how nodes are connected and how data flows between them.
@@ -62,7 +62,7 @@ Standard framework for communication. Explains how data flows end-to-end.
 
 ---
 
-### Data Link Layer (Layer 2)
+## Data Link Layer (Layer 2)
 
 - Ensure hop to hop delivery
 
@@ -77,14 +77,14 @@ Standard framework for communication. Explains how data flows end-to-end.
 - _Medium Access Control_ determine how devices share link
   - ALOHA, CSMA/CD, CSMA/CA, Token Passing
 
-#### MAC Address (Physical Address)
+### MAC Address (Physical Address)
 
 - Medium Access Control Address
 - Assigned to NIC
 - 48 Bit, In Hexadecimal, 00:1A:2B:3C:4D:5E
 - Used in LAN, switching
 
-#### Ethernet and Wifi (Layer 1 and 2)
+### Ethernet and Wi-Fi (Layer 1 and 2)
 
 | Technology           | Definition                                                     | Key mechanisms / concepts                                                        |
 | -------------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------------- |
@@ -148,7 +148,7 @@ Divides a network into smaller sub-networks
 
 ### Routing
 
-Process of forwarding packets from source ³ destination across multiple networks
+Process of forwarding packets from source → destination across multiple networks
 
 - Router makes decisions using routing tables
   - Destination network | Next hop | Interface | Metric / cost
@@ -199,7 +199,7 @@ IP Address + Port Number
 | Slower                                   | Faster                        |
 | Banking, Emails, Payments, File Transfer | Gaming, Streaming, VoIP       |
 
-## User Datagram Protocol (UDP)
+### User Datagram Protocol (UDP)
 
 - Lightweight, simple protocol
 - No connection establishment (Fire and forget)
@@ -208,7 +208,7 @@ IP Address + Port Number
 
 ![alt text](image-14.png)
 
-## Transmission Control Protocol (TCP)
+### Transmission Control Protocol (TCP)
 
 - Reliable, ordered, and error-checked delivery
 
@@ -225,7 +225,7 @@ IP Address + Port Number
 
 ![alt text](image-15.png)
 
-### TCP Connection Lifecycle
+#### TCP Connection Lifecycle
 
 1. Connection Establishment (3-Way Handshake)
 2. Data Transfer
@@ -244,7 +244,7 @@ IP Address + Port Number
   - TCP assumes packet loss = congestion
 - _Denial of Service (DoS)_ Malicious flooding of traffic to overwhelm a target servers. Solutions - Firewall, Rate Limit, Connection Limit
 
-### TCP Timers
+#### TCP Timers
 
 _Retransmission Timeout (RTO):_ Resend unacknowledged data after timeout. Detects packet loss.
 _Persistence Timer:_ Avoid deadlock during zero-window state
@@ -292,7 +292,7 @@ A protocol for transferring web pages and data on the Internet
 - Provides CIA (Confidentiality, Integrity, Authentication)
 - Process: Handshake > Key Exchange > Encrypted > Data Transfer
 
-**WebSockets**
+### WebSockets
 
 Full-duplex communication channels over a single TCP connection, allowing for real-time data transfer between a client and server.
 
@@ -300,10 +300,13 @@ Full-duplex communication channels over a single TCP connection, allowing for re
 
 ![alt text](image-27.png)
 
-**AQML - Advanced Message Queuing Protocol**
+### AMQP - Advanced Message Queuing Protocol
+
 An open standard for message-oriented middleware that enables reliable and secure communication between distributed systems, often used in enterprise applications
 
-## ![alt text](image-28.png)
+![alt text](image-28.png)
+
+### Common Protocols and Ports
 
 | Protocol      | Full Name                           | Purpose                                               |       Default Port |
 | ------------- | ----------------------------------- | ----------------------------------------------------- | -----------------: |
@@ -351,7 +354,7 @@ HTTPS + SSL/TLS ensures secure communication between the client and server by en
 
 1. _Simple Flow_
    - Request contains Host: X, Origin: Y.
-   - If response has cors headerf for Y, Then browser allows
+   - If response has cors header for Y, Then browser allows
 2. _Preflight Flow OPTIONS:_ Request asks server for allowed origin, method, headers
    If any of these condition are true then used:
    1. If method is not GET, POST, HEAD
@@ -387,7 +390,7 @@ Masks user's IP address and location
 
 ![alt text](image-21.png)
 
-## Secure Communication - SSL/TLS
+### Secure Communication - SSL/TLS
 
 SSL (Secure Socket Layer) -> Predecessor of TLS (Transport Layer Security)
 

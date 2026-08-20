@@ -1,6 +1,6 @@
-## Design Patterns
+# Design Patterns
 
-### Types of Design Patterns
+## Types of Design Patterns
 
 1. **Creational Patterns**
    1. Factory ⭐
@@ -38,7 +38,7 @@
 | **Command**                 | Behavioral | Encapsulate request               | Need queue/undo/log                   | Remote control      |
 | **Chain of Responsibility** | Behavioral | Pass request through handlers     | Sequential processing                 | Approval workflow   |
 
-### Factory Pattern
+## Factory Pattern
 
 Provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.
 "Which object should I create?"
@@ -65,7 +65,7 @@ sequenceDiagram
     Client->>IProduct: Use()
 ```
 
-#### Example - Payment Gateway
+### Example - Payment Gateway
 
 ```mermaid
 classDiagram
@@ -118,7 +118,7 @@ class Client {
 }
 ```
 
-### Builder Pattern
+## Builder Pattern
 
 Builds a complex object step-by-step instead of using a constructor with many parameters
 "How do I construct this complex object?"
@@ -149,7 +149,7 @@ sequenceDiagram
     Builder-->>Client: Product
 ```
 
-#### Example - User Builder
+### Example - User Builder
 
 ```mermaid
 classDiagram
@@ -203,7 +203,7 @@ class UserBuilder {
 }
 ```
 
-### Singleton Pattern
+## Singleton Pattern
 
 Ensures a class has only one instance and provides a global point of access to it.
 "Give me the one shared instance."
@@ -230,7 +230,7 @@ sequenceDiagram
     Singleton-->>Client: Same instance
 ```
 
-#### Example - Logging Service
+### Example - Logging Service
 
 ```mermaid
 classDiagram
@@ -255,7 +255,7 @@ class Logger {
 }
 ```
 
-### Adapter Pattern
+## Adapter Pattern
 
 Converts one interface to another interface that the client expects.
 "Make this interface compatible by acting as a wrapper/bridge"
@@ -283,7 +283,7 @@ sequenceDiagram
     Adapter-->>Client: Result
 ```
 
-#### Example - Payment Gateway Adapter
+### Example - Payment Gateway Adapter
 
 ```mermaid
 classDiagram
@@ -322,7 +322,7 @@ class RazorPayAdapter : IPayment {
 }
 ```
 
-### Decorator Pattern
+## Decorator Pattern
 
 Dynamically adds behavior to an object without affecting the behavior of other objects from the same class.
 "Add behavior around this object."
@@ -354,7 +354,7 @@ sequenceDiagram
     Decorator-->>Client: Enhanced result
 ```
 
-#### Example - Coffee Shop
+### Example - Coffee Shop
 
 Base coffee can be decorated with milk and sugar to create different combinations of coffee.
 
@@ -421,7 +421,7 @@ coffee = new MilkDecorator(coffee);
 coffee = new SugarDecorator(coffee);
 ```
 
-### Facade Pattern
+## Facade Pattern
 
 Provides a simplified interface to a complex subsystem, making it easier for clients to interact with the system.
 "Hide all this complexity behind one API."
@@ -451,7 +451,7 @@ sequenceDiagram
     Facade-->>Client: Success
 ```
 
-#### Example - Checkout Process
+### Example - Checkout Process
 
 ```mermaid
 classDiagram
@@ -503,7 +503,7 @@ class CheckoutFacade {
 }
 ```
 
-### Composite Pattern
+## Composite Pattern
 
 Allows individual objects and groups of objects to be treated uniformly.
 "Treat individual and groups uniformly."
@@ -534,7 +534,7 @@ sequenceDiagram
     Composite-->>Client: Combined result
 ```
 
-#### Example - File System
+### Example - File System
 
 ```mermaid
 classDiagram
@@ -580,7 +580,7 @@ class Directory : IFileSystemItem {
 }
 ```
 
-### Proxy Pattern
+## Proxy Pattern
 
 Provides a substitute/representative for another object to control access to it.
 "Put something in front of the real object."
@@ -607,7 +607,7 @@ sequenceDiagram
     Proxy-->>Client: Result
 ```
 
-#### Example - Auth Proxy
+### Example - Auth Proxy
 
 ```mermaid
 classDiagram
@@ -651,7 +651,7 @@ class FileServiceProxy : IFileService {
 }
 ```
 
-### Strategy Pattern
+## Strategy Pattern
 
 Encapsulates interchangeable algorithms/behaviors behind a common interface.
 "Which algorithm should I use?"
@@ -680,7 +680,7 @@ sequenceDiagram
     Context-->>Client: Result
 ```
 
-#### Example - Pricing Strategy
+### Example - Pricing Strategy
 
 ```mermaid
 classDiagram
@@ -732,7 +732,7 @@ Checkout checkout = new Checkout(strategy);
 decimal price = checkout.GetPrice(100); // 90
 ```
 
-### Observer Pattern
+## Observer Pattern
 
 Creates one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.
 "Tell everyone when something changes."
@@ -761,7 +761,7 @@ sequenceDiagram
     Observer2->>Observer2: React
 ```
 
-#### Example - Order Notification
+### Example - Order Notification
 
 ```mermaid
 classDiagram
@@ -811,7 +811,7 @@ class Order {
 }
 ```
 
-### State Pattern
+## State Pattern
 
 Allows an object's behavior to change when its internal state changes.
 "Behavior depends on objects current state."
@@ -839,7 +839,7 @@ sequenceDiagram
     Context-->>Client: Done
 ```
 
-#### Example - Order Lifecycle
+### Example - Order Lifecycle
 
 ```mermaid
 classDiagram
@@ -907,7 +907,7 @@ order.Process(); // Shipping order
 order.Process(); // Already shipped
 ```
 
-### Command Pattern
+## Command Pattern
 
 Encapsulates a request/action as an object.
 "Turn this action into an object."
@@ -937,7 +937,7 @@ sequenceDiagram
     Command-->>Invoker: Done
 ```
 
-#### Example - Remote Control
+### Example - Remote Control
 
 ```mermaid
 classDiagram
@@ -997,7 +997,7 @@ remote.SetCommand(turnOn);
 remote.PressButton(); // Light ON
 ```
 
-### Chain of Responsibility Pattern
+## Chain of Responsibility Pattern
 
 Passes a request through a chain of handlers until one handler processes it.
 "Pass this request until someone handles it."
@@ -1033,7 +1033,7 @@ sequenceDiagram
     end
 ```
 
-#### Example - Approval Workflow
+### Example - Approval Workflow
 
 ```mermaid
 classDiagram
@@ -1103,7 +1103,7 @@ director.SetNext(vp);
 manager.Approve(500);
 ```
 
-### Differences
+## Differences
 
 |              | Factory              | Builder                   |
 | ------------ | -------------------- | ------------------------- |

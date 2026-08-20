@@ -45,6 +45,8 @@ Design a library management system to handle the operations of a library.
 
 ### Use Case Diagram
 
+![alt text](image.png)
+
 ```
 Library Management System
 │

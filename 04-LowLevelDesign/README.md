@@ -1,5 +1,17 @@
 # Low Level Design (LLD)
 
+## Contents
+
+| # | Topic | Notes |
+| - | ----- | ----- |
+| 1 | [Object Oriented Programming](OOPs/OOPs.md) | Classes, objects, the four pillars, composition |
+| 2 | [SOLID Principles](SOLID/SOLID.md) | SRP, OCP, LSP, ISP, DIP and dependency injection |
+| 3 | [Design Patterns](DesignPatterns/DesignPatterns.md) | Creational, structural and behavioral patterns with examples |
+| 4 | [UML Diagrams](UML/UML.md) | Use case, class, sequence and activity diagrams |
+| 5 | [LLD Problems](Problems/Problems.md) | Worked machine coding / design problems |
+
+## Overview
+
 LLD is the detailed design of individual components of a system.
 
 - Describes HOW EACH PART WILL BE **IMPLEMENTED**
@@ -15,7 +27,7 @@ LLD is the detailed design of individual components of a system.
 
 ![alt text](image.png)
 
-### Components of LLD
+## Components of LLD
 
 1. Classes / Interfaces
 2. Methods
@@ -28,7 +40,7 @@ LLD is the detailed design of individual components of a system.
 | **SOLID Principles**                  | Design principles         | Guide you on how to use OOP effectively to create maintainable, extensible code                        |
 | **Design Patterns**                   | Reusable design solutions | Common solutions to recurring software design problems                                                 |
 
-### Design Goals
+## Design Goals
 
 - **Loose coupling** - Reducing interdependencies between components to allow easier maintenance, testing, and flexibility.
 - **High cohesion** - Keeping related functionality together within a module or class to improve maintainability and understandability.
@@ -52,39 +64,29 @@ Structured approach to analyzing and designing a system using object-oriented co
 
 ## Process of LLD
 
-1.
-
----
-
-## Design Techniques
-
-Dependency Injection, extensibility, interfaces, object responsibilities, state management, concurrency
-
-## State Modeling
-
-## Separation of Responsibilities, Dependency Management
-
-## API Design
-
-## Extensibility, Maintainability, Testability
-
-## Mocking and Stubbing
-
-## C# - Generics, Collections, Equality, Hashing, Immutability, Exception and Error Handling, Delegates, Events, LINQ, Async/Await
-
-## Concurrency and Thread Safety
-
-Race conditions
-Deadlocks
-Thread safety
-Atomic operations
-Critical sections
-Producer-consumer
-Thread-safe singleton
-
-## API Design
-
-## Flow
+```
+Requirements
+     ↓
+Identify entities
+     ↓
+Identify responsibilities
+     ↓
+Identify relationships
+     ↓
+Define interfaces
+     ↓
+Identify changing behavior
+     ↓
+Choose abstractions
+     ↓
+Apply SOLID
+     ↓
+Use patterns where appropriate
+     ↓
+Think about extensibility
+     ↓
+Handle edge cases / concurrency
+```
 
 ```
                     LLD
@@ -114,32 +116,30 @@ Thread-safe singleton
               "What if we add X?"
 ```
 
-```
-Requirements
-     ↓
-Identify entities
-     ↓
-Identify responsibilities
-     ↓
-Identify relationships
-     ↓
-Define interfaces
-     ↓
-Identify changing behavior
-     ↓
-Choose abstractions
-     ↓
-Apply SOLID
-     ↓
-Use patterns where appropriate
-     ↓
-Think about extensibility
-     ↓
-Handle edge cases / concurrency
-```
+---
 
-## Examples
+## Design Techniques
 
-```
+Dependency Injection, extensibility, interfaces, object responsibilities, state management, concurrency
 
-```
+## Concurrency and Thread Safety
+
+Race conditions
+Deadlocks
+Thread safety
+Atomic operations
+Critical sections
+Producer-consumer
+Thread-safe singleton
+
+## Topics to Cover
+
+> Notes to be added.
+
+- [ ] State Modeling
+- [ ] Separation of Responsibilities, Dependency Management
+- [ ] API Design
+- [ ] Extensibility, Maintainability, Testability
+- [ ] Mocking and Stubbing
+- [ ] C# — Generics, Collections, Equality, Hashing, Immutability, Exception and Error Handling, Delegates, Events, LINQ, Async/Await
+- [ ] Worked examples

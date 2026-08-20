@@ -1,3 +1,15 @@
+# Software Engineering
+
+Cross-cutting engineering practice: how software is written, versioned, tested, shipped and operated.
+
+## Contents
+
+| # | Topic | Notes |
+| - | ----- | ----- |
+| 1 | [Git](Git/Git.md) | Version control, branching, merge vs rebase, remotes, undo and recovery |
+
+## Syllabus
+
 | #      | Major Heading                                     | Topics to Cover                                                                                        |
 | ------ | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | **1**  | **Software Development Fundamentals**             | SDLC, development methodologies, Agile/Scrum, requirements, estimation, technical debt                 |

@@ -1,4 +1,23 @@
-# Data Structures and Algorithms (DSA)
+# Coding — Data Structures and Algorithms
+
+## Contents
+
+| # | Topic | Notes |
+| - | ----- | ----- |
+| 1 | [Complexity Analysis](ComplexityAnalysis/ComplexityAnalysis.md) | Big O, best/average/worst case, time and space complexity |
+| 2 | [Arrays and Strings](ArraysAndStrings/ArraysAndStrings.md) | Traversal, two pointers, sliding window, prefix sums |
+| 3 | [Hashing](Hashing/Hashing.md) | Hash tables, sets, frequency maps, collision handling |
+| 4 | [Linked Lists](LinkedLists/LinkedLists.md) | Singly, doubly and circular lists |
+| 5 | [Stacks and Queues](StacksAndQueues/StacksAndQueues.md) | LIFO, FIFO, deques, monotonic structures |
+| 6 | [Trees and Graphs](TreesAndGraphs/TreesAndGraphs.md) | Binary trees, BST, AVL, heaps, traversals, graph algorithms |
+| 7 | [Searching and Sorting](SearchingAndSorting/SearchingAndSorting.md) | Binary search and the classic sorting algorithms |
+| 8 | [Dynamic Programming](DynamicProgramming/DynamicProgramming.md) | Memoisation, tabulation, classic DP patterns |
+| 9 | [Greedy and Backtracking](GreedyAndBacktracking/GreedyAndBacktracking.md) | Greedy choice, exhaustive search with pruning |
+| 10 | [Advanced Patterns](AdvancedPatterns/AdvancedPatterns.md) | Tries, union find, bit manipulation, intervals |
+| 11 | [Problems](Problems/Problems.md) | Worked interview problems |
+| — | [C# Cheat Sheet](CSharp/CSharp.md) | Language reference for coding rounds |
+
+## Overview
 
 **Data Structure** is a way of organizing and storing data in a computer so that it can be accessed and modified efficiently.
 
@@ -18,6 +37,8 @@ Properties of Algorithms:
 - Output
 - Finiteness
 - Definiteness
+
+## Data Structure Reference
 
 | Data Structure                   | Type         | Size    | Access           | Search       | Insert        | Delete       | Ordered?               | Duplicates? | Typical Use                     |
 | -------------------------------- | ------------ | ------- | ---------------- | ------------ | ------------- | ------------ | ---------------------- | ----------- | ------------------------------- |

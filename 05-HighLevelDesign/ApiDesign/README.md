@@ -1,8 +1,19 @@
 # API Design
 
+## Contents
+
+| # | Topic | Notes |
+| - | ----- | ----- |
+| 1 | [REST](REST/REST.md) | Resources, HTTP methods, status codes, versioning, pagination, best practices |
+| 2 | [GraphQL](GraphQL/GraphQL.md) | Types, queries, mutations, resolvers, N+1 problem |
+| 3 | [gRPC](gRPC/gRPC.md) | Protocol buffers, contract-first service-to-service calls |
+| 4 | [Authentication and Authorization](Auth/Auth.md) | Basic, session, JWT, OAuth 2.0, OIDC, SSO, RBAC |
+
+## Overview
+
 ![alt text](image.png)
 
-### Design Principles for API Design
+## Design Principles for API Design
 
 - **Consistency** - Consistent naming conventions, request/response formats, and error handling across the API
 - **Simplicity** - Clear and concise documentation, easy-to-understand endpoints, and minimal complexity in request/response structures

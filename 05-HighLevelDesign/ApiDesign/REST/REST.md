@@ -8,7 +8,7 @@ Representational State Transfer (REST) is an architectural style for designing n
 
 > Business Domains are converted to Rest Resources
 
-### Glossary
+## Glossary
 
 **Resource**: An object or representation of something that can be accessed and manipulated via a RESTful API.
 **RESTful APIs** use HTTP methods to perform operations on resources.

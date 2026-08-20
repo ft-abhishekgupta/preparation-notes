@@ -1,3 +1,5 @@
+# Searching and Sorting
+
 ## Binary Search
 
 - Data is sorted

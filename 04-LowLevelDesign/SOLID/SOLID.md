@@ -1,4 +1,4 @@
-## SOLID Principles
+# SOLID Principles
 
 - Set of design principles to make software designs more understandable, flexible, and maintainable.
 - Given by _Robert C. Martin (Uncle Bob)_
@@ -11,7 +11,7 @@
 | ISP       | Interface Segregation Principle | Interface     | Clients should depend only on the methods they use           | Reduces the impact of changes and improves code maintainability |
 | DIP       | Dependency Inversion Principle  | Dependencies  | Depends on abstractions rather than concrete implementations | Reduces coupling between high-level and low-level modules       |
 
-### Single Responsibility Principle (SRP)
+## Single Responsibility Principle (SRP)
 
 A class should have only one reason to change, meaning it should have only one job or responsibility.
 
@@ -32,7 +32,7 @@ class EmailService {
 }
 ```
 
-### Open/Closed Principle (OCP)
+## Open/Closed Principle (OCP)
 
 Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification.
 
@@ -60,7 +60,7 @@ class CardPayment : IPayment {
 }
 ```
 
-### Liskov Substitution Principle (LSP)
+## Liskov Substitution Principle (LSP)
 
 Objects of a superclass should be replaceable with objects of a subclass without affecting the correctness of the program.
 
@@ -90,7 +90,7 @@ class Penguin : Bird {
 }
 ```
 
-### Interface Segregation Principle (ISP)
+## Interface Segregation Principle (ISP)
 
 Clients should not be forced to depend on interfaces they do not use. Interfaces should be specific to the needs of the client.
 
@@ -120,7 +120,7 @@ class Developer : ICoder {
 }
 ```
 
-### Dependency Inversion Principle (DIP)
+## Dependency Inversion Principle (DIP)
 
 High-level modules should not depend on low-level modules. Both should depend on abstractions.
 
@@ -149,7 +149,7 @@ class FileManager {
 }
 ```
 
-#### **Dependency Injection (DI)**
+### Dependency Injection (DI)
 
 Passing the dependency to the dependent class instead of creating it inside the class.
 

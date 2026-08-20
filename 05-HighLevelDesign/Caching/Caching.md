@@ -57,6 +57,8 @@ Strategies used to determine which items should be removed from the cache when i
 
 ![alt text](image-16.png)
 
+---
+
 ## Browser Caching
 
 ## Server Side Caching

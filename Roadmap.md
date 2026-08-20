@@ -1,4 +1,6 @@
-# Topics
+# Preparation Roadmap
+
+A checklist of the topics to cover, grouped by area. See the [README](README.md) for the notes themselves.
 
 ## DSA
 

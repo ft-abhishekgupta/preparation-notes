@@ -1,4 +1,13 @@
-# DBMS
+# Databases
+
+## Contents
+
+| # | Topic | Notes |
+| - | ----- | ----- |
+| 1 | Database Fundamentals | This page — DBMS, relational model, normalization, transactions, indexing, NoSQL |
+| 2 | [SQL](SQL/SQL.md) | DDL/DML/DCL/TCL, querying, joins, subqueries, functions, views and indexes |
+
+## Database
 
 **Database** : A database is an **organized** collection of digital data stored in a structured format that allows easy access, management, and updates.
 
@@ -54,7 +63,7 @@ DBMS is the software application that helps us create, maintain, and interact wi
 | NOT NULL                        | Can be NULL             | NOT NULL      |
 | One per table                   | Multiple                | Multiple      |
 
-## PostGreSQL
+## PostgreSQL
 
 - Open Source
 - SQL Based
@@ -159,7 +168,16 @@ Decompose into BCNF:
                      └───────┴──────────┘
 ```
 
-### Isolation Levels
+## Database Transaction
+
+A database transaction is a sequence of operations performed as a single logical unit of work, which must either completely succeed or completely fail.
+![alt text](image-3.png)
+
+## ACID Properties
+
+![alt text](image-4.png)
+
+## Isolation Levels
 
 | Level            | Dirty Reads | Non-repeatable Reads | Phantom Reads      |
 | ---------------- | ----------- | -------------------- | ------------------ |
@@ -176,15 +194,6 @@ RR --> S[Serializable]
 ```
 
 > **Note:** Higher isolation reduces anomalies but can reduce concurrency. Defaults and exact behavior vary by database and MVCC implementation.
-
-## Database Transaction
-
-A database transaction is a sequence of operations performed as a single logical unit of work, which must either completely succeed or completely fail.
-![alt text](image-3.png)
-
-## ACID Properties
-
-![alt text](image-4.png)
 
 ## DB Migration
 
