@@ -35,6 +35,10 @@ System that listening to client request at open port over internet.
 | SSD          | Non-volatile storage used for long-term storage of data               | Fast - 1 GB/s            | Moderate       | OS, Applications, Files             |
 | HDD          | Non-volatile storage used for long-term storage of data               | Slow - 100 MB/s          | Cheap          | Stores user files                   |
 
+## Numbers
+
+![alt text](image-2.png)
+
 ## CAP Theorem / Brewer's Theorem
 
 CAP Theorem states that a distributed data store can only provide two out of the following three guarantees simultaneously:
@@ -189,3 +193,26 @@ OS communicates with processes via IPC (Interprocess Communication) Signals
 ## Alerting
 
 The process of notifying relevant stakeholders when an issue is detected in the system, often through email, SMS, or other messaging platforms
+
+## Regionalization
+
+Networking across the world
+
+- Regional Servers
+- Database and Servers should be close by
+- Data Replication and Sharding
+- CDNs
+- Caching
+
+## Circuit Breaker
+
+Prevents a service from being overwhelmed by requests when it is experiencing high latency or errors.
+
+- It monitors the health of the service, and if the error rate exceeds a certain threshold, it trips the circuit breaker and stops sending requests to the service for a certain period of time.
+- This allows the service to recover and prevents cascading failures in the system.
+
+## Timeouts, Backoff, and Retries
+
+![alt text](image-72.png)
+Jitter - Randomized delay to avoid thundering herd problem, where multiple clients retry at the same time, causing a spike in traffic and overwhelming the server.
+Exponential Backoff Retries with Jitter : Best Choice

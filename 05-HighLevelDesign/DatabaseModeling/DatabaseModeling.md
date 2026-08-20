@@ -1,4 +1,39 @@
-# Database Scaling
+# Database Modeling
+
+Data Modeling defines hoow the data is: Structured, Stored and Related
+
+**Should be done during**
+![alt text](image-1.png)
+
+**Data Modeling Options:**
+
+- Relational [Default]
+- Document
+- Key Value
+- Wide Column
+
+## Schema Design
+
+**Key Factors**
+
+1. Data Volume - Where data live - Single or Distributed
+2. Access Patterns - How data is accessed - Read heavy or Write heavy
+3. Consistency Requirements - Strong or Eventual
+
+**Output**
+
+1. Tables and Columns
+2. Keys and Constraints
+3. Normalized or Denormalized
+
+> Usually data in db are normalized, and data in cache is denormalized.
+
+**In Practice**
+![alt text](image-2.png)
+
+---
+
+## Database Scaling
 
 ![alt text](image.png)
 
@@ -20,6 +55,8 @@ _COMPLEXITIES:_ data distribution, query routing, and maintaining consistency ac
 
 Good Example - User ID, Product ID, Order ID
 Bad Example - Timestamp, Random ID, Auto Increment ID
+
+> Shard by query pattern, not by data volume. Shard only when single db cant handle the load.
 
 ### Sharding Strategies
 
@@ -138,3 +175,21 @@ Replication is the process of copying and maintaining database objects, such as 
 - Caching
 - Indexing
 - Query Optimization
+
+## Indexing
+
+Indexing is a technique used to improve the performance of database queries by providing a fast lookup mechanism for data retrieval.
+
+**Types of Indexes:**
+
+1. _B-Tree Index_ - Default index type, good for range queries and equality searches.
+2. _Hash Index_ - Good for equality searches, not suitable for range queries.
+3. _Bitmap Index_ - Efficient for low-cardinality columns, often used in data warehousing.
+4. _Full-Text Index_ - Used for text search, supports complex search queries.
+
+**Considerations:**
+
+- Indexes improve read performance but can degrade write performance.
+- Choose indexes based on query patterns and access frequency.
+
+![alt text](image-3.png)

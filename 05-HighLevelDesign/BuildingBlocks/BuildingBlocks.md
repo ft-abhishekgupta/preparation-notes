@@ -14,7 +14,7 @@
 
 ## Load Balancers
 
-Distribute incoming network traffic across multiple servers.
+Reverse Proxy that Distribute incoming network traffic across multiple servers.
 
 ADVANTAGE: Ensure high availability, reliability, and performance of applications and services
 
@@ -40,6 +40,17 @@ ADVANTAGE: Ensure high availability, reliability, and performance of application
 | **Hardware** | Physical load balancer       | F5, Citrix ADC, A10     |
 | **Software** | Software-based load balancer | Nginx, HAProxy, Traefik |
 | **Cloud**    | Managed cloud load balancer  | AWS ELB, GCP, Azure     |
+
+- Client Side: Client decides which server to call. Usually in internal microservices
+- Server Side: Reverse Proxy Server
+
+| Layer 4 Load Balancer                                   | Layer 7 Load Balancer                                                                       |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Operates at the transport layer (TCP/UDP)               | Operates at the application layer (HTTP/HTTPS)                                              |
+| Cannot inspect application layer data                   | Can inspect application layer data                                                          |
+| Can perform load balancing based on IP address and port | Can perform load balancing based on URL, headers, cookies, and other application layer data |
+| Simple and fast                                         | More complex and slower                                                                     |
+| Used for non-HTTP traffic, such as TCP and UDP          | Used for HTTP and HTTPS traffic                                                             |
 
 ### Preventing SPOF in Load Balancers
 
@@ -89,3 +100,21 @@ Gets Request Object, Response Object, Next Function
 - Accessible to all middleware and handlers, can be modified. Has metadata for the request
 - Can help to extract userid from auth context, extract request id, trace
 - Send cancellation tokens or signals
+
+---
+
+# Object Storage
+
+Stores files.
+
+- Flat Namespace
+- Immutable Objects
+- Redundant and Durable
+- Example - Amazon S3, Google Cloud Storage, Azure Blob Storage
+
+> Not stored in DB as it bloats, replication is expensive, and DB is not optimized for storing files. DB are expensive, and files are large and unstructured.
+
+**During Design**
+![alt text](image-2.png)
+
+---

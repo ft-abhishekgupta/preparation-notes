@@ -296,9 +296,21 @@ A protocol for transferring web pages and data on the Internet
 
 Full-duplex communication channels over a single TCP connection, allowing for real-time data transfer between a client and server.
 
-- Chats, Real-time notifications, Online gaming, Collaborative editing
+- Stateful connection between client and server, allowing for low latency and real-time communication.
+- But requires a separate connection, and is not suitable for all use cases.
+- It is suitable for real-time applications like chat applications, online gaming, and collaborative editing.
 
 ![alt text](image-27.png)
+
+### WebRTC
+
+- Peer to peer communication between browsers, allowing for low latency and real-time communication. It is suitable for real-time applications like video conferencing, audio calling, online gaming, and file sharing.
+
+![alt text](image-29.png)
+
+### Server Sent Events (SSE)
+
+Server can push data to the client over a single HTTP connection. It is a unidirectional communication from server to client, and is suitable for real-time applications like notifications, live updates, and AI chat applications.
 
 ### AMQP - Advanced Message Queuing Protocol
 

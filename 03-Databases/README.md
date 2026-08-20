@@ -2,10 +2,10 @@
 
 ## Contents
 
-| # | Topic | Notes |
-| - | ----- | ----- |
-| 1 | Database Fundamentals | This page — DBMS, relational model, normalization, transactions, indexing, NoSQL |
-| 2 | [SQL](SQL/SQL.md) | DDL/DML/DCL/TCL, querying, joins, subqueries, functions, views and indexes |
+| #   | Topic                 | Notes                                                                            |
+| --- | --------------------- | -------------------------------------------------------------------------------- |
+| 1   | Database Fundamentals | This page — DBMS, relational model, normalization, transactions, indexing, NoSQL |
+| 2   | [SQL](SQL/SQL.md)     | DDL/DML/DCL/TCL, querying, joins, subqueries, functions, views and indexes       |
 
 ## Database
 
@@ -223,12 +223,12 @@ Databases that primarily rely on main memory for data storage, providing faster 
 
 ![alt text](image-5.png)
 
-| Type                  | Structure                  | Best For                    | Examples              |
-| --------------------- | -------------------------- | --------------------------- | --------------------- |
-| **Document Store**    | JSON/BSON documents        | Flexible, hierarchical data | MongoDB, CouchDB      |
-| **Wide-Column Store** | Rows + dynamic columns     | Large-scale structured data | Cassandra, HBase      |
-| **Key-Value Store**   | Key → Value pairs          | Fast lookups                | Redis, DynamoDB, Riak |
-| **Graph Database**    | Nodes + edges + properties | Complex relationships       | Neo4j, Neptune        |
+| Type                  | Structure                  | Best For                             | Examples              |
+| --------------------- | -------------------------- | ------------------------------------ | --------------------- |
+| **Document Store**    | JSON/BSON documents        | Flexible, hierarchical data          | MongoDB, CouchDB      |
+| **Key-Value Store**   | Key → Value pairs          | Fast lookups, cache, session storage | Redis, DynamoDB, Riak |
+| **Graph Database**    | Nodes + edges + properties | Complex relationships                | Neo4j, Neptune        |
+| **Wide-Column Store** | Rows + dynamic columns     | Large-scale structured data, Logs    | Cassandra, HBase      |
 
 ### BASE Properties
 

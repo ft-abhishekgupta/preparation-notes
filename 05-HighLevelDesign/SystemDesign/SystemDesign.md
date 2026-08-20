@@ -29,6 +29,8 @@ flowchart LR
 
 ![alt text](image.png)
 
+![alt text](image-4.png)
+
 ### 1. Requirements (5 Mins)
 
 Get clear understanding of the system
