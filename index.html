@@ -53,6 +53,25 @@
         color: var(--muted);
         margin: 0 0 40px;
       }
+      .section {
+        margin: 0 0 40px;
+      }
+      .section > h2 {
+        font-size: 1.35rem;
+        margin: 0 0 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+      }
+      .subsection {
+        margin: 24px 0 0;
+      }
+      .subsection > h3 {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        margin: 0 0 12px;
+      }
       .cards {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -78,9 +97,11 @@
         border-color: var(--accent);
         transform: translateY(-2px);
       }
-      .card h2 {
+      .card .card-title {
+        display: block;
         margin: 0 0 6px;
-        font-size: 1.15rem;
+        font-size: 1.05rem;
+        font-weight: 600;
         color: var(--accent);
       }
       .card p {
@@ -107,7 +128,7 @@
       <p class="tagline">
         Study notes rendered from Markdown. Pick a topic to start reading.
       </p>
-      <ul class="cards" id="notes"></ul>
+      <div id="notes"></div>
     </main>
     <footer>
       Source on
@@ -116,67 +137,229 @@
     </footer>
 
     <script>
-      // Add a new entry here after exporting a note to HTML.
-      const notes = [
+      // Mirrors the folder layout of the repo. Add a new entry here after exporting a note to HTML.
+      const sections = [
         {
-          title: "C# for Coding",
-          href: "CSharpForCoding/CSharpForCoding.html",
-          description:
-            "C# language features and patterns for coding interviews.",
+          title: "01 · Coding",
+          notes: [
+            {
+              title: "Complexity Analysis",
+              href: "01-Coding/ComplexityAnalysis/ComplexityAnalysis.html",
+              description:
+                "Time and space complexity, Big-O and amortized analysis.",
+            },
+            {
+              title: "C#",
+              href: "01-Coding/CSharp/CSharp.html",
+              description:
+                "C# language features and patterns for coding interviews.",
+            },
+            {
+              title: "Searching and Sorting",
+              href: "01-Coding/SearchingAndSorting/SearchingAndSorting.html",
+              description:
+                "Binary search, sorting algorithms and their trade-offs.",
+            },
+            {
+              title: "Trees and Graphs",
+              href: "01-Coding/TreesAndGraphs/TreesAndGraphs.html",
+              description:
+                "Tree and graph traversals, shortest paths and patterns.",
+            },
+          ],
         },
         {
-          title: "SQL",
-          href: "SQL/SQL.html",
-          description: "SQL syntax, queries, joins and practice problems.",
+          title: "02 · Computer Networks",
+          notes: [
+            {
+              title: "Computer Networks",
+              href: "02-ComputerNetworks/README.html",
+              description:
+                "OSI model, TCP/IP, HTTP, DNS and networking basics.",
+            },
+          ],
         },
         {
-          title: "Git",
-          href: "Git/Git.html",
-          description: "Git commands, workflows and version control internals.",
+          title: "03 · Databases",
+          notes: [
+            {
+              title: "Databases",
+              href: "03-Databases/README.html",
+              description:
+                "DBMS fundamentals, transactions, indexing and normalization.",
+            },
+            {
+              title: "SQL",
+              href: "03-Databases/SQL/SQL.html",
+              description: "SQL syntax, queries, joins and practice problems.",
+            },
+          ],
         },
         {
-          title: "REST",
-          href: "REST/REST.html",
-          description: "REST API design principles and best practices.",
+          title: "04 · Low Level Design",
+          notes: [
+            {
+              title: "Low Level Design",
+              href: "04-LowLevelDesign/README.html",
+              description:
+                "Approach and checklist for low level design rounds.",
+            },
+            {
+              title: "OOPs",
+              href: "04-LowLevelDesign/OOPs/OOPs.html",
+              description:
+                "Object oriented programming concepts with examples.",
+            },
+            {
+              title: "SOLID",
+              href: "04-LowLevelDesign/SOLID/SOLID.html",
+              description: "The five SOLID design principles explained.",
+            },
+            {
+              title: "Design Patterns",
+              href: "04-LowLevelDesign/DesignPatterns/DesignPatterns.html",
+              description:
+                "Creational, structural and behavioral design patterns.",
+            },
+            {
+              title: "UML",
+              href: "04-LowLevelDesign/UML/UML.html",
+              description:
+                "UML diagrams for modeling classes and interactions.",
+            },
+          ],
         },
         {
-          title: "Coding Problems",
-          href: "ROUGH/CodingProblems.html",
-          description: "Worked solutions to common coding interview problems.",
+          title: "05 · High Level Design",
+          notes: [
+            {
+              title: "Concepts",
+              href: "05-HighLevelDesign/Concepts/Concepts.html",
+              description: "Core distributed systems concepts and trade-offs.",
+            },
+            {
+              title: "Building Blocks",
+              href: "05-HighLevelDesign/BuildingBlocks/BuildingBlocks.html",
+              description:
+                "Load balancers, queues, storage and other components.",
+            },
+            {
+              title: "Caching",
+              href: "05-HighLevelDesign/Caching/Caching.html",
+              description:
+                "Cache strategies, eviction policies and invalidation.",
+            },
+            {
+              title: "Async Systems",
+              href: "05-HighLevelDesign/AsyncSystems/AsyncSystems.html",
+              description:
+                "Messaging, event driven architecture and streaming.",
+            },
+            {
+              title: "Database Modeling",
+              href: "05-HighLevelDesign/DatabaseModeling/DatabaseModeling.html",
+              description:
+                "Schema design, partitioning and replication choices.",
+            },
+            {
+              title: "System Design",
+              href: "05-HighLevelDesign/SystemDesign/SystemDesign.html",
+              description:
+                "System design case studies and interview frameworks.",
+            },
+          ],
+          subsections: [
+            {
+              title: "API Design",
+              notes: [
+                {
+                  title: "REST",
+                  href: "05-HighLevelDesign/ApiDesign/REST/REST.html",
+                  description: "REST API design principles and best practices.",
+                },
+                {
+                  title: "GraphQL",
+                  href: "05-HighLevelDesign/ApiDesign/GraphQL/GraphQL.html",
+                  description: "GraphQL schemas, resolvers and when to use it.",
+                },
+                {
+                  title: "gRPC",
+                  href: "05-HighLevelDesign/ApiDesign/gRPC/gRPC.html",
+                  description: "gRPC, protocol buffers and streaming RPCs.",
+                },
+                {
+                  title: "Auth",
+                  href: "05-HighLevelDesign/ApiDesign/Auth/Auth.html",
+                  description:
+                    "Authentication and authorization, OAuth and JWT.",
+                },
+              ],
+            },
+          ],
         },
         {
-          title: "Coding Problem Templates",
-          href: "ROUGH/CodingProblemTemplates.html",
-          description: "Reusable templates and patterns for coding problems.",
-        },
-        {
-          title: "System Design",
-          href: "ROUGH/SystemDesign/SystemDesign.html",
-          description: "System design concepts, trade-offs and case studies.",
-        },
-        {
-          title: "Hello Interview",
-          href: "ROUGH/HelloInterview/HelloInterview.html",
-          description: "Interview preparation notes from Hello Interview.",
+          title: "06 · Software Engineering",
+          notes: [
+            {
+              title: "Git",
+              href: "06-SoftwareEngineering/Git/Git.html",
+              description:
+                "Git commands, workflows and version control internals.",
+            },
+          ],
         },
       ];
 
-      const list = document.getElementById("notes");
-      for (const note of notes) {
-        const item = document.createElement("li");
-        const link = document.createElement("a");
-        link.className = "card";
-        link.href = note.href;
+      function createCardList(notes) {
+        const list = document.createElement("ul");
+        list.className = "cards";
+
+        for (const note of notes) {
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.className = "card";
+          link.href = note.href;
+
+          const heading = document.createElement("span");
+          heading.className = "card-title";
+          heading.textContent = note.title;
+
+          const description = document.createElement("p");
+          description.textContent = note.description;
+
+          link.append(heading, description);
+          item.append(link);
+          list.append(item);
+        }
+
+        return list;
+      }
+
+      const container = document.getElementById("notes");
+      for (const section of sections) {
+        const wrapper = document.createElement("section");
+        wrapper.className = "section";
 
         const heading = document.createElement("h2");
-        heading.textContent = note.title;
+        heading.textContent = section.title;
+        wrapper.append(heading);
 
-        const description = document.createElement("p");
-        description.textContent = note.description;
+        if (section.notes?.length) {
+          wrapper.append(createCardList(section.notes));
+        }
 
-        link.append(heading, description);
-        item.append(link);
-        list.append(item);
+        for (const subsection of section.subsections ?? []) {
+          const subWrapper = document.createElement("div");
+          subWrapper.className = "subsection";
+
+          const subHeading = document.createElement("h3");
+          subHeading.textContent = subsection.title;
+
+          subWrapper.append(subHeading, createCardList(subsection.notes));
+          wrapper.append(subWrapper);
+        }
+
+        container.append(wrapper);
       }
     </script>
   </body>
