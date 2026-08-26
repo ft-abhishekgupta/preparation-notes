@@ -7,29 +7,71 @@ Data Modeling defines hoow the data is: Structured, Stored and Related
 
 **Data Modeling Options:**
 
-- Relational [Default]
-- Document
-- Key Value
-- Wide Column
+Relational | Document | Key Value | Wide Column | Graph
 
 ## Schema Design
 
 **Key Factors**
 
 1. Data Volume - Where data live - Single or Distributed
-2. Access Patterns - How data is accessed - Read heavy or Write heavy
-3. Consistency Requirements - Strong or Eventual
+2. Access Patterns - How data is accessed - Read heavy or Write heavy - Normalized or DeNormalized
+3. Consistency Requirements - Strong or Eventual Consistency
 
 **Output**
 
-1. Tables and Columns
+1. Tables, Columns and Relationships
 2. Keys and Constraints
 3. Normalized or Denormalized
+4. Indexing and Sharding
 
 > Usually data in db are normalized, and data in cache is denormalized.
 
-**In Practice**
-![alt text](image-2.png)
+## In Practice
+
+1. Choose apt data model
+   - Relational [Default] - PostGreSQL, MySQL
+     - Strong consistency
+     - Use when data is structured, ACID requirements
+   - Document - MongoDB / CosmosDB
+     - Use when unstructured / deeply nested data, evolving schema
+     - Denormalized data, less lookup overhead
+   - Key Value - Redis, DynamoDB
+     - Caching, Session Storage, Feature Flags
+     - Simple Query, High Performance, Flat Data
+   - Wide Column - Casandra, HBase
+     - Massive write heavy, Time Series Data, Analytics
+     - Telemetry, Logging, IOT Data
+   - Graph DB - Neo4j
+     - Not to be chosen for interviews.
+2. Design Schema
+   1. Tables, Columns and Keys
+      1. Core Entities
+      2. PK, FK
+   2. Relationships
+      1. via FKs: 1:1, 1:M, M:N
+   3. Constraints
+      1. NON NULL, UNIQUE, CHECK
+   4. Indexes
+      1. Based on access pattern / queries
+      2. Use if efficient data access needed, Table size > 10K
+         1. Inverted Index - Full Text Search
+         2. Geospatial Index - Location Data
+         3. Hash Index - Inmemory, exact match
+         4. BTree - Everything else
+            1. Composite index - Multiple columns queried together
+            2. Covering index - Heavy read on few columns
+   5. Normalized or Denormalized
+      1. Use normalized data by defauly
+      2. Denormalize only when needed
+         1. like Caching in Redis (DB still Normalized)
+         2. Read Optimization, Analytics or Logs data
+   6. Sharding
+      1. By Primary Access Pattern
+      2. Choose apt sharding key: High Cardinality, Even Distribution
+
+OUTPUT
+
+![alt text](image-4.png)
 
 ---
 
@@ -180,16 +222,126 @@ Replication is the process of copying and maintaining database objects, such as 
 
 Indexing is a technique used to improve the performance of database queries by providing a fast lookup mechanism for data retrieval.
 
+- Maintains a separate data structure optimized for searching - fast lookups
+- Modern DBs have caching and prefetching, but for large databases sequencial search is still slow
+
 **Types of Indexes:**
 
-1. _B-Tree Index_ - Default index type, good for range queries and equality searches.
+1. _B-Tree Index_ (DEFAULT) - good for range queries and equality searches.
 2. _Hash Index_ - Good for equality searches, not suitable for range queries.
-3. _Bitmap Index_ - Efficient for low-cardinality columns, often used in data warehousing.
-4. _Full-Text Index_ - Used for text search, supports complex search queries.
+3. _Geospatial Index_ - Indexes on 2D data, for proximity based search
+4. _Inverted Index_ - Create index on data to row number. Elastic Search
+5. _Bitmap Index_ - Efficient for low-cardinality columns, often used in data warehousing.
+6. _Full-Text Index_ - Used for text search, supports complex search queries.
 
 **Considerations:**
 
 - Indexes improve read performance but can degrade write performance.
-- Choose indexes based on query patterns and access frequency.
+- Requires extra storage space
+- Choose indexes based on query patterns and access frequency. If read access is huge and on non key attributes
+
+### B-Tree Indexes
+
+Balanced Tree Structure, Sorted data
+Nodes can have multiple children, containing ordered array of keys and pointers, structure to minimize disk reads, usually fits in single page of disk ~8KB
+
+- Leaf Nodes stores the pointers to each disk location
+- Best for searching, range queries
+- PostgreSQL uses BTree for PK, Unique, Indexes
 
 ![alt text](image-3.png)
+
+### LSM Trees (Log-Structured Merge Trees)
+
+For large write throughput, Best for time series data like in logging and metrics
+
+- Append only approach
+- Buffers changes in memory in batch, sequentially writes to disk in large chunks
+- Reads are slow, as data can be in buffer, or in queue or in disk
+- Optimzations
+  - Bloom Filters: Probabilistic data strucuture that can surely say data is NOT IN THIS FILE. Eliminates definite misses
+  - Sparse Index: Range of keys for a file
+  - Compaction
+
+- Cassandtra
+
+![alt text](image-5.png)
+
+### Hash Index
+
+- Persistent Hash map implementation
+  - Hashfunction tells bucket which have pointer to disk page'
+- Takes more space than BTrees
+- Excel at Exact Match Queries
+- Hashing collision solutions:
+  - Chaining: Multiple entries in same bucket
+
+- Best to use when exact match needed, no sorting or range queries
+
+![alt text](image-6.png)
+
+### Geospacial Index
+
+- Proximity Search Optimizations
+- Other indexes fails, as 2D data, first search in one dimension, then in another
+  - Like seaching for nearby place, seaching in only one dimension gives a thin list spanning across globe, but still large
+
+**Approaches**
+
+1. _Geohash:_ Convert a 2D location into a 1D string in a way that preserves proximity.
+   - Area divided into squares, given some number, divided further to extend that number, converted to base62 string
+   - Nearby places share same prefix
+   - Finally data stored in BTree, which excel at prefix matching
+   - But if places are on different grid can have different prefix
+   - ![alt text](image-7.png)
+2. _Quadtree:_ Recursively divide space into 4 equal quadrant. Not used nowadays
+   - More subdivisions if more datapoints in some quadrant
+   - Data stored as specialized tree
+   - ![alt text](image-8.png)
+3. _R-Trees:_ Overlapping, flexible rectangles based on the datapoints.
+   - Mordern Technique for spacial index, used in PostgreSQL
+   - Efficient for both point and range searches
+   - ![alt text](image-9.png)
+4. _Inverted Indexes_ Indexes words with the document indexes, this word occurs in which documents
+   - Best for text content exact searches, Advance text search
+   - Storage and update overhead
+   - BTree can help in prefix or suffix match, but not for words included in a document
+   - Used by Elastic Search
+   - ![alt text](image-10.png)
+
+### Composite Index
+
+Single index that combines multiple column in specific order - Matches how we typically query data
+
+- Creates a BTree index
+- Order of column matters, should be based on query
+
+```sql
+SELECT * FROM posts
+WHERE user_id = 123
+AND created_at > '2024-01-01'
+ORDER BY created_at DESC;
+
+-- Single Index: NOT GOOD, INTERSECTION AND SORTING NEEDED
+CREATE INDEX idx_user ON posts(user_id);
+CREATE INDEX idx_time ON posts(created_at);
+
+-- Composite Index: Handles filtering, sorting efficiently
+CREATE INDEX idx_user_time ON posts(user_id, created_at);
+```
+
+![alt text](image-11.png)
+
+### Convering Index
+
+Covers all columns needed by the query
+
+- Reduces DB lookups, Performance Boost
+- Efficient when small subset of columns needed from large table
+- Size of index increases
+
+```sql
+-- GET LIKES COUNT OF A USER POSTS IN ORDER
+-- Covering index includes likes column
+CREATE INDEX idx_user_time_likes ON posts(user_id, created_at) INCLUDE (likes);
+```

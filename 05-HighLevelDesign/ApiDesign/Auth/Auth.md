@@ -96,7 +96,7 @@ User Experience not an authentication protocol. It is a user authentication proc
 ## Authorization Methods
 
 - **RBAC (Role-Based Access Control)**
-  - Users are scoped to different roles, which have different set of permissions
+  - RBAC assigns roles to users and permissions to roles:
   - Used mostly
 - **ABAC (Attribute-Based Access Control)**
   - Policies based on attributes of diffent entities
@@ -107,6 +107,18 @@ User Experience not an authentication protocol. It is a user authentication proc
 - **ACL (Access Control Lists)**
   - Permission List maintained for users
   - Granular and hard to scale
+
+RBAC Example
+
+```
+Roles:
+- customer: can book tickets, view own bookings
+- venue_manager: can create events, view sales for their venues
+- admin: can access everything
+
+User: john@example.com → Role: customer
+User: manager@venue.com → Role: venue_manager
+```
 
 ### OAuth 2.0 Based Authorization
 

@@ -35,9 +35,27 @@ System that listening to client request at open port over internet.
 | SSD          | Non-volatile storage used for long-term storage of data               | Fast - 1 GB/s            | Moderate       | OS, Applications, Files             |
 | HDD          | Non-volatile storage used for long-term storage of data               | Slow - 100 MB/s          | Cheap          | Stores user files                   |
 
-## Numbers
+## Numbers to know
+
+Memory access time: ~100 nanoseconds (0.0001 ms)
+SSD access time: ~0.1 milliseconds
+HDD access time: ~10 milliseconds
+
+Memory: Can support millions of reads per second
+SSD: ~100,000 IOPS (Input/Output Operations Per Second)
+HDD: ~100-200 IOPS
 
 ![alt text](image-2.png)
+
+| Component          | Key Metrics                                                                                                                                                     | Scale Triggers                                                                                            |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| **Caching**        | - ~1 millisecond latency<br>- 100k+ operations/second<br>- Memory-bound (up to 1TB)                                                                             | - Hit rate < 80%<br>- Latency > 1ms<br>- Memory usage > 80%<br>- Cache churn/thrashing                    |
+| **Databases**      | - Up to 50k transactions/second<br>-10-20k writes/s, 5-20k connections<br>- Sub-5ms read latency (cached)<br>- 15ms Write Latency<br>- 64 TiB+ storage capacity | - Write throughput > 10k TPS<br>- Read latency > 5ms uncached<br>- Geographic distribution needs          |
+| **App Servers**    | - 100k+ concurrent connections with 25-50 Gbps<br>- 8–64 cores @ 2–4 GHz<br>- 64–512GB RAM standard, up to 2TB                                                  | - CPU > 70% utilization<br>- Response latency > SLA<br>- Connections near 100k/instance<br>- Memory > 80% |
+| **Message Queues** | - Up to 1 million msgs/sec per broker<br>- Sub-5ms end-to-end latency<br>- Up to 50TB storage                                                                   | - Throughput near 800k msgs/sec<br>- Partition count ~200k per cluster<br>- Growing consumer lag          |
+
+> Usually single instance is also replicated via availability zones
+> Modern systems: CPU becomes bottleneck,
 
 ## CAP Theorem / Brewer's Theorem
 
@@ -46,15 +64,21 @@ CAP Theorem states that a distributed data store can only provide two out of the
 ![alt text](image.png){height=200px}
 
 - _Consistency:_ Every node in the system sees the same data at the same time
-- _Availability:_ System is always operational and responsive to requests, even in the presence of failures
+- _Availability:_ System is always operational and responsive to requests, even in the presence of failures, Every request gets a response
 - _Partition Tolerance:_ The system continues to operate despite degraded network partitions or communication failures between nodes
 
 > Partition Tolerance : DEFAULT in distributed system
+> Network fails between different servers / database
+>
+> 1. Stop Serving data - Consistency Chosen over availability
+> 2. Show stale data - Availability chosen over consistency
 
 ## Consistency
 
-- Eventual Consitency
--
+- Strong Consistency: All reads reflect recent write
+- Casual Consistency: Related events appear in order, Like comments after posts
+- Read-your-writes Consistency: User sees their own updates
+- Eventual Consistency: Updates will propagate eventually
 
 ## Availability
 
@@ -65,6 +89,23 @@ System is reliable, fault tolerant and redundant.
 
 - _SLO : Service Level Objective:_ A target level of service that a system is expected to meet, often defined in terms of availability, response time, or other performance metrics
 - _SLA : Service Level Agreement:_ A formal agreement between a service provider and a customer that defines the level of service expected, including uptime guarantees, response times, and other performance metrics
+
+## C vs A in Practice
+
+1. Strong Consistency
+   1. Implement distributed transactions
+   2. Accept higher latency
+   3. Limit to single node - single DB, single server
+   4. Discuss consensus protocols
+   5. Example tools: PostgreSQL, Trad RDBMS, Spanner, DynamoDB
+   6. - Ticket Booking, Inverntory System, Financial Services
+2. Strong Availability
+   1. Use multiple replica
+   2. Eventual consistency, change data capture is okay
+   3. Example tools: DynamoDB in multi AZ mode, Cassandra
+   4. Social Media, Streaming Service
+
+> Same system can have some parts as strongly consistent, other parts as eventual
 
 ## Speed
 
@@ -199,19 +240,35 @@ The process of notifying relevant stakeholders when an issue is detected in the 
 Networking across the world
 
 - Regional Servers
+- Regional Partitioning of Data
 - Database and Servers should be close by
 - Data Replication and Sharding
 - CDNs
 - Caching
 
-## Circuit Breaker
+## Handling Failures in Network
 
-Prevents a service from being overwhelmed by requests when it is experiencing high latency or errors.
+- Timeouts with retries and exp backoffs
+- Idempotent APIs
+- Circuit Breakers
 
-- It monitors the health of the service, and if the error rate exceeds a certain threshold, it trips the circuit breaker and stops sending requests to the service for a certain period of time.
-- This allows the service to recover and prevents cascading failures in the system.
+### Circuit Breaker
 
-## Timeouts, Backoff, and Retries
+The Circuit Breaker pattern stops requests to a failing or slow dependency, allowing it to recover and preventing cascading failures.
+
+**States**
+
+1. **Closed:** Requests pass through while failures are monitored.
+2. **Open:** Requests fail immediately after the failure threshold is reached.
+3. **Half-open:** A limited number of requests test whether the dependency has recovered.
+
+**Benefits:** Fails fast, reduces load, supports recovery, and improves system stability.
+
+**Use cases:** External APIs, database connections, service-to-service calls, and resource-intensive operations.
+
+> Use where reliabile and fault recovery system is required
+
+### Timeouts, Backoff, and Retries
 
 ![alt text](image-72.png)
 Jitter - Randomized delay to avoid thundering herd problem, where multiple clients retry at the same time, causing a spike in traffic and overwhelming the server.

@@ -2,12 +2,12 @@
 
 ## Contents
 
-| # | Topic | Notes |
-| - | ----- | ----- |
-| 1 | [REST](REST/REST.md) | Resources, HTTP methods, status codes, versioning, pagination, best practices |
-| 2 | [GraphQL](GraphQL/GraphQL.md) | Types, queries, mutations, resolvers, N+1 problem |
-| 3 | [gRPC](gRPC/gRPC.md) | Protocol buffers, contract-first service-to-service calls |
-| 4 | [Authentication and Authorization](Auth/Auth.md) | Basic, session, JWT, OAuth 2.0, OIDC, SSO, RBAC |
+| #   | Topic                                            | Notes                                                                         |
+| --- | ------------------------------------------------ | ----------------------------------------------------------------------------- |
+| 1   | [REST](REST/REST.md)                             | Resources, HTTP methods, status codes, versioning, pagination, best practices |
+| 2   | [GraphQL](GraphQL/GraphQL.md)                    | Types, queries, mutations, resolvers, N+1 problem                             |
+| 3   | [gRPC](gRPC/gRPC.md)                             | Protocol buffers, contract-first service-to-service calls                     |
+| 4   | [Authentication and Authorization](Auth/Auth.md) | Basic, session, JWT, OAuth 2.0, OIDC, SSO, RBAC                               |
 
 ## Overview
 
@@ -64,3 +64,40 @@ gRPC     : userService.GetUser({ id: 1 })   → typed call defined in .proto
 ## API Lifecycle
 
 ![alt text](image-2.png)
+
+## API Design in System Design
+
+- Use REST APIs by default
+  - If dynamic clients requirements > GraphQL
+  - If High Performance and Internal S2S > gRPC
+- Selecting Resource and designing paths
+  - Choose Core Entities as resource, Nouns, Plural
+  - Relationship between entities
+    - Use in path as heirarchy if its a required relationship
+    - Use in query param if its optional
+- Use correct HTTP Methods
+- Input to APIs
+  - PATH - Identifies resource
+  - QUERY - Filters results [Optionally]
+  - BODY - Data required for the operation
+- Response from APIs
+  - STATUS CODE - Use correct status code, 2xx 4xx 5xx is also fine
+  - RESPONSE BODY - Response Data
+
+- **Priciples to follow**
+
+1. Design around resources, not actions
+2. Be consistent everywhere
+3. Follow the standard practices - HTTP
+4. Stateless APIs
+5. Idempotent Safe APIs
+   1. Use Idempotent keys for POST / PUT
+6. Paginate large data
+   1. Use Offset by defult
+   2. Use cursor based if realtime data, high volume
+7. Secure endpoints - AuthN and AuthZ
+   1. Use JWT or Session for User Facing APIs
+   2. Use API Key for S2S / External Dev Access
+   3. RBAC by default for AuthZ
+8. Version changes (URL Versioning by default)
+9. Actionable and consistent error response

@@ -202,15 +202,19 @@ IP Address + Port Number
 ### User Datagram Protocol (UDP)
 
 - Lightweight, simple protocol
-- No connection establishment (Fire and forget)
-- Data loss possible
-- Suitable for time sensitive applications, broadcast, multicast, IoT
+- No connection establishment
+  - (Fire and forget - Spray and Pray - Machinegun Protocol)
+- No guarantee of delivery: Data loss possible
+- Low Latency
+- Suitable for time sensitive applications, broadcast, multicast, IoT, live streaming
+- UDP not much supported in browsers, except via WebRTC
 
 ![alt text](image-14.png)
 
 ### Transmission Control Protocol (TCP)
 
 - Reliable, ordered, and error-checked delivery
+- Connection is called STEAM: Stateful connection between server and client
 
 **Functions**
 
@@ -251,11 +255,15 @@ _Persistence Timer:_ Avoid deadlock during zero-window state
 _Keep-Alive Timer:_ Check if connection still active.
 _Time-Wait Timer:_ Wait before releasing connection resources to ensure delayed packets are discarded
 
+> **QUIC Protocol**: A modern version of TCP protocol with better performance
+
 ---
 
 ## Application Layer (Layer 7)
 
 - Provides interface to applications to connect to network
+- These protocols define how applications communicate and are built on top of the transport layer protocols
+- Usually lies in User Spcae, while others lies in Kernel Space
 
 **Functions**
 
@@ -279,38 +287,25 @@ Translates human-readable names > IP addresses
 
 ### HTTP
 
+De-facto standard for data communication on the web
 A protocol for transferring web pages and data on the Internet
 
 - _Stateless_
   - Dev implements stateful behaviour using session keys, cookies, etc
-- _Client Server Model_ (Request-Response Model)
+- _Request-Response Model (Client Server Model)_
   - TCP Based, Connection Oriented, Client initiate requests
 
 **HTTPS**
 
-- HTTP + SSL/TLS
+- HTTP + SSL/TLS to encrypt communication
 - Provides CIA (Confidentiality, Integrity, Authentication)
 - Process: Handshake > Key Exchange > Encrypted > Data Transfer
 
 ### WebSockets
 
-Full-duplex communication channels over a single TCP connection, allowing for real-time data transfer between a client and server.
-
-- Stateful connection between client and server, allowing for low latency and real-time communication.
-- But requires a separate connection, and is not suitable for all use cases.
-- It is suitable for real-time applications like chat applications, online gaming, and collaborative editing.
-
-![alt text](image-27.png)
-
 ### WebRTC
 
-- Peer to peer communication between browsers, allowing for low latency and real-time communication. It is suitable for real-time applications like video conferencing, audio calling, online gaming, and file sharing.
-
-![alt text](image-29.png)
-
 ### Server Sent Events (SSE)
-
-Server can push data to the client over a single HTTP connection. It is a unidirectional communication from server to client, and is suitable for real-time applications like notifications, live updates, and AI chat applications.
 
 ### AMQP - Advanced Message Queuing Protocol
 
@@ -339,6 +334,17 @@ An open standard for message-oriented middleware that enables reliable and secur
 | **WebRTC**    | Web Real-Time Communication         | Real-time peer-to-peer audio, video and data          |        **Dynamic** |
 
 ---
+
+## How simple web request works
+
+1. DNS Resolution
+2. TCP Handshake
+3. HTTP Request
+4. Server Processing
+5. HTTP Response
+6. TCP Teardown
+
+> For every request a connection is made - Overhead
 
 ## Network Devices
 
@@ -420,11 +426,14 @@ Security vulnerability that occurs when an attacker is able to inject malicious 
 
 Limits the number of requests a client can make to an API within a specified time frame to prevent abuse, ensure fair usage and system stability.
 
+> Returns 429 Too Many Requests
+
 **Types**
 
 - Per IP
 - Per Account
 - Global
+- Per Endpoint
 
 ### Public Key Infrastructure
 

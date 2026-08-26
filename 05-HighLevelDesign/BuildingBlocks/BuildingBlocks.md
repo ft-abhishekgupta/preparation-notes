@@ -35,14 +35,9 @@ ADVANTAGE: Ensure high availability, reliability, and performance of application
 
 ### Types of Load Balancers
 
-| Type         | Description                  | Examples                |
-| ------------ | ---------------------------- | ----------------------- |
-| **Hardware** | Physical load balancer       | F5, Citrix ADC, A10     |
-| **Software** | Software-based load balancer | Nginx, HAProxy, Traefik |
-| **Cloud**    | Managed cloud load balancer  | AWS ELB, GCP, Azure     |
-
-- Client Side: Client decides which server to call. Usually in internal microservices
-- Server Side: Reverse Proxy Server
+- **Client Side**: Client decides which server to call. Usually in internal microservices (gRPC build in).
+  - Example Redis Cluster (low number of clients), DNS (large clients, slow updates)
+- **Server Side**: Reverse Proxy Server, Dedicated Load Balancers. Increases hop count, but have quick updates, fine grain control over routing
 
 | Layer 4 Load Balancer                                   | Layer 7 Load Balancer                                                                       |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
@@ -51,6 +46,15 @@ ADVANTAGE: Ensure high availability, reliability, and performance of application
 | Can perform load balancing based on IP address and port | Can perform load balancing based on URL, headers, cookies, and other application layer data |
 | Simple and fast                                         | More complex and slower                                                                     |
 | Used for non-HTTP traffic, such as TCP and UDP          | Used for HTTP and HTTPS traffic                                                             |
+| Used in web sockets, persistent HTTP connections        | All other use casese                                                                        |
+
+### Real World Implementations
+
+| Type         | Description                  | Examples                |
+| ------------ | ---------------------------- | ----------------------- |
+| **Hardware** | Physical load balancer       | F5, Citrix ADC, A10     |
+| **Software** | Software-based load balancer | Nginx, HAProxy, Traefik |
+| **Cloud**    | Managed cloud load balancer  | AWS ELB, GCP, Azure     |
 
 ### Preventing SPOF in Load Balancers
 

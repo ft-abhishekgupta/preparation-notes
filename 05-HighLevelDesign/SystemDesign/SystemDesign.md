@@ -187,3 +187,92 @@ Make the HLD efficient and satisfy non functional requirements
 ## Important Problems
 
 ![alt text](image-3.png)
+
+---
+
+## Notes
+
+- Low latency is around 100 ms
+- Scalability numbers should be attached with the context
+- Read and write service can be separated if the scalability requirements is different
+- Always explain why you are choosing anything, why it is better, why it will not cause any issues
+  - Like for nodes replication - Say why horizontal scaling is better here, stateless behavior
+- DB Hops should be minimized as much as possible
+- Dont state vague statements which requires more explainations
+
+--
+
+## Common System Design Patterns
+
+- A system can combine multiple aspect of these patterns for different use cases
+
+### Pushing realtime updates
+
+- Choose protocol to push updates to clients
+  - HTTP Polling (Default)
+  - Websockets
+  - SSE
+- Server side updates
+  - Pub/Sub
+  - Stateful servers
+
+![alt text](image-5.png)
+
+### Managing Long Running Tasks
+
+- Background processing
+- Meesage queue for job coordination
+- Workers pools for
+
+![alt text](image-6.png)
+
+### Dealing with Contention
+
+- Prevent race condition and ensure data consistency
+  - Concurrency control
+  - Atomic Transaction and Locking
+  - Distributed Locks, 2PC, Queue based serialization
+
+![alt text](image-7.png)
+
+### Scaling Reads
+
+- Within DB optimizations
+  - Indexing, denormalization
+- Scale horizontally
+- Caching
+
+> Considerations: Managing cache, replication lag, hot keys
+
+![alt text](image-8.png)
+
+### Scaling Writes
+
+- Sharding
+- Vertical partitioning
+- Queues and load shedding
+- Batching
+- Intelligent load management
+
+![alt text](image-9.png)
+
+### Handling Large Blob
+
+- Direct client to storage transfer
+
+> Considerations: Data sync with DB, Upload failures, lifecycle management
+
+![alt text](image-10.png)
+
+### Multi-Step Process
+
+- Workflows coordination
+- Server orchestration, workflow engines
+- Event driven systems
+- State Management, Retry Logic, Failure recovery
+
+![alt text](image-11.png)
+
+### Proximity Based Services
+
+- Geospacial Indexes

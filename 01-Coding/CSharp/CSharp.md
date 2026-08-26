@@ -142,6 +142,11 @@ static (int, int) MinMax(int[] a) => (a.Min(), a.Max());    // return several va
 
 Func<int, int> square = x => x * x;                 // lambda held in a variable
 Comparison<int> desc = (x, y) => y.CompareTo(x);    // reusable comparison
+
+// Call by reference
+methodName(ref variableName);
+
+void methodName(ref int variableName);
 ```
 
 ---
@@ -214,6 +219,8 @@ int rows = grid.GetLength(0), cols = grid.GetLength(1);
 // Jagged (array of arrays) — rows may differ in length, and LINQ works on each row
 int[][] jag = new int[n][];
 for (int i = 0; i < n; i++) jag[i] = new int[m];   // each row must be created
+m.Length          // number of rows
+m[i].Length       // number of columns in row i
 ```
 
 ---
@@ -310,7 +317,7 @@ int idx = list.IndexOf(5);         // -1 if not found
 
 // Sort
 list.Sort();                       // in place, ascending
-list.Sort((x, y) => y.CompareTo(x));   // custom order (CompareTo avoids overflow)
+list.Sort((x, y) => y.CompareTo(x));   // Desc order (CompareTo avoids overflow, return negative on correct order)
 list.Reverse();                    // in place
 ```
 

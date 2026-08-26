@@ -4,15 +4,15 @@ High level design describes the overall architecture of a system: its components
 
 ## Contents
 
-| # | Topic | Notes |
-| - | ----- | ----- |
-| 1 | [System Design Interview](SystemDesign/SystemDesign.md) | Delivery framework, requirements, core entities, APIs, deep dives |
-| 2 | [Concepts](Concepts/Concepts.md) | CAP theorem, consistency, availability, scaling, logging, error handling |
-| 3 | [Building Blocks](BuildingBlocks/BuildingBlocks.md) | Proxies, load balancers, controllers, repositories, middleware |
-| 4 | [API Design](ApiDesign/README.md) | REST, GraphQL, gRPC, authentication and authorization |
-| 5 | [Caching](Caching/Caching.md) | Cache types, policies, invalidation, eviction, CDNs, deep dives |
-| 6 | [Database Scaling](DatabaseScaling/DatabaseScaling.md) | Sharding, consistent hashing, replication, performance optimization |
-| 7 | [Asynchronous Systems](AsyncSystems/AsyncSystems.md) | Background tasks, task queues, brokers |
+| #   | Topic                                                   | Notes                                                                    |
+| --- | ------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 1   | [System Design Interview](SystemDesign/SystemDesign.md) | Delivery framework, requirements, core entities, APIs, deep dives        |
+| 2   | [Concepts](Concepts/Concepts.md)                        | CAP theorem, consistency, availability, scaling, logging, error handling |
+| 3   | [Building Blocks](BuildingBlocks/BuildingBlocks.md)     | Proxies, load balancers, controllers, repositories, middleware           |
+| 4   | [API Design](ApiDesign/README.md)                       | REST, GraphQL, gRPC, authentication and authorization                    |
+| 5   | [Caching](Caching/Caching.md)                           | Cache types, policies, invalidation, eviction, CDNs, deep dives          |
+| 6   | [Database Scaling](DatabaseScaling/DatabaseScaling.md)  | Sharding, consistent hashing, replication, performance optimization      |
+| 7   | [Asynchronous Systems](AsyncSystems/AsyncSystems.md)    | Background tasks, task queues, brokers                                   |
 
 ## Syllabus
 
@@ -26,3 +26,21 @@ High level design describes the overall architecture of a system: its components
 | **6** | **Messaging & Async Systems**     | Queues, pub/sub, Kafka, event-driven architecture, retries, ordering, dead-letter queues               |
 | **7** | **System Design Building Blocks** | API Gateway, Load Balancer, Service Discovery, Object Storage, Search, Scheduler, Workers              |
 | **8** | **Design Problems & Patterns**    | URL Shortener, Rate Limiter, Notification System, Chat, Feed, File Storage, Payment, Uber-like systems |
+
+## Hello Interview Done
+
+1. Orientation
+2. Foundations
+3. Thinking in Scale
+   1. Cache Quiz
+   2. Sharding Quiz
+   3. Consistent Hashing Quiz
+   4. CAP
+   5. CAP Quiz
+   6. Numbers to know
+   7. Numbers to know quiz
+4. The Pattern
+   1. Common Patterns
+   2. Scaling Reads
+      1. Practice Bitly
+      2. Review Bitly

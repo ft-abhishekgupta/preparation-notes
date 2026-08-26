@@ -230,6 +230,9 @@ Databases that primarily rely on main memory for data storage, providing faster 
 | **Graph Database**    | Nodes + edges + properties | Complex relationships                | Neo4j, Neptune        |
 | **Wide-Column Store** | Rows + dynamic columns     | Large-scale structured data, Logs    | Cassandra, HBase      |
 
+Wide Column Database
+![alt text](image-6.png)
+
 ### BASE Properties
 
 Basically Available, Soft state, Eventually consistent

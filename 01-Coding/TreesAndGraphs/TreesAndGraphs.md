@@ -212,6 +212,13 @@ INSERT(root, key):
     return root
 ```
 
+### B-Tree
+
+- Nodes can have multiple children
+- All leaf nodes at same level
+- Each node can have m/2 to m keys
+- Keys within nodes are sorted
+
 ### Heap
 
 - Complete Binary Tree

@@ -9,6 +9,7 @@ Storing frequently accessed data in a temporary storage area to reduce latency a
 
 - _Cache Hit_ - Data available in cache
 - _Cache Miss_ - Data is not available in cache
+- _Hot Key / Node_ - Key or Node getting high traffic
 
 ## Types of Caching
 
