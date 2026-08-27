@@ -36,6 +36,8 @@ class EmailService {
 
 Software entities (classes, modules, functions, etc.) should be open for extension but closed for modification.
 
+- Usually done by adding interface or abstract class
+
 ```cs
 // BEFORE
 class Payment{
@@ -63,6 +65,8 @@ class CardPayment : IPayment {
 ## Liskov Substitution Principle (LSP)
 
 Objects of a superclass should be replaceable with objects of a subclass without affecting the correctness of the program.
+
+- Subclass should not break any functionality already provided by parent class
 
 ```cs
 // BEFORE
@@ -92,7 +96,7 @@ class Penguin : Bird {
 
 ## Interface Segregation Principle (ISP)
 
-Clients should not be forced to depend on interfaces they do not use. Interfaces should be specific to the needs of the client.
+Clients should not be forced to depend on interfaces they do not use. Interfaces should be specific to the needs of the client. Small, focussed Interfaces
 
 ```cs
 // BEFORE
@@ -124,35 +128,46 @@ class Developer : ICoder {
 
 High-level modules should not depend on low-level modules. Both should depend on abstractions.
 
+- Code should depend on abstraction, not concrete implementation
 - Abstractions should not depend on details. Details should depend on abstractions.
+- Helps in Unit Testing and Flexibility
 
 ```cs
 // BEFORE
-class FileManager {
-    private FileReader fileReader;
-    public FileManager() {
-        fileReader = new FileReader();
-    }
-    public void ReadFile() {
-        fileReader.Read();
+public class EmailSender {
+    public void Send(string message) { /* send email */ }
+}
+public class NotificationService {
+    private readonly EmailSender _emailSender = new();
+    public void Notify(string message) {
+        _emailSender.Send(message);
     }
 }
 // AFTER
-class FileManager {
-    private IFileReader fileReader; // Dependency on abstraction
-    public FileManager(IFileReader fileReader) { // Dependency injection
-        this.fileReader = fileReader;
+public interface IMessageSender {
+    void Send(string message);
+}
+public class EmailSender : IMessageSender {
+    public void Send(string message) { /* send email */ }
+}
+public class NotificationService {
+    private readonly IMessageSender _sender;
+    public NotificationService(IMessageSender sender) {
+        _sender = sender;
     }
-    public void ReadFile() {
-        fileReader.Read();
+    public void Notify(string message) {
+        _sender.Send(message);
     }
 }
 ```
+
+- Both NotificationService and EmailSender depends on IMessageSender(Abstraction)
 
 ### Dependency Injection (DI)
 
 Passing the dependency to the dependent class instead of creating it inside the class.
 
+- Technique of achieving DIP
 - This can be done via constructor injection, setter injection, or interface injection.
 
 ```cs

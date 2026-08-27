@@ -662,14 +662,6 @@ Markdown Preview Enhanced index / sidebar
 <h3 id="1-product-of-array-except-self">1. Product of Array Except Self </h3>
 <p>Given an integer array <code>nums</code>, return an array <code>answer</code> such that <code>answer[i]</code> is equal to the product of all the elements of <code>nums</code> except <code>nums[i]</code>.</p>
 <p><strong>Example:</strong> <code>nums = [1, 2, 3, 4]</code> → <code>[24, 12, 8, 6]</code></p>
-<p><strong>Optimal Approach — Prefix and Suffix in the Output Array</strong></p>
-<ol>
-<li>Create the answer array and a running product variable set to 1.</li>
-<li>Sweep left to right storing that running product in <code>answer[i]</code>, then multiply it by <code>nums[i]</code>.</li>
-<li>Reset the running product to 1 and sweep right to left the same way.</li>
-<li>Multiply <code>answer[i]</code> by the running product of everything on its right.</li>
-<li>Return <code>answer</code>; each slot now holds both sides multiplied together, with no division used.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each index, multiply every element except the element at that index
@@ -730,14 +722,6 @@ return answer
 <h3 id="2-majority-element">2. Majority Element </h3>
 <p>Given an integer array <code>nums</code> of size <code>n</code>, return the majority element. The majority element appears more than <code>n / 2</code> times.</p>
 <p><strong>Example:</strong> <code>nums = [2, 2, 1, 1, 1, 2, 2]</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Boyer-Moore Voting</strong></p>
-<ol>
-<li>Keep one candidate value and one counter, starting empty and at zero.</li>
-<li>Scan the array, and whenever the counter is zero adopt the current number as the candidate.</li>
-<li>Increase the counter when the current number equals the candidate, otherwise decrease it.</li>
-<li>Every non-majority element can only cancel one majority element, so the majority always survives.</li>
-<li>Return the candidate left standing after the single pass.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each element, count its frequency and check whether it is greater than n / 2
@@ -782,14 +766,6 @@ return candidate
 <h3 id="3-missing-number">3. Missing Number </h3>
 <p>Given an array <code>nums</code> containing <code>n</code> distinct numbers from the range <code>[0, n]</code>, return the only missing number.</p>
 <p><strong>Example:</strong> <code>nums = [3, 0, 1]</code> → <code>2</code></p>
-<p><strong>Optimal Approach — XOR Cancellation</strong></p>
-<ol>
-<li>Start a running XOR accumulator at 0.</li>
-<li>XOR it with every index from 0 through n.</li>
-<li>XOR it with every value actually present in the array.</li>
-<li>Numbers appearing in both lists cancel out because <code>x ^ x = 0</code>.</li>
-<li>The single value left in the accumulator is the missing number.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each number from 0 through n, scan the array to check whether it is present
@@ -832,14 +808,6 @@ return xor
 <h3 id="4-find-all-duplicates-in-an-array">4. Find All Duplicates in an Array </h3>
 <p>Given an integer array <code>nums</code> of length <code>n</code>, where every value is in the range <code>[1, n]</code>, return all elements that appear twice.</p>
 <p><strong>Example:</strong> <code>nums = [4, 3, 2, 7, 8, 2, 3, 1]</code> → <code>[2, 3]</code></p>
-<p><strong>Optimal Approach — Negative Marking</strong></p>
-<ol>
-<li>Because every value lies in <code>[1, n]</code>, the array itself can be used as the seen-marker.</li>
-<li>For each element compute <code>index = abs(value) - 1</code>.</li>
-<li>If <code>nums[index]</code> is already negative, that value was seen before, so record it as a duplicate.</li>
-<li>Otherwise flip <code>nums[index]</code> to negative to mark that value as seen.</li>
-<li>Return the collected duplicates after one pass, using no extra memory.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each element, scan the remaining array for another occurrence
@@ -877,14 +845,6 @@ return result
 <h3 id="5-find-the-duplicate-number">5. Find the Duplicate Number </h3>
 <p>Given an integer array <code>nums</code> containing <code>n + 1</code> integers in the range <code>[1, n]</code>, return the only repeated number. The repeated number may appear more than twice.</p>
 <p><strong>Example:</strong> <code>nums = [1, 3, 4, 2, 2]</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Floyd's Cycle Detection</strong></p>
-<ol>
-<li>Treat each index as a node whose next pointer is <code>nums[index]</code>; the duplicate forces a cycle.</li>
-<li>Move a slow pointer one step and a fast pointer two steps until they meet inside the cycle.</li>
-<li>Reset the slow pointer to the start and leave the fast pointer at the meeting point.</li>
-<li>Advance both one step at a time; they meet exactly at the cycle's entrance.</li>
-<li>That entrance value is the duplicate, found without sorting or modifying the array.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each element, scan the remaining array for another occurrence
@@ -945,14 +905,6 @@ return left
 <h3 id="1-binary-search">1. Binary Search </h3>
 <p>Given a sorted array of integers and a target value, return the index of the target if it exists in the array. Otherwise, return -1.</p>
 <p><strong>Example:</strong> <code>nums = [-1, 0, 3, 5, 9, 12], target = 9</code> → <code>4</code></p>
-<p><strong>Optimal Approach — Binary Search</strong></p>
-<ol>
-<li>Set <code>left</code> to the first index and <code>right</code> to the last index.</li>
-<li>While <code>left &lt;= right</code>, compute the middle index as <code>left + (right - left) / 2</code> to avoid overflow.</li>
-<li>Return <code>mid</code> immediately if <code>nums[mid]</code> equals the target.</li>
-<li>Move <code>left</code> to <code>mid + 1</code> when the middle value is too small, else move <code>right</code> to <code>mid - 1</code>.</li>
-<li>Return -1 once the range empties, having discarded half the candidates each round.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(1)
 
 Linearly search through the array to find the target value.
@@ -994,14 +946,6 @@ function search(nums, target, left, right):
 Determine whether a given target exists in the matrix.</li>
 </ul>
 <p><strong>Example:</strong> <code>matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Binary Search on the Flattened Matrix</strong></p>
-<ol>
-<li>The rows joined end to end already form one fully sorted list.</li>
-<li>Binary search over the virtual positions <code>0 .. rows * cols - 1</code>.</li>
-<li>Convert a position into real coordinates with <code>row = pos / cols</code> and <code>col = pos % cols</code>.</li>
-<li>Compare that cell with the target and throw away the half that cannot contain it.</li>
-<li>Return true on a match and false when the range empties.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(M * N) | O(1)
 Iterate through each element of the matrix to find the target.
 
@@ -1036,14 +980,6 @@ return false
 </code></pre><h3 id="3-search-in-rotated-sorted-array">3. Search in Rotated Sorted Array </h3>
 <p>You are given an integer array nums sorted in ascending order, and an integer target. The array is rotated at an unknown pivot index. Determine if the target exists in the array.</p>
 <p><strong>Example:</strong> <code>nums = [4, 5, 6, 7, 0, 1, 2], target = 0</code> → <code>4</code></p>
-<p><strong>Optimal Approach — Modified Binary Search</strong></p>
-<ol>
-<li>Binary search, but at each step first decide which half is sorted.</li>
-<li>If <code>nums[left] &lt;= nums[mid]</code> the left half is sorted, otherwise the right half is.</li>
-<li>Check whether the target lies inside the sorted half's value range.</li>
-<li>If it does, search that half; otherwise search the other half.</li>
-<li>Return <code>mid</code> when it equals the target, or -1 once the range empties.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(1)
 
 Iterate through the array to find the target.
@@ -1078,14 +1014,6 @@ return -1
 </code></pre><h3 id="4-find-minimum-in-rotated-sorted-array">4. Find Minimum in Rotated Sorted Array </h3>
 <p>Given an array of unique integers sorted in ascending order and rotated at an unknown pivot, find the minimum element.</p>
 <p><strong>Example:</strong> <code>nums = [3, 4, 5, 1, 2]</code> → <code>1</code></p>
-<p><strong>Optimal Approach — Binary Search Against the Right Edge</strong></p>
-<ol>
-<li>Keep two pointers over the whole array; there is no fixed target to compare against.</li>
-<li>Compute <code>mid</code> and compare <code>nums[mid]</code> with <code>nums[right]</code>.</li>
-<li>If <code>nums[mid] &gt; nums[right]</code>, the rotation point is further right, so set <code>left = mid + 1</code>.</li>
-<li>Otherwise <code>mid</code> could still be the minimum, so set <code>right = mid</code>.</li>
-<li>When the pointers meet they land on the smallest element; return it.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(1)
 Iterate through the array to find the minimum element.
 
@@ -1108,14 +1036,6 @@ return nums[left]
 </code></pre><h3 id="5-find-peak-element">5. Find Peak Element </h3>
 <p>A peak element is an element that is strictly greater than its neighbors. Given an integer array nums, find any peak element and return its index. You may assume that nums[-1] = nums[n] = -∞.</p>
 <p><strong>Example:</strong> <code>nums = [1, 2, 3, 1]</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Binary Search on the Slope</strong></p>
-<ol>
-<li>Treat the out-of-bounds neighbours as negative infinity, so a peak is guaranteed to exist.</li>
-<li>Binary search: compute <code>mid</code> and compare <code>nums[mid]</code> with <code>nums[mid + 1]</code>.</li>
-<li>If the slope rises (<code>nums[mid] &lt; nums[mid + 1]</code>), a peak must lie to the right, so set <code>left = mid + 1</code>.</li>
-<li>If the slope falls, a peak is at <code>mid</code> or to its left, so set <code>right = mid</code>.</li>
-<li>The pointers converge onto a peak index; return it.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(1)
 Iterate through the array and check each element to see if it is greater than its neighbors.
 
@@ -1146,14 +1066,6 @@ Each hour:</p>
 </ul>
 <p>Find the minimum integer eating speed k that allows Koko to finish all bananas within h hours.</p>
 <p><strong>Example:</strong> <code>piles = [3, 6, 7, 11], h = 8</code> → <code>4</code></p>
-<p><strong>Optimal Approach — Binary Search on the Answer</strong></p>
-<ol>
-<li>The eating speed must be between 1 and the largest pile, and feasibility only improves as speed grows.</li>
-<li>Binary search on the speed rather than on the array itself.</li>
-<li>For a candidate speed, sum <code>ceil(pile / speed)</code> over all piles to get the hours needed.</li>
-<li>If those hours fit within <code>h</code> the speed works, so search lower; otherwise search higher.</li>
-<li>The smallest feasible speed the search settles on is the answer.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N * max(piles)) | O(1)
 
 Iterate through all possible eating speeds from 1 to max(piles) and check if Koko can finish all bananas within h hours for each speed.
@@ -1182,14 +1094,6 @@ return left
 </code></pre><h3 id="7-median-of-two-sorted-arrays">7. Median of Two Sorted Arrays </h3>
 <p>Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.</p>
 <p><strong>Example:</strong> <code>nums1 = [1, 3], nums2 = [2]</code> → <code>2.0</code></p>
-<p><strong>Optimal Approach — Partition Binary Search</strong></p>
-<ol>
-<li>Binary search the split point on the shorter array only.</li>
-<li>Take <code>i</code> elements from the short array and <code>(m + n + 1) / 2 - i</code> from the longer one.</li>
-<li>The cut is correct when both left-side maxima are less than or equal to both right-side minima.</li>
-<li>Shift the search range left or right whenever one boundary value is out of order.</li>
-<li>Once balanced, the median is the left maximum for an odd total, or the average of the two boundaries for an even total.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O((m+n) log(m+n)) | O(m+n)
 Merge the two arrays and sort them, then find the median of the merged array.
 
@@ -1263,14 +1167,6 @@ while left &lt;= right:
 </code></pre><h3 id="8-split-array-largest-sum">8. Split Array Largest Sum </h3>
 <p>Given an array of non-negative integers nums and an integer m, split the array into m non-empty continuous subarrays. Minimize the largest sum among these m subarrays.</p>
 <p><strong>Example:</strong> <code>nums = [7, 2, 5, 10, 8], m = 2</code> → <code>18</code></p>
-<p><strong>Optimal Approach — Binary Search on the Answer</strong></p>
-<ol>
-<li>The answer lies between the largest single element and the sum of the whole array.</li>
-<li>Binary search that range for the smallest workable "largest allowed subarray sum".</li>
-<li>For a candidate limit, greedily fill subarrays and start a new one whenever adding would exceed the limit.</li>
-<li>If the number of subarrays needed is at most <code>m</code>, the limit is feasible, so try smaller; otherwise try larger.</li>
-<li>Return the smallest feasible limit found.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^m) | O(1)
 Use recursion to explore all possible ways to split the array into m subarrays and calculate the largest sum for each split. Return the minimum of these largest sums.
 
@@ -1317,14 +1213,6 @@ function countGroups(nums, maxSum):
 <h3 id="1-two-sum">1. Two Sum </h3>
 <p>Given an integer array <code>nums</code> and an integer <code>target</code>, return the indices of the two numbers such that they add up to <code>target</code>.</p>
 <p><strong>Example:</strong> <code>nums = [2, 7, 11, 15], target = 9</code> → <code>[0, 1]</code></p>
-<p><strong>Optimal Approach — One-Pass Hash Map</strong></p>
-<ol>
-<li>Create an empty hash map from value to index.</li>
-<li>Walk the array once and compute <code>complement = target - num</code> for each element.</li>
-<li>If the complement is already a key in the map, the pair is found.</li>
-<li>Return the complement's stored index together with the current index.</li>
-<li>Otherwise store the current number and index in the map and continue.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Check every pair of elements and return the pair whose sum equals target
@@ -1354,14 +1242,6 @@ return no solution
 </code></pre><h3 id="2-contains-duplicate">2. Contains Duplicate </h3>
 <p>Given an integer array <code>nums</code>, return <code>true</code> if any value appears at least twice in the array, and return <code>false</code> if every element is distinct.</p>
 <p><strong>Example:</strong> <code>nums = [1, 2, 3, 1]</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Hash Set</strong></p>
-<ol>
-<li>Create an empty hash set.</li>
-<li>Walk the array once, checking each number against the set.</li>
-<li>If the number is already present, a duplicate exists, so return true immediately.</li>
-<li>Otherwise add the number to the set and move on.</li>
-<li>Return false if the scan finishes without ever hitting a repeat.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each element, scan the remaining array for a duplicate
@@ -1396,14 +1276,6 @@ Create a set from nums and compare its size with nums.length
 <p>An anagram contains the same characters with the same frequencies, but possibly in a different order.</p>
 </blockquote>
 <p><strong>Example:</strong> <code>s = "anagram", t = "nagaram"</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Fixed Character Set Counting</strong></p>
-<ol>
-<li>Return false right away if the two strings have different lengths.</li>
-<li>Create a 26-slot counter array (or a hash map for a larger alphabet).</li>
-<li>Increment the counter for every character of the first string.</li>
-<li>Decrement the counter for every character of the second string.</li>
-<li>The strings are anagrams exactly when no count ever goes negative and all counts end at zero.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>SORTING | O(N log N) | O(1)
 
 Sort both strings and check whether they are equal
@@ -1437,14 +1309,6 @@ process both strings and check whether every frequency is zero
 </code></pre><h3 id="4-group-anagrams">4. Group Anagrams </h3>
 <p>Given an array of strings <code>strs</code>, group the anagrams together. You can return the answer in any order.</p>
 <p><strong>Example:</strong> <code>strs = ["eat","tea","tan","ate","nat","bat"]</code> → <code>[["eat","tea","ate"],["tan","nat"],["bat"]]</code></p>
-<p><strong>Optimal Approach — Frequency Signature + Hash Map</strong></p>
-<ol>
-<li>Use a hash map whose key is a canonical signature and whose value is a list of words.</li>
-<li>For each word build a 26-slot letter frequency count in linear time.</li>
-<li>Turn that count into a hashable key such as a tuple or a delimited string.</li>
-<li>Append the word to the bucket belonging to that key, so anagrams collide into the same bucket.</li>
-<li>Return all the map's value lists as the grouped answer.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>SORTING + HASHING | O(N * K log K) | O(N * K)
 
 Sort each string and use the sorted string as a hash-map key
@@ -1473,14 +1337,6 @@ return all groups in the map
 </code></pre><h3 id="5-top-k-frequent-elements">5. Top K Frequent Elements </h3>
 <p>Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>k</code> most frequent elements. You may return the answer in any order.</p>
 <p><strong>Example:</strong> <code>nums = [1, 1, 1, 2, 2, 3], k = 2</code> → <code>[1, 2]</code></p>
-<p><strong>Optimal Approach — Bucket Sort by Frequency</strong></p>
-<ol>
-<li>Count every number's frequency in a hash map in one pass.</li>
-<li>Create an array of buckets indexed by frequency, sized <code>n + 1</code>.</li>
-<li>Drop each number into the bucket that matches its count.</li>
-<li>Walk the buckets from the highest frequency downwards, collecting numbers as you go.</li>
-<li>Stop as soon as <code>k</code> numbers are collected; no sorting or heap is ever needed.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>HASHING + SORTING | O(N + M log M) | O(M)
 
 Count each number's frequency
@@ -1525,14 +1381,6 @@ for frequency from n down to 1:
 <h3 id="6-subarray-sum-equals-k">6. Subarray Sum Equals K </h3>
 <p>Given an integer array nums and an integer k, return the total number of continuous subarrays whose sum equals k.</p>
 <p><strong>Example:</strong> <code>nums = [1, 1, 1], k = 2</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Prefix Sum + Hash Map</strong></p>
-<ol>
-<li>Keep a running prefix sum and a map of prefix sum to how many times it has occurred, seeded with <code>{0: 1}</code>.</li>
-<li>Add each element to the running sum while scanning left to right.</li>
-<li>Look up <code>runningSum - k</code> in the map; every stored occurrence marks a subarray ending here that sums to <code>k</code>.</li>
-<li>Add that stored count to the answer.</li>
-<li>Record the current running sum in the map and carry on to the end.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Calculate the sum of every subarray and check whether it equals k
@@ -1556,14 +1404,6 @@ return count
 </code></pre><h3 id="7-longest-consecutive-sequence">7. Longest Consecutive Sequence </h3>
 <p>Given an integer array <code>nums</code>, return the length of its longest sequence of consecutive integers. The elements may appear in any order.</p>
 <p><strong>Example:</strong> <code>nums = [100, 4, 200, 1, 3, 2]</code> → <code>4</code></p>
-<p><strong>Optimal Approach — Hash Set with Sequence Starts</strong></p>
-<ol>
-<li>Put every number into a hash set so membership checks cost O(1).</li>
-<li>Scan the set and only begin counting at a number whose predecessor <code>num - 1</code> is absent.</li>
-<li>Such a number is guaranteed to be the true start of a run.</li>
-<li>Walk forward through <code>num + 1</code>, <code>num + 2</code>, ... while each value exists in the set, counting length.</li>
-<li>Track the longest run; every number is visited at most twice overall, so the total work is linear.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Starting from each element, repeatedly search for the next consecutive value
@@ -1597,14 +1437,6 @@ return longest
 <h3 id="8-subarray-sum-equals-k">8. Subarray Sum Equals K </h3>
 <p>Given an integer array <code>nums</code> and an integer <code>k</code>, return the number of contiguous subarrays whose sum equals <code>k</code>.</p>
 <p><strong>Example:</strong> <code>nums = [1, 2, 3], k = 3</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Prefix Sum + Hashing</strong></p>
-<ol>
-<li>Track a running prefix sum plus a map of prefix sum to occurrence count, pre-loaded with <code>{0: 1}</code>.</li>
-<li>Add the current element to the running sum as you scan the array once.</li>
-<li>Any earlier prefix equal to <code>runningSum - k</code> marks a subarray ending here that sums to <code>k</code>.</li>
-<li>Add the map's count for that value to the answer.</li>
-<li>Store the current running sum back in the map and continue.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Calculate the sum of every subarray and check whether it equals k
@@ -1638,14 +1470,6 @@ return count
 <h3 id="1-valid-palindrome">1. Valid Palindrome </h3>
 <p>Given a string s, determine whether it is a palindrome. Case Insensitive and ignore non-alphanumeric characters.</p>
 <p><strong>Example:</strong> <code>s = "A man, a plan, a canal: Panama"</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Two Pointers</strong></p>
-<ol>
-<li>Put one pointer at the start of the string and one at the end.</li>
-<li>Skip inward over any character that is not a letter or a digit.</li>
-<li>Compare the two surviving characters case-insensitively.</li>
-<li>Return false on any mismatch, otherwise step both pointers one place inwards.</li>
-<li>Return true when the pointers meet, using no cleaned-up copy of the string.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N) | O(N)
 Create a new string with only alphanumeric characters and check whether it is equal to its reverse
 
@@ -1681,14 +1505,6 @@ function isPalindrome(left, right)
 </code></pre><h3 id="2-two-sum-ii--input-array-is-sorted">2. Two Sum II — Input Array Is Sorted </h3>
 <p>Given sorted array of integers <code>numbers</code> and an integer <code>target</code>, return the indices of the two numbers such that they add up to <code>target</code>. The returned indices are 1-based.</p>
 <p><strong>Example:</strong> <code>numbers = [2, 7, 11, 15], target = 9</code> → <code>[1, 2]</code></p>
-<p><strong>Optimal Approach — Two Pointers on a Sorted Array</strong></p>
-<ol>
-<li>Place one pointer on the first element and one on the last.</li>
-<li>Add the two values the pointers are referencing.</li>
-<li>Return the two 1-based indices if that sum equals the target.</li>
-<li>If the sum is too small move the left pointer right, since only a bigger value can help.</li>
-<li>If the sum is too large move the right pointer left; sortedness proves the discarded side is useless.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Check every pair of elements and return the pair whose sum equals target
@@ -1733,14 +1549,6 @@ while left &lt; right
 </code></pre><h3 id="3-3sum">3. 3Sum </h3>
 <p>Given an integer array <code>nums</code>, return all unique triplets <code>[nums[i], nums[j], nums[k]]</code> such that <code>nums[i] + nums[j] + nums[k] == 0</code>.</p>
 <p><strong>Example:</strong> <code>nums = [-1, 0, 1, 2, -1, -4]</code> → <code>[[-1, -1, 2], [-1, 0, 1]]</code></p>
-<p><strong>Optimal Approach — Sorting + Two Pointers</strong></p>
-<ol>
-<li>Sort the array so equal values sit together and two pointers become usable.</li>
-<li>Fix each index <code>i</code> as the first number, skipping it whenever it repeats the previous value.</li>
-<li>Run a left and a right pointer over the remainder looking for a pair summing to <code>-nums[i]</code>.</li>
-<li>Record the triplet on a hit, then skip past duplicate values on both sides.</li>
-<li>Move left inward when the sum is too small and right inward when it is too large.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^3) | O(1)
 
 Check every triplet of elements and return the triplets whose sum equals 0
@@ -1794,14 +1602,6 @@ return result
 </code></pre><h3 id="4-container-with-most-water">4. Container With Most Water </h3>
 <p>Given an array <code>height</code> of non-negative integers where <code>height[i]</code> represents the height of a vertical line at position <code>i</code>, find two lines that together with the x-axis form a container, such that the container contains the most water.</p>
 <p><strong>Example:</strong> <code>height = [1, 8, 6, 2, 5, 4, 8, 3, 7]</code> → <code>49</code></p>
-<p><strong>Optimal Approach — Two Pointers</strong></p>
-<ol>
-<li>Start with a pointer on each end, which is the widest container possible.</li>
-<li>The area is the smaller of the two heights multiplied by the distance between them.</li>
-<li>Record that area if it beats the best seen so far.</li>
-<li>Move the pointer standing on the shorter line inwards.</li>
-<li>Keeping the shorter line can never help once the width shrinks, so repeat until the pointers meet.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Check every pair of lines and calculate the area of water they can contain
@@ -1825,14 +1625,6 @@ return max_area
 </code></pre><h3 id="5-trapping-rain-water">5. Trapping Rain Water </h3>
 <p>Given an array <code>height</code> of non-negative integers where <code>height[i]</code> represents the height of a vertical line at position <code>i</code>, compute how much water it can trap after raining.</p>
 <p><strong>Example:</strong> <code>height = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]</code> → <code>6</code></p>
-<p><strong>Optimal Approach — Two Pointers</strong></p>
-<ol>
-<li>Keep pointers at both ends plus running <code>leftMax</code> and <code>rightMax</code> values.</li>
-<li>Always process whichever side currently has the smaller height, because that side's max is the real limit.</li>
-<li>If <code>height[left] &lt; height[right]</code>, update <code>leftMax</code>, add <code>leftMax - height[left]</code> to the total, then move left inward.</li>
-<li>Otherwise update <code>rightMax</code>, add <code>rightMax - height[right]</code> to the total, and move right inward.</li>
-<li>The accumulated total after one pass is the trapped water, with no prefix arrays needed.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>water[i] =  min(leftMax[i], rightMax[i]) - height[i]
 
 BRUTE FORCE | O(N^2) | O(1)
@@ -1904,14 +1696,6 @@ return totalWater
 </code></pre><h3 id="6-remove-duplicates-from-sorted-array">6. Remove Duplicates from Sorted Array </h3>
 <p>Given a sorted integer array nums, remove the duplicates in-place such that each unique element appears only once.</p>
 <p><strong>Example:</strong> <code>nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]</code> → <code>5</code> (nums = [0, 1, 2, 3, 4])</p>
-<p><strong>Optimal Approach — Slow and Fast Pointers</strong></p>
-<ol>
-<li>Keep a write pointer at index 1 marking where the next unique value belongs.</li>
-<li>Scan the array with a read pointer starting from index 1.</li>
-<li>Compare <code>nums[read]</code> with <code>nums[write - 1]</code>, which is the last value kept.</li>
-<li>When they differ, copy <code>nums[read]</code> into <code>nums[write]</code> and advance the write pointer.</li>
-<li>Return <code>write</code>, the count of unique elements now sitting at the front of the array.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(N)
 
 Create a new array and copy unique elements to it
@@ -1937,14 +1721,6 @@ return slow + 1
 </code></pre><h3 id="7-move-zeroes">7. Move Zeroes </h3>
 <p>Given an integer array nums, move all 0s to the end of the array while maintaining the relative order of all non-zero elements</p>
 <p><strong>Example:</strong> <code>nums = [0, 1, 0, 3, 12]</code> → <code>[1, 3, 12, 0, 0]</code></p>
-<p><strong>Optimal Approach — Two Pointers with Swapping</strong></p>
-<ol>
-<li>Keep a write pointer marking the next slot reserved for a non-zero value.</li>
-<li>Scan the array with a read pointer from left to right.</li>
-<li>Whenever <code>nums[read]</code> is non-zero, swap it with <code>nums[write]</code>.</li>
-<li>Advance the write pointer after each swap.</li>
-<li>Zeros naturally drift to the back while the non-zero order is preserved, all in one in-place pass.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(N)
 
 Create a new array and copy non-zero elements to it, then fill the rest with zeros
@@ -1968,14 +1744,6 @@ for i = slow to n - 1
 <h3 id="1-longest-substring-without-repeating-characters">1. Longest Substring Without Repeating Characters </h3>
 <p>Given a string s, find the length of the longest substring without repeating characters.</p>
 <p><strong>Example:</strong> <code>s = "abcabcbb"</code> → <code>3</code> ("abc")</p>
-<p><strong>Optimal Approach — Sliding Window with Last-Seen Indices</strong></p>
-<ol>
-<li>Maintain a window <code>[left, right]</code> plus a map of each character's most recent index.</li>
-<li>Extend <code>right</code> one character at a time.</li>
-<li>If that character was last seen at or after <code>left</code>, jump <code>left</code> to <code>lastSeen + 1</code> in a single move.</li>
-<li>Update the character's last-seen index to <code>right</code>.</li>
-<li>Track the largest <code>right - left + 1</code> seen; each character is processed only once.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^3) | O(N)
 
 Check every substring and see if it has all unique characters
@@ -2032,14 +1800,6 @@ Use array of size K to store last seen index of each character instead of a hash
 You can replace at most k characters with any other uppercase letter.<br>
 Return the length of the longest substring that can be transformed into a string containing only the same character.</p>
 <p><strong>Example:</strong> <code>s = "AABABBA", k = 1</code> → <code>4</code></p>
-<p><strong>Optimal Approach — Sliding Window with a Frequency Count</strong></p>
-<ol>
-<li>Slide a window while counting the frequency of each character inside it.</li>
-<li>Track <code>maxCount</code>, the highest frequency any single character has reached in the window.</li>
-<li>The window is valid while <code>windowLength - maxCount &lt;= k</code>, since the rest can be replaced.</li>
-<li>If it turns invalid, shrink from the left and decrement the departing character's count.</li>
-<li>The largest valid window length seen is the answer.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>SLIDING WINDOW + HASH MAP | O(N) | O(K)
 
 left = 0
@@ -2066,14 +1826,6 @@ return answer
 <h3 id="3-permutation-in-string">3. Permutation in String </h3>
 <p>Given two strings s1 and s2, determine whether s2 contains a permutation of s1 as a substring.</p>
 <p><strong>Example:</strong> <code>s1 = "ab", s2 = "eidbaooo"</code> → <code>true</code> ("ba")</p>
-<p><strong>Optimal Approach — Fixed-Size Sliding Window + Frequency Array</strong></p>
-<ol>
-<li>Build a 26-slot frequency array for <code>s1</code>.</li>
-<li>Slide a window of exactly <code>s1.length</code> characters across <code>s2</code>, keeping a matching frequency array.</li>
-<li>On each step add the entering character's count and remove the leaving character's count.</li>
-<li>Compare the two arrays, or keep a running "matched slots" counter for an O(1) check.</li>
-<li>Return true the moment they match, and false if the window runs off the end.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(M! * N) | O(K)
 
 Generate all permutations of s1 and check whether any of them is a substring of s2
@@ -2120,14 +1872,6 @@ return false
 <h3 id="4-minimum-window-substring">4. Minimum Window Substring </h3>
 <p>Given two strings s and t, return the minimum window in s which will contain all the characters in t. If there is no such window, return the empty string "".</p>
 <p><strong>Example:</strong> <code>s = "ADOBECODEBANC", t = "ABC"</code> → <code>"BANC"</code></p>
-<p><strong>Optimal Approach — Sliding Window with a Missing Counter</strong></p>
-<ol>
-<li>Count the characters <code>t</code> needs in a hash map and set <code>missing</code> to <code>t</code>'s length.</li>
-<li>Expand <code>right</code>, and if the entering character is still required (count &gt; 0) decrease <code>missing</code>.</li>
-<li>Always decrement that character's count in the map, letting it go negative for surplus characters.</li>
-<li>When <code>missing</code> reaches 0 the window is valid, so shrink from the left while recording the smallest window seen.</li>
-<li>Give the departing character's count back and continue until <code>right</code> reaches the end.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^3) | O(K)
 
 Find every substring of s and check whether it contains all characters of t
@@ -2193,14 +1937,6 @@ for right:
 The window moves from left to right one position at a time.<br>
 Return the maximum value in every window.</p>
 <p><strong>Example:</strong> <code>nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3</code> → <code>[3, 3, 5, 5, 6, 7]</code></p>
-<p><strong>Optimal Approach — Monotonic Deque</strong></p>
-<ol>
-<li>Keep a deque of indices whose values are in strictly decreasing order.</li>
-<li>Before pushing index <code>i</code>, pop from the back every index whose value is less than or equal to <code>nums[i]</code>.</li>
-<li>Pop from the front any index that has slid out of the window (<code>index &lt;= i - k</code>).</li>
-<li>The front of the deque is therefore always the maximum of the current window.</li>
-<li>Record that front value once the window is full; each index enters and leaves the deque at most once.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N * K) | O(1)
 
 For each window, scan the k elements to find the maximum
@@ -2246,14 +1982,6 @@ for i from 0 to n-1:
 <h3 id="1-palindromic-substrings">1. Palindromic Substrings </h3>
 <p>Given a string s, return the number of palindromic substrings in it.</p>
 <p><strong>Example:</strong> <code>s = "aaa"</code> → <code>6</code></p>
-<p><strong>Optimal Approach — Expand Around Center</strong></p>
-<ol>
-<li>Every palindrome has a center: either one character or the gap between two characters.</li>
-<li>Loop over all <code>2n - 1</code> possible centers.</li>
-<li>From each center push outwards while the characters on both sides match.</li>
-<li>Count one palindrome for every successful expansion step.</li>
-<li>Sum the counts over all centers; no DP table or extra space is needed.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^3) | O(1)
 
 Check all substrings and see if they are palindromes
@@ -2312,14 +2040,6 @@ return count
 </code></pre><h3 id="2-longest-palindromic-substring">2. Longest Palindromic Substring </h3>
 <p>Given a string s, return the longest palindromic substring in s.</p>
 <p><strong>Example:</strong> <code>s = "babad"</code> → <code>"bab"</code> ("aba" also valid)</p>
-<p><strong>Optimal Approach — Manacher's Algorithm</strong></p>
-<ol>
-<li>Insert separators (e.g. <code>#</code>) between characters so every palindrome has an odd length.</li>
-<li>Sweep left to right, remembering the center and right edge of the furthest-reaching palindrome so far.</li>
-<li>Initialize each position's radius from its mirror inside that palindrome instead of starting at zero.</li>
-<li>Expand outward only beyond what the mirror already guaranteed, then update the center and right edge if you reached further.</li>
-<li>Map the largest radius back to the original string to get the longest palindromic substring in linear time.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^3) | O(1)
 
 Check every substring and see if it is a palindrome, find maximum length
@@ -2371,14 +2091,6 @@ MANACHER'S ALGORITHM | O(N) | O(N)
 </code></pre><h3 id="3-valid-parentheses">3. Valid Parentheses </h3>
 <p>Given a string s containing only: ( ) { } [ ]. Determine whether the brackets are valid.</p>
 <p><strong>Example:</strong> <code>s = "()[]{}"</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Stack</strong></p>
-<ol>
-<li>Scan the string from left to right with an empty stack.</li>
-<li>Push every opening bracket onto the stack.</li>
-<li>On a closing bracket, fail if the stack is empty or its top is not the matching opener.</li>
-<li>Otherwise pop the top and continue scanning.</li>
-<li>The string is valid only when the stack is completely empty at the end.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>STACK | O(N) | O(N)
 
 stack = empty
@@ -2395,27 +2107,11 @@ return stack is empty
 </code></pre><h3 id="4-encode-and-decode-strings">4. Encode and Decode Strings </h3>
 <p>Design an algorithm to encode a list of strings into a single string and then decode that string back into the original list.</p>
 <p><strong>Example:</strong> <code>["neet","code","love","you"]</code> → encode → decode → <code>["neet","code","love","you"]</code></p>
-<p><strong>Optimal Approach — Length Prefixing</strong></p>
-<ol>
-<li>Encode each string as its length, then a delimiter such as <code>#</code>, then the string itself.</li>
-<li>Concatenate all of these blocks into one long string.</li>
-<li>To decode, read digits up to the next <code>#</code> to recover the length.</li>
-<li>Slice exactly that many characters after the <code>#</code> as the original string.</li>
-<li>Continue from the next position; the length prefix makes any character safe inside the payload.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>LENGTH PREFIX | O(N) | O(N)
 Encode each string as: length + delimiter + string
 </code></pre><h3 id="5-longest-common-prefix">5. Longest common prefix </h3>
 <p>Given an array of strings, find the longest common prefix shared by all strings.</p>
 <p><strong>Example:</strong> <code>strs = ["flower","flow","flight"]</code> → <code>"fl"</code></p>
-<p><strong>Optimal Approach — Vertical Scanning</strong></p>
-<ol>
-<li>Compare the strings column by column instead of pair by pair.</li>
-<li>For column <code>i</code>, take the character from the first string as the reference.</li>
-<li>Check that every other string is long enough and holds the same character at <code>i</code>.</li>
-<li>Stop at the first mismatch or as soon as the shortest string runs out.</li>
-<li>Return the prefix of the first string up to that column, using no extra space.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N * M * M) N: Number of Strings, M: Length of the Shortest String | O(1)
 
 Generate all prefixes of the shortest string and check whether they are prefixes of all other strings
@@ -2475,14 +2171,6 @@ LCP(strings, left, right)
 <h3 id="6-string-to-integer-atoi">6. String to integer (atoi) </h3>
 <p>Implement a function that converts a string into a 32-bit signed integer. Ignore non digit characters and handle overflow.</p>
 <p><strong>Example:</strong> <code>s = "   -42"</code> → <code>-42</code></p>
-<p><strong>Optimal Approach — Single Pass Digit Reading</strong></p>
-<ol>
-<li>Skip any leading whitespace.</li>
-<li>Read one optional <code>+</code> or <code>-</code> to fix the sign.</li>
-<li>Consume digits one at a time, building <code>result = result * 10 + digit</code>.</li>
-<li>Before each step, check whether the next multiply-and-add would leave the 32-bit range and clamp to <code>INT_MAX</code>/<code>INT_MIN</code> if so.</li>
-<li>Stop at the first non-digit character and return the signed result.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(1)
 
 remove leading whitespace
@@ -2524,14 +2212,6 @@ return sign * result
 </code></pre><h3 id="7-multiply-strings">7. Multiply Strings </h3>
 <p>Given two non-negative long integers represented as strings, return their product, also represented as a string.</p>
 <p><strong>Example:</strong> <code>num1 = "123", num2 = "456"</code> → <code>"56088"</code></p>
-<p><strong>Optimal Approach — Digit Convolution (School Method)</strong></p>
-<ol>
-<li>An n-digit times an m-digit number never needs more than <code>n + m</code> digits, so allocate that many zeros.</li>
-<li>Multiply every digit pair <code>num1[i] * num2[j]</code> using two nested loops.</li>
-<li>That product always lands at positions <code>i + j + 1</code> for the unit and <code>i + j</code> for the carry.</li>
-<li>Add it into <code>result[i + j + 1]</code>, keep <code>sum % 10</code> there, and carry <code>sum / 10</code> into <code>result[i + j]</code>.</li>
-<li>Strip leading zeros and join the digits, returning <code>"0"</code> when either input is zero.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>REPEATED ADDITION | O(N * M) | O(1)
 
 Add num1 to itself num2 times, where num1 and num2 are the integer values of the strings. This is inefficient for large numbers.
@@ -2573,14 +2253,6 @@ FFT | O(N log N) | O(N)
 </code></pre><h3 id="8-first-occurrence-in-a-string">8. First occurrence in a string </h3>
 <p>Given two strings <code>haystack</code> and <code>needle</code>, return the index of the first occurrence of <code>needle</code> in <code>haystack</code>, or -1 if <code>needle</code> is not part of <code>haystack</code>.</p>
 <p><strong>Example:</strong> <code>haystack = "sadbutsad", needle = "sad"</code> → <code>0</code></p>
-<p><strong>Optimal Approach — KMP (Knuth-Morris-Pratt)</strong></p>
-<ol>
-<li>Precompute an LPS array for the needle, where <code>lps[i]</code> is the longest proper prefix of <code>needle[0..i]</code> that is also a suffix.</li>
-<li>Scan the haystack with one pointer while a second pointer walks the needle.</li>
-<li>Advance both pointers whenever the characters match.</li>
-<li>On a mismatch, never rewind the haystack; instead fall the needle pointer back to <code>lps[j - 1]</code>.</li>
-<li>Return the start index when the needle pointer reaches the needle's length, or -1 if the scan ends first.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N * M) | O(1)
 
 Check every substring of haystack with length equal to needle and see if it matches needle
@@ -2673,14 +2345,6 @@ pop() — remove the top element<br>
 top() — return the top element<br>
 getMin() — return the minimum element currently in the stack</p>
 <p><strong>Example:</strong> <code>push(-2), push(0), push(-3), getMin()</code> → <code>-3</code>; then <code>pop(), top()</code> → <code>0</code>, <code>getMin()</code> → <code>-2</code></p>
-<p><strong>Optimal Approach — Twin Stacks</strong></p>
-<ol>
-<li>Keep the normal stack of values plus a second stack holding the running minimum.</li>
-<li>On push, also push <code>min(newValue, currentMin)</code> onto the min stack.</li>
-<li>On pop, pop from both stacks together so they stay aligned.</li>
-<li><code>top()</code> reads the main stack's top and <code>getMin()</code> reads the min stack's top.</li>
-<li>Every operation is O(1) because the minimum for each depth is stored right beside it.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>STACK | O(1) | O(N)
 
 // Maintain 2 stacks, one for the actual stack and another for the minimums. The minStack always has the current minimum at the top.
@@ -2705,14 +2369,6 @@ getMin()
 <p>You are given an array of tokens representing an arithmetic expression in Reverse Polish Notation (RPN).<br>
 Evaluate the expression and return the integer result.</p>
 <p><strong>Example:</strong> <code>tokens = ["2","1","+","3","*"]</code> → <code>9</code></p>
-<p><strong>Optimal Approach — Stack</strong></p>
-<ol>
-<li>Scan the tokens left to right with an empty stack.</li>
-<li>Push every numeric token onto the stack.</li>
-<li>On an operator, pop the top two values, remembering the second popped one is the left operand.</li>
-<li>Apply the operator and push the result back onto the stack.</li>
-<li>The single value remaining at the end is the answer.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(N)
 
 Repeatedly scan the array for operators and apply them to the two preceding numbers, replacing them with the result
@@ -2756,14 +2412,6 @@ return stack.top
 </code></pre><h3 id="11-daily-temperatures">11. Daily Temperatures </h3>
 <p>Given an array temperatures, where: temperatures[i] represents the temperature on day i, return an array where: answer[i] is the number of days you have to wait until a warmer temperature.</p>
 <p><strong>Example:</strong> <code>temperatures = [73, 74, 75, 71, 69, 72, 76, 73]</code> → <code>[1, 1, 4, 2, 1, 1, 0, 0]</code></p>
-<p><strong>Optimal Approach — Monotonic Decreasing Stack</strong></p>
-<ol>
-<li>Keep a stack of indices whose answers are still unresolved, in decreasing temperature order.</li>
-<li>For each day <code>i</code>, pop while the day on top of the stack is cooler than today.</li>
-<li>Each popped index gets an answer of <code>i - poppedIndex</code>, the number of days it waited.</li>
-<li>Push <code>i</code> onto the stack and move to the next day.</li>
-<li>Any index still on the stack at the end keeps its default answer of 0.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each day, scan the following days to find the next warmer temperature
@@ -2806,14 +2454,6 @@ return answer
 For every element in nums1, find the first greater element to its right in nums2.<br>
 If no greater element exists, return -1.</p>
 <p><strong>Example:</strong> <code>nums1 = [4, 1, 2], nums2 = [1, 3, 4, 2]</code> → <code>[-1, 3, -1]</code></p>
-<p><strong>Optimal Approach — Monotonic Stack + Hash Map</strong></p>
-<ol>
-<li>Run a single monotonic decreasing stack pass over <code>nums2</code>.</li>
-<li>Whenever the current value exceeds the stack's top, pop it and record <code>top -&gt; current</code> in a hash map.</li>
-<li>Push the current value; anything left on the stack has no greater element.</li>
-<li>Walk <code>nums1</code> and look each value up in that map.</li>
-<li>Return the mapped value, or -1 when the key is absent.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N * M) | O(1)
 
 For each element in nums1, scan nums2 to find the next greater element
@@ -2850,14 +2490,6 @@ for i = n - 1 down to 0
 </code></pre><h3 id="13-next-greater-element-ii">13. Next Greater Element II </h3>
 <p>You are given a circular array nums. For each element in nums, find the next greater element</p>
 <p><strong>Example:</strong> <code>nums = [1, 2, 1]</code> → <code>[2, -1, 2]</code></p>
-<p><strong>Optimal Approach — Monotonic Stack over a Doubled Array</strong></p>
-<ol>
-<li>The array wraps around, so iterate <code>2n</code> times using <code>i % n</code> as the real index.</li>
-<li>Keep a stack of indices whose values are decreasing.</li>
-<li>While the current value beats the value at the stack's top index, pop it and set its answer to the current value.</li>
-<li>Only push indices during the first pass; the second pass just resolves leftovers.</li>
-<li>Anything still unresolved at the end stays -1.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each element, scan the array circularly to find the next greater element
@@ -2900,14 +2532,6 @@ return answer
 </code></pre><h3 id="14-largest-rectangle-in-histogram">14. Largest Rectangle in Histogram </h3>
 <p>Given an array of integers heights, where each element represents the height of a histogram bar and every bar has width 1, find the area of the largest rectangle that can be formed</p>
 <p><strong>Example:</strong> <code>heights = [2, 1, 5, 6, 2, 3]</code> → <code>10</code></p>
-<p><strong>Optimal Approach — Monotonic Increasing Stack</strong></p>
-<ol>
-<li>Keep a stack of indices whose heights are increasing.</li>
-<li>When the current bar is shorter than the stack's top, pop that index and treat its height as the rectangle's height.</li>
-<li>Its width spans from the new stack top (exclusive) to the current index (exclusive).</li>
-<li>Update the best area with <code>height * width</code> and keep popping while the condition holds.</li>
-<li>Append a sentinel bar of height 0 at the end so the stack fully drains.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each bar, expand left and right to find the maximum width for which the height is at least the height of the current bar, and calculate the area
@@ -2972,14 +2596,6 @@ return maxArea
 </ul>
 <p>Return the state of the asteroids after all collisions.</p>
 <p><strong>Example:</strong> <code>asteroids = [5, 10, -5]</code> → <code>[5, 10]</code></p>
-<p><strong>Optimal Approach — Stack</strong></p>
-<ol>
-<li>Scan the asteroids left to right with a stack holding the survivors so far.</li>
-<li>A collision only happens when the current asteroid moves left and the stack's top moves right.</li>
-<li>Pop smaller right-moving asteroids while the incoming left-mover is bigger.</li>
-<li>If the top is bigger the incoming one is destroyed; if they are equal in size both are destroyed.</li>
-<li>Push the current asteroid if it survives, and the stack is the final state.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 Repeatedly scan the array for collisions and resolve them until no more collisions occur
 
@@ -3019,14 +2635,6 @@ Cannot pass another car.<br>
 If a faster car catches a slower car, it slows down and becomes part of the same car fleet.</p>
 <p>Return the number of car fleets that will arrive at the destination.</p>
 <p><strong>Example:</strong> <code>target = 12, position = [10, 8, 0, 5, 3], speed = [2, 4, 1, 1, 3]</code> → <code>3</code></p>
-<p><strong>Optimal Approach — Sort by Position + Running Maximum</strong></p>
-<ol>
-<li>Compute each car's arrival time as <code>(target - position) / speed</code>.</li>
-<li>Sort the cars by position, closest to the target first.</li>
-<li>Walk them in that order while tracking the slowest arrival time seen so far.</li>
-<li>A car with a strictly larger arrival time can never catch up, so it starts a new fleet.</li>
-<li>Otherwise it merges into the fleet ahead; the number of new fleets started is the answer.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^3) | O(1)
 
 For each car, simulate its movement and check for collisions with other cars to determine fleets. Complex and inefficient for large n.
@@ -3068,14 +2676,6 @@ return fleetCount
 <p>Given a non-negative integer represented as a string num and an integer k, remove exactly k digits from num so that the resulting number is the smallest possible number.</p>
 <p>Return the result as a string.</p>
 <p><strong>Example:</strong> <code>num = "1432219", k = 3</code> → <code>"1219"</code></p>
-<p><strong>Optimal Approach — Monotonic Increasing Stack</strong></p>
-<ol>
-<li>Build the answer with a stack that keeps digits in non-decreasing order.</li>
-<li>For each digit, pop while the stack's top is larger and removals still remain, decrementing <code>k</code> per pop.</li>
-<li>Push the current digit and continue.</li>
-<li>If <code>k</code> is still positive at the end, drop that many digits from the back.</li>
-<li>Strip leading zeros and return <code>"0"</code> if nothing is left.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(C(n,k) × n) | O(1)
 Generate all combinations of removing k digits and find the minimum
 
@@ -3108,14 +2708,6 @@ return stack as string
 <p>Given a string representing a mathematical expression, evaluate it and return its integer result.<br>
 The expression can contain: digits, +, -, (, ), spaces. Example - <code>1 + (2 - (3 + 4))</code></p>
 <p><strong>Example:</strong> <code>s = "1 + (2 - (3 + 4))"</code> → <code>-4</code></p>
-<p><strong>Optimal Approach — Stack of Signs</strong></p>
-<ol>
-<li>Walk the string keeping a running result, the number being built, and the current sign (+1 or -1).</li>
-<li>On a digit extend the current number; on <code>+</code> or <code>-</code> fold that number into the result and set the new sign.</li>
-<li>On <code>(</code> push the current result and sign onto a stack, then reset both for the sub-expression.</li>
-<li>On <code>)</code> fold in the pending number, then pop the sign and outer result and combine them.</li>
-<li>Add the last pending number at the end and return the result.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 Repeatedly scan the string for parentheses and evaluate the innermost expressions first, replacing them with their results until no parentheses remain.
 
@@ -3160,14 +2752,6 @@ return result
 <h3 id="1-reverse-linked-list">1. Reverse Linked List </h3>
 <p>Given the head of a singly linked list, reverse the list and return its head.</p>
 <p><strong>Example:</strong> <code>1 → 2 → 3 → 4 → 5</code> → <code>5 → 4 → 3 → 2 → 1</code></p>
-<p><strong>Optimal Approach — Iterative Pointer Reversal</strong></p>
-<ol>
-<li>Set <code>prev</code> to null and <code>curr</code> to the head.</li>
-<li>Save <code>curr.next</code> in a temporary variable before changing anything.</li>
-<li>Point <code>curr.next</code> backwards at <code>prev</code>.</li>
-<li>Move <code>prev</code> to <code>curr</code> and <code>curr</code> to the saved next node.</li>
-<li>When <code>curr</code> becomes null, <code>prev</code> is the new head, so return it.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(N)
 
 Copy the values of the nodes into an array, reverse the array, and create a new linked list from the reversed array.
@@ -3200,14 +2784,6 @@ return previous
 </code></pre><h3 id="2-merge-2-sorted-lists">2. Merge 2 Sorted Lists </h3>
 <p>Given the heads of two sorted linked lists, merge them into one sorted linked list and return its head.</p>
 <p><strong>Example:</strong> <code>1 → 2 → 4</code> and <code>1 → 3 → 4</code> → <code>1 → 1 → 2 → 3 → 4 → 4</code></p>
-<p><strong>Optimal Approach — Dummy Node Merge</strong></p>
-<ol>
-<li>Create a dummy node and point a <code>tail</code> pointer at it.</li>
-<li>While both lists still have nodes, attach whichever head is smaller to <code>tail</code>.</li>
-<li>Advance that source list and move <code>tail</code> forward.</li>
-<li>When one list runs out, link the entire remaining list onto <code>tail</code> in one step.</li>
-<li>Return <code>dummy.next</code>; no new nodes are allocated, so the space is constant.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O((N + M) Log(N + M)) | O(N + M)
 
 Copy the values of both lists into an array, sort the array, and create a new linked list from the sorted array.
@@ -3243,14 +2819,6 @@ return dummy.next
 </code></pre><h3 id="3-linked-list-cycle">3. Linked List Cycle </h3>
 <p>Given the head of a linked list, determine if the linked list has a cycle in it.</p>
 <p><strong>Example:</strong> <code>3 → 2 → 0 → -4</code> with the tail linking back to node <code>2</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Floyd's Cycle Detection</strong></p>
-<ol>
-<li>Start a slow and a fast pointer at the head.</li>
-<li>Advance slow by one node and fast by two nodes per step.</li>
-<li>If fast or <code>fast.next</code> becomes null the list ends, so return false.</li>
-<li>If the two pointers ever land on the same node a cycle exists, so return true.</li>
-<li>The gap closes by exactly one node per step, so fast is guaranteed to catch slow inside any loop.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(N)
 
 Use a hash set to store visited nodes. If a node is revisited, there is a cycle.
@@ -3280,14 +2848,6 @@ return cycleLength
 </code></pre><h3 id="4-linked-list-cycle-ii">4. Linked List Cycle II </h3>
 <p>Find the node where the cycle begins in a linked list. If there is no cycle, return null.</p>
 <p><strong>Example:</strong> <code>3 → 2 → 0 → -4</code> with the tail linking back to node <code>2</code> → node <code>2</code></p>
-<p><strong>Optimal Approach — Floyd's Cycle Detection, Phase Two</strong></p>
-<ol>
-<li>Run slow and fast pointers until they meet inside the cycle.</li>
-<li>If fast falls off the end there is no cycle, so return null.</li>
-<li>Reset the slow pointer to the head and leave the fast pointer at the meeting node.</li>
-<li>Advance both pointers one node at a time.</li>
-<li>The node where they meet again is exactly the cycle's entry point; return it.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>ITERATIVE | O(N) | O(1)
 
 // The distance from the head to the cycle entry is equivalent to the distance from the meeting point to the cycle entry, modulo the cycle length.
@@ -3309,14 +2869,6 @@ return null
 </code></pre><h3 id="5-middle-of-the-linked-list">5. Middle of the Linked List </h3>
 <p>Given the head of a singly linked list, return the middle node. If there are two middle nodes, return the second middle node.</p>
 <p><strong>Example:</strong> <code>1 → 2 → 3 → 4 → 5 → 6</code> → <code>4</code></p>
-<p><strong>Optimal Approach — Slow and Fast Pointers</strong></p>
-<ol>
-<li>Start both a slow and a fast pointer at the head.</li>
-<li>Move slow one node and fast two nodes on each iteration.</li>
-<li>Stop when fast is null or <code>fast.next</code> is null.</li>
-<li>By then slow has covered exactly half of the list.</li>
-<li>Return slow, which lands on the second middle node when the length is even.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(1)
 
 Count the number of nodes in the list, then traverse again to the middle node.
@@ -3337,14 +2889,6 @@ return slow
 </code></pre><h3 id="6-remove-nth-node-from-end-of-list">6. Remove Nth Node From End of List </h3>
 <p>Given the head of a linked list, remove the n-th node from the end of the list</p>
 <p><strong>Example:</strong> <code>1 → 2 → 3 → 4 → 5, n = 2</code> → <code>1 → 2 → 3 → 5</code></p>
-<p><strong>Optimal Approach — Gap of N Between Two Pointers</strong></p>
-<ol>
-<li>Put a dummy node in front of the head and start both pointers there.</li>
-<li>Advance the fast pointer <code>n + 1</code> steps so a gap of <code>n</code> opens up.</li>
-<li>Move both pointers together until fast runs off the end.</li>
-<li>Slow now sits exactly one node before the target node.</li>
-<li>Splice the target out with <code>slow.next = slow.next.next</code> and return <code>dummy.next</code>.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(1)
 
 Count the number of nodes in the list, then traverse again to the (length - n)-th node and remove the next node.
@@ -3369,14 +2913,6 @@ return dummy.next
 </code></pre><h3 id="7-reorder-list">7. Reorder List </h3>
 <p>Given the head of a singly linked list, reorder the list to follow the pattern: L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …</p>
 <p><strong>Example:</strong> <code>1 → 2 → 3 → 4</code> → <code>1 → 4 → 2 → 3</code></p>
-<p><strong>Optimal Approach — Split, Reverse and Weave</strong></p>
-<ol>
-<li>Find the middle of the list with slow and fast pointers.</li>
-<li>Cut the list there and reverse the second half in place.</li>
-<li>Take one node from the front half and one from the reversed back half in turn.</li>
-<li>Splice them together alternately, relinking as you go.</li>
-<li>Terminate the final node; the whole reorder is done in place with constant extra space.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(N)
 
 Copy the values of the nodes into an array, reorder the array, and create a new linked list from the reordered array.
@@ -3429,14 +2965,6 @@ while second is not null
 </code></pre><h3 id="8-add-two-numbers">8. Add Two Numbers </h3>
 <p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each node contains a single digit. Add the two numbers and return the sum as a linked list.</p>
 <p><strong>Example:</strong> <code>(2 → 4 → 3) + (5 → 6 → 4)</code> → <code>7 → 0 → 8</code> (342 + 465 = 807)</p>
-<p><strong>Optimal Approach — Digit-by-Digit Addition with Carry</strong></p>
-<ol>
-<li>Create a dummy head node and set the carry to 0.</li>
-<li>Walk both lists together while either still has nodes or the carry is non-zero.</li>
-<li>Add the two available digits (treating a missing one as 0) plus the carry.</li>
-<li>Append a new node holding <code>sum % 10</code> and set the carry to <code>sum / 10</code>.</li>
-<li>Return <code>dummy.next</code>; the digits are already stored least-significant first, so no reversal is needed.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N + M) | O(N + M)
 
 Convert the linked lists to integers, add them, and convert the sum back to a linked list. But can overflow for large numbers.
@@ -3480,14 +3008,6 @@ B'.random = A'<br>
 C'.random = B'</p>
 <p>The copied nodes must not point back to the original nodes.</p>
 <p><strong>Example:</strong> <code>[[7,null],[13,0],[11,4],[10,2],[1,0]]</code> → an identical, fully independent deep copy</p>
-<p><strong>Optimal Approach — Interleaved Copy</strong></p>
-<ol>
-<li>Insert a copy of every node directly after its original, weaving the two lists together.</li>
-<li>In a second pass set <code>copy.random = original.random.next</code>, since a copy always trails its original.</li>
-<li>In a third pass unweave the lists, restoring the original <code>next</code> pointers.</li>
-<li>Link the copies to each other while unweaving to form the cloned list.</li>
-<li>Return the cloned head; position encodes the mapping, so no hash map is required.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>HASH MAP | O(N) | O(N)
 
 if head is null
@@ -3550,14 +3070,6 @@ return copyHead
 </code></pre><h3 id="10-merge-k-sorted-lists">10. Merge K Sorted Lists </h3>
 <p>Given an array of k linked-lists lists, each linked-list is sorted in ascending order, merge all the linked-lists into one sorted linked-list and return it.</p>
 <p><strong>Example:</strong> <code>[[1,4,5],[1,3,4],[2,6]]</code> → <code>1 → 1 → 2 → 3 → 4 → 4 → 5 → 6</code></p>
-<p><strong>Optimal Approach — Divide and Conquer Merging</strong></p>
-<ol>
-<li>Pair up the <code>k</code> lists and merge each pair using the standard two-list merge.</li>
-<li>That halves the number of remaining lists in a single round.</li>
-<li>Repeat the pairing and merging on the surviving lists.</li>
-<li>After about <code>log k</code> rounds only one list is left.</li>
-<li>Each node is touched roughly <code>log k</code> times, giving O(N log K) time with O(1) extra space.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>MERGE 2 AT A TIME | O(N * K) | O(1)
 
 Merge lists two at a time, until only one list remains
@@ -3599,14 +3111,6 @@ return dummy.next
 <h3 id="1-kth-largest-element-in-an-array">1. Kth Largest Element in an Array </h3>
 <p>Given an integer array nums and an integer k, return the kth largest element in the array. Array not distinct. Duplicates are counted separately.</p>
 <p><strong>Example:</strong> <code>nums = [3, 2, 1, 5, 6, 4], k = 2</code> → <code>5</code></p>
-<p><strong>Optimal Approach — Quickselect</strong></p>
-<ol>
-<li>Pick a pivot and partition the array so smaller values move left and larger ones move right.</li>
-<li>After partitioning, the pivot sits at its final sorted position.</li>
-<li>Compare that position with the target index <code>n - k</code>.</li>
-<li>If they match the pivot is the answer, so return it.</li>
-<li>Otherwise recurse into only the side containing the target index, giving O(N) average time in place.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>SORTING | O(N log N) | O(1)
 
 Sort the array in descending order and return the element at index k-1
@@ -3658,14 +3162,6 @@ while left &lt;= right:
 </code></pre><h3 id="2-k-closest-points-to-origin">2. K Closest Points to Origin </h3>
 <p>Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0) in any order</p>
 <p><strong>Example:</strong> <code>points = [[1, 3], [-2, 2]], k = 1</code> → <code>[[-2, 2]]</code></p>
-<p><strong>Optimal Approach — Quickselect on Squared Distances</strong></p>
-<ol>
-<li>Score each point by <code>x*x + y*y</code> and skip the square root, since it does not change the ordering.</li>
-<li>Partition the points around a pivot score so smaller distances move to the left.</li>
-<li>If the pivot lands exactly at index <code>k</code>, the first <code>k</code> points are the answer.</li>
-<li>Otherwise recurse into just the side that contains index <code>k</code>.</li>
-<li>Return the first <code>k</code> points; they are unordered but correct, in O(N) average time.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N log N) | O(1)
 
 Sort the points by their distance to the origin and return the first k
@@ -3706,14 +3202,6 @@ while left &lt;= right:
 Adding a number to a stream.<br>
 Finding the median of all numbers seen so far</p>
 <p><strong>Example:</strong> <code>addNum(1), addNum(2), findMedian()</code> → <code>1.5</code>; then <code>addNum(3), findMedian()</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Two Balanced Heaps</strong></p>
-<ol>
-<li>Keep a max-heap for the smaller half of the numbers and a min-heap for the larger half.</li>
-<li>Push each new number into the max-heap, then immediately move its top over to the min-heap.</li>
-<li>If the min-heap grows larger, move its top back so the sizes never differ by more than one.</li>
-<li>When the total count is odd the median is the max-heap's top.</li>
-<li>When it is even the median is the average of the two tops, so adds cost O(log N) and reads cost O(1).</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N * N log N) | O(N)
 
 Store all numbers in a list and sort it when finding the median
@@ -3754,14 +3242,6 @@ function findMedian()
 <p>Given a characters array tasks, representing the tasks a CPU needs to do, where each letter represents a different task. Tasks could be done in any order. Each task takes 1 unit of time to complete. For each unit of time, the CPU could complete either one task or just be idle.<br>
 There is a non-negative integer n that represents the cooldown period between two same tasks. Return the least number of units of times that the CPU will take to finish all the given tasks.</p>
 <p><strong>Example:</strong> <code>tasks = ["A","A","A","B","B","B"], n = 2</code> → <code>8</code> (A B idle A B idle A B)</p>
-<p><strong>Optimal Approach — Counting Formula</strong></p>
-<ol>
-<li>Count how many times each task appears and find <code>maxFreq</code>, the highest count.</li>
-<li>The most frequent task creates <code>maxFreq - 1</code> gaps, each needing <code>n + 1</code> slots.</li>
-<li>That gives a skeleton length of <code>(maxFreq - 1) * (n + 1)</code>.</li>
-<li>Add the number of tasks that tie for <code>maxFreq</code>, since they fill the final row.</li>
-<li>The answer is the larger of that skeleton length and the total number of tasks.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N M) | O(N)
 
 // Complex Implementation: Simulate the scheduling of tasks, keeping track of the cooldown period for each task and the time taken to complete all tasks.
@@ -3824,14 +3304,6 @@ If their weights differ, the heavier stone remains with weight equal to the diff
 <p>Continue until at most one stone remains.</p>
 <p>Return the weight of the remaining stone, or 0 if none remains.</p>
 <p><strong>Example:</strong> <code>stones = [2, 7, 4, 1, 8, 1]</code> → <code>1</code></p>
-<p><strong>Optimal Approach — Max Heap</strong></p>
-<ol>
-<li>Push every stone weight into a max-heap.</li>
-<li>Repeatedly pop the two heaviest stones.</li>
-<li>If their weights differ, push the difference back onto the heap.</li>
-<li>If they are equal both are destroyed and nothing is pushed back.</li>
-<li>Stop when fewer than two stones remain and return the last weight, or 0 if the heap is empty.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 Repeatedly find the two heaviest stones, smash them, and update the array until one or none remains.
 
@@ -3858,14 +3330,6 @@ else
 Higher frequency comes first.<br>
 If two words have the same frequency, the lexicographically smaller word comes first.</p>
 <p><strong>Example:</strong> <code>words = ["i","love","leetcode","i","love","coding"], k = 2</code> → <code>["i","love"]</code></p>
-<p><strong>Optimal Approach — Min Heap of Size K</strong></p>
-<ol>
-<li>Count each word's frequency with a hash map.</li>
-<li>Push entries into a min-heap ordered by frequency ascending, breaking ties by reverse alphabetical order.</li>
-<li>Whenever the heap grows past <code>k</code>, pop the top to discard the weakest candidate.</li>
-<li>The heap ends up holding exactly the <code>k</code> best words.</li>
-<li>Pop them all and reverse the output so the highest frequency comes first.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N + M * K) | O(N)
 
 Repeatedly find the most frequent word, remove it from the list, and add it to the result until k words are found.
@@ -3929,14 +3393,6 @@ Among rooms that become free at the same time, choose the smallest room number.<
 Return the room that hosted the most meetings.<br>
 If multiple rooms have the same count, return the smallest room number.</p>
 <p><strong>Example:</strong> <code>n = 2, meetings = [[0,10],[1,5],[2,7],[3,4]]</code> → <code>0</code></p>
-<p><strong>Optimal Approach — Two Heaps of Rooms</strong></p>
-<ol>
-<li>Sort the meetings by start time.</li>
-<li>Keep a min-heap of free room numbers and a second min-heap of busy rooms keyed by end time.</li>
-<li>Before each meeting, release every busy room whose end time has already passed back into the free heap.</li>
-<li>If a room is free take the lowest-numbered one; otherwise delay the meeting until the earliest-ending room frees up, keeping its original duration.</li>
-<li>Count how often each room is used and return the lowest-numbered room with the highest count.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>HEAP | O(N log N) | O(N)
 
 // Maintain 2 heaps: one for available rooms (min-heap by room number) and one for occupied rooms (min-heap by end time and Room Number). Process meetings in order of start time, assigning rooms according to the rules.
@@ -3978,14 +3434,6 @@ return bestRoom
 </code></pre><h3 id="8-find-median-from-data-stream">8. Find Median from Data Stream </h3>
 <p>Design a data structure that supports adding numbers and finding the median of the added numbers.</p>
 <p><strong>Example:</strong> <code>addNum(1), addNum(2), findMedian()</code> → <code>1.5</code>; then <code>addNum(3), findMedian()</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Two Balanced Heaps</strong></p>
-<ol>
-<li>Split the stream between a max-heap holding the lower half and a min-heap holding the upper half.</li>
-<li>Push each new number into the max-heap, then move that heap's top across to the min-heap.</li>
-<li>Rebalance by moving the min-heap's top back whenever it becomes the larger heap.</li>
-<li>The two heaps then differ in size by at most one, keeping the middle values at their tops.</li>
-<li>Report the max-heap's top for an odd count, or the average of both tops for an even count.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N log N) | O(N)
 
 Add numbers to a list and sort it when finding the median
@@ -4031,14 +3479,6 @@ Create a balanced BST to store the numbers and maintain a pointer to the median.
 </code></pre><h3 id="9-top-k-frequent-elements">9. Top K Frequent Elements </h3>
 <p>Given an integer array nums and an integer k, return the k most frequent elements.</p>
 <p><strong>Example:</strong> <code>nums = [1, 1, 1, 2, 2, 3], k = 2</code> → <code>[1, 2]</code></p>
-<p><strong>Optimal Approach — Bucket Sort by Frequency</strong></p>
-<ol>
-<li>Build a frequency map of the numbers in a single pass.</li>
-<li>Create <code>n + 1</code> buckets, where the bucket index represents a frequency.</li>
-<li>Place every number into the bucket matching how often it occurred.</li>
-<li>Walk the buckets from the highest index downwards, collecting numbers.</li>
-<li>Stop once <code>k</code> numbers are gathered; the whole process is linear with no sorting.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>HASHING + SORTING | O(N + M log M) | O(M)
 
 Count each number's frequency
@@ -4080,14 +3520,6 @@ for freq from n down to 1:
 <h3 id="1-merge-intervals">1. Merge Intervals </h3>
 <p>Given an array of intervals where <code>intervals[i] = [start, end]</code>, merge all overlapping intervals and return the resulting non-overlapping intervals.</p>
 <p><strong>Example:</strong> <code>intervals = [[1,3],[2,6],[8,10],[15,18]]</code> → <code>[[1,6],[8,10],[15,18]]</code></p>
-<p><strong>Optimal Approach — Sort by Start Time</strong></p>
-<ol>
-<li>Sort the intervals by their start time.</li>
-<li>Take the first interval as the current one being built.</li>
-<li>For each following interval, check whether its start is less than or equal to the current end.</li>
-<li>If so they overlap, so extend the current end to the larger of the two ends.</li>
-<li>If not, push the current interval to the output and start a new one; push the last one at the end.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Repeatedly compare intervals and merge every overlapping pair
@@ -4111,14 +3543,6 @@ return result
 </code></pre><h3 id="2-insert-interval">2. Insert Interval </h3>
 <p>Given an array of non-overlapping intervals sorted by start time and a new interval, insert the new interval and merge any overlaps.</p>
 <p><strong>Example:</strong> <code>intervals = [[1,3],[6,9]], newInterval = [2,5]</code> → <code>[[1,5],[6,9]]</code></p>
-<p><strong>Optimal Approach — Single Pass Merge</strong></p>
-<ol>
-<li>The existing intervals are already sorted and non-overlapping, so one scan is enough.</li>
-<li>Copy every interval that finishes strictly before the new interval starts.</li>
-<li>While an interval starts at or before the new interval's end, absorb it by widening the new start and end.</li>
-<li>Push the widened new interval once no more overlaps remain.</li>
-<li>Copy the remaining intervals across unchanged and return the result.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>MERGE INTERVALS | O(N) | O(N)
 
 Insert the new interval in sorted order, then apply the Merge Intervals algorithm
@@ -4154,14 +3578,6 @@ return result
 <p>Given an array of intervals: intervals[i] = [start, end]<br>
 Return the minimum number of intervals that must be removed so that the remaining intervals are non-overlapping.</p>
 <p><strong>Example:</strong> <code>intervals = [[1,2],[2,3],[3,4],[1,3]]</code> → <code>1</code></p>
-<p><strong>Optimal Approach — Greedy by Earliest End Time</strong></p>
-<ol>
-<li>Sort the intervals by end time, earliest finishing first.</li>
-<li>Remember the end of the last interval you decided to keep.</li>
-<li>Scan in order: if the next interval starts at or after that end, keep it and update the end.</li>
-<li>Otherwise it overlaps, so count it as a removal and move on.</li>
-<li>The removal count is the answer, because finishing earliest always leaves the most room for later intervals.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(2^N) | O(1)
 
 Explore every combination of intervals and return the minimum number of removed intervals that results in a non-overlapping set
@@ -4204,14 +3620,6 @@ return removed
 <p>Given an array of meeting intervals: intervals[i] = [start, end]<br>
 Return the minimum number of conference rooms required so that all meetings can take place without conflicts.</p>
 <p><strong>Example:</strong> <code>intervals = [[0,30],[5,10],[15,20]]</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Sorted Start and End Arrays</strong></p>
-<ol>
-<li>Pull the start times and the end times into two separate arrays and sort each one.</li>
-<li>Sweep through the start times while keeping a pointer into the end times.</li>
-<li>If the next meeting starts before the earliest unfinished end time, a new room is needed.</li>
-<li>Otherwise a room has freed up, so reuse it and advance the end pointer.</li>
-<li>The peak number of rooms in use during the sweep is the answer.</li>
-</ol>
 <pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Check every pair of intervals for overlap and return the maximum number of overlapping intervals
@@ -4266,14 +3674,6 @@ return maxRooms
 <p>Given an array of meeting intervals: intervals[i] = [start, end]<br>
 Return the minimum number of conference rooms required so that all meetings can take place without conflicts.</p>
 <p><strong>Example:</strong> <code>intervals = [[0,30],[5,10],[15,20]]</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Sweep Line</strong></p>
-<ol>
-<li>Turn each meeting into two events: <code>+1</code> at its start time and <code>-1</code> at its end time.</li>
-<li>Sort all the events by time, processing end events before start events at the same timestamp.</li>
-<li>Sweep through them keeping a running count of currently active meetings.</li>
-<li>Update a maximum whenever that running count grows.</li>
-<li>That maximum is the minimum number of rooms required.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>SWEEP LINE | O(N log N) | O(N)
 
 // Start +1, End -1. Create list of events sort and calculate running sum to find max overlap
@@ -4317,14 +3717,6 @@ return maxRooms
 </code></pre><h3 id="6-minimum-number-of-arrows-to-burst-balloons">6. Minimum Number of Arrows to Burst Balloons </h3>
 <p>Given an array of points where points[i] = [xstart, xend] represents a balloon whose horizontal diameter stretches between xstart and xend. Return the minimum number of arrows that must be shot to burst all balloons</p>
 <p><strong>Example:</strong> <code>points = [[10,16],[2,8],[1,6],[7,12]]</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Greedy by Earliest End</strong></p>
-<ol>
-<li>Sort the balloons by their end coordinate.</li>
-<li>Fire the first arrow exactly at the end of the first balloon, since that covers the most.</li>
-<li>Skip every following balloon whose start is less than or equal to that arrow position.</li>
-<li>When a balloon starts after the arrow, it cannot be hit, so fire a new arrow at its end.</li>
-<li>The total number of arrows fired is the answer.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Repeatedly find overlapping balloons and burst them with one arrow until all balloons are burst.
@@ -4348,14 +3740,6 @@ return arrows
 </code></pre><h3 id="7-jump-game">7. Jump Game </h3>
 <p>You are given an integer array nums. nums[i] tells you the maximum number of positions you can jump forward from index i.You start at index 0. Determine whether you can reach the last index.</p>
 <p><strong>Example:</strong> <code>nums = [2, 3, 1, 1, 4]</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Greedy Reach</strong></p>
-<ol>
-<li>Track the furthest index reachable so far, starting at 0.</li>
-<li>Walk the array from left to right.</li>
-<li>If the current index is beyond the furthest reach, you are stranded, so return false.</li>
-<li>Otherwise update the reach to <code>max(reach, i + nums[i])</code>.</li>
-<li>Return true once the reach covers the last index, or when the loop finishes.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DFS | O(2^N) | O(N)
 Use depth-first search to explore all possible jumps from the current index. If you reach the last index, return true.
 
@@ -4395,14 +3779,6 @@ function canJump(nums):
 </code></pre><h3 id="8-jump-game-ii">8. Jump Game II </h3>
 <p>You are given an integer array nums. nums[i] represents the maximum number of positions you can jump forward from index i. You start at index 0. Return the minimum number of jumps required to reach the last index. You can assume that the last index is always reachable.</p>
 <p><strong>Example:</strong> <code>nums = [2, 3, 1, 1, 4]</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Greedy Level-by-Level Jumping</strong></p>
-<ol>
-<li>Track the end of the current jump's range and the furthest index reachable from within it.</li>
-<li>Scan every index up to the second-to-last, updating <code>farthest = max(farthest, i + nums[i])</code>.</li>
-<li>When <code>i</code> reaches the current range's end, a jump has to be taken, so increment the counter.</li>
-<li>Set the new range end to <code>farthest</code> and carry on.</li>
-<li>The counter at the end is the minimum number of jumps needed.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DFS | O(2^N) | O(N)
 Use depth-first search to explore all possible jumps from the current index. Keep track of the minimum number of jumps needed to reach the last index.
 
@@ -4455,14 +3831,6 @@ function jump(nums):
 </ul>
 <p>You start with an empty tank. Return the index of the gas station from which you can start and complete the entire circular route exactly once. If no solution exists, return -1.</p>
 <p><strong>Example:</strong> <code>gas = [1,2,3,4,5], cost = [3,4,5,1,2]</code> → <code>3</code></p>
-<p><strong>Optimal Approach — Greedy Restart</strong></p>
-<ol>
-<li>If total gas is less than total cost, the circuit is impossible, so return -1.</li>
-<li>Otherwise exactly one valid start exists, so a single scan will find it.</li>
-<li>Add <code>gas[i] - cost[i]</code> to a running tank at every station.</li>
-<li>If the tank ever drops below zero, no station from the current start up to <code>i</code> can work.</li>
-<li>Set <code>start = i + 1</code>, reset the tank to zero, and return the last recorded start.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 For each gas station, simulate the journey around the circuit. If you can complete the circuit starting from that station, return its index. If no station allows a complete circuit, return -1.
@@ -4494,14 +3862,6 @@ function gasStation(gas, cost):
 <p>You are given a string s. You need to partition the string into as many parts as possible such that: Each character appears in at most one partition. After partitioning, return the sizes of all partitions.<br>
 Example - s = "ababcbacadefegdehijhklij" &gt; "ababcbaca" | "defegde" | "hijhklij" &gt; [9, 7, 8]</p>
 <p><strong>Example:</strong> <code>s = "ababcbacadefegdehijhklij"</code> → <code>[9, 7, 8]</code></p>
-<p><strong>Optimal Approach — Greedy Last Occurrence</strong></p>
-<ol>
-<li>Record the last index at which every character appears.</li>
-<li>Sweep the string while tracking the end of the current partition.</li>
-<li>Extend that end to the last occurrence of each character you pass.</li>
-<li>When the current index equals the partition end, no character inside leaks out, so cut here.</li>
-<li>Record the partition length, start the next one, and continue to the end.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 
 Search for the last occurrence of each character in the string and create partitions accordingly.
@@ -4537,14 +3897,6 @@ function partitionLabels(s):
 <h3 id="1-single-number">1. Single Number </h3>
 <p>Every element appears twice except for one. Find that single one.</p>
 <p><strong>Example:</strong> <code>nums = [4, 1, 2, 1, 2]</code> → <code>4</code></p>
-<p><strong>Optimal Approach — XOR Cancellation</strong></p>
-<ol>
-<li>Start an accumulator at 0.</li>
-<li>XOR it with every number in the array in one pass.</li>
-<li>Any value appearing twice cancels itself out because <code>x ^ x = 0</code>.</li>
-<li>XOR-ing with 0 leaves a value unchanged, so the unpaired number is untouched.</li>
-<li>Whatever is left in the accumulator is the number that appears only once.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(1)
 Check each element against all others to find the unique one.
 
@@ -4565,14 +3917,6 @@ function singleNumber(nums):
 </code></pre><h3 id="2-number-of-1-bits">2. Number of 1 Bits </h3>
 <p>Given an unsigned integer, return the number of '1' bits it has (also known as the Hamming weight).</p>
 <p><strong>Example:</strong> <code>n = 11</code> (binary <code>1011</code>) → <code>3</code></p>
-<p><strong>Optimal Approach — Brian Kernighan's Trick</strong></p>
-<ol>
-<li>Start a counter at 0.</li>
-<li>While <code>n</code> is non-zero, apply <code>n = n &amp; (n - 1)</code>.</li>
-<li>Subtracting 1 flips the lowest set bit and everything below it, so the AND clears exactly that one bit.</li>
-<li>Increment the counter once per iteration.</li>
-<li>The loop runs once per set bit rather than 32 times, so it is proportional to the number of ones.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(Log N) | O(1)
 
 Divide the number by 2 repeatedly and count the number of times the remainder is 1.
@@ -4604,14 +3948,6 @@ return count
 </code></pre><h3 id="3-counting-bits">3. Counting Bits </h3>
 <p>Given an integer n, return an array ans of length n + 1 such that for each i (0 &lt;= i &lt;= n), ans[i] is the number of 1's in the binary representation of i.</p>
 <p><strong>Example:</strong> <code>n = 5</code> → <code>[0, 1, 1, 2, 1, 2]</code></p>
-<p><strong>Optimal Approach — DP on the Shifted Value</strong></p>
-<ol>
-<li>Create a result array of size <code>n + 1</code> with <code>result[0] = 0</code>.</li>
-<li>Note that <code>i &gt;&gt; 1</code> is simply <code>i</code> with its lowest bit chopped off.</li>
-<li>So <code>i</code> has the same bits as <code>i &gt;&gt; 1</code> plus possibly one more.</li>
-<li>Set <code>result[i] = result[i &gt;&gt; 1] + (i &amp; 1)</code>, reusing an already-computed smaller answer in O(1).</li>
-<li>Fill the array in a single pass and return it.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N log N) | O(N)
 For each number from 0 to n, count the number of 1 bits using the method from the "Number of 1 Bits" problem.
 
@@ -4631,14 +3967,6 @@ return ans
 </code></pre><h3 id="4-reverse-bits">4. Reverse Bits </h3>
 <p>Given a 32-bit unsigned integer, reverse its bits.</p>
 <p><strong>Example:</strong> <code>n = 43261596</code> (<code>00000010100101000001111010011100</code>) → <code>964176192</code> (<code>00111001011110000010100101000000</code>)</p>
-<p><strong>Optimal Approach — Bit-by-Bit Shifting</strong></p>
-<ol>
-<li>Start with a result of 0.</li>
-<li>Repeat 32 times: shift the result left by one to open up a slot.</li>
-<li>Take <code>n</code>'s lowest bit with <code>n &amp; 1</code> and OR it into the result.</li>
-<li>Shift <code>n</code> right by one to expose the next bit.</li>
-<li>After 32 rounds the bit order is fully mirrored, so return the result.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BIT MANIPULATION | O(32) | O(1)
 
 result = 0
@@ -4651,14 +3979,6 @@ return result
 </code></pre><h3 id="5-sum-of-two-integers">5. Sum of Two Integers </h3>
 <p>Given two integers a and b, return the sum of the two integers without using the operators + and -.</p>
 <p><strong>Example:</strong> <code>a = 2, b = 3</code> → <code>5</code></p>
-<p><strong>Optimal Approach — XOR Sum with Shifted Carry</strong></p>
-<ol>
-<li>Adding without <code>+</code> splits into a sum-ignoring-carries part and a carry part.</li>
-<li><code>a ^ b</code> produces the bitwise sum with all carries ignored.</li>
-<li><code>(a &amp; b) &lt;&lt; 1</code> produces the carry bits shifted into their correct positions.</li>
-<li>Loop: set <code>a</code> to the XOR and <code>b</code> to the shifted carry, until <code>b</code> becomes 0.</li>
-<li>Return <code>a</code>, which now holds the complete sum.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BIT MANIPULATION | O(1) | O(1)
 
 // sum without carry = a ^ b
@@ -4672,26 +3992,10 @@ return a
 </code></pre><h3 id="6-power-of-two">6. Power of Two </h3>
 <p>Given an integer n, return true if it is a power of two. Otherwise, return false.</p>
 <p><strong>Example:</strong> <code>n = 16</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Clear the Lowest Set Bit</strong></p>
-<ol>
-<li>A power of two has exactly one bit set in its binary representation.</li>
-<li>Subtracting 1 turns that bit off and turns every lower bit on.</li>
-<li>So <code>n &amp; (n - 1)</code> wipes out all bits and equals 0 only for powers of two.</li>
-<li>Also require <code>n &gt; 0</code>, since zero and negative numbers are never powers of two.</li>
-<li>Return <code>n &gt; 0 &amp;&amp; (n &amp; (n - 1)) == 0</code> in constant time.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>n &gt; 0 &amp;&amp; (n &amp; (n - 1)) == 0
 </code></pre><h3 id="7-powx-n">7. Pow(x, n) </h3>
 <p>Implement pow(x, n), which calculates x raised to the power n (i.e., x^n).</p>
 <p><strong>Example:</strong> <code>x = 2.0, n = 10</code> → <code>1024.0</code></p>
-<p><strong>Optimal Approach — Binary Exponentiation</strong></p>
-<ol>
-<li>Handle a negative exponent by replacing <code>x</code> with <code>1 / x</code> and using the positive exponent.</li>
-<li>Keep a running result of 1 and a running base equal to <code>x</code>.</li>
-<li>While the exponent is non-zero, multiply the result by the base whenever the exponent's lowest bit is 1.</li>
-<li>Square the base and halve the exponent on every iteration.</li>
-<li>Return the result after roughly <code>log n</code> multiplications.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N) | O(1)
 
 Repeated multiplication of x, n times. If n is negative, compute 1 / (x^(-n)).
@@ -4736,14 +4040,6 @@ return result
 <h3 id="1-subssets">1. Subssets </h3>
 <p>Given an integer array nums of unique elements, return all possible subsets (the power set).</p>
 <p><strong>Example:</strong> <code>nums = [1, 2, 3]</code> → <code>[[],[1],[2],[3],[1,2],[1,3],[2,3],[1,2,3]]</code></p>
-<p><strong>Optimal Approach — Include/Exclude Backtracking</strong></p>
-<ol>
-<li>Do a depth-first walk that decides, index by index, whether to include that element.</li>
-<li>Carry a current partial subset through the recursion.</li>
-<li>Record a copy of the current subset at every node, not only at the leaves.</li>
-<li>Add the element, recurse from <code>index + 1</code>, then remove it and recurse without it.</li>
-<li>All <code>2^n</code> include/exclude combinations get generated exactly once.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BACKTRACKING | O(N * 2^N) | O(N)
 
 At each element, choose to include it in the current subset or not. Recursively build all subsets.
@@ -4766,14 +4062,6 @@ function subsets(nums):
 </code></pre><h3 id="2-subsets-ii">2. Subsets II </h3>
 <p>Given an integer array nums that may contain duplicates, return all possible subsets (the power set) without duplicate subsets.</p>
 <p><strong>Example:</strong> <code>nums = [1, 2, 2]</code> → <code>[[],[1],[2],[1,2],[2,2],[1,2,2]]</code></p>
-<p><strong>Optimal Approach — Backtracking with Duplicate Skipping</strong></p>
-<ol>
-<li>Sort the numbers first so that equal values sit next to each other.</li>
-<li>Backtrack from a start index, recording a copy of the current subset at every step.</li>
-<li>At each level, loop over the candidates from <code>start</code> onwards.</li>
-<li>Skip a candidate when it equals the previous one at the same level, which blocks duplicate subsets.</li>
-<li>Otherwise add it, recurse with <code>start = i + 1</code>, then remove it and continue.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BACKTRACKING | O(N * 2^N) | O(N)
 
 Sort the array to handle duplicates. At each element, choose to include it in the current subset or not, skipping duplicates.
@@ -4800,14 +4088,6 @@ function subsetsWithDup(nums):
 </code></pre><h3 id="3-permutations">3. Permutations </h3>
 <p>Given an integer array nums of unique elements, return all possible permutations.</p>
 <p><strong>Example:</strong> <code>nums = [1, 2, 3]</code> → <code>[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]</code></p>
-<p><strong>Optimal Approach — Backtracking by Swapping</strong></p>
-<ol>
-<li>Recurse on a position index representing the slot currently being filled.</li>
-<li>Record the array as a finished permutation once the index passes the last slot.</li>
-<li>Otherwise, for every <code>i</code> from <code>index</code> to the end, swap <code>nums[index]</code> with <code>nums[i]</code>.</li>
-<li>Recurse on <code>index + 1</code> to fill the remaining slots.</li>
-<li>Swap the two elements back to undo the change before trying the next <code>i</code>.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BACKTRACKING | O(N * N!) | O(N)
 
 For each position in the permutation, choose an unused number from nums and recursively build the permutation.
@@ -4856,14 +4136,6 @@ function permutations(nums):
 </code></pre><h3 id="4-combination-sum">4. Combination Sum </h3>
 <p>Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order. The same number may be chosen from candidates an unlimited number of times.</p>
 <p><strong>Example:</strong> <code>candidates = [2, 3, 6, 7], target = 7</code> → <code>[[2,2,3],[7]]</code></p>
-<p><strong>Optimal Approach — Backtracking with Reuse</strong></p>
-<ol>
-<li>Backtrack carrying the remaining target and a start index.</li>
-<li>Record the current combination whenever the remainder hits exactly 0.</li>
-<li>Abandon the branch as soon as the remainder goes negative.</li>
-<li>For each candidate from <code>start</code> onwards, add it and recurse with the same start index, since reuse is allowed.</li>
-<li>Remove the candidate afterwards so the next one can be explored.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BACKTRACKING | O(N^(T/m)) | O(T/m)
 Where T is the target and m is the minimum value in candidates. The maximum depth of the recursion tree is T/m, and at each level, we have N choices (the number of candidates).
 
@@ -4888,14 +4160,6 @@ function combinationSum(candidates, target):
 </code></pre><h3 id="5-combination-sum-ii">5. Combination Sum II </h3>
 <p>Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target. Each number in candidates may only be used once in the combination. Input may contain duplicates.</p>
 <p><strong>Example:</strong> <code>candidates = [10,1,2,7,6,1,5], target = 8</code> → <code>[[1,1,6],[1,2,5],[1,7],[2,6]]</code></p>
-<p><strong>Optimal Approach — Backtracking with Sorting and Pruning</strong></p>
-<ol>
-<li>Sort the candidates so duplicates become adjacent and pruning works.</li>
-<li>Backtrack with a remaining target and a start index, recording combinations that reach exactly 0.</li>
-<li>Break out of the loop as soon as a candidate is larger than the remainder.</li>
-<li>Skip any candidate equal to the previous one at the same level to avoid duplicate combinations.</li>
-<li>Recurse with <code>start = i + 1</code> so every element is used at most once.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BACKTRACKING | O(N * 2^N) | O(N)
 Where T is the target and m is the minimum value in candidates. The maximum depth of the recursion tree is T/m, and at each level, we have N choices (the number of candidates).
 
@@ -4931,14 +4195,6 @@ function combinationSum2(candidates, target):
 </code></pre><h3 id="6-letter-combinations-of-a-phone-number">6. Letter Combinations of a Phone Number </h3>
 <p>Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order. A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.</p>
 <p><strong>Example:</strong> <code>digits = "23"</code> → <code>["ad","ae","af","bd","be","bf","cd","ce","cf"]</code></p>
-<p><strong>Optimal Approach — Backtracking over Digit Positions</strong></p>
-<ol>
-<li>Map each digit from 2 to 9 to its string of letters.</li>
-<li>Recurse on the digit index, carrying the string built so far.</li>
-<li>Add that string to the results once the index reaches the end of the digits.</li>
-<li>Otherwise loop over every letter belonging to the current digit.</li>
-<li>Append a letter, recurse on the next digit, then remove it before trying the next letter.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BACKTRACKING | O(4^N) | O(N)
 Where N is the length of the input digits. Each digit can map to at most 4 letters, leading to a maximum of 4^N combinations.
 
@@ -4962,14 +4218,6 @@ function letterCombinations(digits):
 </code></pre><h3 id="7-generate-parentheses">7. Generate Parentheses </h3>
 <p>Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.</p>
 <p><strong>Example:</strong> <code>n = 3</code> → <code>["((()))","(()())","(())()","()(())","()()()"]</code></p>
-<p><strong>Optimal Approach — Backtracking with Validity Counters</strong></p>
-<ol>
-<li>Recurse while tracking how many <code>(</code> and how many <code>)</code> have been placed.</li>
-<li>Record the string once its length reaches <code>2n</code>.</li>
-<li>Add a <code>(</code> whenever the open count is still below <code>n</code>.</li>
-<li>Add a <code>)</code> only while the close count is strictly less than the open count.</li>
-<li>That rule keeps every prefix valid, so no invalid string is ever built or discarded.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BACKTRACKING | O(4^N) | O(N)
 Where N is the number of pairs of parentheses.
 
@@ -4993,14 +4241,6 @@ function generateParenthesis(n):
 </code></pre><h3 id="8-word-search">8. Word Search </h3>
 <p>Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.</p>
 <p><strong>Example:</strong> <code>board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"</code> → <code>true</code></p>
-<p><strong>Optimal Approach — DFS Backtracking with In-Place Marking</strong></p>
-<ol>
-<li>Try starting a DFS from every cell whose letter matches the word's first character.</li>
-<li>At each step, fail if the cell is off the grid or does not match the expected letter.</li>
-<li>Mark the cell visited by temporarily overwriting it with a sentinel character.</li>
-<li>Recurse into all four neighbours looking for the next character.</li>
-<li>Restore the original letter on the way out, and return true as soon as the whole word is matched.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BACKTRACKING | O(M * N * 4^L) | O(M * N)
 Where M is the number of rows, N is the number of columns, and L is the length of the word. Each cell can lead to 4 possible directions (up, down, left, right) for each character in the word.
 
@@ -5069,14 +4309,6 @@ function backtrack(row, col, index):
 <h3 id="1-binary-tree-inorder-traversal">1. Binary Tree InOrder Traversal </h3>
 <p>Given the root of a binary tree, return the inorder traversal of its nodes' values.</p>
 <p><strong>Example:</strong> <code>root = [1, null, 2, 3]</code> → <code>[1, 3, 2]</code></p>
-<p><strong>Optimal Approach — Iterative Traversal with a Stack</strong></p>
-<ol>
-<li>Keep an explicit stack and a pointer starting at the root.</li>
-<li>Push nodes onto the stack while walking as far left as possible.</li>
-<li>When the pointer becomes null, pop a node and record its value.</li>
-<li>Move the pointer to that node's right child.</li>
-<li>Repeat until both the stack and the pointer are exhausted.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>RECURSION | O(N) | O(N)
 
 INORDER(root):
@@ -5105,14 +4337,6 @@ INORDER(root):
 </code></pre><h3 id="2-maximum-depth-of-binary-tree">2. Maximum Depth of Binary Tree </h3>
 <p>Given the root of a binary tree, return its maximum depth.</p>
 <p><strong>Example:</strong> <code>root = [3, 9, 20, null, null, 15, 7]</code> → <code>3</code></p>
-<p><strong>Optimal Approach — Recursive DFS</strong></p>
-<ol>
-<li>Recurse starting from the root.</li>
-<li>Return 0 whenever the current node is null.</li>
-<li>Otherwise compute the depth of the left subtree and the depth of the right subtree.</li>
-<li>Take the larger of the two and add 1 for the current node.</li>
-<li>The value returned at the root is the maximum depth, using O(H) stack space.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DFS | O(N) | O(H)
 
 MAX_DEPTH(root):
@@ -5143,14 +4367,6 @@ MAX_DEPTH(root):
 </code></pre><h3 id="3-binary-tree-level-order-traversal">3. Binary Tree Level Order Traversal </h3>
 <p>Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).</p>
 <p><strong>Example:</strong> <code>root = [3, 9, 20, null, null, 15, 7]</code> → <code>[[3],[9,20],[15,7]]</code></p>
-<p><strong>Optimal Approach — BFS with Level Sizes</strong></p>
-<ol>
-<li>Put the root into a queue, returning an empty list if the tree is empty.</li>
-<li>Loop while the queue is non-empty, first recording its current size as the level's width.</li>
-<li>Dequeue exactly that many nodes, collecting their values into one level list.</li>
-<li>Enqueue each dequeued node's non-null children as you go.</li>
-<li>Append the level list to the answer and repeat for the next level.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>LEVEL_ORDER(root):
     if root is null:
         return []
@@ -5171,14 +4387,6 @@ MAX_DEPTH(root):
 </code></pre><h3 id="4-validate-binary-search-tree">4. Validate Binary Search Tree </h3>
 <p>Given the root of a binary tree, determine if it is a valid binary search tree (BST).</p>
 <p><strong>Example:</strong> <code>root = [2, 1, 3]</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Recursion with Value Ranges</strong></p>
-<ol>
-<li>Recurse carrying an allowed <code>(min, max)</code> range that starts unbounded.</li>
-<li>Return true for a null node.</li>
-<li>Return false if the node's value is not strictly inside the allowed range.</li>
-<li>Recurse left with the maximum tightened down to the node's value.</li>
-<li>Recurse right with the minimum raised to the node's value; both sides must hold for a valid BST.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(N)
 
 For every node, check if all nodes in the left subtree are less than the node's value and all nodes in the right subtree are greater than the node's value.
@@ -5200,14 +4408,6 @@ VALID(node, minValue, maxValue):
 </code></pre><h3 id="5-kth-smallest-element-in-a-bst">5. Kth Smallest Element in a BST </h3>
 <p>Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.</p>
 <p><strong>Example:</strong> <code>root = [3, 1, 4, null, 2], k = 1</code> → <code>1</code></p>
-<p><strong>Optimal Approach — Iterative Inorder Traversal</strong></p>
-<ol>
-<li>An inorder walk of a BST visits values in ascending order.</li>
-<li>Use a stack, pushing nodes while going as far left as possible.</li>
-<li>Pop a node, decrement <code>k</code>, and check whether <code>k</code> has reached 0.</li>
-<li>If it has, return that node's value immediately without touching the rest of the tree.</li>
-<li>Otherwise move to the node's right child and continue; only O(H + k) nodes are ever visited.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>// Use in-order traversal to get the elements in sorted order and return the kth element.
 
 ITERATIVE | O(H + k) | O(H)
@@ -5245,14 +4445,6 @@ public TreeNode InOrder(TreeNode root, int k){
 <p>Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.<br>
 LCA is the lowest node that has both nodes as descendants (where we allow a node to be a descendant of itself).</p>
 <p><strong>Example:</strong> <code>root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1</code> → <code>3</code></p>
-<p><strong>Optimal Approach — Bottom-Up Recursion</strong></p>
-<ol>
-<li>Recurse from the root.</li>
-<li>Return null for a null node, or the node itself when it is <code>p</code> or <code>q</code>.</li>
-<li>Recurse into both children and inspect what comes back.</li>
-<li>If both sides return non-null, the current node is the split point, so return it.</li>
-<li>Otherwise return whichever side was non-null, bubbling the answer up in one pass.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>PATH BASED | O(N) | O(N)
 
 Find path to each node, then compare the paths to find the last common node.
@@ -5278,14 +4470,6 @@ LCA(root, p, q):
 </code></pre><h3 id="7-diameter-of-binary-tree">7. Diameter of Binary Tree </h3>
 <p>Given the root of a binary tree, return the length of the diameter of the tree. The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.</p>
 <p><strong>Example:</strong> <code>root = [1, 2, 3, 4, 5]</code> → <code>3</code></p>
-<p><strong>Optimal Approach — Post-Order Height Calculation</strong></p>
-<ol>
-<li>Run a post-order recursion that returns each subtree's height.</li>
-<li>Return 0 for a null node.</li>
-<li>At every node, the longest path bending through it is <code>leftHeight + rightHeight</code> edges.</li>
-<li>Update a shared best value with that number.</li>
-<li>Return <code>1 + max(leftHeight, rightHeight)</code> to the parent, so one traversal computes the diameter.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(N)
 
 diameter through node = height(left) + height(right)
@@ -5311,14 +4495,6 @@ DIAMETER(root):
 </code></pre><h3 id="8-binary-tree-maximum-path-sum">8. Binary Tree Maximum Path Sum </h3>
 <p>Given a non-empty binary tree of integers, find the maximum path sum. A path is defined as any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The path must contain at least one node and does not need to go through the root.</p>
 <p><strong>Example:</strong> <code>root = [-10, 9, 20, null, null, 15, 7]</code> → <code>42</code></p>
-<p><strong>Optimal Approach — Post-Order DP with Clamped Gains</strong></p>
-<ol>
-<li>Recurse returning the best downward path sum that starts at each node.</li>
-<li>Clamp a child's contribution to 0 when it is negative, since skipping that branch is better.</li>
-<li>At each node the best path that bends here is <code>node.val + leftGain + rightGain</code>.</li>
-<li>Update a shared maximum with that value.</li>
-<li>Return <code>node.val + max(leftGain, rightGain)</code> upwards, because a parent can only use one branch.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(N)
 
 Calculate the maximum path sum for each node by considering all possible paths through that node.
@@ -5346,14 +4522,6 @@ MAX_PATH_SUM(root):
 </code></pre><h3 id="9-binary-tree-right-side-view">9. Binary Tree Right Side View </h3>
 <p>Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.</p>
 <p><strong>Example:</strong> <code>root = [1, 2, 3, null, 5, null, 4]</code> → <code>[1, 3, 4]</code></p>
-<p><strong>Optimal Approach — BFS Taking the Last Node per Level</strong></p>
-<ol>
-<li>Run a level-order traversal using a queue.</li>
-<li>At the start of each level, record how many nodes it currently contains.</li>
-<li>Dequeue exactly that many nodes, enqueueing their children as you go.</li>
-<li>Keep the value of the last node dequeued in that level.</li>
-<li>Those recorded values, from top to bottom, form the right side view.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BFS | O(N) | O(N)
 
 // Do level order traversal and add the last node of each level to the result.
@@ -5395,14 +4563,6 @@ RIGHT_SIDE_VIEW(root):
 </code></pre><h3 id="10-construct-binary-tree-from-preorder-and-inorder-traversal">10. Construct Binary Tree from Preorder and Inorder Traversal </h3>
 <p>Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.</p>
 <p><strong>Example:</strong> <code>preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]</code> → <code>[3,9,20,null,null,15,7]</code></p>
-<p><strong>Optimal Approach — Preorder Pointer + Inorder Index Map</strong></p>
-<ol>
-<li>Build a hash map from each value to its index in the inorder array.</li>
-<li>Walk the preorder array with a moving pointer; each value is the root of the current range.</li>
-<li>Look that root up in the map to find where it splits the inorder range in O(1).</li>
-<li>Everything left of that index forms the left subtree and everything right forms the right subtree.</li>
-<li>Recurse on the left range first to match preorder's ordering, then on the right range.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(N)
 
 For each node in the preorder array, find its index in the inorder array to determine the left and right subtrees. Recursively build the tree.
@@ -5432,14 +4592,6 @@ BUILD(preorder, inorder):
 </code></pre><h3 id="11-serialize-and-deserialize-binary-tree">11. Serialize and Deserialize Binary Tree </h3>
 <p>Design an algorithm to serialize and deserialize a binary tree.</p>
 <p><strong>Example:</strong> <code>root = [1,2,3,null,null,4,5]</code> → serialize → deserialize → <code>[1,2,3,null,null,4,5]</code></p>
-<p><strong>Optimal Approach — Preorder Traversal with Null Markers</strong></p>
-<ol>
-<li>Serialize with a preorder DFS, writing each value and a marker such as <code>#</code> for null children.</li>
-<li>Join the tokens with a separator into a single string.</li>
-<li>To deserialize, split the string and read tokens using a moving index.</li>
-<li>Return null when the token is the null marker; otherwise create the node.</li>
-<li>Recursively build its left subtree and then its right subtree from the following tokens.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>PREORDER TRAVERSAL | O(N) | O(N)
 
 // Consider the tree as a string representation using pre-order traversal. Use a special character to denote null nodes.
@@ -5462,14 +4614,6 @@ DESERIALIZE():
 </code></pre><h3 id="12-house-robber-iii">12. House Robber III </h3>
 <p>Given the root of a binary tree, return the maximum amount of money the thief can rob without alerting the police. The thief cannot rob two directly-linked houses.</p>
 <p><strong>Example:</strong> <code>root = [3, 2, 3, null, 3, null, 1]</code> → <code>7</code></p>
-<p><strong>Optimal Approach — Tree DP Returning a Pair</strong></p>
-<ol>
-<li>Recurse returning two numbers per node: the best total if it is robbed and the best if it is not.</li>
-<li>A null node returns <code>(0, 0)</code>.</li>
-<li><code>robbed = node.val + left.notRobbed + right.notRobbed</code>, since adjacent houses are off limits.</li>
-<li><code>notRobbed = max(left pair) + max(right pair)</code>, because the children are then free to choose.</li>
-<li>The answer is the larger of the root's two values, computed in a single traversal.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(2^N) | O(H)
 
 For each node, decide whether to rob it or not. If you rob it, you cannot rob its children. If you don't rob it, you can rob its children. Recursively calculate the maximum amount for each choice.
@@ -5497,14 +4641,6 @@ HOUSE_ROBBER(root):
 <h3 id="1-number-of-islands">1. Number of Islands </h3>
 <p>Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
 <p><strong>Example:</strong> <code>grid = [["1","1","0"],["1","0","0"],["0","0","1"]]</code> → <code>2</code></p>
-<p><strong>Optimal Approach — DFS Flood Fill</strong></p>
-<ol>
-<li>Scan every cell of the grid once.</li>
-<li>When an unvisited <code>'1'</code> is found, increment the island counter.</li>
-<li>Launch a DFS or BFS flood fill from that cell.</li>
-<li>Sink every connected land cell by flipping it to <code>'0'</code> so it can never be counted again.</li>
-<li>The counter after the full scan is the number of islands.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DFS | O(M * N) | O(M * N)
 
 NUMBER_OF_ISLANDS(grid):
@@ -5532,14 +4668,6 @@ DFS(r, c):
 </code></pre><h3 id="2-clone-graph">2. Clone Graph </h3>
 <p>Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph. Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.</p>
 <p><strong>Example:</strong> <code>adjList = [[2,4],[1,3],[2,4],[1,3]]</code> → an identical, fully independent deep copy</p>
-<p><strong>Optimal Approach — DFS with a Visited Map</strong></p>
-<ol>
-<li>Keep a hash map from each original node to its clone.</li>
-<li>DFS from the start node, and if it already appears in the map return the stored clone.</li>
-<li>Otherwise create the clone and register it in the map <em>before</em> recursing.</li>
-<li>Recurse into every neighbour and append the returned clones to this clone's neighbour list.</li>
-<li>Registering before recursing is exactly what stops cycles from looping forever.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DFS + HASHMAP | O(V + E) | O(V)
 
 // Need hashmap to keep track of visited nodes and their corresponding cloned nodes.
@@ -5562,14 +4690,6 @@ DFS(node):
 </code></pre><h3 id="3-pacific-atlantic-water-flow">3. Pacific Atlantic Water Flow </h3>
 <p>Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent, the "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and bottom edges. Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or lower. Find the list of grid coordinates where water can flow to both the Pacific and Atlantic ocean.</p>
 <p><strong>Example:</strong> <code>heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]</code> → <code>[[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]</code></p>
-<p><strong>Optimal Approach — Reverse DFS from the Oceans</strong></p>
-<ol>
-<li>Instead of tracing water downhill from every cell, flow uphill from the oceans inward.</li>
-<li>DFS from every Pacific-touching border cell, stepping only to neighbours of equal or greater height, marking a "reaches Pacific" set.</li>
-<li>Do the same from every Atlantic-touching border cell into a second set.</li>
-<li>Any cell present in both sets can drain into both oceans.</li>
-<li>Return those cells; each cell is visited only a constant number of times.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE DFS | O((R * C)^2) | O(R * C)
 
 From every cell, perform DFS to check if it can reach both oceans.
@@ -5606,14 +4726,6 @@ DFS(r, c, reachable):
 <p>There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return true if you can finish all courses. Otherwise, return false.</p>
 <p>Does the directed graph contain a cycle?</p>
 <p><strong>Example:</strong> <code>numCourses = 2, prerequisites = [[1,0]]</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Kahn's Topological Sort</strong></p>
-<ol>
-<li>Build an adjacency list and count each course's number of prerequisites (its in-degree).</li>
-<li>Push every course with in-degree 0 into a queue.</li>
-<li>Pop a course, count it as taken, and decrement the in-degree of each dependent course.</li>
-<li>Push any dependent whose in-degree drops to 0.</li>
-<li>If every course gets taken the graph is acyclic, so return true; otherwise a cycle blocks it.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DFS CYCLE DETECTION | O(V + E) | O(V)
 
 // 0 = unvisited, 1 = currently visiting, 2 = completely processed
@@ -5660,14 +4772,6 @@ return processed == numCourses
 </code></pre><h3 id="5-course-schedule-ii">5. Course Schedule II </h3>
 <p>Same as Course Schedule, but return the order of courses to finish all courses. If there are multiple valid orders, return any of them. If it is impossible to finish all courses, return an empty array.</p>
 <p><strong>Example:</strong> <code>numCourses = 2, prerequisites = [[1,0]]</code> → <code>[0, 1]</code></p>
-<p><strong>Optimal Approach — Kahn's Algorithm</strong></p>
-<ol>
-<li>Build an adjacency list plus an in-degree count for every course.</li>
-<li>Queue all courses that have no prerequisites at all.</li>
-<li>Pop a course, append it to the output order, and decrement each neighbour's in-degree.</li>
-<li>Enqueue any neighbour whose in-degree reaches 0.</li>
-<li>Return the order if it contains all courses, otherwise return an empty list because of a cycle.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DFS TOPOLOGICAL SORT | O(V + E) | O(V + E)
 
 state = 0 for all nodes
@@ -5721,14 +4825,6 @@ Every minute, any fresh orange that is 4-directionally adjacent to a rotten oran
 Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.</li>
 </ul>
 <p><strong>Example:</strong> <code>grid = [[2,1,1],[1,1,0],[0,1,1]]</code> → <code>4</code></p>
-<p><strong>Optimal Approach — Multi-Source BFS</strong></p>
-<ol>
-<li>Put every initially rotten orange into a queue and count the fresh ones.</li>
-<li>Process the queue one whole level at a time, where each level represents one minute.</li>
-<li>For each rotten orange, rot any fresh 4-directional neighbour, enqueue it, and decrement the fresh count.</li>
-<li>Increment the minute counter after any level that actually rotted something.</li>
-<li>Return the minutes if no fresh oranges remain, otherwise -1.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(M * N * Minutes) | O(M * N)
 
 Simulate the rotting process minute by minute, updating the grid until no fresh oranges remain or no more can rot.
@@ -5767,14 +4863,6 @@ ROTTING_ORANGES(grid):
 <li>Each transformed word must exist in the word list. Note that beginWord is not a transformed word.</li>
 </ol>
 <p><strong>Example:</strong> <code>beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]</code> → <code>5</code></p>
-<p><strong>Optimal Approach — Bidirectional BFS</strong></p>
-<ol>
-<li>Put the word list into a hash set and search from <code>beginWord</code> and <code>endWord</code> at the same time.</li>
-<li>Always expand whichever of the two frontiers is currently smaller.</li>
-<li>Generate neighbours by trying all 26 letters at each position of a word.</li>
-<li>If a generated word already sits in the opposite frontier, the searches have met, so return the combined length.</li>
-<li>Otherwise add unseen valid words into the next frontier and increase the level count.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BFS | O(N * M) | O(N * M)
 Where N is the number of words in the word list and M is the length of each word.
 
@@ -5834,14 +4922,6 @@ return 0
 <li>It must not contain any cycles.</li>
 </ol>
 <p><strong>Example:</strong> <code>n = 5, edges = [[0,1],[0,2],[0,3],[1,4]]</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Union-Find</strong></p>
-<ol>
-<li>A tree on <code>n</code> nodes needs exactly <code>n - 1</code> edges, so reject any other edge count immediately.</li>
-<li>Start each node as its own union-find component.</li>
-<li>For every edge, find the representative root of both endpoints.</li>
-<li>If those roots are already the same, the edge closes a cycle, so return false.</li>
-<li>Otherwise union them; with <code>n - 1</code> edges and no cycle the graph must be connected, so return true.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DFS | O(V + E) | O(V + E)
 
 VALID_TREE(n, edges):
@@ -5881,14 +4961,6 @@ VALID_TREE(n, edges):
 </code></pre><h3 id="9-redundant-connection">9 Redundant Connection </h3>
 <p>Given a connected undirected graph of n nodes labeled from 1 to n, and an array edges where edges[i] = [ui, vi] indicates that there is an edge between ui and vi in the graph. The graph is a tree plus one additional edge. Return an edge that can be removed so that the resulting graph is a tree of n nodes. If there are multiple answers, return the answer that occurs last in the input.</p>
 <p><strong>Example:</strong> <code>edges = [[1,2],[1,3],[2,3]]</code> → <code>[2, 3]</code></p>
-<p><strong>Optimal Approach — Union-Find</strong></p>
-<ol>
-<li>Initialize a union-find structure where every node is its own parent.</li>
-<li>Process the edges in the order they are given.</li>
-<li>For each edge, find the roots of both endpoints.</li>
-<li>If the roots already match, those nodes were connected, so this edge is the one closing the cycle.</li>
-<li>Return that edge; otherwise union the two sets, with path compression keeping each operation near O(1).</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(N^2) | O(N)
 
 For each edge, remove it and check if the graph is still connected and acyclic.
@@ -5932,14 +5004,6 @@ union(x, y):
 </code></pre><h3 id="10-network-delay-time">10. Network Delay Time </h3>
 <p>Given a network of n nodes, labeled from 1 to n, and a list of travel times as directed edges times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes for a signal to travel from source to target. We send a signal from a certain node k. Return the time it takes for all the n nodes to receive the signal. If it is impossible for all the n nodes to receive the signal, return -1.</p>
 <p><strong>Example:</strong> <code>times = [[2,1,1],[2,3,1],[3,4,1]], n = 4, k = 2</code> → <code>2</code></p>
-<p><strong>Optimal Approach — Dijkstra's Algorithm</strong></p>
-<ol>
-<li>Build an adjacency list of <code>(neighbour, weight)</code> pairs.</li>
-<li>Keep a min-heap of <code>(distance, node)</code> seeded with <code>(0, k)</code> plus a distance table.</li>
-<li>Pop the closest unsettled node, skipping it if it has already been finalized.</li>
-<li>Relax each outgoing edge and push any improved distance back onto the heap.</li>
-<li>The answer is the largest finalized distance, or -1 if some node was never reached.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BELLMAN-FORD | O(V * E) | O(V)
 // Relax all edges V - 1 times. If we can still relax an edge, then there is a negative cycle.
 
@@ -5978,14 +5042,6 @@ NETWORK_DELAY(times, n, k):
 Return the minimum cost to make all points connected. All points are connected if there is exactly one simple path between any two points.</p>
 <p>// Minimum Spanning Tree problem.</p>
 <p><strong>Example:</strong> <code>points = [[0,0],[2,2],[3,10],[5,2],[7,0]]</code> → <code>20</code></p>
-<p><strong>Optimal Approach — Prim's Algorithm</strong></p>
-<ol>
-<li>The points form a complete graph where an edge's weight is the Manhattan distance.</li>
-<li>Start at any point and keep a "cheapest known connection cost" for every other point.</li>
-<li>Repeatedly pick the unvisited point with the smallest such cost and add it to the tree.</li>
-<li>Add its cost to the running total and update the remaining points against this newly added point.</li>
-<li>After all <code>n</code> points join, the accumulated total is the minimum spanning tree's weight.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>KRUSKAL'S ALGORITHM | O(V ^ 2 Log V) | O(V^2)
 Where E is the number of edges and V is the number of vertices.
 
@@ -6068,14 +5124,6 @@ MIN_COST_CONNECT(points):
 </code></pre><h3 id="12-aliens-dictionary">12. Aliens Dictionary </h3>
 <p>Given a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language, derive the order of letters in this language.</p>
 <p><strong>Example:</strong> <code>words = ["wrt","wrf","er","ett","rftt"]</code> → <code>"wertf"</code></p>
-<p><strong>Optimal Approach — Topological Sort on Characters</strong></p>
-<ol>
-<li>Seed a graph with every distinct character mapped to an empty edge set and a zero in-degree.</li>
-<li>Compare each adjacent pair of words and find their first differing character, which yields one ordering edge.</li>
-<li>If a word is a prefix of an earlier longer word, the input is invalid, so return an empty string.</li>
-<li>Run Kahn's algorithm, repeatedly taking any character whose in-degree is 0.</li>
-<li>Return the built order if it uses every character, otherwise an empty string because a cycle exists.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>TOPOLOGICAL SORT | O(C + V + E) | O(V + E)
 C: Total number of characters in all words
 V: Number of unique characters
@@ -6115,14 +5163,6 @@ ALIEN_ORDER(words):
 <h3 id="1-climbing-stairs">1. Climbing Stairs </h3>
 <p>You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?</p>
 <p><strong>Example:</strong> <code>n = 3</code> → <code>3</code></p>
-<p><strong>Optimal Approach — Space-Optimized Fibonacci DP</strong></p>
-<ol>
-<li>You can reach step <code>i</code> only from step <code>i - 1</code> or step <code>i - 2</code>, so <code>ways(i) = ways(i-1) + ways(i-2)</code>.</li>
-<li>Only the last two values ever matter, so keep just two variables.</li>
-<li>Initialize both to 1, representing the ways to stand on step 0 and step 1.</li>
-<li>Loop from 2 to <code>n</code>, setting the new value to their sum and shifting the pair forward.</li>
-<li>Return the latest value; this is Fibonacci in O(N) time and O(1) space.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>RECURSION | O(2^N) | O(N)
 
 A(n) = A(n - 1) + A(n - 2)
@@ -6181,14 +5221,6 @@ CLIMBING_STAIRS(n):
 </code></pre><h3 id="2-house-robber">2. House Robber </h3>
 <p>You have houses: [2, 7, 9, 3, 1] You cannot rob two adjacent houses. Find maximum money.</p>
 <p><strong>Example:</strong> <code>nums = [2, 7, 9, 3, 1]</code> → <code>12</code> (rob 2 + 9 + 1)</p>
-<p><strong>Optimal Approach — Rolling Bottom-Up DP</strong></p>
-<ol>
-<li>At each house you either skip it, or rob it and add the best total from two houses back.</li>
-<li>Track two running values: the best up to the previous house and the best up to the one before that.</li>
-<li>For each house compute <code>current = max(prev, prevPrev + nums[i])</code>.</li>
-<li>Shift the two running values forward and continue.</li>
-<li>The final <code>prev</code> value is the maximum money that can be robbed.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(2^N) | O(N)
 
 // For each house, decide whether to rob it or not.
@@ -6232,14 +5264,6 @@ HOUSE_ROBBER(nums):
 </code></pre><h3 id="3-coin-change">3. Coin Change </h3>
 <p>Given coins of different denominations and a total amount of money, find the fewest number of coins that you need to make up that amount. If that amount cannot be made up by any combination of the coins, return -1.</p>
 <p><strong>Example:</strong> <code>coins = [1, 2, 5], amount = 11</code> → <code>3</code> (5 + 5 + 1)</p>
-<p><strong>Optimal Approach — Bottom-Up Unbounded Knapsack</strong></p>
-<ol>
-<li>Create a <code>dp</code> array of size <code>amount + 1</code> filled with infinity, then set <code>dp[0] = 0</code>.</li>
-<li>For every sub-amount <code>a</code> from 1 upwards, try each available coin.</li>
-<li>If the coin fits, consider <code>dp[a - coin] + 1</code> as a candidate count.</li>
-<li>Keep the smallest candidate as <code>dp[a]</code>.</li>
-<li>Return <code>dp[amount]</code>, or -1 if it is still infinity because no combination reaches it.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(S^N) | O(N)
 
 // Try all combinations of coins to make up the amount.
@@ -6294,14 +5318,6 @@ COIN_CHANGE(coins, amount):
 </code></pre><h3 id="4-partition-equal-subset-sum">4. Partition Equal Subset Sum </h3>
 <p>Given a non-empty array nums containing only positive integers, find if the array can be partitioned into two subsets such that the sum of elements in both subsets is equal.</p>
 <p><strong>Example:</strong> <code>nums = [1, 5, 11, 5]</code> → <code>true</code> ([1, 5, 5] and [11])</p>
-<p><strong>Optimal Approach — 0/1 Knapsack on Reachable Sums</strong></p>
-<ol>
-<li>If the total sum is odd no equal split can exist, so return false immediately.</li>
-<li>Otherwise the goal becomes finding a subset that sums to <code>total / 2</code>.</li>
-<li>Keep a boolean array where <code>dp[s]</code> means "sum <code>s</code> is reachable", with <code>dp[0] = true</code>.</li>
-<li>For each number, iterate <code>s</code> downwards from the target to that number, setting <code>dp[s] |= dp[s - num]</code>.</li>
-<li>Going downwards prevents reusing a number twice; return <code>dp[target]</code> at the end.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(2^N) | O(N)
 
 For each number, decide whether to include it in the first subset or not.
@@ -6340,14 +5356,6 @@ PARTITION_EQUAL_SUBSET(nums):
 </code></pre><h3 id="5-longest-increasing-subsequence">5. Longest Increasing Subsequence </h3>
 <p>Given an integer array nums, return the length of the longest strictly increasing subsequence.</p>
 <p><strong>Example:</strong> <code>nums = [10, 9, 2, 5, 3, 7, 101, 18]</code> → <code>4</code> ([2, 3, 7, 101])</p>
-<p><strong>Optimal Approach — Patience Sorting with Binary Search</strong></p>
-<ol>
-<li>Keep a <code>tails</code> list where <code>tails[i]</code> is the smallest possible ending value of an increasing subsequence of length <code>i + 1</code>.</li>
-<li>Scan the numbers one at a time.</li>
-<li>Binary search <code>tails</code> for the first value greater than or equal to the current number.</li>
-<li>Overwrite that slot if one is found, otherwise append the number to extend the list.</li>
-<li>The final length of <code>tails</code> is the LIS length, giving O(N log N) overall.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(2^N) | O(N)
 
 For each number, decide whether to include it in the subsequence or not.
@@ -6401,14 +5409,6 @@ LowerBound(arr, target):
 </code></pre><h3 id="6-longest-common-subsequence">6. Longest Common Subsequence </h3>
 <p>Given 2 strings s1 and s2, return the length of their longest common subsequence. A subsequence of a string is a new string generated from the original string with some characters(can be none) deleted without changing the relative order of the remaining characters.</p>
 <p><strong>Example:</strong> <code>text1 = "abcde", text2 = "ace"</code> → <code>3</code> ("ace")</p>
-<p><strong>Optimal Approach — 2D DP Table</strong></p>
-<ol>
-<li>Build a table where <code>dp[i][j]</code> is the LCS length of the first <code>i</code> and first <code>j</code> characters.</li>
-<li>Row 0 and column 0 are all zeros, since one string is empty there.</li>
-<li>If the two characters match, <code>dp[i][j] = dp[i-1][j-1] + 1</code>.</li>
-<li>If they differ, <code>dp[i][j] = max(dp[i-1][j], dp[i][j-1])</code>.</li>
-<li>The bottom-right cell holds the answer, and only two rows are needed to save space.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(2^N) | O(N)
 
 For each character in s1, decide whether to include it in the subsequence or not.
@@ -6442,14 +5442,6 @@ LCS(s1, s2):
 <li>Replace a character</li>
 </ol>
 <p><strong>Example:</strong> <code>word1 = "horse", word2 = "ros"</code> → <code>3</code></p>
-<p><strong>Optimal Approach — 2D DP Table</strong></p>
-<ol>
-<li><code>dp[i][j]</code> is the cost to turn the first <code>i</code> characters of <code>word1</code> into the first <code>j</code> of <code>word2</code>.</li>
-<li>Fill the first row with <code>0..j</code> and the first column with <code>0..i</code>, the cost of pure inserts or deletes.</li>
-<li>If the current characters match, carry the diagonal value across unchanged.</li>
-<li>If they differ, take <code>1 + min(left, top, diagonal)</code> for insert, delete, and replace respectively.</li>
-<li>The bottom-right cell is the minimum edit distance.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(3^N) | O(N)
 
 For each character in s1, decide whether to insert, delete, or replace it to match s2.
@@ -6481,14 +5473,6 @@ EDIT_DISTANCE(word1, word2):
 </code></pre><h3 id="8-word-break">8. Word Break </h3>
 <p>Given a string s and a dictionary of words wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.</p>
 <p><strong>Example:</strong> <code>s = "leetcode", wordDict = ["leet","code"]</code> → <code>true</code></p>
-<p><strong>Optimal Approach — Bottom-Up DP with a Word Set</strong></p>
-<ol>
-<li>Put the dictionary into a hash set so lookups cost O(1).</li>
-<li>Create a boolean array where <code>dp[i]</code> means the first <code>i</code> characters can be fully segmented, with <code>dp[0] = true</code>.</li>
-<li>For each end position <code>i</code>, try every split point <code>j</code> before it.</li>
-<li>Set <code>dp[i]</code> to true when <code>dp[j]</code> is true and the substring from <code>j</code> to <code>i</code> is in the set, then stop early.</li>
-<li>Return <code>dp[n]</code>.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(2^N) | O(N)
 
 Generate all possible segmentations of the string and check if each segment is in the dictionary.
@@ -6533,14 +5517,6 @@ WORD_BREAK(s, dictionary):
 </code></pre><h3 id="9-unique-paths">9. Unique Paths </h3>
 <p>Starting from the top-left corner of a m x n grid, you can only move either down or right at any point in time. Find the number of unique paths to reach the bottom-right corner of the grid.</p>
 <p><strong>Example:</strong> <code>m = 3, n = 7</code> → <code>28</code></p>
-<p><strong>Optimal Approach — Grid DP</strong></p>
-<ol>
-<li>Every cell can only be entered from the cell above it or the cell to its left.</li>
-<li>So <code>paths[i][j] = paths[i-1][j] + paths[i][j-1]</code>.</li>
-<li>Fill the entire first row and first column with 1, since there is only one straight-line route to each.</li>
-<li>Sweep the grid row by row applying the formula.</li>
-<li>The bottom-right cell holds the answer, and a single reusable row array is enough for O(N) space.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>BRUTE FORCE | O(2^(M + N)) | O(M + N)
 
 For each cell, decide whether to move down or right.
@@ -6565,14 +5541,6 @@ UNIQUE_PATHS(rows, cols):
 </code></pre><h3 id="10-minimum-path-sum">10. Minimum Path Sum </h3>
 <p>Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path. You can only move either down or right at any point in time.</p>
 <p><strong>Example:</strong> <code>grid = [[1,3,1],[1,5,1],[4,2,1]]</code> → <code>7</code> (1→3→1→1→1)</p>
-<p><strong>Optimal Approach — Grid DP</strong></p>
-<ol>
-<li>Each cell can only be reached from above or from the left.</li>
-<li>Set <code>dp[0][0]</code> to <code>grid[0][0]</code> and fill the first row and first column with running sums.</li>
-<li>For every other cell, <code>dp[i][j] = grid[i][j] + min(dp[i-1][j], dp[i][j-1])</code>.</li>
-<li>Sweep the grid row by row so both dependencies are already computed.</li>
-<li>The bottom-right cell is the minimum path sum, and the grid itself can be updated in place.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DP | O(M * N) | O(M * N)
 
 // dp[r][c] = minimum cost to reach (r,c)
@@ -6594,14 +5562,6 @@ MIN_PATH_SUM(grid):
 </code></pre><h3 id="11-decode-ways">11. Decode Ways </h3>
 <p>Given a string s containing only digits, return the number of ways to decode it. The mapping is 'A' -&gt; 1, 'B' -&gt; 2, ..., 'Z' -&gt; 26. A leading zero is invalid.</p>
 <p><strong>Example:</strong> <code>s = "226"</code> → <code>3</code> ("BZ", "VF", "BBF")</p>
-<p><strong>Optimal Approach — Linear DP over Two Choices</strong></p>
-<ol>
-<li><code>dp[i]</code> counts the ways to decode the first <code>i</code> characters, starting with <code>dp[0] = 1</code>.</li>
-<li>If the single digit ending at <code>i</code> is not <code>'0'</code>, add <code>dp[i - 1]</code>.</li>
-<li>If the two digits ending at <code>i</code> form a number between 10 and 26, add <code>dp[i - 2]</code>.</li>
-<li>A <code>'0'</code> that cannot pair with the previous digit makes that position 0, killing the branch.</li>
-<li>Return <code>dp[n]</code>; only the last two values matter, so O(1) space works.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>DP | O(N) | O(N)
 
 // dp[i] = number of ways to decode first i characters
@@ -6629,14 +5589,6 @@ DECODE_WAYS(s):
 </code></pre><h3 id="12-best-time-to-buy-and-sell-stock-with-cooldown">12. Best Time to Buy and Sell Stock with Cooldown </h3>
 <p>Given array of prices for stocks. You can: Buy, Sell, Wait. But after selling, you must wait one day before buying again. Calculate the maximum profit you can achieve.</p>
 <p><strong>Example:</strong> <code>prices = [1, 2, 3, 0, 2]</code> → <code>3</code> (buy, sell, cooldown, buy, sell)</p>
-<p><strong>Optimal Approach — State Machine DP</strong></p>
-<ol>
-<li>Track three running states per day: holding a stock, having just sold, and resting.</li>
-<li><code>hold = max(hold, rest - price)</code>, since a purchase is only allowed after a rest day.</li>
-<li><code>sold = hold + price</code>, which sells whatever was being held.</li>
-<li><code>rest = max(rest, previousSold)</code>, which is where the mandatory cooldown day lands.</li>
-<li>Update all three each day using the <em>previous</em> day's values, then return <code>max(sold, rest)</code>.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>STATE MACHINE DP | O(N) | O(N)
 
 // Each day, we can be in one of three states. We track the maximum profit for each state.
@@ -6659,14 +5611,6 @@ STOCK_WITH_COOLDOWN(prices):
 </code></pre><h3 id="13-burst-balloons">13. Burst Balloons </h3>
 <p>You are given n balloons, indexed from 0 to n - 1. Each balloon is painted with a number on it represented by an array nums. You are asked to burst all the balloons. If you burst balloon i you will get nums[left] <em>nums[i]</em> nums[right] coins. Here left and right are adjacent indices of i. After the burst, the left and right then become adjacent. Find maximum coins you can collect by bursting the balloons wisely. You may imagine nums[-1] = nums[n] = 1. They are not real therefore you cannot burst them.</p>
 <p><strong>Example:</strong> <code>nums = [3, 1, 5, 8]</code> → <code>167</code></p>
-<p><strong>Optimal Approach — Interval DP on the Last Balloon</strong></p>
-<ol>
-<li>Define <code>dp[left][right]</code> as the most coins obtainable by bursting every balloon in that inclusive range.</li>
-<li>Iterate over increasing window lengths so all smaller ranges are already solved.</li>
-<li>For each window, try every <code>i</code> inside it as the <em>last</em> balloon burst in that range.</li>
-<li>Bursting <code>i</code> last means its neighbours are <code>nums[left - 1]</code> and <code>nums[right + 1]</code> (treat out-of-range as 1), scoring that product plus <code>dp[left][i - 1] + dp[i + 1][right]</code>.</li>
-<li>Keep the maximum over all <code>i</code>, and <code>dp[0][n - 1]</code> is the answer.</li>
-</ol>
 <pre data-role="codeBlock" data-info="" class="language-text"><code>INTERVAL DP | O(N^3) | O(N^2)
 
 // dp[left][right] = max coins from bursting all balloons between left and right

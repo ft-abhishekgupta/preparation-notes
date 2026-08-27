@@ -80,6 +80,21 @@ TWITTER
 - The system should be low latency, rendering feeds in under 200ms
 ```
 
+> Acronym to remember
+> "SCALE For Cloud DesignS"
+
+```
+S- Scalability
+C - Consistency (CAP Theorem)
+A - Availability
+L - Latency
+E - Environment Constraints
+F - Fault Tolerance
+C - Compliance
+D - Durability
+S - Security
+```
+
 #### Capacity Estimation
 
 Back of the envelop calculation for the system
@@ -188,7 +203,18 @@ Make the HLD efficient and satisfy non functional requirements
 
 ![alt text](image-3.png)
 
----
+## Delivery Framework for Infrastructure Problems
+
+![alt text](image-13.png)
+
+### System Interface
+
+- Identify core entities
+- Define the input and output of the system
+
+### Data flow
+
+- Steps data will go through to convert input to output
 
 ## Notes
 
@@ -238,23 +264,100 @@ Make the HLD efficient and satisfy non functional requirements
 ### Scaling Reads
 
 - Within DB optimizations
-  - Indexing, denormalization
+  - Indexing, Denormalization, Vertical Scaling
 - Scale horizontally
+  - Read Replica, Sharding (Functional or Shard Key Based)
 - Caching
+  - Application, CDN
 
 > Considerations: Managing cache, replication lag, hot keys
 
 ![alt text](image-8.png)
 
+#### Deep Dives on Scaling Reads
+
+- Queries takes longer
+  - Indexing
+- Still reads need scaling
+  - Spinning Disk to SSDs
+  - Data Freq access data Skewed > Add Cache
+  - Else > Add Replicas
+- Hot Cache / Key
+  - Request Cohelesense
+  - Cache Key Fanout
+- Cache Invalidation / Updates immediately
+  - On write, delete key from cache > Still cache can read old version from db replica
+  - Cache Versioning
+
 ### Scaling Writes
 
-- Sharding
-- Vertical partitioning
-- Queues and load shedding
-- Batching
-- Intelligent load management
+In Order
 
-![alt text](image-9.png)
+- Vertical Scaling and DB Choice
+- Sharding and Vertical partitioning
+  - Read Fan Out
+- Queues and load shedding
+  - Eventual Consistency
+- Batching and Aggregation
+  - Latency
+
+#### Vertical Scaling
+
+Use better hardware
+
+#### DB Choice
+
+Use cassandra db for write heavy workloads, append-only commit log architecture. Read suffers.
+Postgres updates BTree on every insert
+
+#### Sharding
+
+Example Redis
+
+Good Shard Key
+
+#### Vertical Partitioning
+
+Columns are divided into different db - Specialized table in specialized database. Different data on different type of dbs
+
+#### Queue
+
+- For bursty traffic, for short lived
+- Buffer / Queue
+
+#### Load Shedding
+
+- Drop updates / writes which are not much important
+- Newer update can overwrite
+
+#### Batching
+
+Group write together at application layer / queue, then do batch updates
+
+- Data loss can occur so need some recovery mechanism
+
+#### Intermediate processing layer
+
+- Batches some event and then flushes that to db
+- Like Updates Batcher
+
+> DB Layer Batching also possible
+
+#### Aggregation
+
+Aggregate incomming writes into processors, Batch and Update
+Create broadcast nodes for reads, where each broadcast node handles set of users feeds
+![alt text](image-12.png)
+
+**Deep Dives**
+
+1. Increase shard / db capacity without downtime
+   1. Create new db in parallel
+   2. Do dual write, copy historical data
+   3. Swtch
+2. Hot Key
+   1. Split into different shard when becomes hot
+   2. Read will need to agregated data from all shards
 
 ### Handling Large Blob
 

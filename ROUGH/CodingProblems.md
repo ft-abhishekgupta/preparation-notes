@@ -8,14 +8,6 @@ Given an integer array `nums`, return an array `answer` such that `answer[i]` is
 
 **Example:** `nums = [1, 2, 3, 4]` → `[24, 12, 8, 6]`
 
-**Optimal Approach — Prefix and Suffix in the Output Array**
-
-1. Create the answer array and a running product variable set to 1.
-2. Sweep left to right storing that running product in `answer[i]`, then multiply it by `nums[i]`.
-3. Reset the running product to 1 and sweep right to left the same way.
-4. Multiply `answer[i]` by the running product of everything on its right.
-5. Return `answer`; each slot now holds both sides multiplied together, with no division used.
-
 ```text
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -79,14 +71,6 @@ Given an integer array `nums` of size `n`, return the majority element. The majo
 
 **Example:** `nums = [2, 2, 1, 1, 1, 2, 2]` → `2`
 
-**Optimal Approach — Boyer-Moore Voting**
-
-1. Keep one candidate value and one counter, starting empty and at zero.
-2. Scan the array, and whenever the counter is zero adopt the current number as the candidate.
-3. Increase the counter when the current number equals the candidate, otherwise decrease it.
-4. Every non-majority element can only cancel one majority element, so the majority always survives.
-5. Return the candidate left standing after the single pass.
-
 ```text
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -133,14 +117,6 @@ return candidate
 Given an array `nums` containing `n` distinct numbers from the range `[0, n]`, return the only missing number.
 
 **Example:** `nums = [3, 0, 1]` → `2`
-
-**Optimal Approach — XOR Cancellation**
-
-1. Start a running XOR accumulator at 0.
-2. XOR it with every index from 0 through n.
-3. XOR it with every value actually present in the array.
-4. Numbers appearing in both lists cancel out because `x ^ x = 0`.
-5. The single value left in the accumulator is the missing number.
 
 ```text
 BRUTE FORCE | O(N^2) | O(1)
@@ -189,14 +165,6 @@ Given an integer array `nums` of length `n`, where every value is in the range `
 
 **Example:** `nums = [4, 3, 2, 7, 8, 2, 3, 1]` → `[2, 3]`
 
-**Optimal Approach — Negative Marking**
-
-1. Because every value lies in `[1, n]`, the array itself can be used as the seen-marker.
-2. For each element compute `index = abs(value) - 1`.
-3. If `nums[index]` is already negative, that value was seen before, so record it as a duplicate.
-4. Otherwise flip `nums[index]` to negative to mark that value as seen.
-5. Return the collected duplicates after one pass, using no extra memory.
-
 ```text
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -238,14 +206,6 @@ return result
 Given an integer array `nums` containing `n + 1` integers in the range `[1, n]`, return the only repeated number. The repeated number may appear more than twice.
 
 **Example:** `nums = [1, 3, 4, 2, 2]` → `2`
-
-**Optimal Approach — Floyd's Cycle Detection**
-
-1. Treat each index as a node whose next pointer is `nums[index]`; the duplicate forces a cycle.
-2. Move a slow pointer one step and a fast pointer two steps until they meet inside the cycle.
-3. Reset the slow pointer to the start and leave the fast pointer at the meeting point.
-4. Advance both one step at a time; they meet exactly at the cycle's entrance.
-5. That entrance value is the duplicate, found without sorting or modifying the array.
 
 ```text
 BRUTE FORCE | O(N^2) | O(1)
@@ -315,14 +275,6 @@ Given a sorted array of integers and a target value, return the index of the tar
 
 **Example:** `nums = [-1, 0, 3, 5, 9, 12], target = 9` → `4`
 
-**Optimal Approach — Binary Search**
-
-1. Set `left` to the first index and `right` to the last index.
-2. While `left <= right`, compute the middle index as `left + (right - left) / 2` to avoid overflow.
-3. Return `mid` immediately if `nums[mid]` equals the target.
-4. Move `left` to `mid + 1` when the middle value is too small, else move `right` to `mid - 1`.
-5. Return -1 once the range empties, having discarded half the candidates each round.
-
 ```
 BRUTE FORCE | O(N) | O(1)
 
@@ -369,14 +321,6 @@ You are given an m × n matrix with these properties:
 
 **Example:** `matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3` → `true`
 
-**Optimal Approach — Binary Search on the Flattened Matrix**
-
-1. The rows joined end to end already form one fully sorted list.
-2. Binary search over the virtual positions `0 .. rows * cols - 1`.
-3. Convert a position into real coordinates with `row = pos / cols` and `col = pos % cols`.
-4. Compare that cell with the target and throw away the half that cannot contain it.
-5. Return true on a match and false when the range empties.
-
 ```
 BRUTE FORCE | O(M * N) | O(1)
 Iterate through each element of the matrix to find the target.
@@ -416,14 +360,6 @@ return false
 You are given an integer array nums sorted in ascending order, and an integer target. The array is rotated at an unknown pivot index. Determine if the target exists in the array.
 
 **Example:** `nums = [4, 5, 6, 7, 0, 1, 2], target = 0` → `4`
-
-**Optimal Approach — Modified Binary Search**
-
-1. Binary search, but at each step first decide which half is sorted.
-2. If `nums[left] <= nums[mid]` the left half is sorted, otherwise the right half is.
-3. Check whether the target lies inside the sorted half's value range.
-4. If it does, search that half; otherwise search the other half.
-5. Return `mid` when it equals the target, or -1 once the range empties.
 
 ```
 BRUTE FORCE | O(N) | O(1)
@@ -465,14 +401,6 @@ Given an array of unique integers sorted in ascending order and rotated at an un
 
 **Example:** `nums = [3, 4, 5, 1, 2]` → `1`
 
-**Optimal Approach — Binary Search Against the Right Edge**
-
-1. Keep two pointers over the whole array; there is no fixed target to compare against.
-2. Compute `mid` and compare `nums[mid]` with `nums[right]`.
-3. If `nums[mid] > nums[right]`, the rotation point is further right, so set `left = mid + 1`.
-4. Otherwise `mid` could still be the minimum, so set `right = mid`.
-5. When the pointers meet they land on the smallest element; return it.
-
 ```
 BRUTE FORCE | O(N) | O(1)
 Iterate through the array to find the minimum element.
@@ -500,14 +428,6 @@ return nums[left]
 A peak element is an element that is strictly greater than its neighbors. Given an integer array nums, find any peak element and return its index. You may assume that nums[-1] = nums[n] = -∞.
 
 **Example:** `nums = [1, 2, 3, 1]` → `2`
-
-**Optimal Approach — Binary Search on the Slope**
-
-1. Treat the out-of-bounds neighbours as negative infinity, so a peak is guaranteed to exist.
-2. Binary search: compute `mid` and compare `nums[mid]` with `nums[mid + 1]`.
-3. If the slope rises (`nums[mid] < nums[mid + 1]`), a peak must lie to the right, so set `left = mid + 1`.
-4. If the slope falls, a peak is at `mid` or to its left, so set `right = mid`.
-5. The pointers converge onto a peak index; return it.
 
 ```
 BRUTE FORCE | O(N) | O(1)
@@ -545,14 +465,6 @@ Find the minimum integer eating speed k that allows Koko to finish all bananas w
 
 **Example:** `piles = [3, 6, 7, 11], h = 8` → `4`
 
-**Optimal Approach — Binary Search on the Answer**
-
-1. The eating speed must be between 1 and the largest pile, and feasibility only improves as speed grows.
-2. Binary search on the speed rather than on the array itself.
-3. For a candidate speed, sum `ceil(pile / speed)` over all piles to get the hours needed.
-4. If those hours fit within `h` the speed works, so search lower; otherwise search higher.
-5. The smallest feasible speed the search settles on is the answer.
-
 ```
 BRUTE FORCE | O(N * max(piles)) | O(1)
 
@@ -586,14 +498,6 @@ return left
 Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
 
 **Example:** `nums1 = [1, 3], nums2 = [2]` → `2.0`
-
-**Optimal Approach — Partition Binary Search**
-
-1. Binary search the split point on the shorter array only.
-2. Take `i` elements from the short array and `(m + n + 1) / 2 - i` from the longer one.
-3. The cut is correct when both left-side maxima are less than or equal to both right-side minima.
-4. Shift the search range left or right whenever one boundary value is out of order.
-5. Once balanced, the median is the left maximum for an odd total, or the average of the two boundaries for an even total.
 
 ```
 BRUTE FORCE | O((m+n) log(m+n)) | O(m+n)
@@ -674,14 +578,6 @@ Given an array of non-negative integers nums and an integer m, split the array i
 
 **Example:** `nums = [7, 2, 5, 10, 8], m = 2` → `18`
 
-**Optimal Approach — Binary Search on the Answer**
-
-1. The answer lies between the largest single element and the sum of the whole array.
-2. Binary search that range for the smallest workable "largest allowed subarray sum".
-3. For a candidate limit, greedily fill subarrays and start a new one whenever adding would exceed the limit.
-4. If the number of subarrays needed is at most `m`, the limit is feasible, so try smaller; otherwise try larger.
-5. Return the smallest feasible limit found.
-
 ```
 BRUTE FORCE | O(N^m) | O(1)
 Use recursion to explore all possible ways to split the array into m subarrays and calculate the largest sum for each split. Return the minimum of these largest sums.
@@ -735,14 +631,6 @@ Given an integer array `nums` and an integer `target`, return the indices of the
 
 **Example:** `nums = [2, 7, 11, 15], target = 9` → `[0, 1]`
 
-**Optimal Approach — One-Pass Hash Map**
-
-1. Create an empty hash map from value to index.
-2. Walk the array once and compute `complement = target - num` for each element.
-3. If the complement is already a key in the map, the pair is found.
-4. Return the complement's stored index together with the current index.
-5. Otherwise store the current number and index in the map and continue.
-
 ```text
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -777,14 +665,6 @@ return no solution
 Given an integer array `nums`, return `true` if any value appears at least twice in the array, and return `false` if every element is distinct.
 
 **Example:** `nums = [1, 2, 3, 1]` → `true`
-
-**Optimal Approach — Hash Set**
-
-1. Create an empty hash set.
-2. Walk the array once, checking each number against the set.
-3. If the number is already present, a duplicate exists, so return true immediately.
-4. Otherwise add the number to the set and move on.
-5. Return false if the scan finishes without ever hitting a repeat.
 
 ```text
 BRUTE FORCE | O(N^2) | O(1)
@@ -825,14 +705,6 @@ Given two strings `s` and `t`, return `true` if `t` is an anagram of `s`, and `f
 
 **Example:** `s = "anagram", t = "nagaram"` → `true`
 
-**Optimal Approach — Fixed Character Set Counting**
-
-1. Return false right away if the two strings have different lengths.
-2. Create a 26-slot counter array (or a hash map for a larger alphabet).
-3. Increment the counter for every character of the first string.
-4. Decrement the counter for every character of the second string.
-5. The strings are anagrams exactly when no count ever goes negative and all counts end at zero.
-
 ```text
 SORTING | O(N log N) | O(1)
 
@@ -872,14 +744,6 @@ Given an array of strings `strs`, group the anagrams together. You can return th
 
 **Example:** `strs = ["eat","tea","tan","ate","nat","bat"]` → `[["eat","tea","ate"],["tan","nat"],["bat"]]`
 
-**Optimal Approach — Frequency Signature + Hash Map**
-
-1. Use a hash map whose key is a canonical signature and whose value is a list of words.
-2. For each word build a 26-slot letter frequency count in linear time.
-3. Turn that count into a hashable key such as a tuple or a delimited string.
-4. Append the word to the bucket belonging to that key, so anagrams collide into the same bucket.
-5. Return all the map's value lists as the grouped answer.
-
 ```text
 SORTING + HASHING | O(N * K log K) | O(N * K)
 
@@ -913,14 +777,6 @@ return all groups in the map
 Given an integer array `nums` and an integer `k`, return the `k` most frequent elements. You may return the answer in any order.
 
 **Example:** `nums = [1, 1, 1, 2, 2, 3], k = 2` → `[1, 2]`
-
-**Optimal Approach — Bucket Sort by Frequency**
-
-1. Count every number's frequency in a hash map in one pass.
-2. Create an array of buckets indexed by frequency, sized `n + 1`.
-3. Drop each number into the bucket that matches its count.
-4. Walk the buckets from the highest frequency downwards, collecting numbers as you go.
-5. Stop as soon as `k` numbers are collected; no sorting or heap is ever needed.
 
 ```text
 HASHING + SORTING | O(N + M log M) | O(M)
@@ -969,14 +825,6 @@ Given an integer array nums and an integer k, return the total number of continu
 
 **Example:** `nums = [1, 1, 1], k = 2` → `2`
 
-**Optimal Approach — Prefix Sum + Hash Map**
-
-1. Keep a running prefix sum and a map of prefix sum to how many times it has occurred, seeded with `{0: 1}`.
-2. Add each element to the running sum while scanning left to right.
-3. Look up `runningSum - k` in the map; every stored occurrence marks a subarray ending here that sums to `k`.
-4. Add that stored count to the answer.
-5. Record the current running sum in the map and carry on to the end.
-
 ```
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -1005,14 +853,6 @@ return count
 Given an integer array `nums`, return the length of its longest sequence of consecutive integers. The elements may appear in any order.
 
 **Example:** `nums = [100, 4, 200, 1, 3, 2]` → `4`
-
-**Optimal Approach — Hash Set with Sequence Starts**
-
-1. Put every number into a hash set so membership checks cost O(1).
-2. Scan the set and only begin counting at a number whose predecessor `num - 1` is absent.
-3. Such a number is guaranteed to be the true start of a run.
-4. Walk forward through `num + 1`, `num + 2`, ... while each value exists in the set, counting length.
-5. Track the longest run; every number is visited at most twice overall, so the total work is linear.
 
 ```text
 BRUTE FORCE | O(N^2) | O(1)
@@ -1052,14 +892,6 @@ Given an integer array `nums` and an integer `k`, return the number of contiguou
 
 **Example:** `nums = [1, 2, 3], k = 3` → `2`
 
-**Optimal Approach — Prefix Sum + Hashing**
-
-1. Track a running prefix sum plus a map of prefix sum to occurrence count, pre-loaded with `{0: 1}`.
-2. Add the current element to the running sum as you scan the array once.
-3. Any earlier prefix equal to `runningSum - k` marks a subarray ending here that sums to `k`.
-4. Add the map's count for that value to the answer.
-5. Store the current running sum back in the map and continue.
-
 ```text
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -1098,14 +930,6 @@ return count
 Given a string s, determine whether it is a palindrome. Case Insensitive and ignore non-alphanumeric characters.
 
 **Example:** `s = "A man, a plan, a canal: Panama"` → `true`
-
-**Optimal Approach — Two Pointers**
-
-1. Put one pointer at the start of the string and one at the end.
-2. Skip inward over any character that is not a letter or a digit.
-3. Compare the two surviving characters case-insensitively.
-4. Return false on any mismatch, otherwise step both pointers one place inwards.
-5. Return true when the pointers meet, using no cleaned-up copy of the string.
 
 ```text
 BRUTE FORCE | O(N) | O(N)
@@ -1147,14 +971,6 @@ function isPalindrome(left, right)
 Given sorted array of integers `numbers` and an integer `target`, return the indices of the two numbers such that they add up to `target`. The returned indices are 1-based.
 
 **Example:** `numbers = [2, 7, 11, 15], target = 9` → `[1, 2]`
-
-**Optimal Approach — Two Pointers on a Sorted Array**
-
-1. Place one pointer on the first element and one on the last.
-2. Add the two values the pointers are referencing.
-3. Return the two 1-based indices if that sum equals the target.
-4. If the sum is too small move the left pointer right, since only a bigger value can help.
-5. If the sum is too large move the right pointer left; sortedness proves the discarded side is useless.
 
 ```text
 BRUTE FORCE | O(N^2) | O(1)
@@ -1205,14 +1021,6 @@ while left < right
 Given an integer array `nums`, return all unique triplets `[nums[i], nums[j], nums[k]]` such that `nums[i] + nums[j] + nums[k] == 0`.
 
 **Example:** `nums = [-1, 0, 1, 2, -1, -4]` → `[[-1, -1, 2], [-1, 0, 1]]`
-
-**Optimal Approach — Sorting + Two Pointers**
-
-1. Sort the array so equal values sit together and two pointers become usable.
-2. Fix each index `i` as the first number, skipping it whenever it repeats the previous value.
-3. Run a left and a right pointer over the remainder looking for a pair summing to `-nums[i]`.
-4. Record the triplet on a hit, then skip past duplicate values on both sides.
-5. Move left inward when the sum is too small and right inward when it is too large.
 
 ```text
 BRUTE FORCE | O(N^3) | O(1)
@@ -1273,14 +1081,6 @@ Given an array `height` of non-negative integers where `height[i]` represents th
 
 **Example:** `height = [1, 8, 6, 2, 5, 4, 8, 3, 7]` → `49`
 
-**Optimal Approach — Two Pointers**
-
-1. Start with a pointer on each end, which is the widest container possible.
-2. The area is the smaller of the two heights multiplied by the distance between them.
-3. Record that area if it beats the best seen so far.
-4. Move the pointer standing on the shorter line inwards.
-5. Keeping the shorter line can never help once the width shrinks, so repeat until the pointers meet.
-
 ```text
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -1309,14 +1109,6 @@ return max_area
 Given an array `height` of non-negative integers where `height[i]` represents the height of a vertical line at position `i`, compute how much water it can trap after raining.
 
 **Example:** `height = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]` → `6`
-
-**Optimal Approach — Two Pointers**
-
-1. Keep pointers at both ends plus running `leftMax` and `rightMax` values.
-2. Always process whichever side currently has the smaller height, because that side's max is the real limit.
-3. If `height[left] < height[right]`, update `leftMax`, add `leftMax - height[left]` to the total, then move left inward.
-4. Otherwise update `rightMax`, add `rightMax - height[right]` to the total, and move right inward.
-5. The accumulated total after one pass is the trapped water, with no prefix arrays needed.
 
 ```text
 water[i] =  min(leftMax[i], rightMax[i]) - height[i]
@@ -1395,14 +1187,6 @@ Given a sorted integer array nums, remove the duplicates in-place such that each
 
 **Example:** `nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]` → `5` (nums = [0, 1, 2, 3, 4])
 
-**Optimal Approach — Slow and Fast Pointers**
-
-1. Keep a write pointer at index 1 marking where the next unique value belongs.
-2. Scan the array with a read pointer starting from index 1.
-3. Compare `nums[read]` with `nums[write - 1]`, which is the last value kept.
-4. When they differ, copy `nums[read]` into `nums[write]` and advance the write pointer.
-5. Return `write`, the count of unique elements now sitting at the front of the array.
-
 ```
 BRUTE FORCE | O(N) | O(N)
 
@@ -1434,14 +1218,6 @@ Given an integer array nums, move all 0s to the end of the array while maintaini
 
 **Example:** `nums = [0, 1, 0, 3, 12]` → `[1, 3, 12, 0, 0]`
 
-**Optimal Approach — Two Pointers with Swapping**
-
-1. Keep a write pointer marking the next slot reserved for a non-zero value.
-2. Scan the array with a read pointer from left to right.
-3. Whenever `nums[read]` is non-zero, swap it with `nums[write]`.
-4. Advance the write pointer after each swap.
-5. Zeros naturally drift to the back while the non-zero order is preserved, all in one in-place pass.
-
 ```
 BRUTE FORCE | O(N^2) | O(N)
 
@@ -1471,14 +1247,6 @@ for i = slow to n - 1
 Given a string s, find the length of the longest substring without repeating characters.
 
 **Example:** `s = "abcabcbb"` → `3` ("abc")
-
-**Optimal Approach — Sliding Window with Last-Seen Indices**
-
-1. Maintain a window `[left, right]` plus a map of each character's most recent index.
-2. Extend `right` one character at a time.
-3. If that character was last seen at or after `left`, jump `left` to `lastSeen + 1` in a single move.
-4. Update the character's last-seen index to `right`.
-5. Track the largest `right - left + 1` seen; each character is processed only once.
 
 ```
 BRUTE FORCE | O(N^3) | O(N)
@@ -1542,14 +1310,6 @@ Return the length of the longest substring that can be transformed into a string
 
 **Example:** `s = "AABABBA", k = 1` → `4`
 
-**Optimal Approach — Sliding Window with a Frequency Count**
-
-1. Slide a window while counting the frequency of each character inside it.
-2. Track `maxCount`, the highest frequency any single character has reached in the window.
-3. The window is valid while `windowLength - maxCount <= k`, since the rest can be replaced.
-4. If it turns invalid, shrink from the left and decrement the departing character's count.
-5. The largest valid window length seen is the answer.
-
 ```
 SLIDING WINDOW + HASH MAP | O(N) | O(K)
 
@@ -1580,14 +1340,6 @@ return answer
 Given two strings s1 and s2, determine whether s2 contains a permutation of s1 as a substring.
 
 **Example:** `s1 = "ab", s2 = "eidbaooo"` → `true` ("ba")
-
-**Optimal Approach — Fixed-Size Sliding Window + Frequency Array**
-
-1. Build a 26-slot frequency array for `s1`.
-2. Slide a window of exactly `s1.length` characters across `s2`, keeping a matching frequency array.
-3. On each step add the entering character's count and remove the leaving character's count.
-4. Compare the two arrays, or keep a running "matched slots" counter for an O(1) check.
-5. Return true the moment they match, and false if the window runs off the end.
 
 ```
 BRUTE FORCE | O(M! * N) | O(K)
@@ -1639,14 +1391,6 @@ return false
 Given two strings s and t, return the minimum window in s which will contain all the characters in t. If there is no such window, return the empty string "".
 
 **Example:** `s = "ADOBECODEBANC", t = "ABC"` → `"BANC"`
-
-**Optimal Approach — Sliding Window with a Missing Counter**
-
-1. Count the characters `t` needs in a hash map and set `missing` to `t`'s length.
-2. Expand `right`, and if the entering character is still required (count > 0) decrease `missing`.
-3. Always decrement that character's count in the map, letting it go negative for surplus characters.
-4. When `missing` reaches 0 the window is valid, so shrink from the left while recording the smallest window seen.
-5. Give the departing character's count back and continue until `right` reaches the end.
 
 ```
 BRUTE FORCE | O(N^3) | O(K)
@@ -1719,14 +1463,6 @@ Return the maximum value in every window.
 
 **Example:** `nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3` → `[3, 3, 5, 5, 6, 7]`
 
-**Optimal Approach — Monotonic Deque**
-
-1. Keep a deque of indices whose values are in strictly decreasing order.
-2. Before pushing index `i`, pop from the back every index whose value is less than or equal to `nums[i]`.
-3. Pop from the front any index that has slid out of the window (`index <= i - k`).
-4. The front of the deque is therefore always the maximum of the current window.
-5. Record that front value once the window is full; each index enters and leaves the deque at most once.
-
 ```
 BRUTE FORCE | O(N * K) | O(1)
 
@@ -1778,14 +1514,6 @@ for i from 0 to n-1:
 Given a string s, return the number of palindromic substrings in it.
 
 **Example:** `s = "aaa"` → `6`
-
-**Optimal Approach — Expand Around Center**
-
-1. Every palindrome has a center: either one character or the gap between two characters.
-2. Loop over all `2n - 1` possible centers.
-3. From each center push outwards while the characters on both sides match.
-4. Count one palindrome for every successful expansion step.
-5. Sum the counts over all centers; no DP table or extra space is needed.
 
 ```
 BRUTE FORCE | O(N^3) | O(1)
@@ -1851,14 +1579,6 @@ Given a string s, return the longest palindromic substring in s.
 
 **Example:** `s = "babad"` → `"bab"` ("aba" also valid)
 
-**Optimal Approach — Manacher's Algorithm**
-
-1. Insert separators (e.g. `#`) between characters so every palindrome has an odd length.
-2. Sweep left to right, remembering the center and right edge of the furthest-reaching palindrome so far.
-3. Initialize each position's radius from its mirror inside that palindrome instead of starting at zero.
-4. Expand outward only beyond what the mirror already guaranteed, then update the center and right edge if you reached further.
-5. Map the largest radius back to the original string to get the longest palindromic substring in linear time.
-
 ```
 BRUTE FORCE | O(N^3) | O(1)
 
@@ -1916,14 +1636,6 @@ Given a string s containing only: ( ) { } [ ]. Determine whether the brackets ar
 
 **Example:** `s = "()[]{}"` → `true`
 
-**Optimal Approach — Stack**
-
-1. Scan the string from left to right with an empty stack.
-2. Push every opening bracket onto the stack.
-3. On a closing bracket, fail if the stack is empty or its top is not the matching opener.
-4. Otherwise pop the top and continue scanning.
-5. The string is valid only when the stack is completely empty at the end.
-
 ```
 STACK | O(N) | O(N)
 
@@ -1946,14 +1658,6 @@ Design an algorithm to encode a list of strings into a single string and then de
 
 **Example:** `["neet","code","love","you"]` → encode → decode → `["neet","code","love","you"]`
 
-**Optimal Approach — Length Prefixing**
-
-1. Encode each string as its length, then a delimiter such as `#`, then the string itself.
-2. Concatenate all of these blocks into one long string.
-3. To decode, read digits up to the next `#` to recover the length.
-4. Slice exactly that many characters after the `#` as the original string.
-5. Continue from the next position; the length prefix makes any character safe inside the payload.
-
 ```
 LENGTH PREFIX | O(N) | O(N)
 Encode each string as: length + delimiter + string
@@ -1964,14 +1668,6 @@ Encode each string as: length + delimiter + string
 Given an array of strings, find the longest common prefix shared by all strings.
 
 **Example:** `strs = ["flower","flow","flight"]` → `"fl"`
-
-**Optimal Approach — Vertical Scanning**
-
-1. Compare the strings column by column instead of pair by pair.
-2. For column `i`, take the character from the first string as the reference.
-3. Check that every other string is long enough and holds the same character at `i`.
-4. Stop at the first mismatch or as soon as the shortest string runs out.
-5. Return the prefix of the first string up to that column, using no extra space.
 
 ```
 BRUTE FORCE | O(N * M * M) N: Number of Strings, M: Length of the Shortest String | O(1)
@@ -2037,14 +1733,6 @@ Implement a function that converts a string into a 32-bit signed integer. Ignore
 
 **Example:** `s = "   -42"` → `-42`
 
-**Optimal Approach — Single Pass Digit Reading**
-
-1. Skip any leading whitespace.
-2. Read one optional `+` or `-` to fix the sign.
-3. Consume digits one at a time, building `result = result * 10 + digit`.
-4. Before each step, check whether the next multiply-and-add would leave the 32-bit range and clamp to `INT_MAX`/`INT_MIN` if so.
-5. Stop at the first non-digit character and return the signed result.
-
 ```
 BRUTE FORCE | O(N) | O(1)
 
@@ -2092,14 +1780,6 @@ Given two non-negative long integers represented as strings, return their produc
 
 **Example:** `num1 = "123", num2 = "456"` → `"56088"`
 
-**Optimal Approach — Digit Convolution (School Method)**
-
-1. An n-digit times an m-digit number never needs more than `n + m` digits, so allocate that many zeros.
-2. Multiply every digit pair `num1[i] * num2[j]` using two nested loops.
-3. That product always lands at positions `i + j + 1` for the unit and `i + j` for the carry.
-4. Add it into `result[i + j + 1]`, keep `sum % 10` there, and carry `sum / 10` into `result[i + j]`.
-5. Strip leading zeros and join the digits, returning `"0"` when either input is zero.
-
 ```
 REPEATED ADDITION | O(N * M) | O(1)
 
@@ -2146,14 +1826,6 @@ FFT | O(N log N) | O(N)
 Given two strings `haystack` and `needle`, return the index of the first occurrence of `needle` in `haystack`, or -1 if `needle` is not part of `haystack`.
 
 **Example:** `haystack = "sadbutsad", needle = "sad"` → `0`
-
-**Optimal Approach — KMP (Knuth-Morris-Pratt)**
-
-1. Precompute an LPS array for the needle, where `lps[i]` is the longest proper prefix of `needle[0..i]` that is also a suffix.
-2. Scan the haystack with one pointer while a second pointer walks the needle.
-3. Advance both pointers whenever the characters match.
-4. On a mismatch, never rewind the haystack; instead fall the needle pointer back to `lps[j - 1]`.
-5. Return the start index when the needle pointer reaches the needle's length, or -1 if the scan ends first.
 
 ```
 BRUTE FORCE | O(N * M) | O(1)
@@ -2253,14 +1925,6 @@ getMin() — return the minimum element currently in the stack
 
 **Example:** `push(-2), push(0), push(-3), getMin()` → `-3`; then `pop(), top()` → `0`, `getMin()` → `-2`
 
-**Optimal Approach — Twin Stacks**
-
-1. Keep the normal stack of values plus a second stack holding the running minimum.
-2. On push, also push `min(newValue, currentMin)` onto the min stack.
-3. On pop, pop from both stacks together so they stay aligned.
-4. `top()` reads the main stack's top and `getMin()` reads the min stack's top.
-5. Every operation is O(1) because the minimum for each depth is stored right beside it.
-
 ```
 STACK | O(1) | O(N)
 
@@ -2290,14 +1954,6 @@ You are given an array of tokens representing an arithmetic expression in Revers
 Evaluate the expression and return the integer result.
 
 **Example:** `tokens = ["2","1","+","3","*"]` → `9`
-
-**Optimal Approach — Stack**
-
-1. Scan the tokens left to right with an empty stack.
-2. Push every numeric token onto the stack.
-3. On an operator, pop the top two values, remembering the second popped one is the left operand.
-4. Apply the operator and push the result back onto the stack.
-5. The single value remaining at the end is the answer.
 
 ```
 BRUTE FORCE | O(N^2) | O(N)
@@ -2348,14 +2004,6 @@ Given an array temperatures, where: temperatures[i] represents the temperature o
 
 **Example:** `temperatures = [73, 74, 75, 71, 69, 72, 76, 73]` → `[1, 1, 4, 2, 1, 1, 0, 0]`
 
-**Optimal Approach — Monotonic Decreasing Stack**
-
-1. Keep a stack of indices whose answers are still unresolved, in decreasing temperature order.
-2. For each day `i`, pop while the day on top of the stack is cooler than today.
-3. Each popped index gets an answer of `i - poppedIndex`, the number of days it waited.
-4. Push `i` onto the stack and move to the next day.
-5. Any index still on the stack at the end keeps its default answer of 0.
-
 ```
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -2404,14 +2052,6 @@ If no greater element exists, return -1.
 
 **Example:** `nums1 = [4, 1, 2], nums2 = [1, 3, 4, 2]` → `[-1, 3, -1]`
 
-**Optimal Approach — Monotonic Stack + Hash Map**
-
-1. Run a single monotonic decreasing stack pass over `nums2`.
-2. Whenever the current value exceeds the stack's top, pop it and record `top -> current` in a hash map.
-3. Push the current value; anything left on the stack has no greater element.
-4. Walk `nums1` and look each value up in that map.
-5. Return the mapped value, or -1 when the key is absent.
-
 ```
 BRUTE FORCE | O(N * M) | O(1)
 
@@ -2453,14 +2093,6 @@ for i = n - 1 down to 0
 You are given a circular array nums. For each element in nums, find the next greater element
 
 **Example:** `nums = [1, 2, 1]` → `[2, -1, 2]`
-
-**Optimal Approach — Monotonic Stack over a Doubled Array**
-
-1. The array wraps around, so iterate `2n` times using `i % n` as the real index.
-2. Keep a stack of indices whose values are decreasing.
-3. While the current value beats the value at the stack's top index, pop it and set its answer to the current value.
-4. Only push indices during the first pass; the second pass just resolves leftovers.
-5. Anything still unresolved at the end stays -1.
 
 ```
 BRUTE FORCE | O(N^2) | O(1)
@@ -2509,14 +2141,6 @@ return answer
 Given an array of integers heights, where each element represents the height of a histogram bar and every bar has width 1, find the area of the largest rectangle that can be formed
 
 **Example:** `heights = [2, 1, 5, 6, 2, 3]` → `10`
-
-**Optimal Approach — Monotonic Increasing Stack**
-
-1. Keep a stack of indices whose heights are increasing.
-2. When the current bar is shorter than the stack's top, pop that index and treat its height as the rectangle's height.
-3. Its width spans from the new stack top (exclusive) to the current index (exclusive).
-4. Update the best area with `height * width` and keep popping while the condition holds.
-5. Append a sentinel bar of height 0 at the end so the stack fully drains.
 
 ```
 BRUTE FORCE | O(N^2) | O(1)
@@ -2588,14 +2212,6 @@ Return the state of the asteroids after all collisions.
 
 **Example:** `asteroids = [5, 10, -5]` → `[5, 10]`
 
-**Optimal Approach — Stack**
-
-1. Scan the asteroids left to right with a stack holding the survivors so far.
-2. A collision only happens when the current asteroid moves left and the stack's top moves right.
-3. Pop smaller right-moving asteroids while the incoming left-mover is bigger.
-4. If the top is bigger the incoming one is destroyed; if they are equal in size both are destroyed.
-5. Push the current asteroid if it survives, and the stack is the final state.
-
 ```
 BRUTE FORCE | O(N^2) | O(1)
 Repeatedly scan the array for collisions and resolve them until no more collisions occur
@@ -2642,14 +2258,6 @@ If a faster car catches a slower car, it slows down and becomes part of the same
 Return the number of car fleets that will arrive at the destination.
 
 **Example:** `target = 12, position = [10, 8, 0, 5, 3], speed = [2, 4, 1, 1, 3]` → `3`
-
-**Optimal Approach — Sort by Position + Running Maximum**
-
-1. Compute each car's arrival time as `(target - position) / speed`.
-2. Sort the cars by position, closest to the target first.
-3. Walk them in that order while tracking the slowest arrival time seen so far.
-4. A car with a strictly larger arrival time can never catch up, so it starts a new fleet.
-5. Otherwise it merges into the fleet ahead; the number of new fleets started is the answer.
 
 ```
 BRUTE FORCE | O(N^3) | O(1)
@@ -2699,14 +2307,6 @@ Return the result as a string.
 
 **Example:** `num = "1432219", k = 3` → `"1219"`
 
-**Optimal Approach — Monotonic Increasing Stack**
-
-1. Build the answer with a stack that keeps digits in non-decreasing order.
-2. For each digit, pop while the stack's top is larger and removals still remain, decrementing `k` per pop.
-3. Push the current digit and continue.
-4. If `k` is still positive at the end, drop that many digits from the back.
-5. Strip leading zeros and return `"0"` if nothing is left.
-
 ```
 BRUTE FORCE | O(C(n,k) × n) | O(1)
 Generate all combinations of removing k digits and find the minimum
@@ -2744,14 +2344,6 @@ Given a string representing a mathematical expression, evaluate it and return it
 The expression can contain: digits, +, -, (, ), spaces. Example - `1 + (2 - (3 + 4))`
 
 **Example:** `s = "1 + (2 - (3 + 4))"` → `-4`
-
-**Optimal Approach — Stack of Signs**
-
-1. Walk the string keeping a running result, the number being built, and the current sign (+1 or -1).
-2. On a digit extend the current number; on `+` or `-` fold that number into the result and set the new sign.
-3. On `(` push the current result and sign onto a stack, then reset both for the sub-expression.
-4. On `)` fold in the pending number, then pop the sign and outer result and combine them.
-5. Add the last pending number at the end and return the result.
 
 ```
 BRUTE FORCE | O(N^2) | O(1)
@@ -2804,14 +2396,6 @@ Given the head of a singly linked list, reverse the list and return its head.
 
 **Example:** `1 → 2 → 3 → 4 → 5` → `5 → 4 → 3 → 2 → 1`
 
-**Optimal Approach — Iterative Pointer Reversal**
-
-1. Set `prev` to null and `curr` to the head.
-2. Save `curr.next` in a temporary variable before changing anything.
-3. Point `curr.next` backwards at `prev`.
-4. Move `prev` to `curr` and `curr` to the saved next node.
-5. When `curr` becomes null, `prev` is the new head, so return it.
-
 ```
 BRUTE FORCE | O(N) | O(N)
 
@@ -2849,14 +2433,6 @@ return previous
 Given the heads of two sorted linked lists, merge them into one sorted linked list and return its head.
 
 **Example:** `1 → 2 → 4` and `1 → 3 → 4` → `1 → 1 → 2 → 3 → 4 → 4`
-
-**Optimal Approach — Dummy Node Merge**
-
-1. Create a dummy node and point a `tail` pointer at it.
-2. While both lists still have nodes, attach whichever head is smaller to `tail`.
-3. Advance that source list and move `tail` forward.
-4. When one list runs out, link the entire remaining list onto `tail` in one step.
-5. Return `dummy.next`; no new nodes are allocated, so the space is constant.
 
 ```
 BRUTE FORCE | O((N + M) Log(N + M)) | O(N + M)
@@ -2899,14 +2475,6 @@ Given the head of a linked list, determine if the linked list has a cycle in it.
 
 **Example:** `3 → 2 → 0 → -4` with the tail linking back to node `2` → `true`
 
-**Optimal Approach — Floyd's Cycle Detection**
-
-1. Start a slow and a fast pointer at the head.
-2. Advance slow by one node and fast by two nodes per step.
-3. If fast or `fast.next` becomes null the list ends, so return false.
-4. If the two pointers ever land on the same node a cycle exists, so return true.
-5. The gap closes by exactly one node per step, so fast is guaranteed to catch slow inside any loop.
-
 ```
 BRUTE FORCE | O(N) | O(N)
 
@@ -2942,14 +2510,6 @@ Find the node where the cycle begins in a linked list. If there is no cycle, ret
 
 **Example:** `3 → 2 → 0 → -4` with the tail linking back to node `2` → node `2`
 
-**Optimal Approach — Floyd's Cycle Detection, Phase Two**
-
-1. Run slow and fast pointers until they meet inside the cycle.
-2. If fast falls off the end there is no cycle, so return null.
-3. Reset the slow pointer to the head and leave the fast pointer at the meeting node.
-4. Advance both pointers one node at a time.
-5. The node where they meet again is exactly the cycle's entry point; return it.
-
 ```
 ITERATIVE | O(N) | O(1)
 
@@ -2977,14 +2537,6 @@ Given the head of a singly linked list, return the middle node. If there are two
 
 **Example:** `1 → 2 → 3 → 4 → 5 → 6` → `4`
 
-**Optimal Approach — Slow and Fast Pointers**
-
-1. Start both a slow and a fast pointer at the head.
-2. Move slow one node and fast two nodes on each iteration.
-3. Stop when fast is null or `fast.next` is null.
-4. By then slow has covered exactly half of the list.
-5. Return slow, which lands on the second middle node when the length is even.
-
 ```
 BRUTE FORCE | O(N) | O(1)
 
@@ -3010,14 +2562,6 @@ return slow
 Given the head of a linked list, remove the n-th node from the end of the list
 
 **Example:** `1 → 2 → 3 → 4 → 5, n = 2` → `1 → 2 → 3 → 5`
-
-**Optimal Approach — Gap of N Between Two Pointers**
-
-1. Put a dummy node in front of the head and start both pointers there.
-2. Advance the fast pointer `n + 1` steps so a gap of `n` opens up.
-3. Move both pointers together until fast runs off the end.
-4. Slow now sits exactly one node before the target node.
-5. Splice the target out with `slow.next = slow.next.next` and return `dummy.next`.
 
 ```
 BRUTE FORCE | O(N) | O(1)
@@ -3048,14 +2592,6 @@ return dummy.next
 Given the head of a singly linked list, reorder the list to follow the pattern: L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …
 
 **Example:** `1 → 2 → 3 → 4` → `1 → 4 → 2 → 3`
-
-**Optimal Approach — Split, Reverse and Weave**
-
-1. Find the middle of the list with slow and fast pointers.
-2. Cut the list there and reverse the second half in place.
-3. Take one node from the front half and one from the reversed back half in turn.
-4. Splice them together alternately, relinking as you go.
-5. Terminate the final node; the whole reorder is done in place with constant extra space.
 
 ```
 BRUTE FORCE | O(N) | O(N)
@@ -3115,14 +2651,6 @@ You are given two non-empty linked lists representing two non-negative integers.
 
 **Example:** `(2 → 4 → 3) + (5 → 6 → 4)` → `7 → 0 → 8` (342 + 465 = 807)
 
-**Optimal Approach — Digit-by-Digit Addition with Carry**
-
-1. Create a dummy head node and set the carry to 0.
-2. Walk both lists together while either still has nodes or the carry is non-zero.
-3. Add the two available digits (treating a missing one as 0) plus the carry.
-4. Append a new node holding `sum % 10` and set the carry to `sum / 10`.
-5. Return `dummy.next`; the digits are already stored least-significant first, so no reversal is needed.
-
 ```
 BRUTE FORCE | O(N + M) | O(N + M)
 
@@ -3176,14 +2704,6 @@ C'.random = B'
 The copied nodes must not point back to the original nodes.
 
 **Example:** `[[7,null],[13,0],[11,4],[10,2],[1,0]]` → an identical, fully independent deep copy
-
-**Optimal Approach — Interleaved Copy**
-
-1. Insert a copy of every node directly after its original, weaving the two lists together.
-2. In a second pass set `copy.random = original.random.next`, since a copy always trails its original.
-3. In a third pass unweave the lists, restoring the original `next` pointers.
-4. Link the copies to each other while unweaving to form the cloned list.
-5. Return the cloned head; position encodes the mapping, so no hash map is required.
 
 ```
 HASH MAP | O(N) | O(N)
@@ -3253,14 +2773,6 @@ Given an array of k linked-lists lists, each linked-list is sorted in ascending 
 
 **Example:** `[[1,4,5],[1,3,4],[2,6]]` → `1 → 1 → 2 → 3 → 4 → 4 → 5 → 6`
 
-**Optimal Approach — Divide and Conquer Merging**
-
-1. Pair up the `k` lists and merge each pair using the standard two-list merge.
-2. That halves the number of remaining lists in a single round.
-3. Repeat the pairing and merging on the surviving lists.
-4. After about `log k` rounds only one list is left.
-5. Each node is touched roughly `log k` times, giving O(N log K) time with O(1) extra space.
-
 ```
 MERGE 2 AT A TIME | O(N * K) | O(1)
 
@@ -3308,14 +2820,6 @@ return dummy.next
 Given an integer array nums and an integer k, return the kth largest element in the array. Array not distinct. Duplicates are counted separately.
 
 **Example:** `nums = [3, 2, 1, 5, 6, 4], k = 2` → `5`
-
-**Optimal Approach — Quickselect**
-
-1. Pick a pivot and partition the array so smaller values move left and larger ones move right.
-2. After partitioning, the pivot sits at its final sorted position.
-3. Compare that position with the target index `n - k`.
-4. If they match the pivot is the answer, so return it.
-5. Otherwise recurse into only the side containing the target index, giving O(N) average time in place.
 
 ```text
 SORTING | O(N log N) | O(1)
@@ -3374,14 +2878,6 @@ Given an array of points where points[i] = [xi, yi] represents a point on the X-
 
 **Example:** `points = [[1, 3], [-2, 2]], k = 1` → `[[-2, 2]]`
 
-**Optimal Approach — Quickselect on Squared Distances**
-
-1. Score each point by `x*x + y*y` and skip the square root, since it does not change the ordering.
-2. Partition the points around a pivot score so smaller distances move to the left.
-3. If the pivot lands exactly at index `k`, the first `k` points are the answer.
-4. Otherwise recurse into just the side that contains index `k`.
-5. Return the first `k` points; they are unordered but correct, in O(N) average time.
-
 ```
 BRUTE FORCE | O(N log N) | O(1)
 
@@ -3428,14 +2924,6 @@ Finding the median of all numbers seen so far
 
 **Example:** `addNum(1), addNum(2), findMedian()` → `1.5`; then `addNum(3), findMedian()` → `2`
 
-**Optimal Approach — Two Balanced Heaps**
-
-1. Keep a max-heap for the smaller half of the numbers and a min-heap for the larger half.
-2. Push each new number into the max-heap, then immediately move its top over to the min-heap.
-3. If the min-heap grows larger, move its top back so the sizes never differ by more than one.
-4. When the total count is odd the median is the max-heap's top.
-5. When it is even the median is the average of the two tops, so adds cost O(log N) and reads cost O(1).
-
 ```
 BRUTE FORCE | O(N * N log N) | O(N)
 
@@ -3480,14 +2968,6 @@ Given a characters array tasks, representing the tasks a CPU needs to do, where 
 There is a non-negative integer n that represents the cooldown period between two same tasks. Return the least number of units of times that the CPU will take to finish all the given tasks.
 
 **Example:** `tasks = ["A","A","A","B","B","B"], n = 2` → `8` (A B idle A B idle A B)
-
-**Optimal Approach — Counting Formula**
-
-1. Count how many times each task appears and find `maxFreq`, the highest count.
-2. The most frequent task creates `maxFreq - 1` gaps, each needing `n + 1` slots.
-3. That gives a skeleton length of `(maxFreq - 1) * (n + 1)`.
-4. Add the number of tasks that tie for `maxFreq`, since they fill the final row.
-5. The answer is the larger of that skeleton length and the total number of tasks.
 
 ```
 BRUTE FORCE | O(N M) | O(N)
@@ -3561,14 +3041,6 @@ Return the weight of the remaining stone, or 0 if none remains.
 
 **Example:** `stones = [2, 7, 4, 1, 8, 1]` → `1`
 
-**Optimal Approach — Max Heap**
-
-1. Push every stone weight into a max-heap.
-2. Repeatedly pop the two heaviest stones.
-3. If their weights differ, push the difference back onto the heap.
-4. If they are equal both are destroyed and nothing is pushed back.
-5. Stop when fewer than two stones remain and return the last weight, or 0 if the heap is empty.
-
 ```
 BRUTE FORCE | O(N^2) | O(1)
 Repeatedly find the two heaviest stones, smash them, and update the array until one or none remains.
@@ -3601,14 +3073,6 @@ Higher frequency comes first.
 If two words have the same frequency, the lexicographically smaller word comes first.
 
 **Example:** `words = ["i","love","leetcode","i","love","coding"], k = 2` → `["i","love"]`
-
-**Optimal Approach — Min Heap of Size K**
-
-1. Count each word's frequency with a hash map.
-2. Push entries into a min-heap ordered by frequency ascending, breaking ties by reverse alphabetical order.
-3. Whenever the heap grows past `k`, pop the top to discard the weakest candidate.
-4. The heap ends up holding exactly the `k` best words.
-5. Pop them all and reverse the output so the highest frequency comes first.
 
 ```
 BRUTE FORCE | O(N + M * K) | O(N)
@@ -3681,14 +3145,6 @@ If multiple rooms have the same count, return the smallest room number.
 
 **Example:** `n = 2, meetings = [[0,10],[1,5],[2,7],[3,4]]` → `0`
 
-**Optimal Approach — Two Heaps of Rooms**
-
-1. Sort the meetings by start time.
-2. Keep a min-heap of free room numbers and a second min-heap of busy rooms keyed by end time.
-3. Before each meeting, release every busy room whose end time has already passed back into the free heap.
-4. If a room is free take the lowest-numbered one; otherwise delay the meeting until the earliest-ending room frees up, keeping its original duration.
-5. Count how often each room is used and return the lowest-numbered room with the highest count.
-
 ```
 HEAP | O(N log N) | O(N)
 
@@ -3735,14 +3191,6 @@ return bestRoom
 Design a data structure that supports adding numbers and finding the median of the added numbers.
 
 **Example:** `addNum(1), addNum(2), findMedian()` → `1.5`; then `addNum(3), findMedian()` → `2`
-
-**Optimal Approach — Two Balanced Heaps**
-
-1. Split the stream between a max-heap holding the lower half and a min-heap holding the upper half.
-2. Push each new number into the max-heap, then move that heap's top across to the min-heap.
-3. Rebalance by moving the min-heap's top back whenever it becomes the larger heap.
-4. The two heaps then differ in size by at most one, keeping the middle values at their tops.
-5. Report the max-heap's top for an odd count, or the average of both tops for an even count.
 
 ```
 BRUTE FORCE | O(N log N) | O(N)
@@ -3795,14 +3243,6 @@ Given an integer array nums and an integer k, return the k most frequent element
 
 **Example:** `nums = [1, 1, 1, 2, 2, 3], k = 2` → `[1, 2]`
 
-**Optimal Approach — Bucket Sort by Frequency**
-
-1. Build a frequency map of the numbers in a single pass.
-2. Create `n + 1` buckets, where the bucket index represents a frequency.
-3. Place every number into the bucket matching how often it occurred.
-4. Walk the buckets from the highest index downwards, collecting numbers.
-5. Stop once `k` numbers are gathered; the whole process is linear with no sorting.
-
 ```
 HASHING + SORTING | O(N + M log M) | O(M)
 
@@ -3851,14 +3291,6 @@ Given an array of intervals where `intervals[i] = [start, end]`, merge all overl
 
 **Example:** `intervals = [[1,3],[2,6],[8,10],[15,18]]` → `[[1,6],[8,10],[15,18]]`
 
-**Optimal Approach — Sort by Start Time**
-
-1. Sort the intervals by their start time.
-2. Take the first interval as the current one being built.
-3. For each following interval, check whether its start is less than or equal to the current end.
-4. If so they overlap, so extend the current end to the larger of the two ends.
-5. If not, push the current interval to the output and start a new one; push the last one at the end.
-
 ```text
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -3887,14 +3319,6 @@ return result
 Given an array of non-overlapping intervals sorted by start time and a new interval, insert the new interval and merge any overlaps.
 
 **Example:** `intervals = [[1,3],[6,9]], newInterval = [2,5]` → `[[1,5],[6,9]]`
-
-**Optimal Approach — Single Pass Merge**
-
-1. The existing intervals are already sorted and non-overlapping, so one scan is enough.
-2. Copy every interval that finishes strictly before the new interval starts.
-3. While an interval starts at or before the new interval's end, absorb it by widening the new start and end.
-4. Push the widened new interval once no more overlaps remain.
-5. Copy the remaining intervals across unchanged and return the result.
 
 ```text
 MERGE INTERVALS | O(N) | O(N)
@@ -3936,14 +3360,6 @@ Given an array of intervals: intervals[i] = [start, end]
 Return the minimum number of intervals that must be removed so that the remaining intervals are non-overlapping.
 
 **Example:** `intervals = [[1,2],[2,3],[3,4],[1,3]]` → `1`
-
-**Optimal Approach — Greedy by Earliest End Time**
-
-1. Sort the intervals by end time, earliest finishing first.
-2. Remember the end of the last interval you decided to keep.
-3. Scan in order: if the next interval starts at or after that end, keep it and update the end.
-4. Otherwise it overlaps, so count it as a removal and move on.
-5. The removal count is the answer, because finishing earliest always leaves the most room for later intervals.
 
 ```text
 BRUTE FORCE | O(2^N) | O(1)
@@ -3992,14 +3408,6 @@ Given an array of meeting intervals: intervals[i] = [start, end]
 Return the minimum number of conference rooms required so that all meetings can take place without conflicts.
 
 **Example:** `intervals = [[0,30],[5,10],[15,20]]` → `2`
-
-**Optimal Approach — Sorted Start and End Arrays**
-
-1. Pull the start times and the end times into two separate arrays and sort each one.
-2. Sweep through the start times while keeping a pointer into the end times.
-3. If the next meeting starts before the earliest unfinished end time, a new room is needed.
-4. Otherwise a room has freed up, so reuse it and advance the end pointer.
-5. The peak number of rooms in use during the sweep is the answer.
 
 ```text
 BRUTE FORCE | O(N^2) | O(1)
@@ -4058,14 +3466,6 @@ Return the minimum number of conference rooms required so that all meetings can 
 
 **Example:** `intervals = [[0,30],[5,10],[15,20]]` → `2`
 
-**Optimal Approach — Sweep Line**
-
-1. Turn each meeting into two events: `+1` at its start time and `-1` at its end time.
-2. Sort all the events by time, processing end events before start events at the same timestamp.
-3. Sweep through them keeping a running count of currently active meetings.
-4. Update a maximum whenever that running count grows.
-5. That maximum is the minimum number of rooms required.
-
 ```
 SWEEP LINE | O(N log N) | O(N)
 
@@ -4115,14 +3515,6 @@ Given an array of points where points[i] = [xstart, xend] represents a balloon w
 
 **Example:** `points = [[10,16],[2,8],[1,6],[7,12]]` → `2`
 
-**Optimal Approach — Greedy by Earliest End**
-
-1. Sort the balloons by their end coordinate.
-2. Fire the first arrow exactly at the end of the first balloon, since that covers the most.
-3. Skip every following balloon whose start is less than or equal to that arrow position.
-4. When a balloon starts after the arrow, it cannot be hit, so fire a new arrow at its end.
-5. The total number of arrows fired is the answer.
-
 ```
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -4151,14 +3543,6 @@ return arrows
 You are given an integer array nums. nums[i] tells you the maximum number of positions you can jump forward from index i.You start at index 0. Determine whether you can reach the last index.
 
 **Example:** `nums = [2, 3, 1, 1, 4]` → `true`
-
-**Optimal Approach — Greedy Reach**
-
-1. Track the furthest index reachable so far, starting at 0.
-2. Walk the array from left to right.
-3. If the current index is beyond the furthest reach, you are stranded, so return false.
-4. Otherwise update the reach to `max(reach, i + nums[i])`.
-5. Return true once the reach covers the last index, or when the loop finishes.
 
 ```
 DFS | O(2^N) | O(N)
@@ -4204,14 +3588,6 @@ function canJump(nums):
 You are given an integer array nums. nums[i] represents the maximum number of positions you can jump forward from index i. You start at index 0. Return the minimum number of jumps required to reach the last index. You can assume that the last index is always reachable.
 
 **Example:** `nums = [2, 3, 1, 1, 4]` → `2`
-
-**Optimal Approach — Greedy Level-by-Level Jumping**
-
-1. Track the end of the current jump's range and the furthest index reachable from within it.
-2. Scan every index up to the second-to-last, updating `farthest = max(farthest, i + nums[i])`.
-3. When `i` reaches the current range's end, a jump has to be taken, so increment the counter.
-4. Set the new range end to `farthest` and carry on.
-5. The counter at the end is the minimum number of jumps needed.
 
 ```
 DFS | O(2^N) | O(N)
@@ -4271,14 +3647,6 @@ You start with an empty tank. Return the index of the gas station from which you
 
 **Example:** `gas = [1,2,3,4,5], cost = [3,4,5,1,2]` → `3`
 
-**Optimal Approach — Greedy Restart**
-
-1. If total gas is less than total cost, the circuit is impossible, so return -1.
-2. Otherwise exactly one valid start exists, so a single scan will find it.
-3. Add `gas[i] - cost[i]` to a running tank at every station.
-4. If the tank ever drops below zero, no station from the current start up to `i` can work.
-5. Set `start = i + 1`, reset the tank to zero, and return the last recorded start.
-
 ```
 BRUTE FORCE | O(N^2) | O(1)
 
@@ -4315,14 +3683,6 @@ You are given a string s. You need to partition the string into as many parts as
 Example - s = "ababcbacadefegdehijhklij" > "ababcbaca" | "defegde" | "hijhklij" > [9, 7, 8]
 
 **Example:** `s = "ababcbacadefegdehijhklij"` → `[9, 7, 8]`
-
-**Optimal Approach — Greedy Last Occurrence**
-
-1. Record the last index at which every character appears.
-2. Sweep the string while tracking the end of the current partition.
-3. Extend that end to the last occurrence of each character you pass.
-4. When the current index equals the partition end, no character inside leaks out, so cut here.
-5. Record the partition length, start the next one, and continue to the end.
 
 ```
 BRUTE FORCE | O(N^2) | O(1)
@@ -4365,14 +3725,6 @@ Every element appears twice except for one. Find that single one.
 
 **Example:** `nums = [4, 1, 2, 1, 2]` → `4`
 
-**Optimal Approach — XOR Cancellation**
-
-1. Start an accumulator at 0.
-2. XOR it with every number in the array in one pass.
-3. Any value appearing twice cancels itself out because `x ^ x = 0`.
-4. XOR-ing with 0 leaves a value unchanged, so the unpaired number is untouched.
-5. Whatever is left in the accumulator is the number that appears only once.
-
 ```
 BRUTE FORCE | O(N^2) | O(1)
 Check each element against all others to find the unique one.
@@ -4398,14 +3750,6 @@ function singleNumber(nums):
 Given an unsigned integer, return the number of '1' bits it has (also known as the Hamming weight).
 
 **Example:** `n = 11` (binary `1011`) → `3`
-
-**Optimal Approach — Brian Kernighan's Trick**
-
-1. Start a counter at 0.
-2. While `n` is non-zero, apply `n = n & (n - 1)`.
-3. Subtracting 1 flips the lowest set bit and everything below it, so the AND clears exactly that one bit.
-4. Increment the counter once per iteration.
-5. The loop runs once per set bit rather than 32 times, so it is proportional to the number of ones.
 
 ```
 BRUTE FORCE | O(Log N) | O(1)
@@ -4444,14 +3788,6 @@ Given an integer n, return an array ans of length n + 1 such that for each i (0 
 
 **Example:** `n = 5` → `[0, 1, 1, 2, 1, 2]`
 
-**Optimal Approach — DP on the Shifted Value**
-
-1. Create a result array of size `n + 1` with `result[0] = 0`.
-2. Note that `i >> 1` is simply `i` with its lowest bit chopped off.
-3. So `i` has the same bits as `i >> 1` plus possibly one more.
-4. Set `result[i] = result[i >> 1] + (i & 1)`, reusing an already-computed smaller answer in O(1).
-5. Fill the array in a single pass and return it.
-
 ```
 BRUTE FORCE | O(N log N) | O(N)
 For each number from 0 to n, count the number of 1 bits using the method from the "Number of 1 Bits" problem.
@@ -4477,14 +3813,6 @@ Given a 32-bit unsigned integer, reverse its bits.
 
 **Example:** `n = 43261596` (`00000010100101000001111010011100`) → `964176192` (`00111001011110000010100101000000`)
 
-**Optimal Approach — Bit-by-Bit Shifting**
-
-1. Start with a result of 0.
-2. Repeat 32 times: shift the result left by one to open up a slot.
-3. Take `n`'s lowest bit with `n & 1` and OR it into the result.
-4. Shift `n` right by one to expose the next bit.
-5. After 32 rounds the bit order is fully mirrored, so return the result.
-
 ```
 BIT MANIPULATION | O(32) | O(1)
 
@@ -4502,14 +3830,6 @@ return result
 Given two integers a and b, return the sum of the two integers without using the operators + and -.
 
 **Example:** `a = 2, b = 3` → `5`
-
-**Optimal Approach — XOR Sum with Shifted Carry**
-
-1. Adding without `+` splits into a sum-ignoring-carries part and a carry part.
-2. `a ^ b` produces the bitwise sum with all carries ignored.
-3. `(a & b) << 1` produces the carry bits shifted into their correct positions.
-4. Loop: set `a` to the XOR and `b` to the shifted carry, until `b` becomes 0.
-5. Return `a`, which now holds the complete sum.
 
 ```
 BIT MANIPULATION | O(1) | O(1)
@@ -4530,14 +3850,6 @@ Given an integer n, return true if it is a power of two. Otherwise, return false
 
 **Example:** `n = 16` → `true`
 
-**Optimal Approach — Clear the Lowest Set Bit**
-
-1. A power of two has exactly one bit set in its binary representation.
-2. Subtracting 1 turns that bit off and turns every lower bit on.
-3. So `n & (n - 1)` wipes out all bits and equals 0 only for powers of two.
-4. Also require `n > 0`, since zero and negative numbers are never powers of two.
-5. Return `n > 0 && (n & (n - 1)) == 0` in constant time.
-
 ```
 n > 0 && (n & (n - 1)) == 0
 ```
@@ -4547,14 +3859,6 @@ n > 0 && (n & (n - 1)) == 0
 Implement pow(x, n), which calculates x raised to the power n (i.e., x^n).
 
 **Example:** `x = 2.0, n = 10` → `1024.0`
-
-**Optimal Approach — Binary Exponentiation**
-
-1. Handle a negative exponent by replacing `x` with `1 / x` and using the positive exponent.
-2. Keep a running result of 1 and a running base equal to `x`.
-3. While the exponent is non-zero, multiply the result by the base whenever the exponent's lowest bit is 1.
-4. Square the base and halve the exponent on every iteration.
-5. Return the result after roughly `log n` multiplications.
 
 ```
 BRUTE FORCE | O(N) | O(1)
@@ -4609,14 +3913,6 @@ Given an integer array nums of unique elements, return all possible subsets (the
 
 **Example:** `nums = [1, 2, 3]` → `[[],[1],[2],[3],[1,2],[1,3],[2,3],[1,2,3]]`
 
-**Optimal Approach — Include/Exclude Backtracking**
-
-1. Do a depth-first walk that decides, index by index, whether to include that element.
-2. Carry a current partial subset through the recursion.
-3. Record a copy of the current subset at every node, not only at the leaves.
-4. Add the element, recurse from `index + 1`, then remove it and recurse without it.
-5. All `2^n` include/exclude combinations get generated exactly once.
-
 ```
 BACKTRACKING | O(N * 2^N) | O(N)
 
@@ -4644,14 +3940,6 @@ function subsets(nums):
 Given an integer array nums that may contain duplicates, return all possible subsets (the power set) without duplicate subsets.
 
 **Example:** `nums = [1, 2, 2]` → `[[],[1],[2],[1,2],[2,2],[1,2,2]]`
-
-**Optimal Approach — Backtracking with Duplicate Skipping**
-
-1. Sort the numbers first so that equal values sit next to each other.
-2. Backtrack from a start index, recording a copy of the current subset at every step.
-3. At each level, loop over the candidates from `start` onwards.
-4. Skip a candidate when it equals the previous one at the same level, which blocks duplicate subsets.
-5. Otherwise add it, recurse with `start = i + 1`, then remove it and continue.
 
 ```
 BACKTRACKING | O(N * 2^N) | O(N)
@@ -4684,14 +3972,6 @@ function subsetsWithDup(nums):
 Given an integer array nums of unique elements, return all possible permutations.
 
 **Example:** `nums = [1, 2, 3]` → `[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]`
-
-**Optimal Approach — Backtracking by Swapping**
-
-1. Recurse on a position index representing the slot currently being filled.
-2. Record the array as a finished permutation once the index passes the last slot.
-3. Otherwise, for every `i` from `index` to the end, swap `nums[index]` with `nums[i]`.
-4. Recurse on `index + 1` to fill the remaining slots.
-5. Swap the two elements back to undo the change before trying the next `i`.
 
 ```
 BACKTRACKING | O(N * N!) | O(N)
@@ -4747,14 +4027,6 @@ Given an array of distinct integers candidates and a target integer target, retu
 
 **Example:** `candidates = [2, 3, 6, 7], target = 7` → `[[2,2,3],[7]]`
 
-**Optimal Approach — Backtracking with Reuse**
-
-1. Backtrack carrying the remaining target and a start index.
-2. Record the current combination whenever the remainder hits exactly 0.
-3. Abandon the branch as soon as the remainder goes negative.
-4. For each candidate from `start` onwards, add it and recurse with the same start index, since reuse is allowed.
-5. Remove the candidate afterwards so the next one can be explored.
-
 ```
 BACKTRACKING | O(N^(T/m)) | O(T/m)
 Where T is the target and m is the minimum value in candidates. The maximum depth of the recursion tree is T/m, and at each level, we have N choices (the number of candidates).
@@ -4784,14 +4056,6 @@ function combinationSum(candidates, target):
 Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target. Each number in candidates may only be used once in the combination. Input may contain duplicates.
 
 **Example:** `candidates = [10,1,2,7,6,1,5], target = 8` → `[[1,1,6],[1,2,5],[1,7],[2,6]]`
-
-**Optimal Approach — Backtracking with Sorting and Pruning**
-
-1. Sort the candidates so duplicates become adjacent and pruning works.
-2. Backtrack with a remaining target and a start index, recording combinations that reach exactly 0.
-3. Break out of the loop as soon as a candidate is larger than the remainder.
-4. Skip any candidate equal to the previous one at the same level to avoid duplicate combinations.
-5. Recurse with `start = i + 1` so every element is used at most once.
 
 ```
 BACKTRACKING | O(N * 2^N) | O(N)
@@ -4834,14 +4098,6 @@ Given a string containing digits from 2-9 inclusive, return all possible letter 
 
 **Example:** `digits = "23"` → `["ad","ae","af","bd","be","bf","cd","ce","cf"]`
 
-**Optimal Approach — Backtracking over Digit Positions**
-
-1. Map each digit from 2 to 9 to its string of letters.
-2. Recurse on the digit index, carrying the string built so far.
-3. Add that string to the results once the index reaches the end of the digits.
-4. Otherwise loop over every letter belonging to the current digit.
-5. Append a letter, recurse on the next digit, then remove it before trying the next letter.
-
 ```
 BACKTRACKING | O(4^N) | O(N)
 Where N is the length of the input digits. Each digit can map to at most 4 letters, leading to a maximum of 4^N combinations.
@@ -4870,14 +4126,6 @@ function letterCombinations(digits):
 Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
 
 **Example:** `n = 3` → `["((()))","(()())","(())()","()(())","()()()"]`
-
-**Optimal Approach — Backtracking with Validity Counters**
-
-1. Recurse while tracking how many `(` and how many `)` have been placed.
-2. Record the string once its length reaches `2n`.
-3. Add a `(` whenever the open count is still below `n`.
-4. Add a `)` only while the close count is strictly less than the open count.
-5. That rule keeps every prefix valid, so no invalid string is ever built or discarded.
 
 ```
 
@@ -4908,14 +4156,6 @@ function generateParenthesis(n):
 Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
 
 **Example:** `board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"` → `true`
-
-**Optimal Approach — DFS Backtracking with In-Place Marking**
-
-1. Try starting a DFS from every cell whose letter matches the word's first character.
-2. At each step, fail if the cell is off the grid or does not match the expected letter.
-3. Mark the cell visited by temporarily overwriting it with a sentinel character.
-4. Recurse into all four neighbours looking for the next character.
-5. Restore the original letter on the way out, and return true as soon as the whole word is matched.
 
 ```
 BACKTRACKING | O(M * N * 4^L) | O(M * N)
@@ -4992,14 +4232,6 @@ Given the root of a binary tree, return the inorder traversal of its nodes' valu
 
 **Example:** `root = [1, null, 2, 3]` → `[1, 3, 2]`
 
-**Optimal Approach — Iterative Traversal with a Stack**
-
-1. Keep an explicit stack and a pointer starting at the root.
-2. Push nodes onto the stack while walking as far left as possible.
-3. When the pointer becomes null, pop a node and record its value.
-4. Move the pointer to that node's right child.
-5. Repeat until both the stack and the pointer are exhausted.
-
 ```
 RECURSION | O(N) | O(N)
 
@@ -5033,14 +4265,6 @@ INORDER(root):
 Given the root of a binary tree, return its maximum depth.
 
 **Example:** `root = [3, 9, 20, null, null, 15, 7]` → `3`
-
-**Optimal Approach — Recursive DFS**
-
-1. Recurse starting from the root.
-2. Return 0 whenever the current node is null.
-3. Otherwise compute the depth of the left subtree and the depth of the right subtree.
-4. Take the larger of the two and add 1 for the current node.
-5. The value returned at the root is the maximum depth, using O(H) stack space.
 
 ```
 DFS | O(N) | O(H)
@@ -5078,14 +4302,6 @@ Given the root of a binary tree, return the level order traversal of its nodes' 
 
 **Example:** `root = [3, 9, 20, null, null, 15, 7]` → `[[3],[9,20],[15,7]]`
 
-**Optimal Approach — BFS with Level Sizes**
-
-1. Put the root into a queue, returning an empty list if the tree is empty.
-2. Loop while the queue is non-empty, first recording its current size as the level's width.
-3. Dequeue exactly that many nodes, collecting their values into one level list.
-4. Enqueue each dequeued node's non-null children as you go.
-5. Append the level list to the answer and repeat for the next level.
-
 ```
 LEVEL_ORDER(root):
     if root is null:
@@ -5111,14 +4327,6 @@ LEVEL_ORDER(root):
 Given the root of a binary tree, determine if it is a valid binary search tree (BST).
 
 **Example:** `root = [2, 1, 3]` → `true`
-
-**Optimal Approach — Recursion with Value Ranges**
-
-1. Recurse carrying an allowed `(min, max)` range that starts unbounded.
-2. Return true for a null node.
-3. Return false if the node's value is not strictly inside the allowed range.
-4. Recurse left with the maximum tightened down to the node's value.
-5. Recurse right with the minimum raised to the node's value; both sides must hold for a valid BST.
 
 ```
 BRUTE FORCE | O(N^2) | O(N)
@@ -5146,14 +4354,6 @@ VALID(node, minValue, maxValue):
 Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
 
 **Example:** `root = [3, 1, 4, null, 2], k = 1` → `1`
-
-**Optimal Approach — Iterative Inorder Traversal**
-
-1. An inorder walk of a BST visits values in ascending order.
-2. Use a stack, pushing nodes while going as far left as possible.
-3. Pop a node, decrement `k`, and check whether `k` has reached 0.
-4. If it has, return that node's value immediately without touching the rest of the tree.
-5. Otherwise move to the node's right child and continue; only O(H + k) nodes are ever visited.
 
 ```
 // Use in-order traversal to get the elements in sorted order and return the kth element.
@@ -5198,14 +4398,6 @@ LCA is the lowest node that has both nodes as descendants (where we allow a node
 
 **Example:** `root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1` → `3`
 
-**Optimal Approach — Bottom-Up Recursion**
-
-1. Recurse from the root.
-2. Return null for a null node, or the node itself when it is `p` or `q`.
-3. Recurse into both children and inspect what comes back.
-4. If both sides return non-null, the current node is the split point, so return it.
-5. Otherwise return whichever side was non-null, bubbling the answer up in one pass.
-
 ```
 PATH BASED | O(N) | O(N)
 
@@ -5237,14 +4429,6 @@ Given the root of a binary tree, return the length of the diameter of the tree. 
 
 **Example:** `root = [1, 2, 3, 4, 5]` → `3`
 
-**Optimal Approach — Post-Order Height Calculation**
-
-1. Run a post-order recursion that returns each subtree's height.
-2. Return 0 for a null node.
-3. At every node, the longest path bending through it is `leftHeight + rightHeight` edges.
-4. Update a shared best value with that number.
-5. Return `1 + max(leftHeight, rightHeight)` to the parent, so one traversal computes the diameter.
-
 ```
 BRUTE FORCE | O(N^2) | O(N)
 
@@ -5275,14 +4459,6 @@ DIAMETER(root):
 Given a non-empty binary tree of integers, find the maximum path sum. A path is defined as any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The path must contain at least one node and does not need to go through the root.
 
 **Example:** `root = [-10, 9, 20, null, null, 15, 7]` → `42`
-
-**Optimal Approach — Post-Order DP with Clamped Gains**
-
-1. Recurse returning the best downward path sum that starts at each node.
-2. Clamp a child's contribution to 0 when it is negative, since skipping that branch is better.
-3. At each node the best path that bends here is `node.val + leftGain + rightGain`.
-4. Update a shared maximum with that value.
-5. Return `node.val + max(leftGain, rightGain)` upwards, because a parent can only use one branch.
 
 ```
 BRUTE FORCE | O(N^2) | O(N)
@@ -5316,14 +4492,6 @@ MAX_PATH_SUM(root):
 Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
 
 **Example:** `root = [1, 2, 3, null, 5, null, 4]` → `[1, 3, 4]`
-
-**Optimal Approach — BFS Taking the Last Node per Level**
-
-1. Run a level-order traversal using a queue.
-2. At the start of each level, record how many nodes it currently contains.
-3. Dequeue exactly that many nodes, enqueueing their children as you go.
-4. Keep the value of the last node dequeued in that level.
-5. Those recorded values, from top to bottom, form the right side view.
 
 ```
 BFS | O(N) | O(N)
@@ -5372,14 +4540,6 @@ Given two integer arrays preorder and inorder where preorder is the preorder tra
 
 **Example:** `preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]` → `[3,9,20,null,null,15,7]`
 
-**Optimal Approach — Preorder Pointer + Inorder Index Map**
-
-1. Build a hash map from each value to its index in the inorder array.
-2. Walk the preorder array with a moving pointer; each value is the root of the current range.
-3. Look that root up in the map to find where it splits the inorder range in O(1).
-4. Everything left of that index forms the left subtree and everything right forms the right subtree.
-5. Recurse on the left range first to match preorder's ordering, then on the right range.
-
 ```
 BRUTE FORCE | O(N^2) | O(N)
 
@@ -5415,14 +4575,6 @@ Design an algorithm to serialize and deserialize a binary tree.
 
 **Example:** `root = [1,2,3,null,null,4,5]` → serialize → deserialize → `[1,2,3,null,null,4,5]`
 
-**Optimal Approach — Preorder Traversal with Null Markers**
-
-1. Serialize with a preorder DFS, writing each value and a marker such as `#` for null children.
-2. Join the tokens with a separator into a single string.
-3. To deserialize, split the string and read tokens using a moving index.
-4. Return null when the token is the null marker; otherwise create the node.
-5. Recursively build its left subtree and then its right subtree from the following tokens.
-
 ```
 PREORDER TRAVERSAL | O(N) | O(N)
 
@@ -5450,14 +4602,6 @@ DESERIALIZE():
 Given the root of a binary tree, return the maximum amount of money the thief can rob without alerting the police. The thief cannot rob two directly-linked houses.
 
 **Example:** `root = [3, 2, 3, null, 3, null, 1]` → `7`
-
-**Optimal Approach — Tree DP Returning a Pair**
-
-1. Recurse returning two numbers per node: the best total if it is robbed and the best if it is not.
-2. A null node returns `(0, 0)`.
-3. `robbed = node.val + left.notRobbed + right.notRobbed`, since adjacent houses are off limits.
-4. `notRobbed = max(left pair) + max(right pair)`, because the children are then free to choose.
-5. The answer is the larger of the root's two values, computed in a single traversal.
 
 ```
 BRUTE FORCE | O(2^N) | O(H)
@@ -5493,14 +4637,6 @@ Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0'
 
 **Example:** `grid = [["1","1","0"],["1","0","0"],["0","0","1"]]` → `2`
 
-**Optimal Approach — DFS Flood Fill**
-
-1. Scan every cell of the grid once.
-2. When an unvisited `'1'` is found, increment the island counter.
-3. Launch a DFS or BFS flood fill from that cell.
-4. Sink every connected land cell by flipping it to `'0'` so it can never be counted again.
-5. The counter after the full scan is the number of islands.
-
 ```
 DFS | O(M * N) | O(M * N)
 
@@ -5534,14 +4670,6 @@ Given a reference of a node in a connected undirected graph, return a deep copy 
 
 **Example:** `adjList = [[2,4],[1,3],[2,4],[1,3]]` → an identical, fully independent deep copy
 
-**Optimal Approach — DFS with a Visited Map**
-
-1. Keep a hash map from each original node to its clone.
-2. DFS from the start node, and if it already appears in the map return the stored clone.
-3. Otherwise create the clone and register it in the map *before* recursing.
-4. Recurse into every neighbour and append the returned clones to this clone's neighbour list.
-5. Registering before recursing is exactly what stops cycles from looping forever.
-
 ```
 DFS + HASHMAP | O(V + E) | O(V)
 
@@ -5569,14 +4697,6 @@ DFS(node):
 Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent, the "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and bottom edges. Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or lower. Find the list of grid coordinates where water can flow to both the Pacific and Atlantic ocean.
 
 **Example:** `heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]` → `[[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]`
-
-**Optimal Approach — Reverse DFS from the Oceans**
-
-1. Instead of tracing water downhill from every cell, flow uphill from the oceans inward.
-2. DFS from every Pacific-touching border cell, stepping only to neighbours of equal or greater height, marking a "reaches Pacific" set.
-3. Do the same from every Atlantic-touching border cell into a second set.
-4. Any cell present in both sets can drain into both oceans.
-5. Return those cells; each cell is visited only a constant number of times.
 
 ```
 BRUTE FORCE DFS | O((R * C)^2) | O(R * C)
@@ -5620,14 +4740,6 @@ There are a total of numCourses courses you have to take, labeled from 0 to numC
 Does the directed graph contain a cycle?
 
 **Example:** `numCourses = 2, prerequisites = [[1,0]]` → `true`
-
-**Optimal Approach — Kahn's Topological Sort**
-
-1. Build an adjacency list and count each course's number of prerequisites (its in-degree).
-2. Push every course with in-degree 0 into a queue.
-3. Pop a course, count it as taken, and decrement the in-degree of each dependent course.
-4. Push any dependent whose in-degree drops to 0.
-5. If every course gets taken the graph is acyclic, so return true; otherwise a cycle blocks it.
 
 ```
 DFS CYCLE DETECTION | O(V + E) | O(V)
@@ -5680,14 +4792,6 @@ return processed == numCourses
 Same as Course Schedule, but return the order of courses to finish all courses. If there are multiple valid orders, return any of them. If it is impossible to finish all courses, return an empty array.
 
 **Example:** `numCourses = 2, prerequisites = [[1,0]]` → `[0, 1]`
-
-**Optimal Approach — Kahn's Algorithm**
-
-1. Build an adjacency list plus an in-degree count for every course.
-2. Queue all courses that have no prerequisites at all.
-3. Pop a course, append it to the output order, and decrement each neighbour's in-degree.
-4. Enqueue any neighbour whose in-degree reaches 0.
-5. Return the order if it contains all courses, otherwise return an empty list because of a cycle.
 
 ```
 DFS TOPOLOGICAL SORT | O(V + E) | O(V + E)
@@ -5747,14 +4851,6 @@ You are given an m x n grid where each cell can have one of three values:
 
 **Example:** `grid = [[2,1,1],[1,1,0],[0,1,1]]` → `4`
 
-**Optimal Approach — Multi-Source BFS**
-
-1. Put every initially rotten orange into a queue and count the fresh ones.
-2. Process the queue one whole level at a time, where each level represents one minute.
-3. For each rotten orange, rot any fresh 4-directional neighbour, enqueue it, and decrement the fresh count.
-4. Increment the minute counter after any level that actually rotted something.
-5. Return the minutes if no fresh oranges remain, otherwise -1.
-
 ```
 BRUTE FORCE | O(M * N * Minutes) | O(M * N)
 
@@ -5797,14 +4893,6 @@ Given two words (beginWord and endWord), and a dictionary's word list, find the 
 2. Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
 
 **Example:** `beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]` → `5`
-
-**Optimal Approach — Bidirectional BFS**
-
-1. Put the word list into a hash set and search from `beginWord` and `endWord` at the same time.
-2. Always expand whichever of the two frontiers is currently smaller.
-3. Generate neighbours by trying all 26 letters at each position of a word.
-4. If a generated word already sits in the opposite frontier, the searches have met, so return the combined length.
-5. Otherwise add unseen valid words into the next frontier and increase the level count.
 
 ```
 BFS | O(N * M) | O(N * M)
@@ -5871,14 +4959,6 @@ A valid tree must satisfy two conditions:
 
 **Example:** `n = 5, edges = [[0,1],[0,2],[0,3],[1,4]]` → `true`
 
-**Optimal Approach — Union-Find**
-
-1. A tree on `n` nodes needs exactly `n - 1` edges, so reject any other edge count immediately.
-2. Start each node as its own union-find component.
-3. For every edge, find the representative root of both endpoints.
-4. If those roots are already the same, the edge closes a cycle, so return false.
-5. Otherwise union them; with `n - 1` edges and no cycle the graph must be connected, so return true.
-
 ```
 DFS | O(V + E) | O(V + E)
 
@@ -5923,14 +5003,6 @@ VALID_TREE(n, edges):
 Given a connected undirected graph of n nodes labeled from 1 to n, and an array edges where edges[i] = [ui, vi] indicates that there is an edge between ui and vi in the graph. The graph is a tree plus one additional edge. Return an edge that can be removed so that the resulting graph is a tree of n nodes. If there are multiple answers, return the answer that occurs last in the input.
 
 **Example:** `edges = [[1,2],[1,3],[2,3]]` → `[2, 3]`
-
-**Optimal Approach — Union-Find**
-
-1. Initialize a union-find structure where every node is its own parent.
-2. Process the edges in the order they are given.
-3. For each edge, find the roots of both endpoints.
-4. If the roots already match, those nodes were connected, so this edge is the one closing the cycle.
-5. Return that edge; otherwise union the two sets, with path compression keeping each operation near O(1).
 
 ```
 BRUTE FORCE | O(N^2) | O(N)
@@ -5981,14 +5053,6 @@ Given a network of n nodes, labeled from 1 to n, and a list of travel times as d
 
 **Example:** `times = [[2,1,1],[2,3,1],[3,4,1]], n = 4, k = 2` → `2`
 
-**Optimal Approach — Dijkstra's Algorithm**
-
-1. Build an adjacency list of `(neighbour, weight)` pairs.
-2. Keep a min-heap of `(distance, node)` seeded with `(0, k)` plus a distance table.
-3. Pop the closest unsettled node, skipping it if it has already been finalized.
-4. Relax each outgoing edge and push any improved distance back onto the heap.
-5. The answer is the largest finalized distance, or -1 if some node was never reached.
-
 ```
 BELLMAN-FORD | O(V * E) | O(V)
 // Relax all edges V - 1 times. If we can still relax an edge, then there is a negative cycle.
@@ -6033,14 +5097,6 @@ Return the minimum cost to make all points connected. All points are connected i
 // Minimum Spanning Tree problem.
 
 **Example:** `points = [[0,0],[2,2],[3,10],[5,2],[7,0]]` → `20`
-
-**Optimal Approach — Prim's Algorithm**
-
-1. The points form a complete graph where an edge's weight is the Manhattan distance.
-2. Start at any point and keep a "cheapest known connection cost" for every other point.
-3. Repeatedly pick the unvisited point with the smallest such cost and add it to the tree.
-4. Add its cost to the running total and update the remaining points against this newly added point.
-5. After all `n` points join, the accumulated total is the minimum spanning tree's weight.
 
 ```
 KRUSKAL'S ALGORITHM | O(V ^ 2 Log V) | O(V^2)
@@ -6130,14 +5186,6 @@ Given a list of words from the dictionary, where words are sorted lexicographica
 
 **Example:** `words = ["wrt","wrf","er","ett","rftt"]` → `"wertf"`
 
-**Optimal Approach — Topological Sort on Characters**
-
-1. Seed a graph with every distinct character mapped to an empty edge set and a zero in-degree.
-2. Compare each adjacent pair of words and find their first differing character, which yields one ordering edge.
-3. If a word is a prefix of an earlier longer word, the input is invalid, so return an empty string.
-4. Run Kahn's algorithm, repeatedly taking any character whose in-degree is 0.
-5. Return the built order if it uses every character, otherwise an empty string because a cycle exists.
-
 ```
 TOPOLOGICAL SORT | O(C + V + E) | O(V + E)
 C: Total number of characters in all words
@@ -6183,14 +5231,6 @@ ALIEN_ORDER(words):
 You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
 
 **Example:** `n = 3` → `3`
-
-**Optimal Approach — Space-Optimized Fibonacci DP**
-
-1. You can reach step `i` only from step `i - 1` or step `i - 2`, so `ways(i) = ways(i-1) + ways(i-2)`.
-2. Only the last two values ever matter, so keep just two variables.
-3. Initialize both to 1, representing the ways to stand on step 0 and step 1.
-4. Loop from 2 to `n`, setting the new value to their sum and shifting the pair forward.
-5. Return the latest value; this is Fibonacci in O(N) time and O(1) space.
 
 ```
 RECURSION | O(2^N) | O(N)
@@ -6256,14 +5296,6 @@ You have houses: [2, 7, 9, 3, 1] You cannot rob two adjacent houses. Find maximu
 
 **Example:** `nums = [2, 7, 9, 3, 1]` → `12` (rob 2 + 9 + 1)
 
-**Optimal Approach — Rolling Bottom-Up DP**
-
-1. At each house you either skip it, or rob it and add the best total from two houses back.
-2. Track two running values: the best up to the previous house and the best up to the one before that.
-3. For each house compute `current = max(prev, prevPrev + nums[i])`.
-4. Shift the two running values forward and continue.
-5. The final `prev` value is the maximum money that can be robbed.
-
 ```
 BRUTE FORCE | O(2^N) | O(N)
 
@@ -6312,14 +5344,6 @@ HOUSE_ROBBER(nums):
 Given coins of different denominations and a total amount of money, find the fewest number of coins that you need to make up that amount. If that amount cannot be made up by any combination of the coins, return -1.
 
 **Example:** `coins = [1, 2, 5], amount = 11` → `3` (5 + 5 + 1)
-
-**Optimal Approach — Bottom-Up Unbounded Knapsack**
-
-1. Create a `dp` array of size `amount + 1` filled with infinity, then set `dp[0] = 0`.
-2. For every sub-amount `a` from 1 upwards, try each available coin.
-3. If the coin fits, consider `dp[a - coin] + 1` as a candidate count.
-4. Keep the smallest candidate as `dp[a]`.
-5. Return `dp[amount]`, or -1 if it is still infinity because no combination reaches it.
 
 ```
 BRUTE FORCE | O(S^N) | O(N)
@@ -6381,14 +5405,6 @@ Given a non-empty array nums containing only positive integers, find if the arra
 
 **Example:** `nums = [1, 5, 11, 5]` → `true` ([1, 5, 5] and [11])
 
-**Optimal Approach — 0/1 Knapsack on Reachable Sums**
-
-1. If the total sum is odd no equal split can exist, so return false immediately.
-2. Otherwise the goal becomes finding a subset that sums to `total / 2`.
-3. Keep a boolean array where `dp[s]` means "sum `s` is reachable", with `dp[0] = true`.
-4. For each number, iterate `s` downwards from the target to that number, setting `dp[s] |= dp[s - num]`.
-5. Going downwards prevents reusing a number twice; return `dp[target]` at the end.
-
 ```
 BRUTE FORCE | O(2^N) | O(N)
 
@@ -6432,14 +5448,6 @@ PARTITION_EQUAL_SUBSET(nums):
 Given an integer array nums, return the length of the longest strictly increasing subsequence.
 
 **Example:** `nums = [10, 9, 2, 5, 3, 7, 101, 18]` → `4` ([2, 3, 7, 101])
-
-**Optimal Approach — Patience Sorting with Binary Search**
-
-1. Keep a `tails` list where `tails[i]` is the smallest possible ending value of an increasing subsequence of length `i + 1`.
-2. Scan the numbers one at a time.
-3. Binary search `tails` for the first value greater than or equal to the current number.
-4. Overwrite that slot if one is found, otherwise append the number to extend the list.
-5. The final length of `tails` is the LIS length, giving O(N log N) overall.
 
 ```
 BRUTE FORCE | O(2^N) | O(N)
@@ -6500,14 +5508,6 @@ Given 2 strings s1 and s2, return the length of their longest common subsequence
 
 **Example:** `text1 = "abcde", text2 = "ace"` → `3` ("ace")
 
-**Optimal Approach — 2D DP Table**
-
-1. Build a table where `dp[i][j]` is the LCS length of the first `i` and first `j` characters.
-2. Row 0 and column 0 are all zeros, since one string is empty there.
-3. If the two characters match, `dp[i][j] = dp[i-1][j-1] + 1`.
-4. If they differ, `dp[i][j] = max(dp[i-1][j], dp[i][j-1])`.
-5. The bottom-right cell holds the answer, and only two rows are needed to save space.
-
 ```
 BRUTE FORCE | O(2^N) | O(N)
 
@@ -6546,14 +5546,6 @@ Convert one string to another using the minimum number of operations. You have t
 
 **Example:** `word1 = "horse", word2 = "ros"` → `3`
 
-**Optimal Approach — 2D DP Table**
-
-1. `dp[i][j]` is the cost to turn the first `i` characters of `word1` into the first `j` of `word2`.
-2. Fill the first row with `0..j` and the first column with `0..i`, the cost of pure inserts or deletes.
-3. If the current characters match, carry the diagonal value across unchanged.
-4. If they differ, take `1 + min(left, top, diagonal)` for insert, delete, and replace respectively.
-5. The bottom-right cell is the minimum edit distance.
-
 ```
 BRUTE FORCE | O(3^N) | O(N)
 
@@ -6590,14 +5582,6 @@ EDIT_DISTANCE(word1, word2):
 Given a string s and a dictionary of words wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
 
 **Example:** `s = "leetcode", wordDict = ["leet","code"]` → `true`
-
-**Optimal Approach — Bottom-Up DP with a Word Set**
-
-1. Put the dictionary into a hash set so lookups cost O(1).
-2. Create a boolean array where `dp[i]` means the first `i` characters can be fully segmented, with `dp[0] = true`.
-3. For each end position `i`, try every split point `j` before it.
-4. Set `dp[i]` to true when `dp[j]` is true and the substring from `j` to `i` is in the set, then stop early.
-5. Return `dp[n]`.
 
 ```
 BRUTE FORCE | O(2^N) | O(N)
@@ -6649,14 +5633,6 @@ Starting from the top-left corner of a m x n grid, you can only move either down
 
 **Example:** `m = 3, n = 7` → `28`
 
-**Optimal Approach — Grid DP**
-
-1. Every cell can only be entered from the cell above it or the cell to its left.
-2. So `paths[i][j] = paths[i-1][j] + paths[i][j-1]`.
-3. Fill the entire first row and first column with 1, since there is only one straight-line route to each.
-4. Sweep the grid row by row applying the formula.
-5. The bottom-right cell holds the answer, and a single reusable row array is enough for O(N) space.
-
 ```
 BRUTE FORCE | O(2^(M + N)) | O(M + N)
 
@@ -6687,14 +5663,6 @@ Given a m x n grid filled with non-negative numbers, find a path from top left t
 
 **Example:** `grid = [[1,3,1],[1,5,1],[4,2,1]]` → `7` (1→3→1→1→1)
 
-**Optimal Approach — Grid DP**
-
-1. Each cell can only be reached from above or from the left.
-2. Set `dp[0][0]` to `grid[0][0]` and fill the first row and first column with running sums.
-3. For every other cell, `dp[i][j] = grid[i][j] + min(dp[i-1][j], dp[i][j-1])`.
-4. Sweep the grid row by row so both dependencies are already computed.
-5. The bottom-right cell is the minimum path sum, and the grid itself can be updated in place.
-
 ```
 DP | O(M * N) | O(M * N)
 
@@ -6721,14 +5689,6 @@ MIN_PATH_SUM(grid):
 Given a string s containing only digits, return the number of ways to decode it. The mapping is 'A' -> 1, 'B' -> 2, ..., 'Z' -> 26. A leading zero is invalid.
 
 **Example:** `s = "226"` → `3` ("BZ", "VF", "BBF")
-
-**Optimal Approach — Linear DP over Two Choices**
-
-1. `dp[i]` counts the ways to decode the first `i` characters, starting with `dp[0] = 1`.
-2. If the single digit ending at `i` is not `'0'`, add `dp[i - 1]`.
-3. If the two digits ending at `i` form a number between 10 and 26, add `dp[i - 2]`.
-4. A `'0'` that cannot pair with the previous digit makes that position 0, killing the branch.
-5. Return `dp[n]`; only the last two values matter, so O(1) space works.
 
 ```
 DP | O(N) | O(N)
@@ -6763,14 +5723,6 @@ Given array of prices for stocks. You can: Buy, Sell, Wait. But after selling, y
 
 **Example:** `prices = [1, 2, 3, 0, 2]` → `3` (buy, sell, cooldown, buy, sell)
 
-**Optimal Approach — State Machine DP**
-
-1. Track three running states per day: holding a stock, having just sold, and resting.
-2. `hold = max(hold, rest - price)`, since a purchase is only allowed after a rest day.
-3. `sold = hold + price`, which sells whatever was being held.
-4. `rest = max(rest, previousSold)`, which is where the mandatory cooldown day lands.
-5. Update all three each day using the *previous* day's values, then return `max(sold, rest)`.
-
 ```
 STATE MACHINE DP | O(N) | O(N)
 
@@ -6798,14 +5750,6 @@ STOCK_WITH_COOLDOWN(prices):
 You are given n balloons, indexed from 0 to n - 1. Each balloon is painted with a number on it represented by an array nums. You are asked to burst all the balloons. If you burst balloon i you will get nums[left] _nums[i]_ nums[right] coins. Here left and right are adjacent indices of i. After the burst, the left and right then become adjacent. Find maximum coins you can collect by bursting the balloons wisely. You may imagine nums[-1] = nums[n] = 1. They are not real therefore you cannot burst them.
 
 **Example:** `nums = [3, 1, 5, 8]` → `167`
-
-**Optimal Approach — Interval DP on the Last Balloon**
-
-1. Define `dp[left][right]` as the most coins obtainable by bursting every balloon in that inclusive range.
-2. Iterate over increasing window lengths so all smaller ranges are already solved.
-3. For each window, try every `i` inside it as the *last* balloon burst in that range.
-4. Bursting `i` last means its neighbours are `nums[left - 1]` and `nums[right + 1]` (treat out-of-range as 1), scoring that product plus `dp[left][i - 1] + dp[i + 1][right]`.
-5. Keep the maximum over all `i`, and `dp[0][n - 1]` is the answer.
 
 ```
 INTERVAL DP | O(N^3) | O(N^2)

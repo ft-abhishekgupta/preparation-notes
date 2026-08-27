@@ -329,6 +329,7 @@ Dynamically adds behavior to an object without affecting the behavior of other o
 
 **When to use:**
 
+- Based on different runtime behavior
 - Need optional / additional features for an object
 - Avoid subclassing for every combination of features
 - Multiple combinations of features are required

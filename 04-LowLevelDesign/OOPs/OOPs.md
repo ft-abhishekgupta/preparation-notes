@@ -205,9 +205,18 @@ classDiagram
     Vehicle <|-- Car : Inheritance
 ```
 
+**Tradoffs**
+
+- Causes tight coupling. Changes in base class can break child
+- Instead use Composition + Interface
+- Inheritance can be used when we have STABLE and SHARED IMPLEMENTATION shared by multiple sub classes
+
 ## Polymorphism
 
 Polymorphism is the ability of an object to take on many forms. It allows methods to have the same name but behave differently based on the object that is calling them.
+
+- Prevents if-else or Switch statements
+- Provides flexibility and extensibility but becomes harder to debug or follow code flow
 
 - **Compile-time Polymorphism (Method Overloading)**: The method to be executed is determined at compile time based on the method signature (name and parameters).
   - Allows a class to have multiple methods with the same name but different parameters.
@@ -254,7 +263,7 @@ Polymorphism is the ability of an object to take on many forms. It allows method
 
 Encapsulation is the process of bundling data (attributes) and methods (functions) that operate on the data into a single unit called a class. It restricts direct access to some of the object's components, which can prevent the accidental modification of data.
 
-- Helps in achieving data hiding and security.
+- Helps in achieving data hiding, validation and security.
 - Class attributes are made **private** and can be accessed or modified through public methods (**getters and setters**).
 - Improves code maintainability and flexibility
 
@@ -276,6 +285,8 @@ class BankAccount {
     }
 }
 ```
+
+> For getter on list, return a copy or immutable data
 
 ## Abstraction
 
@@ -434,3 +445,5 @@ class NotificationService {
 var service = new NotificationService(new EmailSender());
 var service = new NotificationService(new SmsSender());
 ```
+
+> Default to Composition + Interface

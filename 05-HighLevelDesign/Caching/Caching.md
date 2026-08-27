@@ -52,6 +52,11 @@ Caching policies are the rules that determine what data gets cached, where it is
 
 Invalidate the cache data when the underlying data changes, forcing the application to fetch fresh data from the database.
 
+- TTL Based: Fixed lifetime for cache entries
+- Tagged Invalidation: Associate entries with tags, invalidate based on tags
+- Write through: Delete cache entry on db write immediately
+- Write behind: Queue invalidation events async
+
 ## Eviction Policies
 
 Strategies used to determine which items should be removed from the cache when it reaches its capacity
@@ -122,6 +127,10 @@ Single key that is accessed frequently, causing high load on the cache and the d
 
 1. _Sharding_ - Split the hot key into multiple keys, so that requests can be served from multiple keys on different cache nodes.
 2. _Fallback Cache_ - In Memory Cache
+
+### 4. Race Condition
+
+Race condition where two separate Processor instances independently check a distributed cache at the same moment and both find the key absent, then both proceed to write. The core problem here is a distributed read-modify-write race, and the right tool is an atomic operation like a distributed lock or a cache SET with NX (set if not exists) semantics, which guarantees only one writer wins even under concurrent access.
 
 ## Interview Perspective
 

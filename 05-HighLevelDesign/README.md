@@ -44,3 +44,7 @@ High level design describes the overall architecture of a system: its components
    2. Scaling Reads
       1. Practice Bitly
       2. Review Bitly
+      3. Scaling Reads
+      4. Scaling Reads Quiz
+   3. Scaling Writes
+      1. Scaling Writes
