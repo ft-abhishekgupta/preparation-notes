@@ -1,0 +1,2106 @@
+<!DOCTYPE html><html><head>
+      <title>PatternAndTricks</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="color-scheme" content="light dark">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}@media (prefers-color-scheme: dark) {
+code[class*=language-],pre[class*=language-]{color:#c9d1d9;text-shadow:none;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}code[class*=language-]::mozselection,code[class*=language-]::selection,pre[class*=language-]::mozselection,pre[class*=language-]::selection{text-shadow:none;background:#234879}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#161b22}:not(pre)>code[class*=language-]{padding:.1em .3em;border-radius:.3em;color:#c9d1d9;background:#343942}pre[data-line]{position:relative}pre[class*=language-]>code[class*=language-]{position:relative;z-index:1}.line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:#2f2a1e;box-shadow:inset 5px 0 0 #674c16;z-index:0;pointer-events:none;line-height:inherit;white-space:pre}.namespace{opacity:.7}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#8b949e}.token.punctuation{color:#c9d1d9}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#79c0ff}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#a5d6ff}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{color:#a5d6ff}.token.atrule,.token.attr-value,.token.keyword{color:#f97583}.token.function{color:#d2a8ff}.token.important,.token.regex,.token.variable{color:#79b8ff}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}
+}
+html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}@media (prefers-color-scheme: dark) {
+html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#ccc;background-color:#24292e;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#fff}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#a3a3a3}html body strong{color:#fff}html body del{color:#a3a3a3}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#a3a3a3;background-color:#363d45;border-left:4px solid #48525c}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#48525c;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#fff}html body table td,html body table th{border:1px solid #48525c;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#fff;background-color:#363d45;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#48525c;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#fff;border:1px solid #48525c;border-bottom:2px solid #3a424b;padding:2px 4px;background-color:#363d45;border-radius:3px}@media print{html body{background-color:#24292e}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#fff;page-break-after:avoid}html body blockquote{color:#a3a3a3}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}
+}
+.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-details{margin:0;padding:0;border:none}.markdown-preview .md-toc ol.md-toc-ol{margin:0;padding-left:1.6em}.markdown-preview .md-toc summary.md-toc-link-wrapper{cursor:pointer;list-style-position:outside}.markdown-preview .md-toc summary.md-toc-link-wrapper::marker{font-size:.85em}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='0']{margin-left:12px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='1']{margin-left:28px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='2']{margin-left:44px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='3']{margin-left:60px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='4']{margin-left:76px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='5']{margin-left:80px}.markdown-preview a.tag,.markdown-preview a.tag:active,.markdown-preview a.tag:link,.markdown-preview a.tag:visited,.markdown-preview span.tag:not(.token){display:inline-block;background-color:var(--vscode-badge-background,rgba(127,127,127,.18));color:var(--vscode-badge-foreground,currentColor);border-radius:2em;font-size:.85em;font-weight:500;padding:.05em .55em;line-height:1.5;white-space:nowrap;text-decoration:none;text-shadow:none;box-shadow:none;transition:background-color .12s ease,opacity .12s ease}.markdown-preview a.tag{cursor:pointer}.markdown-preview a.tag:focus,.markdown-preview a.tag:hover{background-color:var(--vscode-badge-background,rgba(127,127,127,.32));color:var(--vscode-badge-foreground,currentColor);opacity:.85;text-decoration:none;outline:0}.markdown-preview .wikilink-embed-content{border-left:3px solid var(--vscode-textBlockQuote-border,rgba(128,128,128,.3));background:var(--vscode-textBlockQuote-background,rgba(128,128,128,.05));margin:.5em 0;padding:.5em .75em;border-radius:0 3px 3px 0}.markdown-preview .wikilink-embed-content.wikilink-embed-error{border-left-color:var(--vscode-errorForeground,#cf222e);color:var(--vscode-errorForeground,#cf222e);font-style:italic;opacity:.8}.markdown-preview .wikilink-embed-content h1:first-child,.markdown-preview .wikilink-embed-content h2:first-child,.markdown-preview .wikilink-embed-content h3:first-child,.markdown-preview .wikilink-embed-content h4:first-child,.markdown-preview .wikilink-embed-content h5:first-child,.markdown-preview .wikilink-embed-content h6:first-child{margin-top:.25em}.markdown-preview .wikilink-embed-content .wikilink-embed-content{margin:.25em 0;padding:.25em .5em}.markdown-preview .block-id{display:none}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));border:4px solid var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));background-clip:content-box}.scrollbar-style::-webkit-scrollbar-thumb:hover{background-color:var(--vscode-scrollbarSlider-hoverBackground,rgba(120,120,120,.66))}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));border:4px solid var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb:hover{background-color:var(--vscode-scrollbarSlider-hoverBackground,rgba(120,120,120,.66))}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-details{margin:0;padding:0;border:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc ol.md-toc-ol{margin:0;padding-left:1.6em}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='0']{padding-left:0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='1']{padding-left:16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='2']{padding-left:32px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='3']{padding-left:48px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='4']{padding-left:64px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='5']{padding-left:80px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjcB9SII.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6SII.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8L6tjPQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtD6GgLL.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9dr0Wd4kDdMuhW.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtDqHQLL.ttf) format('truetype');
+}
+html,
+body {
+  min-height: 100%;
+  background: #0f111a !important;
+}
+.markdown-preview.markdown-preview {
+  /*====================================================
+  Aurora Notes Theme
+  Markdown Preview Enhanced
+=====================================================*/
+  /*====================================================
+  Color Palette
+=====================================================*/
+  --bg: #0f111a;
+  --bg2: #1a1d2b;
+  --bg3: #24283b;
+  --text: #d7dae0;
+  --muted: #9ca3af;
+  --blue: #7aa2f7;
+  --cyan: #7dcfff;
+  --green: #9ece6a;
+  --yellow: #e0af68;
+  --orange: #ff9e64;
+  --red: #f7768e;
+  --purple: #bb9af7;
+  --pink: #ff79c6;
+  --border: #30364d;
+  /*====================================================
+  Main
+=====================================================*/
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Kalam", cursive;
+  line-height: 1.65;
+  font-size: 18px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: 28px clamp(24px, 5vw, 72px);
+  /*====================================================
+  Headings
+=====================================================*/
+  /*====================================================
+  Text
+=====================================================*/
+  /*====================================================
+  Links
+=====================================================*/
+  /*====================================================
+  Lists
+=====================================================*/
+  /*====================================================
+  Blockquotes
+=====================================================*/
+  /*====================================================
+  Inline Code
+=====================================================*/
+  /*====================================================
+  Code Blocks
+=====================================================*/
+  /*====================================================
+  Horizontal Rule
+=====================================================*/
+  /*====================================================
+  Tables
+=====================================================*/
+  /*====================================================
+  Images
+=====================================================*/
+  /*====================================================
+  Task Lists
+=====================================================*/
+  /*====================================================
+  Selection
+=====================================================*/
+  /*====================================================
+  Scrollbar
+=====================================================*/
+  /*====================================================
+  Mermaid
+=====================================================*/
+  /*====================================================
+  Math
+=====================================================*/
+  /*====================================================
+  Paragraph Spacing
+=====================================================*/
+}
+.markdown-preview.markdown-preview h1,
+.markdown-preview.markdown-preview h2,
+.markdown-preview.markdown-preview h3,
+.markdown-preview.markdown-preview h4,
+.markdown-preview.markdown-preview h5,
+.markdown-preview.markdown-preview h6 {
+  font-family: "Caveat", "Kalam", cursive;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  margin: 0.15em 0 0.05em;
+  padding-top: 0;
+  padding-bottom: 4px;
+}
+.markdown-preview.markdown-preview h1 {
+  color: var(--blue);
+  font-size: 2.5em;
+}
+.markdown-preview.markdown-preview h2 {
+  color: var(--purple);
+  font-size: 2em;
+}
+.markdown-preview.markdown-preview h3 {
+  color: var(--green);
+  font-size: 1.65em;
+}
+.markdown-preview.markdown-preview h4 {
+  color: var(--yellow);
+  font-size: 1.35em;
+}
+.markdown-preview.markdown-preview h5 {
+  color: var(--orange);
+  font-size: 1.15em;
+}
+.markdown-preview.markdown-preview h6 {
+  color: var(--red);
+}
+.markdown-preview.markdown-preview strong {
+  color: var(--yellow);
+  font-weight: 700;
+}
+.markdown-preview.markdown-preview em {
+  color: var(--cyan);
+}
+.markdown-preview.markdown-preview del {
+  color: #777;
+}
+.markdown-preview.markdown-preview a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+.markdown-preview.markdown-preview a:hover {
+  color: var(--pink);
+}
+.markdown-preview.markdown-preview li::marker {
+  color: var(--orange);
+}
+.markdown-preview.markdown-preview ul li {
+  margin: 4px 0;
+}
+.markdown-preview.markdown-preview blockquote {
+  background: linear-gradient(90deg, rgba(122, 162, 247, 0.15), rgba(187, 154, 247, 0.08));
+  border-left: 6px solid var(--blue);
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-family: "Kalam", cursive;
+  font-size: 1.05em;
+  color: #dce6ff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+.markdown-preview.markdown-preview blockquote p {
+  margin: 2px 0;
+}
+.markdown-preview.markdown-preview code {
+  font-family: "JetBrains Mono", monospace;
+  background: #20242f;
+  color: #c3e88d;
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid #3b4252;
+}
+.markdown-preview.markdown-preview pre {
+  background: #1b1f27 !important;
+  color: #ffffff !important;
+  border-radius: 16px;
+  border: 1px solid #607d8b;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  overflow-x: auto;
+}
+.markdown-preview.markdown-preview pre code {
+  display: block;
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  color: #ffffff !important;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 4;
+}
+.markdown-preview.markdown-preview pre code.hljs {
+  background: transparent !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-comment,
+.markdown-preview.markdown-preview pre code .hljs-quote,
+.markdown-preview.markdown-preview pre code .token.comment,
+.markdown-preview.markdown-preview pre code .token.prolog,
+.markdown-preview.markdown-preview pre code .token.doctype {
+  color: #b0bec5 !important;
+  font-style: italic;
+}
+.markdown-preview.markdown-preview pre code .hljs-keyword,
+.markdown-preview.markdown-preview pre code .hljs-selector-tag,
+.markdown-preview.markdown-preview pre code .hljs-literal,
+.markdown-preview.markdown-preview pre code .hljs-meta,
+.markdown-preview.markdown-preview pre code .token.keyword,
+.markdown-preview.markdown-preview pre code .token.boolean,
+.markdown-preview.markdown-preview pre code .token.constant {
+  color: #d9a7ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-string,
+.markdown-preview.markdown-preview pre code .hljs-doctag,
+.markdown-preview.markdown-preview pre code .hljs-regexp,
+.markdown-preview.markdown-preview pre code .token.string,
+.markdown-preview.markdown-preview pre code .token.char,
+.markdown-preview.markdown-preview pre code .token.regex {
+  color: #c3e88d !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-number,
+.markdown-preview.markdown-preview pre code .hljs-symbol,
+.markdown-preview.markdown-preview pre code .hljs-bullet,
+.markdown-preview.markdown-preview pre code .token.number,
+.markdown-preview.markdown-preview pre code .token.symbol {
+  color: #ffab91 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-title,
+.markdown-preview.markdown-preview pre code .hljs-section,
+.markdown-preview.markdown-preview pre code .hljs-function .hljs-title,
+.markdown-preview.markdown-preview pre code .token.function,
+.markdown-preview.markdown-preview pre code .token.method {
+  color: #82b1ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-variable,
+.markdown-preview.markdown-preview pre code .hljs-template-variable,
+.markdown-preview.markdown-preview pre code .hljs-attr,
+.markdown-preview.markdown-preview pre code .hljs-attribute,
+.markdown-preview.markdown-preview pre code .token.property,
+.markdown-preview.markdown-preview pre code .token.attr-name {
+  color: #ffe082 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-built_in,
+.markdown-preview.markdown-preview pre code .hljs-class .hljs-title,
+.markdown-preview.markdown-preview pre code .hljs-name,
+.markdown-preview.markdown-preview pre code .hljs-type,
+.markdown-preview.markdown-preview pre code .token.class-name,
+.markdown-preview.markdown-preview pre code .token.builtin,
+.markdown-preview.markdown-preview pre code .token.namespace {
+  color: #80d8ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-params,
+.markdown-preview.markdown-preview pre code .hljs-subst,
+.markdown-preview.markdown-preview pre code .token.parameter {
+  color: #ffffff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-addition,
+.markdown-preview.markdown-preview pre code .token.inserted {
+  color: #c3e88d !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-deletion,
+.markdown-preview.markdown-preview pre code .token.deleted {
+  color: #ff8a80 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-punctuation,
+.markdown-preview.markdown-preview pre code .hljs-operator,
+.markdown-preview.markdown-preview pre code .token.punctuation,
+.markdown-preview.markdown-preview pre code .token.operator {
+  color: #84ffff !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
+  margin: 16px 0;
+}
+.markdown-preview.markdown-preview table {
+  display: table;
+  width: auto;
+  max-width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+.markdown-preview.markdown-preview th {
+  background: linear-gradient(90deg, #3b4261, #2b3050);
+  color: var(--yellow);
+  padding: 9px 12px;
+}
+.markdown-preview.markdown-preview th + th {
+  border-left: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview td {
+  background: #171b28;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview td + td {
+  border-left: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview tr:nth-child(even) td {
+  background: #1b2132;
+}
+.markdown-preview.markdown-preview img {
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--border);
+  margin: 14px auto 14px 0;
+  display: block;
+}
+.markdown-preview.markdown-preview input[type="checkbox"] {
+  transform: scale(1.4);
+  accent-color: var(--green);
+  margin-right: 10px;
+}
+.markdown-preview.markdown-preview ::selection {
+  background: var(--purple);
+  color: white;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar {
+  width: 12px;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar-track {
+  background: #12151f;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--blue), var(--purple));
+  border-radius: 20px;
+}
+.markdown-preview.markdown-preview .mermaid {
+  background: #1b2030;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.markdown-preview.markdown-preview .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+.markdown-preview.markdown-preview .mermaid .edgePath path,
+.markdown-preview.markdown-preview .mermaid .flowchart-link,
+.markdown-preview.markdown-preview .mermaid .messageLine0,
+.markdown-preview.markdown-preview .mermaid .messageLine1,
+.markdown-preview.markdown-preview .mermaid .relationshipLine {
+  stroke: var(--cyan) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid marker path,
+.markdown-preview.markdown-preview .mermaid .arrowheadPath {
+  fill: var(--cyan) !important;
+  stroke: var(--cyan) !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel,
+.markdown-preview.markdown-preview .mermaid .edgeLabel p,
+.markdown-preview.markdown-preview .mermaid .edgeLabel span,
+.markdown-preview.markdown-preview .mermaid .edgeLabel text,
+.markdown-preview.markdown-preview .mermaid .edgeLabel tspan,
+.markdown-preview.markdown-preview .mermaid .labelText,
+.markdown-preview.markdown-preview .mermaid .messageText,
+.markdown-preview.markdown-preview .mermaid .loopText,
+.markdown-preview.markdown-preview .mermaid .relationshipLabel {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel,
+.markdown-preview.markdown-preview .mermaid .labelBkg {
+  background-color: #111827 !important;
+  fill: #111827 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel rect,
+.markdown-preview.markdown-preview .mermaid .label-container {
+  background: #111827 !important;
+  fill: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel p,
+.markdown-preview.markdown-preview .mermaid .edgeLabel span,
+.markdown-preview.markdown-preview .mermaid .edgeLabel div {
+  margin: 0 !important;
+  padding: 0 4px !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid foreignObject,
+.markdown-preview.markdown-preview .mermaid .edgeLabel {
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid .nodeLabel,
+.markdown-preview.markdown-preview .mermaid .nodeLabel p,
+.markdown-preview.markdown-preview .mermaid .nodeLabel span,
+.markdown-preview.markdown-preview .mermaid .label text,
+.markdown-preview.markdown-preview .mermaid .label tspan,
+.markdown-preview.markdown-preview .mermaid text,
+.markdown-preview.markdown-preview .mermaid tspan {
+  color: #f8fafc !important;
+  fill: #f8fafc !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel text,
+.markdown-preview.markdown-preview .mermaid .edgeLabel tspan,
+.markdown-preview.markdown-preview .mermaid .edgeLabel .label,
+.markdown-preview.markdown-preview .mermaid .edgeLabel .label * {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid rect.actor,
+.markdown-preview.markdown-preview .mermaid .actor-box {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid text.actor,
+.markdown-preview.markdown-preview .mermaid text.actor tspan,
+.markdown-preview.markdown-preview .mermaid .actor text,
+.markdown-preview.markdown-preview .mermaid .actor text tspan {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+.markdown-preview.markdown-preview .mermaid .actor-line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node rect,
+.markdown-preview.markdown-preview .mermaid .node polygon,
+.markdown-preview.markdown-preview .mermaid .node .label-container {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node text,
+.markdown-preview.markdown-preview .mermaid .node tspan,
+.markdown-preview.markdown-preview .mermaid .node .label,
+.markdown-preview.markdown-preview .mermaid .node .label p,
+.markdown-preview.markdown-preview .mermaid .node .label span,
+.markdown-preview.markdown-preview .mermaid .node .label div {
+  fill: #f8fafc !important;
+  color: #f8fafc !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup rect,
+.markdown-preview.markdown-preview .mermaid .classLabel .box {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup text,
+.markdown-preview.markdown-preview .mermaid .classGroup tspan,
+.markdown-preview.markdown-preview .mermaid .classLabel text,
+.markdown-preview.markdown-preview .mermaid .classLabel tspan {
+  fill: #111827 !important;
+  color: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel p,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel span,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel div,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] text,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] tspan {
+  fill: #111827 !important;
+  color: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .activation0,
+.markdown-preview.markdown-preview .mermaid .activation1,
+.markdown-preview.markdown-preview .mermaid .activation2 {
+  fill: #263238 !important;
+  stroke: var(--cyan) !important;
+}
+.markdown-preview.markdown-preview .mermaid .note {
+  fill: #263238 !important;
+  stroke: var(--yellow) !important;
+}
+.markdown-preview.markdown-preview .mermaid .noteText,
+.markdown-preview.markdown-preview .mermaid .noteText tspan,
+.markdown-preview.markdown-preview .mermaid .sequenceNumber {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid .loopLine,
+.markdown-preview.markdown-preview .mermaid .labelBox {
+  fill: #1b2030 !important;
+  stroke: var(--purple) !important;
+}
+.markdown-preview.markdown-preview .katex-display {
+  background: #181c28;
+  border-radius: 8px;
+  padding: 14px;
+}
+.markdown-preview.markdown-preview p {
+  margin: 10px 0;
+}
+/*====================================================
+Markdown Preview Enhanced index / sidebar
+=====================================================*/
+.md-sidebar-toc,
+.md-sidebar-toc.md-sidebar-toc,
+.markdown-preview-enhanced-toc,
+.markdown-preview-enhanced-toc.md-preview-toc {
+  background: #171a26 !important;
+  color: #d7dae0 !important;
+  border-color: #30364d !important;
+  font-family: "Kalam", cursive;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.md-sidebar-toc a,
+.markdown-preview-enhanced-toc a {
+  color: #b9c7e8 !important;
+}
+.md-sidebar-toc a:hover,
+.md-sidebar-toc a.active,
+.markdown-preview-enhanced-toc a:hover,
+.markdown-preview-enhanced-toc a.active {
+  color: #7dcfff !important;
+  background: #24283b !important;
+}
+.md-sidebar-toc ul,
+.markdown-preview-enhanced-toc ul {
+  padding-left: 16px;
+}
+@media (max-width: 700px) {
+  .markdown-preview.markdown-preview {
+    font-size: 15px;
+    padding: 20px 16px;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. -->
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script>
+    </head>
+    <body for="html-export">
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="patterns-and-tricks">Patterns and Tricks </h1>
+<blockquote>
+<p><strong>Core idea:</strong> Interviews test pattern recognition, not memorisation. Almost every problem is one of ~25 patterns wearing a costume.<br>
+<strong>Use this file:</strong> as the entry point when you are stuck, and as the final-week revision index.</p>
+</blockquote>
+<h2 id="contents">Contents </h2>
+<ul>
+<li><a href="#the-60-second-triage">The 60-Second Triage</a></li>
+<li><a href="#problem-smell--pattern">Problem Smell → Pattern</a></li>
+<li><a href="#lookalikes-choosing-between-similar-patterns">Lookalikes: Choosing Between Similar Patterns</a></li>
+<li><a href="#data-structure-selection">Data Structure Selection</a></li>
+<li><a href="#optimisation-ladders">Optimisation Ladders</a></li>
+<li><a href="#universal-tricks">Universal Tricks</a></li>
+<li><a href="#curated-problem-set">Curated Problem Set</a></li>
+<li><a href="#interview-execution-checklist">Interview Execution Checklist</a></li>
+<li><a href="#revision-plans">Revision Plans</a></li>
+</ul>
+<hr>
+<h2 id="the-60-second-triage">The 60-Second Triage </h2>
+<p>Run this before writing any code. It converts a vague problem into a shortlist of two or three techniques.</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Question</th>
+<th>What the answer tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>What are the constraints?</strong></td>
+<td><code>n ≤ 20</code> → exponential is fine. <code>n ≤ 10⁵</code> → you need O(n log n). <code>n ≤ 10⁹</code> → the answer is math or binary search, not iteration.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Is the input sorted, or can I sort it?</strong></td>
+<td>Sorted → binary search or opposite-ends two pointers. Sorting costs O(n log n), which is free if the target is already O(n log n).</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Am I asked for <em>the</em> answer or <em>all</em> answers?</strong></td>
+<td>One optimal value → greedy or DP. Every arrangement → backtracking. A count → DP or combinatorics.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Contiguous or not?</strong></td>
+<td>Contiguous (subarray/substring) → sliding window, prefix sum, Kadane. Non-contiguous (subsequence/subset) → DP or backtracking.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Is there an ordering or dependency?</strong></td>
+<td>Dependencies → topological sort. Hierarchy → tree. Connections → graph or union-find.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Do I need extremes repeatedly?</strong></td>
+<td>Running min/max → heap or monotonic structure. One-shot min/max → single scan.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Does a brute force exist?</strong></td>
+<td>Always state it. Then ask "what work am I repeating?" — the repeated work names the fix (see <a href="#optimisation-ladders">Optimisation Ladders</a>).</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Key insight:</strong> The constraint size is the single strongest hint. See the full budget table in <a href="../ComplexityAnalysis/ComplexityAnalysis.md">Complexity Analysis</a>.</p>
+</blockquote>
+<hr>
+<h2 id="problem-smell--pattern">Problem Smell → Pattern </h2>
+<table>
+<thead>
+<tr>
+<th>Problem "smell"</th>
+<th>Reach for</th>
+<th>Typical complexity</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Subarray/substring with a constraint (sum, length, distinct count)</td>
+<td>Sliding window</td>
+<td>O(n)</td>
+<td><a href="../TwoPointers/TwoPointers.md">Two Pointers</a></td>
+</tr>
+<tr>
+<td>Subarray sum equals / divisible by K</td>
+<td>Prefix sum + hash map</td>
+<td>O(n)</td>
+<td><a href="../Hashing/Hashing.md">Hashing</a></td>
+</tr>
+<tr>
+<td>Range sum queries on a static array</td>
+<td>Prefix sum</td>
+<td>O(1) per query</td>
+<td><a href="../ArraysAndStrings/ArraysAndStrings.md">Arrays and Strings</a></td>
+</tr>
+<tr>
+<td>Many range updates, read at the end</td>
+<td>Difference array</td>
+<td>O(1) per update</td>
+<td><a href="../ArraysAndStrings/ArraysAndStrings.md">Arrays and Strings</a></td>
+</tr>
+<tr>
+<td>Range query <strong>with</strong> updates</td>
+<td>Fenwick tree / segment tree</td>
+<td>O(log n)</td>
+<td><a href="../AdvancedPatterns/AdvancedPatterns.md">Advanced Patterns</a></td>
+</tr>
+<tr>
+<td>Pair summing to a target in a sorted array</td>
+<td>Opposite-ends two pointers</td>
+<td>O(n)</td>
+<td><a href="../TwoPointers/TwoPointers.md">Two Pointers</a></td>
+</tr>
+<tr>
+<td>Pair summing to a target, unsorted</td>
+<td>Complement hash map</td>
+<td>O(n)</td>
+<td><a href="../Hashing/Hashing.md">Hashing</a></td>
+</tr>
+<tr>
+<td>Maximum sum contiguous subarray</td>
+<td>Kadane</td>
+<td>O(n)</td>
+<td><a href="../ArraysAndStrings/ArraysAndStrings.md">Arrays and Strings</a></td>
+</tr>
+<tr>
+<td>Search in a sorted array</td>
+<td>Binary search</td>
+<td>O(log n)</td>
+<td><a href="../SearchingAndSorting/SearchingAndSorting.md">Searching and Sorting</a></td>
+</tr>
+<tr>
+<td>"Minimise the maximum" / "maximise the minimum" / "smallest capacity such that…"</td>
+<td>Binary search on the answer</td>
+<td>O(n log range)</td>
+<td><a href="../SearchingAndSorting/SearchingAndSorting.md">Searching and Sorting</a></td>
+</tr>
+<tr>
+<td>Kth largest / smallest, top K</td>
+<td>Heap of size K, or quickselect</td>
+<td>O(n log K) / O(n) avg</td>
+<td><a href="../HeapsAndPriorityQueues/HeapsAndPriorityQueues.md">Heaps</a></td>
+</tr>
+<tr>
+<td>Running median of a stream</td>
+<td>Two heaps</td>
+<td>O(log n) per insert</td>
+<td><a href="../HeapsAndPriorityQueues/HeapsAndPriorityQueues.md">Heaps</a></td>
+</tr>
+<tr>
+<td>Merge K sorted sequences</td>
+<td>Min-heap k-way merge</td>
+<td>O(N log K)</td>
+<td><a href="../HeapsAndPriorityQueues/HeapsAndPriorityQueues.md">Heaps</a></td>
+</tr>
+<tr>
+<td>Next/previous greater or smaller element</td>
+<td>Monotonic stack</td>
+<td>O(n)</td>
+<td><a href="../StacksAndQueues/StacksAndQueues.md">Stacks and Queues</a></td>
+</tr>
+<tr>
+<td>Max/min of every sliding window</td>
+<td>Monotonic deque</td>
+<td>O(n)</td>
+<td><a href="../StacksAndQueues/StacksAndQueues.md">Stacks and Queues</a></td>
+</tr>
+<tr>
+<td>Nested/balanced structure, undo, "most recent"</td>
+<td>Stack</td>
+<td>O(n)</td>
+<td><a href="../StacksAndQueues/StacksAndQueues.md">Stacks and Queues</a></td>
+</tr>
+<tr>
+<td>Shortest path, unweighted</td>
+<td>BFS</td>
+<td>O(V+E)</td>
+<td><a href="../Graphs/Graphs.md">Graphs</a></td>
+</tr>
+<tr>
+<td>Shortest path, non-negative weights</td>
+<td>Dijkstra</td>
+<td>O((V+E) log V)</td>
+<td><a href="../Graphs/Graphs.md">Graphs</a></td>
+</tr>
+<tr>
+<td>Shortest path, negative weights or "at most K edges"</td>
+<td>Bellman-Ford</td>
+<td>O(V·E)</td>
+<td><a href="../Graphs/Graphs.md">Graphs</a></td>
+</tr>
+<tr>
+<td>All-pairs shortest path, small V</td>
+<td>Floyd-Warshall</td>
+<td>O(V³)</td>
+<td><a href="../Graphs/Graphs.md">Graphs</a></td>
+</tr>
+<tr>
+<td>Edge weights are only 0 or 1</td>
+<td>0-1 BFS with a deque</td>
+<td>O(V+E)</td>
+<td><a href="../Graphs/Graphs.md">Graphs</a></td>
+</tr>
+<tr>
+<td>Spread from several starting points at once</td>
+<td>Multi-source BFS</td>
+<td>O(V+E)</td>
+<td><a href="../Graphs/Graphs.md">Graphs</a></td>
+</tr>
+<tr>
+<td>Prerequisites, build order, "can this be finished?"</td>
+<td>Topological sort</td>
+<td>O(V+E)</td>
+<td><a href="../Graphs/Graphs.md">Graphs</a></td>
+</tr>
+<tr>
+<td>Grouping, connectivity, "are these two connected?", redundant edge</td>
+<td>Union-Find (DSU)</td>
+<td>O(α(n)) per op</td>
+<td><a href="../Graphs/Graphs.md">Graphs</a></td>
+</tr>
+<tr>
+<td>Connect everything at minimum cost</td>
+<td>MST (Kruskal / Prim)</td>
+<td>O(E log E)</td>
+<td><a href="../Graphs/Graphs.md">Graphs</a></td>
+</tr>
+<tr>
+<td>Count ways / min cost / max value built from subproblems</td>
+<td>Dynamic programming</td>
+<td>varies</td>
+<td><a href="../DynamicProgramming/DynamicProgramming.md">Dynamic Programming</a></td>
+</tr>
+<tr>
+<td>Pick or skip each item, capacity limit</td>
+<td>0/1 knapsack DP</td>
+<td>O(nW)</td>
+<td><a href="../DynamicProgramming/DynamicProgramming.md">Dynamic Programming</a></td>
+</tr>
+<tr>
+<td>Unlimited reuse of items, reach a target</td>
+<td>Unbounded knapsack DP</td>
+<td>O(n·target)</td>
+<td><a href="../DynamicProgramming/DynamicProgramming.md">Dynamic Programming</a></td>
+</tr>
+<tr>
+<td>Two strings compared position by position</td>
+<td>2D DP (LCS / edit distance)</td>
+<td>O(mn)</td>
+<td><a href="../DynamicProgramming/DynamicProgramming.md">Dynamic Programming</a></td>
+</tr>
+<tr>
+<td>Buy/sell with states and transitions</td>
+<td>State-machine DP</td>
+<td>O(n·k)</td>
+<td><a href="../DynamicProgramming/DynamicProgramming.md">Dynamic Programming</a></td>
+</tr>
+<tr>
+<td>Optimal split of an interval</td>
+<td>Interval DP</td>
+<td>O(n³)</td>
+<td><a href="../DynamicProgramming/DynamicProgramming.md">Dynamic Programming</a></td>
+</tr>
+<tr>
+<td><code>n ≤ 20</code> and subsets matter</td>
+<td>Bitmask DP</td>
+<td>O(2ⁿ·n)</td>
+<td><a href="../DynamicProgramming/DynamicProgramming.md">Dynamic Programming</a></td>
+</tr>
+<tr>
+<td>Enumerate every subset / permutation / arrangement</td>
+<td>Backtracking</td>
+<td>O(2ⁿ) / O(n!)</td>
+<td><a href="../GreedyAndBacktracking/GreedyAndBacktracking.md">Greedy and Backtracking</a></td>
+</tr>
+<tr>
+<td>Place items under constraints (N-Queens, Sudoku)</td>
+<td>Backtracking + pruning</td>
+<td>exponential</td>
+<td><a href="../GreedyAndBacktracking/GreedyAndBacktracking.md">Greedy and Backtracking</a></td>
+</tr>
+<tr>
+<td>Maximum non-overlapping intervals</td>
+<td>Greedy, sort by <strong>end</strong></td>
+<td>O(n log n)</td>
+<td><a href="../GreedyAndBacktracking/GreedyAndBacktracking.md">Greedy and Backtracking</a></td>
+</tr>
+<tr>
+<td>Merge or insert intervals</td>
+<td>Sort by <strong>start</strong></td>
+<td>O(n log n)</td>
+<td><a href="../GreedyAndBacktracking/GreedyAndBacktracking.md">Greedy and Backtracking</a></td>
+</tr>
+<tr>
+<td>Minimum rooms / max concurrent events</td>
+<td>Sweep line, or sort + min-heap of ends</td>
+<td>O(n log n)</td>
+<td><a href="../AdvancedPatterns/AdvancedPatterns.md">Advanced Patterns</a></td>
+</tr>
+<tr>
+<td>Prefix queries on words, autocomplete</td>
+<td>Trie</td>
+<td>O(L)</td>
+<td><a href="../TriesAndStringMatching/TriesAndStringMatching.md">Tries</a></td>
+</tr>
+<tr>
+<td>Find a pattern inside a text</td>
+<td>KMP / Z-algorithm</td>
+<td>O(n+m)</td>
+<td><a href="../TriesAndStringMatching/TriesAndStringMatching.md">Tries</a></td>
+</tr>
+<tr>
+<td>Repeated / duplicate substrings</td>
+<td>Rabin-Karp rolling hash</td>
+<td>O(n) avg</td>
+<td><a href="../TriesAndStringMatching/TriesAndStringMatching.md">Tries</a></td>
+</tr>
+<tr>
+<td>Palindromic substrings</td>
+<td>Expand around centre / Manacher</td>
+<td>O(n²) / O(n)</td>
+<td><a href="../TriesAndStringMatching/TriesAndStringMatching.md">Tries</a></td>
+</tr>
+<tr>
+<td>Maximum XOR pair</td>
+<td>Binary trie</td>
+<td>O(32n)</td>
+<td><a href="../TriesAndStringMatching/TriesAndStringMatching.md">Tries</a></td>
+</tr>
+<tr>
+<td>"Every element appears twice except one"</td>
+<td>XOR</td>
+<td>O(n)</td>
+<td><a href="../BitAndMaths/BitAndMaths.md">Bit and Maths</a></td>
+</tr>
+<tr>
+<td>Huge exponent, modular result</td>
+<td>Fast exponentiation</td>
+<td>O(log n)</td>
+<td><a href="../BitAndMaths/BitAndMaths.md">Bit and Maths</a></td>
+</tr>
+<tr>
+<td>All primes up to n</td>
+<td>Sieve of Eratosthenes</td>
+<td>O(n log log n)</td>
+<td><a href="../BitAndMaths/BitAndMaths.md">Bit and Maths</a></td>
+</tr>
+<tr>
+<td>Cycle in a linked list or in a functional graph</td>
+<td>Floyd's tortoise and hare</td>
+<td>O(n), O(1) space</td>
+<td><a href="../LinkedLists/LinkedLists.md">Linked Lists</a></td>
+</tr>
+<tr>
+<td>Values are a permutation of <code>1..n</code></td>
+<td>Cyclic sort / index-as-hash</td>
+<td>O(n), O(1) space</td>
+<td><a href="../ArraysAndStrings/ArraysAndStrings.md">Arrays and Strings</a></td>
+</tr>
+<tr>
+<td>O(1) get <strong>and</strong> O(1) eviction</td>
+<td>Hash map + doubly linked list</td>
+<td>O(1)</td>
+<td><a href="../LinkedLists/LinkedLists.md">Linked Lists</a></td>
+</tr>
+<tr>
+<td>Hierarchical data, "for each node consider its children"</td>
+<td>Tree DFS (postorder)</td>
+<td>O(n)</td>
+<td><a href="../Trees/Trees.md">Trees</a></td>
+</tr>
+<tr>
+<td>"Level by level", shortest depth</td>
+<td>Tree/graph BFS</td>
+<td>O(n)</td>
+<td><a href="../Trees/Trees.md">Trees</a></td>
+</tr>
+<tr>
+<td>Sorted output from a BST</td>
+<td>Inorder traversal</td>
+<td>O(n)</td>
+<td><a href="../Trees/Trees.md">Trees</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="lookalikes-choosing-between-similar-patterns">Lookalikes: Choosing Between Similar Patterns </h2>
+<p>The hardest part of pattern recognition is telling near-identical patterns apart. These are the confusions that cost interviews.</p>
+<h3 id="sliding-window-vs-two-pointers-vs-prefix-sum-vs-hash-map">Sliding Window vs Two Pointers vs Prefix Sum vs Hash Map </h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Use when</th>
+<th>Requires</th>
+<th>Fails when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sliding window</strong></td>
+<td>Contiguous range, and the constraint is <em>monotonic</em> (extending the window can only make it "more invalid")</td>
+<td>Non-negative contributions, usually</td>
+<td>Negative numbers break monotonicity</td>
+</tr>
+<tr>
+<td><strong>Opposite-ends two pointers</strong></td>
+<td>Sorted input, and moving one end lets you discard a whole side</td>
+<td>Sortedness or monotonicity</td>
+<td>Unsorted input where order matters</td>
+</tr>
+<tr>
+<td><strong>Prefix sum + hash map</strong></td>
+<td>Contiguous range, arbitrary values including negatives, counting or existence</td>
+<td>Nothing</td>
+<td>You need the <em>longest</em>, and values allow many equal prefixes (still fine — store the <em>first</em> index)</td>
+</tr>
+<tr>
+<td><strong>Hash map alone</strong></td>
+<td>Order does not matter; you need membership, frequency, or complements</td>
+<td>Nothing</td>
+<td>You need contiguity or ordering</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Trap:</strong> "Longest subarray summing to K" with <strong>negative numbers</strong> is not a sliding-window problem — it is prefix sum + hash map. Sliding window needs the invariant "growing the window increases the sum".</p>
+</blockquote>
+<h3 id="greedy-vs-dynamic-programming">Greedy vs Dynamic Programming </h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Greedy</th>
+<th>DP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decision</td>
+<td>Commit to the local best, never revisit</td>
+<td>Explore all choices, keep the best</td>
+</tr>
+<tr>
+<td>Correctness</td>
+<td>Needs an exchange argument or proof</td>
+<td>Correct if the recurrence is correct</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Usually O(n log n)</td>
+<td>Usually O(n²) or worse</td>
+</tr>
+<tr>
+<td>Tell-tale</td>
+<td>"Maximum number of non-overlapping…", "minimum number of…" with a clear ordering</td>
+<td>"Number of ways", "minimum cost" where choices interact</td>
+</tr>
+<tr>
+<td>Quick test</td>
+<td>Try to build a counter-example in 30 seconds. If you cannot, and the ordering is obvious, greedy is likely right</td>
+<td>If a counter-example exists, switch to DP</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dp-vs-backtracking-vs-memoised-recursion">DP vs Backtracking vs Memoised Recursion </h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Backtracking</strong></td>
+<td>You must <em>output</em> every solution (all subsets, all permutations, all board configurations)</td>
+</tr>
+<tr>
+<td><strong>Memoised recursion</strong></td>
+<td>You need one optimal value, the state space is sparse or irregular, and recursion is natural</td>
+</tr>
+<tr>
+<td><strong>Tabulation</strong></td>
+<td>You need one optimal value, all states are reachable, and you want to space-optimise</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Key insight:</strong> Backtracking that returns a <em>count</em> or a <em>best value</em> rather than the list of solutions is almost always secretly DP. Look for repeated states.</p>
+</blockquote>
+<h3 id="bfs-vs-dfs">BFS vs DFS </h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>BFS</th>
+<th>DFS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Finds</td>
+<td>Shortest path in an <strong>unweighted</strong> graph</td>
+<td>Any path; used for structure</td>
+</tr>
+<tr>
+<td>Structure</td>
+<td>Queue</td>
+<td>Recursion or stack</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>O(width) — can be huge on wide graphs</td>
+<td>O(depth) — can stack-overflow on deep graphs</td>
+</tr>
+<tr>
+<td>Natural for</td>
+<td>Levels, minimum steps, multi-source spread</td>
+<td>Cycles, topological order, connected components, backtracking, tree aggregation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="heap-vs-sorting-vs-quickselect-for-top-k">Heap vs Sorting vs Quickselect (for "top K") </h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Complexity</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sort then take K</strong></td>
+<td>O(n log n)</td>
+<td>K is close to n, or you need the K items in sorted order anyway</td>
+</tr>
+<tr>
+<td><strong>Heap of size K</strong></td>
+<td>O(n log K)</td>
+<td>Streaming data, K ≪ n, or n is unknown</td>
+</tr>
+<tr>
+<td><strong>Quickselect</strong></td>
+<td>O(n) average, O(n²) worst</td>
+<td>Offline array, only the Kth element (or an unordered top-K) is needed</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Trap:</strong> For the K <strong>largest</strong> elements, use a <strong>min</strong>-heap of size K (you evict the smallest). For the K <strong>smallest</strong>, use a max-heap. Getting this backwards is the most common heap bug.</p>
+</blockquote>
+<h3 id="monotonic-stack-vs-heap">Monotonic Stack vs Heap </h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Monotonic stack</th>
+<th>Heap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Answers</td>
+<td>"Next/previous greater or smaller" — a <em>positional</em> relationship</td>
+<td>"Current min/max of a set" — an <em>order-statistic</em></td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>O(n) total</td>
+<td>O(n log n) total</td>
+</tr>
+<tr>
+<td>Tell-tale</td>
+<td>Each element's answer is a nearby element</td>
+<td>You repeatedly extract extremes and insert new items</td>
+</tr>
+</tbody>
+</table>
+<h3 id="union-find-vs-bfsdfs-for-connectivity">Union-Find vs BFS/DFS for Connectivity </h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BFS/DFS</strong></td>
+<td>The graph is fixed, and you traverse once (count components, flood fill)</td>
+</tr>
+<tr>
+<td><strong>Union-Find</strong></td>
+<td>Edges arrive incrementally, you answer "connected?" queries online, or you need MST via Kruskal</td>
+</tr>
+</tbody>
+</table>
+<h3 id="recursion-on-trees-top-down-vs-bottom-up">Recursion on Trees: Top-Down vs Bottom-Up </h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Top-down</th>
+<th>Bottom-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direction</td>
+<td>Pass state <strong>down</strong> as parameters</td>
+<td>Return state <strong>up</strong> as return values</td>
+</tr>
+<tr>
+<td>Shape</td>
+<td><code>void Dfs(node, accumulated)</code></td>
+<td><code>T Dfs(node) { var l = Dfs(left); ... }</code></td>
+</tr>
+<tr>
+<td>Use for</td>
+<td>Path-from-root problems, bounds checking (validate BST), path sums</td>
+<td>Height, diameter, subtree aggregates, tree DP</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="data-structure-selection">Data Structure Selection </h2>
+<table>
+<thead>
+<tr>
+<th>You need</th>
+<th>Use</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O(1) lookup by key</td>
+<td><code>Dictionary&lt;K,V&gt;</code></td>
+<td>Hash table</td>
+</tr>
+<tr>
+<td>O(1) membership</td>
+<td><code>HashSet&lt;T&gt;</code></td>
+<td>Hash table</td>
+</tr>
+<tr>
+<td>Sorted iteration + O(log n) ops</td>
+<td><code>SortedSet&lt;T&gt;</code> / <code>SortedDictionary&lt;K,V&gt;</code></td>
+<td>Red-black tree</td>
+</tr>
+<tr>
+<td>Predecessor/successor query</td>
+<td><code>SortedSet&lt;T&gt;.GetViewBetween</code></td>
+<td>C# has no <code>floorKey</code>/<code>ceilingKey</code></td>
+</tr>
+<tr>
+<td>Repeated min/max extraction</td>
+<td><code>PriorityQueue&lt;E,P&gt;</code></td>
+<td>Binary heap</td>
+</tr>
+<tr>
+<td>LIFO / nesting</td>
+<td><code>Stack&lt;T&gt;</code></td>
+<td></td>
+</tr>
+<tr>
+<td>FIFO / level order</td>
+<td><code>Queue&lt;T&gt;</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Both ends O(1)</td>
+<td><code>LinkedList&lt;T&gt;</code></td>
+<td>.NET has no <code>Deque&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td>Prefix/word queries</td>
+<td>Trie</td>
+<td></td>
+</tr>
+<tr>
+<td>Range aggregate, static</td>
+<td>Prefix sum / sparse table</td>
+<td></td>
+</tr>
+<tr>
+<td>Range aggregate, dynamic</td>
+<td>Fenwick / segment tree</td>
+<td></td>
+</tr>
+<tr>
+<td>Incremental connectivity</td>
+<td>Union-Find</td>
+<td></td>
+</tr>
+<tr>
+<td>O(1) get + O(1) evict</td>
+<td>Hash map + doubly linked list</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Full complexity table and C# API details: <a href="../CSharp/CSharp.md">C# Cheat Sheet</a>.</p>
+<hr>
+<h2 id="optimisation-ladders">Optimisation Ladders </h2>
+<p>When you have a brute force and need to improve it, the repeated work tells you the fix.</p>
+<table>
+<thead>
+<tr>
+<th>Brute force</th>
+<th>Repeated work</th>
+<th>Fix</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O(n²) all pairs</td>
+<td>Re-scanning for a complement</td>
+<td>Hash map of seen values</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>O(n²) all pairs on sorted data</td>
+<td>Re-scanning a side you could discard</td>
+<td>Opposite-ends two pointers</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>O(n²) all subarrays</td>
+<td>Recomputing sums</td>
+<td>Prefix sum / rolling sum</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>O(n·k) all windows</td>
+<td>Recomputing the window</td>
+<td>Sliding window (add new, drop old)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>O(n²) "next greater" for each element</td>
+<td>Re-scanning forward</td>
+<td>Monotonic stack</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>O(n log n) full sort for K items</td>
+<td>Sorting things you throw away</td>
+<td>Heap of size K / quickselect</td>
+<td>O(n log K) / O(n)</td>
+</tr>
+<tr>
+<td>Exponential recursion</td>
+<td>Recomputing identical subproblems</td>
+<td>Memoisation → tabulation</td>
+<td>Polynomial</td>
+</tr>
+<tr>
+<td>O(n) linear scan on sorted data</td>
+<td>Checking elements you could skip</td>
+<td>Binary search</td>
+<td>O(log n)</td>
+</tr>
+<tr>
+<td>Testing every candidate answer</td>
+<td>Answers are monotonic in feasibility</td>
+<td>Binary search on the answer</td>
+<td>O(n log range)</td>
+</tr>
+<tr>
+<td>O(n) per query, many queries</td>
+<td>Rebuilding the aggregate</td>
+<td>Precompute prefix / segment tree</td>
+<td>O(1) / O(log n)</td>
+</tr>
+<tr>
+<td>O(n) extra space</td>
+<td>Storing what the input could encode</td>
+<td>In-place marking (sign, swap, index-as-hash)</td>
+<td>O(1) space</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="universal-tricks">Universal Tricks </h2>
+<table>
+<thead>
+<tr>
+<th>Trick</th>
+<th>Statement</th>
+<th>Where it appears</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>At-most-K</strong></td>
+<td><code>exactly(K) = atMost(K) − atMost(K−1)</code></td>
+<td>Subarrays with K distinct integers</td>
+</tr>
+<tr>
+<td><strong>Count windows</strong></td>
+<td>A valid window <code>[lo..hi]</code> contributes <code>hi − lo + 1</code> subarrays ending at <code>hi</code></td>
+<td>Counting subarray problems</td>
+</tr>
+<tr>
+<td><strong>Sentinel node</strong></td>
+<td>A dummy head removes every "is this the first node?" branch</td>
+<td>Linked lists</td>
+</tr>
+<tr>
+<td><strong>Sentinel value</strong></td>
+<td>Append a <code>0</code> height / <code>∞</code> element to force the final flush</td>
+<td>Monotonic stack, histogram</td>
+</tr>
+<tr>
+<td><strong>Sort by the right key</strong></td>
+<td>End time → max non-overlap. Start time → merge.</td>
+<td>Intervals</td>
+</tr>
+<tr>
+<td><strong>Reverse the problem</strong></td>
+<td>Min cost to remove = total − max cost to keep</td>
+<td>Many optimisation problems</td>
+</tr>
+<tr>
+<td><strong>Search the answer, not the input</strong></td>
+<td>Binary search over the answer range with a feasibility predicate</td>
+<td>Koko, Split Array, ship capacity</td>
+</tr>
+<tr>
+<td><strong>Two passes</strong></td>
+<td>Left-to-right, then right-to-left, combine</td>
+<td>Product Except Self, Trapping Rain Water, Candy</td>
+</tr>
+<tr>
+<td><strong>Index as hash</strong></td>
+<td>Values in <code>1..n</code> mean index <code>i</code> should hold <code>i+1</code></td>
+<td>Missing/duplicate number problems</td>
+</tr>
+<tr>
+<td><strong>Sign as a flag</strong></td>
+<td>Negate <code>nums[abs(x)-1]</code> to mark "seen" without extra space</td>
+<td>Find All Duplicates</td>
+</tr>
+<tr>
+<td><strong>XOR cancellation</strong></td>
+<td><code>a ^ a = 0</code>, so pairs vanish</td>
+<td>Single Number family</td>
+</tr>
+<tr>
+<td><strong>Prefix XOR</strong></td>
+<td><code>xor(l..r) = pre[r] ^ pre[l−1]</code></td>
+<td>Subarray XOR problems</td>
+</tr>
+<tr>
+<td><strong>Complement</strong></td>
+<td>Store what you <em>need</em>, not what you <em>have</em></td>
+<td>Two Sum</td>
+</tr>
+<tr>
+<td><strong>Canonical key</strong></td>
+<td>Map each item to a normal form and group</td>
+<td>Group Anagrams</td>
+</tr>
+<tr>
+<td><strong>Meet in the middle</strong></td>
+<td>Split <code>2ⁿ</code> into two <code>2^(n/2)</code> halves</td>
+<td>Subset sum, <code>n ≤ 40</code></td>
+</tr>
+<tr>
+<td><strong>Coordinate compression</strong></td>
+<td>Replace huge values by their sorted rank</td>
+<td>Fenwick on sparse values, sweep line</td>
+</tr>
+<tr>
+<td><strong>Lazy deletion</strong></td>
+<td>Push duplicates, skip stale entries on pop</td>
+<td>Dijkstra with <code>PriorityQueue</code> (no decrease-key)</td>
+</tr>
+<tr>
+<td><strong>Difference array</strong></td>
+<td><code>d[l] += v; d[r+1] -= v;</code> then prefix-sum</td>
+<td>Many range updates, one read</td>
+</tr>
+<tr>
+<td><strong>Binary lifting</strong></td>
+<td>Precompute <code>2^k</code>-th ancestors</td>
+<td>LCA in O(log n)</td>
+</tr>
+<tr>
+<td><strong>Monotonic invariant</strong></td>
+<td>Maintain the stack/deque so the answer is always at one end</td>
+<td>Monotonic stack/deque</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="curated-problem-set">Curated Problem Set </h2>
+<p>Each topic folder has a <code>Problems.md</code> with full worked solutions. This table is the study order and the coverage map.</p>
+<table>
+<thead>
+<tr>
+<th>Order</th>
+<th>Topic</th>
+<th>Theory</th>
+<th>Problems</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Complexity Analysis</td>
+<td><a href="../ComplexityAnalysis/ComplexityAnalysis.md">Notes</a></td>
+<td>—</td>
+<td>Budgeting, master theorem, amortised</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Arrays and Strings</td>
+<td><a href="../ArraysAndStrings/ArraysAndStrings.md">Notes</a></td>
+<td><a href="../ArraysAndStrings/Problems.md">Problems</a></td>
+<td>Prefix sum, Kadane, in-place tricks, matrix</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Two Pointers and Sliding Window</td>
+<td><a href="../TwoPointers/TwoPointers.md">Notes</a></td>
+<td><a href="../TwoPointers/Problems.md">Problems</a></td>
+<td>Converging pointers, window templates</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Hashing</td>
+<td><a href="../Hashing/Hashing.md">Notes</a></td>
+<td><a href="../Hashing/Problems.md">Problems</a></td>
+<td>Frequency maps, complements, prefix+map</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Searching and Sorting</td>
+<td><a href="../SearchingAndSorting/SearchingAndSorting.md">Notes</a></td>
+<td><a href="../SearchingAndSorting/Problems.md">Problems</a></td>
+<td>Binary search on the answer, quickselect</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Linked Lists</td>
+<td><a href="../LinkedLists/LinkedLists.md">Notes</a></td>
+<td><a href="../LinkedLists/Problems.md">Problems</a></td>
+<td>Reversal, fast/slow, LRU</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Stacks and Queues</td>
+<td><a href="../StacksAndQueues/StacksAndQueues.md">Notes</a></td>
+<td><a href="../StacksAndQueues/Problems.md">Problems</a></td>
+<td>Monotonic stack and deque</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Trees</td>
+<td><a href="../Trees/Trees.md">Notes</a></td>
+<td><a href="../Trees/Problems.md">Problems</a></td>
+<td>Traversals, BST, tree DP</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Heaps and Priority Queues</td>
+<td><a href="../HeapsAndPriorityQueues/HeapsAndPriorityQueues.md">Notes</a></td>
+<td><a href="../HeapsAndPriorityQueues/Problems.md">Problems</a></td>
+<td>Top-K, two heaps, k-way merge</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Graphs</td>
+<td><a href="../Graphs/Graphs.md">Notes</a></td>
+<td><a href="../Graphs/Problems.md">Problems</a></td>
+<td>BFS/DFS, topo sort, Dijkstra, DSU</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Dynamic Programming</td>
+<td><a href="../DynamicProgramming/DynamicProgramming.md">Notes</a></td>
+<td><a href="../DynamicProgramming/Problems.md">Problems</a></td>
+<td>State design, all families</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Greedy and Backtracking</td>
+<td><a href="../GreedyAndBacktracking/GreedyAndBacktracking.md">Notes</a></td>
+<td><a href="../GreedyAndBacktracking/Problems.md">Problems</a></td>
+<td>Intervals, exhaustive search</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Tries and String Matching</td>
+<td><a href="../TriesAndStringMatching/TriesAndStringMatching.md">Notes</a></td>
+<td><a href="../TriesAndStringMatching/Problems.md">Problems</a></td>
+<td>Trie, KMP, palindromes</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Bit and Maths</td>
+<td><a href="../BitAndMaths/BitAndMaths.md">Notes</a></td>
+<td><a href="../BitAndMaths/Problems.md">Problems</a></td>
+<td>XOR, modular arithmetic, sieve</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Advanced Patterns</td>
+<td><a href="../AdvancedPatterns/AdvancedPatterns.md">Notes</a></td>
+<td><a href="../AdvancedPatterns/Problems.md">Problems</a></td>
+<td>Fenwick, segment tree, sweep line</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-core-40">The Core 40 </h3>
+<p>If you only have time for forty problems, do these. They cover every pattern in the smell table at least once.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>LC</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Two Sum</td>
+<td>1</td>
+<td>Complement hash map</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Best Time to Buy and Sell Stock</td>
+<td>121</td>
+<td>Running min</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Product of Array Except Self</td>
+<td>238</td>
+<td>Prefix + suffix passes</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Maximum Subarray</td>
+<td>53</td>
+<td>Kadane</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Merge Intervals</td>
+<td>56</td>
+<td>Sort by start</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Non-overlapping Intervals</td>
+<td>435</td>
+<td>Sort by end (greedy)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Longest Substring Without Repeating Characters</td>
+<td>3</td>
+<td>Variable window</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Minimum Window Substring</td>
+<td>76</td>
+<td>Shortest valid window</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Trapping Rain Water</td>
+<td>42</td>
+<td>Two pointers / two passes</td>
+</tr>
+<tr>
+<td>10</td>
+<td>3Sum</td>
+<td>15</td>
+<td>Sort + fix one + two pointers</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Group Anagrams</td>
+<td>49</td>
+<td>Canonical key</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Longest Consecutive Sequence</td>
+<td>128</td>
+<td>Hash set</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Subarray Sum Equals K</td>
+<td>560</td>
+<td>Prefix sum + hash map</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Binary Search</td>
+<td>704</td>
+<td>Template</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Search in Rotated Sorted Array</td>
+<td>33</td>
+<td>Identify the sorted half</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Koko Eating Bananas</td>
+<td>875</td>
+<td>Binary search on the answer</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Median of Two Sorted Arrays</td>
+<td>4</td>
+<td>Binary search on partition</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Reverse Linked List</td>
+<td>206</td>
+<td>Pointer reversal</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Linked List Cycle II</td>
+<td>142</td>
+<td>Floyd's algorithm</td>
+</tr>
+<tr>
+<td>20</td>
+<td>LRU Cache</td>
+<td>146</td>
+<td>Hash map + doubly linked list</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Valid Parentheses</td>
+<td>20</td>
+<td>Stack</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Daily Temperatures</td>
+<td>739</td>
+<td>Monotonic stack</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Largest Rectangle in Histogram</td>
+<td>84</td>
+<td>Monotonic stack + sentinel</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Sliding Window Maximum</td>
+<td>239</td>
+<td>Monotonic deque</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Binary Tree Level Order Traversal</td>
+<td>102</td>
+<td>BFS with level snapshot</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Lowest Common Ancestor of a Binary Tree</td>
+<td>236</td>
+<td>Bottom-up recursion</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Validate Binary Search Tree</td>
+<td>98</td>
+<td>Top-down bounds</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Binary Tree Maximum Path Sum</td>
+<td>124</td>
+<td>Through-node vs returned-up</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Serialize and Deserialize Binary Tree</td>
+<td>297</td>
+<td>Preorder with null markers</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Kth Largest Element in an Array</td>
+<td>215</td>
+<td>Heap vs quickselect</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Find Median from Data Stream</td>
+<td>295</td>
+<td>Two heaps</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Merge k Sorted Lists</td>
+<td>23</td>
+<td>K-way merge</td>
+</tr>
+<tr>
+<td>33</td>
+<td>Number of Islands</td>
+<td>200</td>
+<td>Grid flood fill</td>
+</tr>
+<tr>
+<td>34</td>
+<td>Course Schedule</td>
+<td>207</td>
+<td>Topological sort</td>
+</tr>
+<tr>
+<td>35</td>
+<td>Network Delay Time</td>
+<td>743</td>
+<td>Dijkstra</td>
+</tr>
+<tr>
+<td>36</td>
+<td>Accounts Merge</td>
+<td>721</td>
+<td>Union-Find</td>
+</tr>
+<tr>
+<td>37</td>
+<td>Coin Change</td>
+<td>322</td>
+<td>Unbounded knapsack</td>
+</tr>
+<tr>
+<td>38</td>
+<td>Longest Increasing Subsequence</td>
+<td>300</td>
+<td>Patience sorting</td>
+</tr>
+<tr>
+<td>39</td>
+<td>Edit Distance</td>
+<td>72</td>
+<td>2D string DP</td>
+</tr>
+<tr>
+<td>40</td>
+<td>Word Search II</td>
+<td>212</td>
+<td>Trie + grid DFS</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="interview-execution-checklist">Interview Execution Checklist </h2>
+<p>The pattern is only half the score. This is the other half.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Do</th>
+<th>Say</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Clarify</strong> (2 min)</td>
+<td>Restate the problem. Ask about input size, value ranges, duplicates, empty input, sortedness, and what to return on failure.</td>
+<td>"Can the array be empty? Can values be negative? Is it sorted?"</td>
+</tr>
+<tr>
+<td><strong>2. Example</strong> (2 min)</td>
+<td>Write a small concrete example and the expected output. Add one edge case.</td>
+<td>"Let me work through <code>[3,1,4,1,5]</code> with target 6."</td>
+</tr>
+<tr>
+<td><strong>3. Brute force</strong> (2 min)</td>
+<td>State it and its complexity. Never skip this — it anchors the conversation.</td>
+<td>"The naive approach checks all pairs: O(n²) time, O(1) space."</td>
+</tr>
+<tr>
+<td><strong>4. Optimise</strong> (5 min)</td>
+<td>Name the repeated work, then the pattern that removes it. Get agreement before coding.</td>
+<td>"I'm recomputing the sum for each window. A rolling sum makes it O(n)."</td>
+</tr>
+<tr>
+<td><strong>5. Code</strong> (10 min)</td>
+<td>Clean names, handle edge cases first, keep helpers small. Talk while you type.</td>
+<td>"I'll guard the empty case, then run the main loop."</td>
+</tr>
+<tr>
+<td><strong>6. Test</strong> (5 min)</td>
+<td>Dry-run your own code on the example, then the edge cases: empty, single element, all equal, all negative, max size.</td>
+<td>"Tracing <code>[1,2]</code>: lo=0, hi=1, sum=3…"</td>
+</tr>
+<tr>
+<td><strong>7. Complexity</strong> (1 min)</td>
+<td>State time and space, including recursion stack. Offer the trade-off.</td>
+<td>"O(n log K) time, O(K) space. I could do O(n) average with quickselect but it mutates the input."</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Before you say "done", check:</strong></p>
+<ul>
+<li>Empty / null input</li>
+<li>Single element</li>
+<li>All elements identical</li>
+<li>Already sorted, and reverse sorted</li>
+<li>Negative numbers and zero</li>
+<li>Integer overflow — use <code>long</code> when values are multiplied or summed at scale</li>
+<li><code>int.MinValue</code> / <code>int.MaxValue</code> boundaries</li>
+<li>Recursion depth for n = 10⁵</li>
+<li>Did you actually return the value, or just compute it?</li>
+</ul>
+<hr>
+<h2 id="revision-plans">Revision Plans </h2>
+<h3 id="7-day-sprint">7-Day Sprint </h3>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Topics</th>
+<th>Anchor problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Arrays, Strings, Two Pointers, Sliding Window</td>
+<td>53, 238, 3, 76, 42, 15</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Hashing, Searching, Sorting, Binary Search on Answer</td>
+<td>49, 128, 560, 33, 875, 4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Linked Lists, Stacks, Queues, Monotonic Structures</td>
+<td>206, 142, 146, 20, 739, 84, 239</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Trees and BST</td>
+<td>102, 236, 98, 124, 297, 230</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Graphs: traversal, topo sort, shortest path, DSU</td>
+<td>200, 207, 743, 721, 994, 127</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Dynamic Programming, all families</td>
+<td>322, 300, 72, 416, 312, 121–714</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Greedy, Backtracking, Tries, Bit Manipulation</td>
+<td>435, 55, 78, 46, 51, 208, 136</td>
+</tr>
+</tbody>
+</table>
+<h3 id="30-day-plan">30-Day Plan </h3>
+<table>
+<thead>
+<tr>
+<th>Week</th>
+<th>Focus</th>
+<th>Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Topics 1–4 (arrays, two pointers, hashing, searching)</td>
+<td>Fluent with windows, prefix sums, and binary search on the answer</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Topics 5–9 (lists, stacks, trees, heaps, graphs)</td>
+<td>Write BFS/DFS/Dijkstra/DSU from memory</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Topics 10–11 (DP, greedy, backtracking)</td>
+<td>Derive a DP state unaided; prove or disprove a greedy in under a minute</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Topics 12–14 + full mock interviews</td>
+<td>Timed 45-minute mocks, out loud, from the Core 40</td>
+</tr>
+</tbody>
+</table>
+<h3 id="day-before">Day Before </h3>
+<p>Read only these, in order:</p>
+<ol>
+<li><a href="#the-60-second-triage">The 60-Second Triage</a></li>
+<li><a href="#problem-smell--pattern">Problem Smell → Pattern</a></li>
+<li><a href="#lookalikes-choosing-between-similar-patterns">Lookalikes</a></li>
+<li><a href="#universal-tricks">Universal Tricks</a></li>
+<li><a href="#interview-execution-checklist">Interview Execution Checklist</a></li>
+<li><a href="../CSharp/CSharp.md">C# Cheat Sheet</a> — reference tables at the end</li>
+</ol>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

@@ -1,0 +1,1658 @@
+<!DOCTYPE html><html><head>
+      <title>Problems</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="color-scheme" content="light dark">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}@media (prefers-color-scheme: dark) {
+code[class*=language-],pre[class*=language-]{color:#c9d1d9;text-shadow:none;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}code[class*=language-]::mozselection,code[class*=language-]::selection,pre[class*=language-]::mozselection,pre[class*=language-]::selection{text-shadow:none;background:#234879}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#161b22}:not(pre)>code[class*=language-]{padding:.1em .3em;border-radius:.3em;color:#c9d1d9;background:#343942}pre[data-line]{position:relative}pre[class*=language-]>code[class*=language-]{position:relative;z-index:1}.line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:#2f2a1e;box-shadow:inset 5px 0 0 #674c16;z-index:0;pointer-events:none;line-height:inherit;white-space:pre}.namespace{opacity:.7}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#8b949e}.token.punctuation{color:#c9d1d9}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#79c0ff}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#a5d6ff}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{color:#a5d6ff}.token.atrule,.token.attr-value,.token.keyword{color:#f97583}.token.function{color:#d2a8ff}.token.important,.token.regex,.token.variable{color:#79b8ff}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}
+}
+html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}@media (prefers-color-scheme: dark) {
+html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#ccc;background-color:#24292e;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#fff}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#a3a3a3}html body strong{color:#fff}html body del{color:#a3a3a3}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#a3a3a3;background-color:#363d45;border-left:4px solid #48525c}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#48525c;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#fff}html body table td,html body table th{border:1px solid #48525c;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#fff;background-color:#363d45;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#48525c;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#fff;border:1px solid #48525c;border-bottom:2px solid #3a424b;padding:2px 4px;background-color:#363d45;border-radius:3px}@media print{html body{background-color:#24292e}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#fff;page-break-after:avoid}html body blockquote{color:#a3a3a3}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}
+}
+.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-details{margin:0;padding:0;border:none}.markdown-preview .md-toc ol.md-toc-ol{margin:0;padding-left:1.6em}.markdown-preview .md-toc summary.md-toc-link-wrapper{cursor:pointer;list-style-position:outside}.markdown-preview .md-toc summary.md-toc-link-wrapper::marker{font-size:.85em}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='0']{margin-left:12px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='1']{margin-left:28px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='2']{margin-left:44px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='3']{margin-left:60px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='4']{margin-left:76px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='5']{margin-left:80px}.markdown-preview a.tag,.markdown-preview a.tag:active,.markdown-preview a.tag:link,.markdown-preview a.tag:visited,.markdown-preview span.tag:not(.token){display:inline-block;background-color:var(--vscode-badge-background,rgba(127,127,127,.18));color:var(--vscode-badge-foreground,currentColor);border-radius:2em;font-size:.85em;font-weight:500;padding:.05em .55em;line-height:1.5;white-space:nowrap;text-decoration:none;text-shadow:none;box-shadow:none;transition:background-color .12s ease,opacity .12s ease}.markdown-preview a.tag{cursor:pointer}.markdown-preview a.tag:focus,.markdown-preview a.tag:hover{background-color:var(--vscode-badge-background,rgba(127,127,127,.32));color:var(--vscode-badge-foreground,currentColor);opacity:.85;text-decoration:none;outline:0}.markdown-preview .wikilink-embed-content{border-left:3px solid var(--vscode-textBlockQuote-border,rgba(128,128,128,.3));background:var(--vscode-textBlockQuote-background,rgba(128,128,128,.05));margin:.5em 0;padding:.5em .75em;border-radius:0 3px 3px 0}.markdown-preview .wikilink-embed-content.wikilink-embed-error{border-left-color:var(--vscode-errorForeground,#cf222e);color:var(--vscode-errorForeground,#cf222e);font-style:italic;opacity:.8}.markdown-preview .wikilink-embed-content h1:first-child,.markdown-preview .wikilink-embed-content h2:first-child,.markdown-preview .wikilink-embed-content h3:first-child,.markdown-preview .wikilink-embed-content h4:first-child,.markdown-preview .wikilink-embed-content h5:first-child,.markdown-preview .wikilink-embed-content h6:first-child{margin-top:.25em}.markdown-preview .wikilink-embed-content .wikilink-embed-content{margin:.25em 0;padding:.25em .5em}.markdown-preview .block-id{display:none}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));border:4px solid var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));background-clip:content-box}.scrollbar-style::-webkit-scrollbar-thumb:hover{background-color:var(--vscode-scrollbarSlider-hoverBackground,rgba(120,120,120,.66))}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));border:4px solid var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb:hover{background-color:var(--vscode-scrollbarSlider-hoverBackground,rgba(120,120,120,.66))}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-details{margin:0;padding:0;border:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc ol.md-toc-ol{margin:0;padding-left:1.6em}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='0']{padding-left:0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='1']{padding-left:16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='2']{padding-left:32px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='3']{padding-left:48px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='4']{padding-left:64px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='5']{padding-left:80px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjcB9SII.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6SII.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8L6tjPQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtD6GgLL.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9dr0Wd4kDdMuhW.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtDqHQLL.ttf) format('truetype');
+}
+html,
+body {
+  min-height: 100%;
+  background: #0f111a !important;
+}
+.markdown-preview.markdown-preview {
+  /*====================================================
+  Aurora Notes Theme
+  Markdown Preview Enhanced
+=====================================================*/
+  /*====================================================
+  Color Palette
+=====================================================*/
+  --bg: #0f111a;
+  --bg2: #1a1d2b;
+  --bg3: #24283b;
+  --text: #d7dae0;
+  --muted: #9ca3af;
+  --blue: #7aa2f7;
+  --cyan: #7dcfff;
+  --green: #9ece6a;
+  --yellow: #e0af68;
+  --orange: #ff9e64;
+  --red: #f7768e;
+  --purple: #bb9af7;
+  --pink: #ff79c6;
+  --border: #30364d;
+  /*====================================================
+  Main
+=====================================================*/
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Kalam", cursive;
+  line-height: 1.65;
+  font-size: 18px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: 28px clamp(24px, 5vw, 72px);
+  /*====================================================
+  Headings
+=====================================================*/
+  /*====================================================
+  Text
+=====================================================*/
+  /*====================================================
+  Links
+=====================================================*/
+  /*====================================================
+  Lists
+=====================================================*/
+  /*====================================================
+  Blockquotes
+=====================================================*/
+  /*====================================================
+  Inline Code
+=====================================================*/
+  /*====================================================
+  Code Blocks
+=====================================================*/
+  /*====================================================
+  Horizontal Rule
+=====================================================*/
+  /*====================================================
+  Tables
+=====================================================*/
+  /*====================================================
+  Images
+=====================================================*/
+  /*====================================================
+  Task Lists
+=====================================================*/
+  /*====================================================
+  Selection
+=====================================================*/
+  /*====================================================
+  Scrollbar
+=====================================================*/
+  /*====================================================
+  Mermaid
+=====================================================*/
+  /*====================================================
+  Math
+=====================================================*/
+  /*====================================================
+  Paragraph Spacing
+=====================================================*/
+}
+.markdown-preview.markdown-preview h1,
+.markdown-preview.markdown-preview h2,
+.markdown-preview.markdown-preview h3,
+.markdown-preview.markdown-preview h4,
+.markdown-preview.markdown-preview h5,
+.markdown-preview.markdown-preview h6 {
+  font-family: "Caveat", "Kalam", cursive;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  margin: 0.15em 0 0.05em;
+  padding-top: 0;
+  padding-bottom: 4px;
+}
+.markdown-preview.markdown-preview h1 {
+  color: var(--blue);
+  font-size: 2.5em;
+}
+.markdown-preview.markdown-preview h2 {
+  color: var(--purple);
+  font-size: 2em;
+}
+.markdown-preview.markdown-preview h3 {
+  color: var(--green);
+  font-size: 1.65em;
+}
+.markdown-preview.markdown-preview h4 {
+  color: var(--yellow);
+  font-size: 1.35em;
+}
+.markdown-preview.markdown-preview h5 {
+  color: var(--orange);
+  font-size: 1.15em;
+}
+.markdown-preview.markdown-preview h6 {
+  color: var(--red);
+}
+.markdown-preview.markdown-preview strong {
+  color: var(--yellow);
+  font-weight: 700;
+}
+.markdown-preview.markdown-preview em {
+  color: var(--cyan);
+}
+.markdown-preview.markdown-preview del {
+  color: #777;
+}
+.markdown-preview.markdown-preview a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+.markdown-preview.markdown-preview a:hover {
+  color: var(--pink);
+}
+.markdown-preview.markdown-preview li::marker {
+  color: var(--orange);
+}
+.markdown-preview.markdown-preview ul li {
+  margin: 4px 0;
+}
+.markdown-preview.markdown-preview blockquote {
+  background: linear-gradient(90deg, rgba(122, 162, 247, 0.15), rgba(187, 154, 247, 0.08));
+  border-left: 6px solid var(--blue);
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-family: "Kalam", cursive;
+  font-size: 1.05em;
+  color: #dce6ff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+.markdown-preview.markdown-preview blockquote p {
+  margin: 2px 0;
+}
+.markdown-preview.markdown-preview code {
+  font-family: "JetBrains Mono", monospace;
+  background: #20242f;
+  color: #c3e88d;
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid #3b4252;
+}
+.markdown-preview.markdown-preview pre {
+  background: #1b1f27 !important;
+  color: #ffffff !important;
+  border-radius: 16px;
+  border: 1px solid #607d8b;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  overflow-x: auto;
+}
+.markdown-preview.markdown-preview pre code {
+  display: block;
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  color: #ffffff !important;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 4;
+}
+.markdown-preview.markdown-preview pre code.hljs {
+  background: transparent !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-comment,
+.markdown-preview.markdown-preview pre code .hljs-quote,
+.markdown-preview.markdown-preview pre code .token.comment,
+.markdown-preview.markdown-preview pre code .token.prolog,
+.markdown-preview.markdown-preview pre code .token.doctype {
+  color: #b0bec5 !important;
+  font-style: italic;
+}
+.markdown-preview.markdown-preview pre code .hljs-keyword,
+.markdown-preview.markdown-preview pre code .hljs-selector-tag,
+.markdown-preview.markdown-preview pre code .hljs-literal,
+.markdown-preview.markdown-preview pre code .hljs-meta,
+.markdown-preview.markdown-preview pre code .token.keyword,
+.markdown-preview.markdown-preview pre code .token.boolean,
+.markdown-preview.markdown-preview pre code .token.constant {
+  color: #d9a7ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-string,
+.markdown-preview.markdown-preview pre code .hljs-doctag,
+.markdown-preview.markdown-preview pre code .hljs-regexp,
+.markdown-preview.markdown-preview pre code .token.string,
+.markdown-preview.markdown-preview pre code .token.char,
+.markdown-preview.markdown-preview pre code .token.regex {
+  color: #c3e88d !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-number,
+.markdown-preview.markdown-preview pre code .hljs-symbol,
+.markdown-preview.markdown-preview pre code .hljs-bullet,
+.markdown-preview.markdown-preview pre code .token.number,
+.markdown-preview.markdown-preview pre code .token.symbol {
+  color: #ffab91 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-title,
+.markdown-preview.markdown-preview pre code .hljs-section,
+.markdown-preview.markdown-preview pre code .hljs-function .hljs-title,
+.markdown-preview.markdown-preview pre code .token.function,
+.markdown-preview.markdown-preview pre code .token.method {
+  color: #82b1ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-variable,
+.markdown-preview.markdown-preview pre code .hljs-template-variable,
+.markdown-preview.markdown-preview pre code .hljs-attr,
+.markdown-preview.markdown-preview pre code .hljs-attribute,
+.markdown-preview.markdown-preview pre code .token.property,
+.markdown-preview.markdown-preview pre code .token.attr-name {
+  color: #ffe082 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-built_in,
+.markdown-preview.markdown-preview pre code .hljs-class .hljs-title,
+.markdown-preview.markdown-preview pre code .hljs-name,
+.markdown-preview.markdown-preview pre code .hljs-type,
+.markdown-preview.markdown-preview pre code .token.class-name,
+.markdown-preview.markdown-preview pre code .token.builtin,
+.markdown-preview.markdown-preview pre code .token.namespace {
+  color: #80d8ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-params,
+.markdown-preview.markdown-preview pre code .hljs-subst,
+.markdown-preview.markdown-preview pre code .token.parameter {
+  color: #ffffff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-addition,
+.markdown-preview.markdown-preview pre code .token.inserted {
+  color: #c3e88d !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-deletion,
+.markdown-preview.markdown-preview pre code .token.deleted {
+  color: #ff8a80 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-punctuation,
+.markdown-preview.markdown-preview pre code .hljs-operator,
+.markdown-preview.markdown-preview pre code .token.punctuation,
+.markdown-preview.markdown-preview pre code .token.operator {
+  color: #84ffff !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
+  margin: 16px 0;
+}
+.markdown-preview.markdown-preview table {
+  display: table;
+  width: auto;
+  max-width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+.markdown-preview.markdown-preview th {
+  background: linear-gradient(90deg, #3b4261, #2b3050);
+  color: var(--yellow);
+  padding: 9px 12px;
+}
+.markdown-preview.markdown-preview th + th {
+  border-left: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview td {
+  background: #171b28;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview td + td {
+  border-left: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview tr:nth-child(even) td {
+  background: #1b2132;
+}
+.markdown-preview.markdown-preview img {
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--border);
+  margin: 14px auto 14px 0;
+  display: block;
+}
+.markdown-preview.markdown-preview input[type="checkbox"] {
+  transform: scale(1.4);
+  accent-color: var(--green);
+  margin-right: 10px;
+}
+.markdown-preview.markdown-preview ::selection {
+  background: var(--purple);
+  color: white;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar {
+  width: 12px;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar-track {
+  background: #12151f;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--blue), var(--purple));
+  border-radius: 20px;
+}
+.markdown-preview.markdown-preview .mermaid {
+  background: #1b2030;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.markdown-preview.markdown-preview .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+.markdown-preview.markdown-preview .mermaid .edgePath path,
+.markdown-preview.markdown-preview .mermaid .flowchart-link,
+.markdown-preview.markdown-preview .mermaid .messageLine0,
+.markdown-preview.markdown-preview .mermaid .messageLine1,
+.markdown-preview.markdown-preview .mermaid .relationshipLine {
+  stroke: var(--cyan) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid marker path,
+.markdown-preview.markdown-preview .mermaid .arrowheadPath {
+  fill: var(--cyan) !important;
+  stroke: var(--cyan) !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel,
+.markdown-preview.markdown-preview .mermaid .edgeLabel p,
+.markdown-preview.markdown-preview .mermaid .edgeLabel span,
+.markdown-preview.markdown-preview .mermaid .edgeLabel text,
+.markdown-preview.markdown-preview .mermaid .edgeLabel tspan,
+.markdown-preview.markdown-preview .mermaid .labelText,
+.markdown-preview.markdown-preview .mermaid .messageText,
+.markdown-preview.markdown-preview .mermaid .loopText,
+.markdown-preview.markdown-preview .mermaid .relationshipLabel {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel,
+.markdown-preview.markdown-preview .mermaid .labelBkg {
+  background-color: #111827 !important;
+  fill: #111827 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel rect,
+.markdown-preview.markdown-preview .mermaid .label-container {
+  background: #111827 !important;
+  fill: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel p,
+.markdown-preview.markdown-preview .mermaid .edgeLabel span,
+.markdown-preview.markdown-preview .mermaid .edgeLabel div {
+  margin: 0 !important;
+  padding: 0 4px !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid foreignObject,
+.markdown-preview.markdown-preview .mermaid .edgeLabel {
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid .nodeLabel,
+.markdown-preview.markdown-preview .mermaid .nodeLabel p,
+.markdown-preview.markdown-preview .mermaid .nodeLabel span,
+.markdown-preview.markdown-preview .mermaid .label text,
+.markdown-preview.markdown-preview .mermaid .label tspan,
+.markdown-preview.markdown-preview .mermaid text,
+.markdown-preview.markdown-preview .mermaid tspan {
+  color: #f8fafc !important;
+  fill: #f8fafc !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel text,
+.markdown-preview.markdown-preview .mermaid .edgeLabel tspan,
+.markdown-preview.markdown-preview .mermaid .edgeLabel .label,
+.markdown-preview.markdown-preview .mermaid .edgeLabel .label * {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid rect.actor,
+.markdown-preview.markdown-preview .mermaid .actor-box {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid text.actor,
+.markdown-preview.markdown-preview .mermaid text.actor tspan,
+.markdown-preview.markdown-preview .mermaid .actor text,
+.markdown-preview.markdown-preview .mermaid .actor text tspan {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+.markdown-preview.markdown-preview .mermaid .actor-line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node rect,
+.markdown-preview.markdown-preview .mermaid .node polygon,
+.markdown-preview.markdown-preview .mermaid .node .label-container {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node text,
+.markdown-preview.markdown-preview .mermaid .node tspan,
+.markdown-preview.markdown-preview .mermaid .node .label,
+.markdown-preview.markdown-preview .mermaid .node .label p,
+.markdown-preview.markdown-preview .mermaid .node .label span,
+.markdown-preview.markdown-preview .mermaid .node .label div {
+  fill: #f8fafc !important;
+  color: #f8fafc !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup rect,
+.markdown-preview.markdown-preview .mermaid .classLabel .box {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup text,
+.markdown-preview.markdown-preview .mermaid .classGroup tspan,
+.markdown-preview.markdown-preview .mermaid .classLabel text,
+.markdown-preview.markdown-preview .mermaid .classLabel tspan {
+  fill: #111827 !important;
+  color: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel p,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel span,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel div,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] text,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] tspan {
+  fill: #111827 !important;
+  color: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .activation0,
+.markdown-preview.markdown-preview .mermaid .activation1,
+.markdown-preview.markdown-preview .mermaid .activation2 {
+  fill: #263238 !important;
+  stroke: var(--cyan) !important;
+}
+.markdown-preview.markdown-preview .mermaid .note {
+  fill: #263238 !important;
+  stroke: var(--yellow) !important;
+}
+.markdown-preview.markdown-preview .mermaid .noteText,
+.markdown-preview.markdown-preview .mermaid .noteText tspan,
+.markdown-preview.markdown-preview .mermaid .sequenceNumber {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid .loopLine,
+.markdown-preview.markdown-preview .mermaid .labelBox {
+  fill: #1b2030 !important;
+  stroke: var(--purple) !important;
+}
+.markdown-preview.markdown-preview .katex-display {
+  background: #181c28;
+  border-radius: 8px;
+  padding: 14px;
+}
+.markdown-preview.markdown-preview p {
+  margin: 10px 0;
+}
+/*====================================================
+Markdown Preview Enhanced index / sidebar
+=====================================================*/
+.md-sidebar-toc,
+.md-sidebar-toc.md-sidebar-toc,
+.markdown-preview-enhanced-toc,
+.markdown-preview-enhanced-toc.md-preview-toc {
+  background: #171a26 !important;
+  color: #d7dae0 !important;
+  border-color: #30364d !important;
+  font-family: "Kalam", cursive;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.md-sidebar-toc a,
+.markdown-preview-enhanced-toc a {
+  color: #b9c7e8 !important;
+}
+.md-sidebar-toc a:hover,
+.md-sidebar-toc a.active,
+.markdown-preview-enhanced-toc a:hover,
+.markdown-preview-enhanced-toc a.active {
+  color: #7dcfff !important;
+  background: #24283b !important;
+}
+.md-sidebar-toc ul,
+.markdown-preview-enhanced-toc ul {
+  padding-left: 16px;
+}
+@media (max-width: 700px) {
+  .markdown-preview.markdown-preview {
+    font-size: 15px;
+    padding: 20px 16px;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. -->
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script>
+    </head>
+    <body for="html-export">
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="linked-lists--problems">Linked Lists — Problems </h1>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>LeetCode</th>
+<th>Pattern</th>
+<th>Difficulty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Reverse Linked List</td>
+<td>206</td>
+<td>Reversal</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Reverse Linked List II</td>
+<td>92</td>
+<td>Reversal</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Reverse Nodes in k-Group</td>
+<td>25</td>
+<td>Reversal</td>
+<td>Hard</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Middle of the Linked List</td>
+<td>876</td>
+<td>Fast/Slow</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Linked List Cycle</td>
+<td>141</td>
+<td>Fast/Slow</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Linked List Cycle II</td>
+<td>142</td>
+<td>Fast/Slow</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Remove Nth Node From End</td>
+<td>19</td>
+<td>Fast/Slow</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Palindrome Linked List</td>
+<td>234</td>
+<td>Fast/Slow + Reversal</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Merge Two Sorted Lists</td>
+<td>21</td>
+<td>Merging</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Sort List</td>
+<td>148</td>
+<td>Merging</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Merge k Sorted Lists</td>
+<td>23</td>
+<td>Merging</td>
+<td>Hard</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Reorder List</td>
+<td>143</td>
+<td>Restructuring</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Odd Even Linked List</td>
+<td>328</td>
+<td>Restructuring</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Remove Duplicates from Sorted List II</td>
+<td>82</td>
+<td>Restructuring</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Add Two Numbers</td>
+<td>2</td>
+<td>Restructuring</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Intersection of Two Linked Lists</td>
+<td>160</td>
+<td>Two Pointers</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Copy List with Random Pointer</td>
+<td>138</td>
+<td>Hashmap / Interleave</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>18</td>
+<td>LRU Cache</td>
+<td>146</td>
+<td>Design</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>19</td>
+<td>LFU Cache</td>
+<td>460</td>
+<td>Design</td>
+<td>Hard</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="reversal">Reversal </h2>
+<h3 id="reverse-linked-list--leetcode-206">Reverse Linked List — LeetCode 206 </h3>
+<p>Given the head of a singly linked list, reverse the list and return its new head.</p>
+<p><strong>Example:</strong> <code>1 → 2 → 3 → 4 → 5</code> → <code>5 → 4 → 3 → 2 → 1</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(n)
+
+Copy all values into an array, create a new list in reverse order.
+
+------------------------------------------------------------------------------
+
+RECURSIVE | O(n) | O(n)
+
+ReverseRec(node):
+  if node is null or node.Next is null → return node
+  newHead = ReverseRec(node.Next)
+  node.Next.Next = node
+  node.Next = null
+  return newHead
+
+------------------------------------------------------------------------------
+
+OPTIMAL — ITERATIVE | O(n) | O(1)
+
+prev = null, cur = head
+while cur != null:
+  next = cur.Next        // save first!
+  cur.Next = prev
+  prev = cur
+  cur = next
+return prev
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">ReverseList</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name">ListNode</span> prev <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">,</span> cur <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> next <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+        prev <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+        cur <span class="token operator">=</span> next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> prev<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> the three-variable dance — always save <code>next</code> before overwriting <code>cur.Next</code>, or the rest of the list is lost.</p>
+</blockquote>
+<hr>
+<h3 id="reverse-linked-list-ii--leetcode-92">Reverse Linked List II — LeetCode 92 </h3>
+<p>Reverse only the nodes from position <code>left</code> to <code>right</code> (1-indexed) in a single pass.</p>
+<p><strong>Example:</strong> <code>1 → 2 → 3 → 4 → 5</code>, left=2, right=4 → <code>1 → 4 → 3 → 2 → 5</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(n)
+
+Collect all values, reverse the subarray, rebuild nodes.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — FRONT-INSERT | O(n) | O(1)
+
+Use a dummy head. Walk to node just before 'left' (call it pre).
+Repeatedly yank cur.Next and insert it right after pre:
+  next = cur.Next
+  cur.Next = next.Next
+  next.Next = pre.Next
+  pre.Next = next
+Repeat (right - left) times.
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">ReverseBetween</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> left<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> right<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dummy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> pre <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> left<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> pre <span class="token operator">=</span> pre<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> pre<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> right <span class="token operator">-</span> left<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> next <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> next<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        next<span class="token punctuation">.</span>Next <span class="token operator">=</span> pre<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        pre<span class="token punctuation">.</span>Next <span class="token operator">=</span> next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> dummy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> front-insert into the sublist prefix inserts each successive node at the front without a second pass.</p>
+</blockquote>
+<hr>
+<h3 id="reverse-nodes-in-k-group--leetcode-25">Reverse Nodes in k-Group — LeetCode 25 </h3>
+<p>Reverse every consecutive group of k nodes. Leave a tail of fewer than k nodes as-is.</p>
+<p><strong>Example:</strong> <code>1 → 2 → 3 → 4 → 5</code>, k=2 → <code>2 → 1 → 4 → 3 → 5</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(n)
+
+Collect nodes in groups of k, reverse each group, reconnect.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — IN-PLACE GROUP REVERSAL | O(n) | O(1)
+
+groupPrev = dummy
+loop:
+  kth = GetKth(groupPrev, k)   // returns null if fewer than k nodes remain
+  if kth == null: break
+  groupNext = kth.Next
+  // reverse the group [groupPrev.Next .. kth] with tail=groupNext
+  prev = groupNext, cur = groupPrev.Next
+  while cur != groupNext:
+    next = cur.Next; cur.Next = prev; prev = cur; cur = next
+  tmp = groupPrev.Next        // old head = new tail of group
+  groupPrev.Next = kth        // connect to new group head
+  groupPrev = tmp             // advance for next iteration
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">ReverseKGroup</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> k<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dummy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> groupPrev <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> kth <span class="token operator">=</span> <span class="token function">GetKth</span><span class="token punctuation">(</span>groupPrev<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>kth <span class="token operator">==</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> groupNext <span class="token operator">=</span> kth<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        <span class="token class-name">ListNode</span> prev <span class="token operator">=</span> groupNext<span class="token punctuation">,</span> cur <span class="token operator">=</span> groupPrev<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> groupNext<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-var">var</span></span> next <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+            cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+            prev <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> tmp <span class="token operator">=</span> groupPrev<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        groupPrev<span class="token punctuation">.</span>Next <span class="token operator">=</span> kth<span class="token punctuation">;</span>
+        groupPrev <span class="token operator">=</span> tmp<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> dummy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-private">private</span> <span class="token return-type class-name">ListNode</span> <span class="token function">GetKth</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> cur<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> k<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> k <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> k<span class="token operator">--</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> cur<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> treat each group as a mini-reversal; <code>groupPrev</code> and <code>groupNext</code> act as the sentinels for that group.</p>
+</blockquote>
+<hr>
+<h2 id="fast-and-slow-pointers">Fast and Slow Pointers </h2>
+<h3 id="middle-of-the-linked-list--leetcode-876">Middle of the Linked List — LeetCode 876 </h3>
+<p>Return the middle node. For even-length lists return the <strong>second</strong> middle node.</p>
+<p><strong>Example:</strong> <code>1 → 2 → 3 → 4 → 5 → 6</code> → node <code>4</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(1)
+
+Count nodes, traverse again to index n/2.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — FAST/SLOW POINTERS | O(n) | O(1)
+
+slow = head, fast = head
+while fast != null and fast.Next != null:
+  slow = slow.Next
+  fast = fast.Next.Next
+return slow
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">MiddleNode</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> slow <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> fast <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>fast <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> fast<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> slow<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> fast moves at 2× speed so when fast exhausts the list, slow is at the midpoint.</p>
+</blockquote>
+<hr>
+<h3 id="linked-list-cycle--leetcode-141">Linked List Cycle — LeetCode 141 </h3>
+<p>Determine if a linked list has a cycle.</p>
+<p><strong>Example:</strong> <code>3 → 2 → 0 → -4 → (back to 2)</code> → <code>true</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(n)
+
+Store visited nodes in a HashSet; if any node is seen twice, there is a cycle.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — FLOYD'S CYCLE DETECTION | O(n) | O(1)
+
+slow = head, fast = head
+while fast != null and fast.Next != null:
+  slow = slow.Next
+  fast = fast.Next.Next
+  if slow == fast: return true
+return false
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-bool">bool</span></span> <span class="token function">HasCycle</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> slow <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> fast <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>fast<span class="token punctuation">?.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>slow <span class="token operator">==</span> fast<span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> fast eventually laps slow inside the cycle — their meeting is guaranteed in O(n).</p>
+</blockquote>
+<hr>
+<h3 id="linked-list-cycle-ii--leetcode-142">Linked List Cycle II — LeetCode 142 </h3>
+<p>Find the node where the cycle begins. Return <code>null</code> if no cycle.</p>
+<p><strong>Example:</strong> <code>3 → 2 → 0 → -4 → (back to 2)</code> → node <code>2</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(n)
+
+HashSet of visited nodes; first repeated node is the entry.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — FLOYD'S TWO-PHASE | O(n) | O(1)
+
+Phase 1: detect meeting point (slow/fast).
+Phase 2: reset slow to head, advance both 1 step at a time.
+  They meet at the cycle entry.
+
+Proof: F = head→entry, a = meeting-point offset from entry.
+  F = nC - a  →  slow needs F steps from head,
+  fast needs F steps from meeting point to reach entry.
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">DetectCycle</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> slow <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> fast <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>fast<span class="token punctuation">?.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>slow <span class="token operator">==</span> fast<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            slow <span class="token operator">=</span> head<span class="token punctuation">;</span>
+            <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>slow <span class="token operator">!=</span> fast<span class="token punctuation">)</span> <span class="token punctuation">{</span> slow <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> fast <span class="token operator">=</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+            <span class="token keyword keyword-return">return</span> slow<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> after detection, resetting one pointer to head and walking both at speed 1 leverages F = nC − a to land both at the entry simultaneously.</p>
+</blockquote>
+<hr>
+<h3 id="remove-nth-node-from-end-of-list--leetcode-19">Remove Nth Node From End of List — LeetCode 19 </h3>
+<p>Remove the nth node from the end of the list and return the head.</p>
+<p><strong>Example:</strong> <code>1 → 2 → 3 → 4 → 5</code>, n=2 → <code>1 → 2 → 3 → 5</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(1)
+
+Count length, traverse to position (length - n), remove next node.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — TWO POINTERS (ONE PASS) | O(n) | O(1)
+
+dummy → head
+fast = dummy, slow = dummy
+advance fast n+1 steps
+while fast != null: fast = fast.Next, slow = slow.Next
+slow.Next = slow.Next.Next
+return dummy.Next
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">RemoveNthFromEnd</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dummy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> fast <span class="token operator">=</span> dummy<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> slow <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> fast <span class="token operator">=</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>fast <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> fast <span class="token operator">=</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> slow <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    slow<span class="token punctuation">.</span>Next <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dummy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> the n+1 step gap between fast and slow ensures slow stops at the predecessor of the node to remove.</p>
+</blockquote>
+<hr>
+<h3 id="palindrome-linked-list--leetcode-234">Palindrome Linked List — LeetCode 234 </h3>
+<p>Check if a singly linked list is a palindrome. O(n) time, O(1) space.</p>
+<p><strong>Example:</strong> <code>1 → 2 → 2 → 1</code> → <code>true</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(n)
+
+Copy values to an array, use two-pointer palindrome check.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — REVERSE SECOND HALF IN-PLACE | O(n) | O(1)
+
+1. Find the left-middle with slow/fast (Convention B: stop when fast.Next == null or fast.Next.Next == null).
+2. Reverse from slow.Next onward.
+3. Compare first half and reversed second half.
+4. (Optional) restore original list.
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-bool">bool</span></span> <span class="token function">IsPalindrome</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">// Find left middle (Convention B)</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> slow <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> fast <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>fast<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// Reverse second half</span>
+    <span class="token class-name">ListNode</span> prev <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">,</span> cur <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> next <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> prev<span class="token punctuation">;</span> prev <span class="token operator">=</span> cur<span class="token punctuation">;</span> cur <span class="token operator">=</span> next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token comment">// Compare</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> left <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> right <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>right <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>left<span class="token punctuation">.</span>Val <span class="token operator">!=</span> right<span class="token punctuation">.</span>Val<span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        left <span class="token operator">=</span> left<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> right <span class="token operator">=</span> right<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> reverse only the second half in-place — you never need more than O(1) extra space for a palindrome check on a list.</p>
+</blockquote>
+<hr>
+<h2 id="merging-and-sorting">Merging and Sorting </h2>
+<h3 id="merge-two-sorted-lists--leetcode-21">Merge Two Sorted Lists — LeetCode 21 </h3>
+<p>Merge two sorted linked lists into one sorted list.</p>
+<p><strong>Example:</strong> <code>1 → 2 → 4</code> and <code>1 → 3 → 4</code> → <code>1 → 1 → 2 → 3 → 4 → 4</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O((m+n) log(m+n)) | O(m+n)
+
+Copy both lists to an array, sort it, build a new list.
+
+------------------------------------------------------------------------------
+
+COPY-THEN-MERGE | O(m+n) | O(m+n)
+
+Copy values to arrays, merge with two pointers, build new list.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — IN-PLACE DUMMY HEAD | O(m+n) | O(1)
+
+dummy → cur
+while l1 and l2:
+  attach smaller node to cur, advance that list
+advance cur
+attach remaining non-null tail
+return dummy.Next
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">MergeTwoLists</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> l1<span class="token punctuation">,</span> <span class="token class-name">ListNode</span> l2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dummy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>l1 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> l2 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>l1<span class="token punctuation">.</span>Val <span class="token operator">&lt;=</span> l2<span class="token punctuation">.</span>Val<span class="token punctuation">)</span> <span class="token punctuation">{</span> cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> l1<span class="token punctuation">;</span> l1 <span class="token operator">=</span> l1<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword keyword-else">else</span>                  <span class="token punctuation">{</span> cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> l2<span class="token punctuation">;</span> l2 <span class="token operator">=</span> l2<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> l1 <span class="token operator">??</span> l2<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dummy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> the dummy head eliminates the special case of inserting the very first node.</p>
+</blockquote>
+<hr>
+<h3 id="sort-list--leetcode-148">Sort List — LeetCode 148 </h3>
+<p>Sort a linked list in O(n log n) time. O(1) space bonus: bottom-up merge sort avoids recursion stack.</p>
+<p><strong>Example:</strong> <code>4 → 2 → 1 → 3</code> → <code>1 → 2 → 3 → 4</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n log n) | O(n)
+
+Copy values to array, sort, rebuild list.
+
+------------------------------------------------------------------------------
+
+TOP-DOWN MERGE SORT | O(n log n) | O(log n)
+
+Find middle, split, recursively sort both halves, merge.
+Space is O(log n) recursion stack.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — BOTTOM-UP MERGE SORT | O(n log n) | O(1)
+
+size = 1
+while size &lt; length:
+  for each pair of sub-lists of length 'size':
+    merge them
+  size *= 2
+No recursion stack needed.
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">SortList</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>head<span class="token punctuation">?.</span>Next <span class="token operator">==</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> head<span class="token punctuation">;</span>
+    <span class="token comment">// Count length</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> len <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-var">var</span></span> n <span class="token operator">=</span> head<span class="token punctuation">;</span> n <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span> n <span class="token operator">=</span> n<span class="token punctuation">.</span>Next<span class="token punctuation">)</span> len<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dummy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> size <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> size <span class="token operator">&lt;</span> len<span class="token punctuation">;</span> size <span class="token operator">&lt;&lt;=</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> dummy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> tail <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+        <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-var">var</span></span> left <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword keyword-var">var</span></span> right <span class="token operator">=</span> <span class="token function">Split</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> <span class="token function">Split</span><span class="token punctuation">(</span>right<span class="token punctuation">,</span> size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-var">var</span> <span class="token punctuation">(</span>merged<span class="token punctuation">,</span> end<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">MergeWithTail</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            tail<span class="token punctuation">.</span>Next <span class="token operator">=</span> merged<span class="token punctuation">;</span> tail <span class="token operator">=</span> end<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        tail<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> dummy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-private">private</span> <span class="token return-type class-name">ListNode</span> <span class="token function">Split</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> size<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> head <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> head <span class="token operator">=</span> head<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> rest <span class="token operator">=</span> head<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> head<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span> <span class="token keyword keyword-return">return</span> rest<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-private">private</span> <span class="token return-type class-name"><span class="token punctuation">(</span>ListNode head<span class="token punctuation">,</span> ListNode tail<span class="token punctuation">)</span></span> <span class="token function">MergeWithTail</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> l1<span class="token punctuation">,</span> <span class="token class-name">ListNode</span> l2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dummy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>l1 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> l2 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>l1<span class="token punctuation">.</span>Val <span class="token operator">&lt;=</span> l2<span class="token punctuation">.</span>Val<span class="token punctuation">)</span> <span class="token punctuation">{</span> cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> l1<span class="token punctuation">;</span> l1 <span class="token operator">=</span> l1<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword keyword-else">else</span>                  <span class="token punctuation">{</span> cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> l2<span class="token punctuation">;</span> l2 <span class="token operator">=</span> l2<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> l1 <span class="token operator">??</span> l2<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>cur<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span>dummy<span class="token punctuation">.</span>Next<span class="token punctuation">,</span> cur<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> bottom-up merge sort achieves O(1) space by iterating over doubling sub-list sizes rather than recursing.</p>
+</blockquote>
+<hr>
+<h3 id="merge-k-sorted-lists--leetcode-23">Merge k Sorted Lists — LeetCode 23 </h3>
+<p>Merge k sorted linked lists into one sorted list.</p>
+<p><strong>Example:</strong> <code>[[1,4,5],[1,3,4],[2,6]]</code> → <code>1 → 1 → 2 → 3 → 4 → 4 → 5 → 6</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE — MERGE 2 AT A TIME | O(nk) | O(1)
+
+Merge lists one by one left to right. Each merge is O(n·i) for the ith merge.
+Total: O(nk²).
+
+------------------------------------------------------------------------------
+
+OPTIMAL — DIVIDE AND CONQUER MERGE PAIRS | O(n log k) | O(1)
+
+while number of lists &gt; 1:
+  merge adjacent pairs of lists
+  if odd number: carry last list to next round
+→ log k rounds, each O(n) total work
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Divide and conquer — pure linked-list technique, O(n log k) time, O(1) space</span>
+<span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">MergeKLists</span><span class="token punctuation">(</span><span class="token class-name">ListNode<span class="token punctuation">[</span><span class="token punctuation">]</span></span> lists<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>lists<span class="token punctuation">.</span>Length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n <span class="token operator">=</span> lists<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>n <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+            lists<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">MergeTwoLists</span><span class="token punctuation">(</span>lists<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> lists<span class="token punctuation">[</span>n <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">-</span> i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        n <span class="token operator">=</span> <span class="token punctuation">(</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> lists<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-private">private</span> <span class="token return-type class-name">ListNode</span> <span class="token function">MergeTwoLists</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> l1<span class="token punctuation">,</span> <span class="token class-name">ListNode</span> l2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dummy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>l1 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> l2 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>l1<span class="token punctuation">.</span>Val <span class="token operator">&lt;=</span> l2<span class="token punctuation">.</span>Val<span class="token punctuation">)</span> <span class="token punctuation">{</span> cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> l1<span class="token punctuation">;</span> l1 <span class="token operator">=</span> l1<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword keyword-else">else</span>                  <span class="token punctuation">{</span> cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> l2<span class="token punctuation">;</span> l2 <span class="token operator">=</span> l2<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> l1 <span class="token operator">??</span> l2<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dummy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> divide-and-conquer pairs is the pure linked-list O(n log k) approach; for the min-heap O(n log k) approach see <a href="../HeapsAndPriorityQueues/HeapsAndPriorityQueues.md">Heaps and Priority Queues</a>.</p>
+</blockquote>
+<hr>
+<h2 id="restructuring">Restructuring </h2>
+<h3 id="reorder-list--leetcode-143">Reorder List — LeetCode 143 </h3>
+<p>Reorder <code>L0 → L1 → … → Ln</code> to <code>L0 → Ln → L1 → Ln-1 → …</code> in-place.</p>
+<p><strong>Example:</strong> <code>1 → 2 → 3 → 4</code> → <code>1 → 4 → 2 → 3</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(n)
+
+Copy nodes to array, use two pointers to build reordered list.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — FIND MIDDLE / REVERSE / INTERLEAVE | O(n) | O(1)
+
+1. Find left-middle with slow/fast (Convention B).
+2. Reverse from slow.Next onward; set slow.Next = null to split.
+3. Interleave: take 1 from first, 1 from second, repeat.
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-void">void</span></span> <span class="token function">ReorderList</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>head<span class="token punctuation">?.</span>Next <span class="token operator">==</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+    <span class="token comment">// Step 1: find left middle</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> slow <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> fast <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>fast<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span> slow <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> fast <span class="token operator">=</span> fast<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token comment">// Step 2: reverse second half</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> second <span class="token operator">=</span> slow<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> slow<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+    <span class="token class-name">ListNode</span> prev <span class="token operator">=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">,</span> cur <span class="token operator">=</span> second<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> next <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> prev<span class="token punctuation">;</span> prev <span class="token operator">=</span> cur<span class="token punctuation">;</span> cur <span class="token operator">=</span> next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    second <span class="token operator">=</span> prev<span class="token punctuation">;</span>
+    <span class="token comment">// Step 3: interleave</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> first <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>second <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> fn <span class="token operator">=</span> first<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> sn <span class="token operator">=</span> second<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        first<span class="token punctuation">.</span>Next <span class="token operator">=</span> second<span class="token punctuation">;</span> second<span class="token punctuation">.</span>Next <span class="token operator">=</span> fn<span class="token punctuation">;</span>
+        first <span class="token operator">=</span> fn<span class="token punctuation">;</span> second <span class="token operator">=</span> sn<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> the three-phase pattern (find middle → reverse half → interleave) solves any "zigzag between two halves" restructuring problem.</p>
+</blockquote>
+<hr>
+<h3 id="odd-even-linked-list--leetcode-328">Odd Even Linked List — LeetCode 328 </h3>
+<p>Group all nodes at odd indices before nodes at even indices (1-indexed, relative order preserved).</p>
+<p><strong>Example:</strong> <code>1 → 2 → 3 → 4 → 5</code> → <code>1 → 3 → 5 → 2 → 4</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(n)
+
+Collect odd-index and even-index values separately, build new list.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — TWO CHAINS | O(n) | O(1)
+
+oddHead = head, evenHead = head.Next
+odd = oddHead, even = evenHead
+while even != null and even.Next != null:
+  odd.Next = even.Next
+  odd = odd.Next
+  even.Next = odd.Next
+  even = even.Next
+odd.Next = evenHead
+return oddHead
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">OddEvenList</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> odd <span class="token operator">=</span> head<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> even <span class="token operator">=</span> head<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> evenHead <span class="token operator">=</span> even<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>even<span class="token punctuation">?.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        odd<span class="token punctuation">.</span>Next <span class="token operator">=</span> even<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> odd <span class="token operator">=</span> odd<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        even<span class="token punctuation">.</span>Next <span class="token operator">=</span> odd<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> even <span class="token operator">=</span> even<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    odd<span class="token punctuation">.</span>Next <span class="token operator">=</span> evenHead<span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> head<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> maintain two separate chains simultaneously; link the even chain onto the odd chain at the end.</p>
+</blockquote>
+<hr>
+<h3 id="remove-duplicates-from-sorted-list-ii--leetcode-82">Remove Duplicates from Sorted List II — LeetCode 82 </h3>
+<p>Remove all nodes whose value appears more than once, leaving only distinct values.</p>
+<p><strong>Example:</strong> <code>1 → 2 → 3 → 3 → 4 → 4 → 5</code> → <code>1 → 2 → 5</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(n) | O(n)
+
+Collect value counts, rebuild list keeping only count-1 values.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — DUMMY HEAD + SKIP DUPLICATES | O(n) | O(1)
+
+dummy → head
+pre = dummy
+while cur != null:
+  if cur.Next != null and cur.Val == cur.Next.Val:
+    val = cur.Val
+    while cur != null and cur.Val == val: cur = cur.Next
+    pre.Next = cur
+  else:
+    pre = pre.Next; cur = cur.Next
+return dummy.Next
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">DeleteDuplicates</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dummy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> pre <span class="token operator">=</span> dummy<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> head<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>cur<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> cur<span class="token punctuation">.</span>Val <span class="token operator">==</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Val<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-int">int</span></span> val <span class="token operator">=</span> cur<span class="token punctuation">.</span>Val<span class="token punctuation">;</span>
+            <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> cur<span class="token punctuation">.</span>Val <span class="token operator">==</span> val<span class="token punctuation">)</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+            pre<span class="token punctuation">.</span>Next <span class="token operator">=</span> cur<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span> pre <span class="token operator">=</span> cur<span class="token punctuation">;</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> dummy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> the dummy head lets <code>pre</code> always have a valid predecessor, so you can skip entire duplicate runs by setting <code>pre.Next = cur</code>.</p>
+</blockquote>
+<hr>
+<h3 id="add-two-numbers--leetcode-2">Add Two Numbers — LeetCode 2 </h3>
+<p>Two non-empty lists store digits of non-negative integers in reverse order. Return their sum as a list.</p>
+<p><strong>Example:</strong> <code>(2 → 4 → 3) + (5 → 6 → 4)</code> → <code>7 → 0 → 8</code> (342 + 465 = 807)</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(m+n) | O(m+n)
+
+Convert lists to integers, add, convert back. Overflows for large inputs.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — DIGIT-BY-DIGIT WITH CARRY | O(max(m,n)) | O(1)
+
+dummy → tail, carry = 0
+while l1 or l2 or carry:
+  sum = (l1?.Val ?? 0) + (l2?.Val ?? 0) + carry
+  carry = sum / 10
+  tail.Next = new node(sum % 10)
+  advance tail, l1, l2
+return dummy.Next
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">AddTwoNumbers</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> l1<span class="token punctuation">,</span> <span class="token class-name">ListNode</span> l2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dummy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> tail <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> carry <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>l1 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">||</span> l2 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">||</span> carry <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-int">int</span></span> sum <span class="token operator">=</span> <span class="token punctuation">(</span>l1<span class="token punctuation">?.</span>Val <span class="token operator">??</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>l2<span class="token punctuation">?.</span>Val <span class="token operator">??</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> carry<span class="token punctuation">;</span>
+        carry <span class="token operator">=</span> sum <span class="token operator">/</span> <span class="token number">10</span><span class="token punctuation">;</span>
+        tail<span class="token punctuation">.</span>Next <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">ListNode</span><span class="token punctuation">(</span>sum <span class="token operator">%</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        tail <span class="token operator">=</span> tail<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>l1 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> l1 <span class="token operator">=</span> l1<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>l2 <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> l2 <span class="token operator">=</span> l2<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> dummy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> handle the carry in the loop condition (<code>|| carry != 0</code>) so a final carry creates the correct extra node automatically.</p>
+</blockquote>
+<hr>
+<h3 id="intersection-of-two-linked-lists--leetcode-160">Intersection of Two Linked Lists — LeetCode 160 </h3>
+<p>Find the node at which two singly linked lists intersect. Return <code>null</code> if no intersection.</p>
+<p><strong>Example:</strong> <code>A: a1→a2→c1→c2→c3</code>, <code>B: b1→b2→b3→c1→c2→c3</code> → node <code>c1</code></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(mn) | O(1)
+
+For each node in A, scan all of B for equality.
+
+------------------------------------------------------------------------------
+
+HASH SET | O(m+n) | O(m)
+
+Store all nodes of A in a set, scan B for first hit.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — TWO-POINTER LENGTH EQUALISATION | O(m+n) | O(1)
+
+pA = headA, pB = headB
+while pA != pB:
+  pA = pA != null ? pA.Next : headB
+  pB = pB != null ? pB.Next : headA
+return pA
+When each pointer exhausts its list, redirect to the other's head.
+Both traverse m+n nodes total → meet at intersection (or both null).
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token return-type class-name">ListNode</span> <span class="token function">GetIntersectionNode</span><span class="token punctuation">(</span><span class="token class-name">ListNode</span> headA<span class="token punctuation">,</span> <span class="token class-name">ListNode</span> headB<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> pA <span class="token operator">=</span> headA<span class="token punctuation">;</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> pB <span class="token operator">=</span> headB<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>pA <span class="token operator">!=</span> pB<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        pA <span class="token operator">=</span> pA <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token punctuation">?</span> pA<span class="token punctuation">.</span>Next <span class="token punctuation">:</span> headB<span class="token punctuation">;</span>
+        pB <span class="token operator">=</span> pB <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token punctuation">?</span> pB<span class="token punctuation">.</span>Next <span class="token punctuation">:</span> headA<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> pA<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> redirecting each pointer to the other list's head equalises the total distance travelled so both pointers meet at the intersection node.</p>
+</blockquote>
+<hr>
+<h2 id="copy-and-design">Copy and Design </h2>
+<h3 id="copy-list-with-random-pointer--leetcode-138">Copy List with Random Pointer — LeetCode 138 </h3>
+<p>Deep-copy a list where each node has <code>Next</code> and <code>Random</code> (pointing to any node or null).</p>
+<p><strong>Example:</strong> <code>[[7,null],[13,0],[11,4],[10,2],[1,0]]</code> → identical independent deep copy</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE (HASH MAP) | O(n) | O(n)
+
+Pass 1: create copy of each node, store in map[original → copy].
+Pass 2: set copy.Next = map[original.Next], copy.Random = map[original.Random].
+
+------------------------------------------------------------------------------
+
+OPTIMAL — O(1) SPACE INTERLEAVING | O(n) | O(1)
+
+Step 1 (Weave): for each node, insert copy right after: A → A' → B → B' → ...
+Step 2 (Random): copy.Random = original.Random.Next (because copy is always at original.Random.Next)
+Step 3 (Separate): restore original list; extract copy list.
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Node</span> <span class="token punctuation">{</span> <span class="token keyword keyword-public">public</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> Val<span class="token punctuation">;</span> <span class="token keyword keyword-public">public</span> <span class="token class-name">Node</span> Next<span class="token punctuation">,</span> Random<span class="token punctuation">;</span> <span class="token keyword keyword-public">public</span> <span class="token function">Node</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span> Val <span class="token operator">=</span> v<span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span>
+
+<span class="token keyword keyword-public">public</span> <span class="token return-type class-name">Node</span> <span class="token function">CopyRandomList</span><span class="token punctuation">(</span><span class="token class-name">Node</span> head<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+    <span class="token comment">// Step 1: weave</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> head<span class="token punctuation">;</span> cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> copy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">Node</span><span class="token punctuation">(</span>cur<span class="token punctuation">.</span>Val<span class="token punctuation">)</span> <span class="token punctuation">{</span> Next <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next <span class="token punctuation">}</span><span class="token punctuation">;</span>
+        cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> copy<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// Step 2: set random pointers</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> head<span class="token punctuation">;</span> cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next<span class="token punctuation">)</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>cur<span class="token punctuation">.</span>Random <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Random <span class="token operator">=</span> cur<span class="token punctuation">.</span>Random<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token comment">// Step 3: separate</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> copyHead <span class="token operator">=</span> head<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> head<span class="token punctuation">;</span> cur <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> copy <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> copy<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>copy<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> copy<span class="token punctuation">.</span>Next <span class="token operator">=</span> copy<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> copyHead<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> weaving copies into the original list gives each copy O(1)-accessible access to its random target's copy via <code>original.Random.Next</code>.</p>
+</blockquote>
+<hr>
+<h3 id="lru-cache--leetcode-146">LRU Cache — LeetCode 146 </h3>
+<p>Design a data structure that supports <code>Get(key)</code> and <code>Put(key, value)</code> both in O(1), evicting the <strong>least recently used</strong> key when at capacity.</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>NAIVE | O(n) | O(n)
+
+Array or list of (key, value, timestamp); scan for LRU on eviction.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — HASH MAP + DOUBLY LINKED LIST | O(1) | O(capacity)
+
+HashMap: key → DLL node (O(1) lookup).
+DLL: MRU at head, LRU at tail; two sentinels eliminate boundary checks.
+Get: find node via map, move to front, return value.
+Put: if exists, update + move to front.
+     If new and at capacity: evict tail.Prev (remove from DLL and from map).
+     Insert new node at front, add to map.
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">LRUCache</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Node</span> <span class="token punctuation">{</span> <span class="token keyword keyword-public">public</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> Key<span class="token punctuation">,</span> Val<span class="token punctuation">;</span> <span class="token keyword keyword-public">public</span> <span class="token class-name">Node</span> Prev<span class="token punctuation">,</span> Next<span class="token punctuation">;</span> <span class="token keyword keyword-public">public</span> <span class="token function">Node</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> k<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> v<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>Key<span class="token operator">=</span>k<span class="token punctuation">;</span>Val<span class="token operator">=</span>v<span class="token punctuation">;</span><span class="token punctuation">}</span> <span class="token punctuation">}</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-readonly">readonly</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> _cap<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-readonly">readonly</span> <span class="token class-name">Dictionary<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> Node<span class="token punctuation">&gt;</span></span> _map<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-readonly">readonly</span> <span class="token class-name">Node</span> _head<span class="token punctuation">,</span> _tail<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token function">LRUCache</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> capacity<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        _cap <span class="token operator">=</span> capacity<span class="token punctuation">;</span>
+        _map <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">Dictionary<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> Node<span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _head <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">Node</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> _tail <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">Node</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _head<span class="token punctuation">.</span>Next <span class="token operator">=</span> _tail<span class="token punctuation">;</span> _tail<span class="token punctuation">.</span>Prev <span class="token operator">=</span> _head<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">Get</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> key<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>_map<span class="token punctuation">.</span><span class="token function">TryGetValue</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> <span class="token keyword keyword-out">out</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> node<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token function">MoveToFront</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword keyword-return">return</span> node<span class="token punctuation">.</span>Val<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-void">void</span></span> <span class="token function">Put</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> key<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> <span class="token keyword keyword-value">value</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>_map<span class="token punctuation">.</span><span class="token function">TryGetValue</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> <span class="token keyword keyword-out">out</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> node<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> node<span class="token punctuation">.</span>Val <span class="token operator">=</span> <span class="token keyword keyword-value">value</span><span class="token punctuation">;</span> <span class="token function">MoveToFront</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>_map<span class="token punctuation">.</span>Count <span class="token operator">==</span> _cap<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> lru <span class="token operator">=</span> _tail<span class="token punctuation">.</span>Prev<span class="token punctuation">;</span> <span class="token function">Remove</span><span class="token punctuation">(</span>lru<span class="token punctuation">)</span><span class="token punctuation">;</span> _map<span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>lru<span class="token punctuation">.</span>Key<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> fresh <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">Node</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> <span class="token keyword keyword-value">value</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">InsertFront</span><span class="token punctuation">(</span>fresh<span class="token punctuation">)</span><span class="token punctuation">;</span> _map<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> fresh<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token return-type class-name"><span class="token keyword keyword-void">void</span></span> <span class="token function">Remove</span><span class="token punctuation">(</span><span class="token class-name">Node</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span> n<span class="token punctuation">.</span>Prev<span class="token punctuation">.</span>Next <span class="token operator">=</span> n<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> n<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Prev <span class="token operator">=</span> n<span class="token punctuation">.</span>Prev<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword keyword-private">private</span> <span class="token return-type class-name"><span class="token keyword keyword-void">void</span></span> <span class="token function">InsertFront</span><span class="token punctuation">(</span><span class="token class-name">Node</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span> n<span class="token punctuation">.</span>Next <span class="token operator">=</span> _head<span class="token punctuation">.</span>Next<span class="token punctuation">;</span> n<span class="token punctuation">.</span>Prev <span class="token operator">=</span> _head<span class="token punctuation">;</span> _head<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Prev <span class="token operator">=</span> n<span class="token punctuation">;</span> _head<span class="token punctuation">.</span>Next <span class="token operator">=</span> n<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword keyword-private">private</span> <span class="token return-type class-name"><span class="token keyword keyword-void">void</span></span> <span class="token function">MoveToFront</span><span class="token punctuation">(</span><span class="token class-name">Node</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">Remove</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">InsertFront</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> the doubly linked list gives O(1) removal of any node (no scan needed); sentinel nodes eliminate every null-check edge case.</p>
+</blockquote>
+<hr>
+<h3 id="lfu-cache--leetcode-460">LFU Cache — LeetCode 460 </h3>
+<p>Design a data structure that supports <code>Get(key)</code> and <code>Put(key, value)</code> both in O(1), evicting the <strong>least frequently used</strong> key (breaking ties by LRU) when at capacity.</p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>NAIVE | O(n) | O(n)
+
+Scan all keys for minimum frequency on eviction.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — FREQ-BUCKET DLL | O(1) | O(capacity)
+
+_keyMap:  key → (value, freq)
+_freqMap: freq → LinkedList&lt;int&gt; of keys (front=MRU within that freq)
+_nodeMap: key → LinkedListNode&lt;int&gt; for O(1) removal from _freqMap
+_minFreq: current minimum frequency
+
+Get(key): look up value, call Increment(key), return value.
+Put(key, val):
+  if exists: update value + Increment(key)
+  if new: if at capacity, evict _freqMap[_minFreq].Last (remove from all maps)
+          add to _freqMap[1], _keyMap, _nodeMap; _minFreq = 1
+Increment(key):
+  remove key from _freqMap[freq]
+  if _freqMap[freq] empty and _minFreq == freq: _minFreq++
+  add key to front of _freqMap[freq+1]
+  update _keyMap[key].freq++
+  update _nodeMap[key] to new LinkedListNode
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">LFUCache</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-readonly">readonly</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> _cap<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> _minFreq<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-readonly">readonly</span> <span class="token class-name">Dictionary<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> val<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> freq<span class="token punctuation">)</span><span class="token punctuation">&gt;</span></span> _keyMap<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-readonly">readonly</span> <span class="token class-name">Dictionary<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> LinkedList<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span><span class="token punctuation">&gt;</span></span> _freqMap<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-readonly">readonly</span> <span class="token class-name">Dictionary<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">,</span> LinkedListNode<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span><span class="token punctuation">&gt;</span></span> _nodeMap<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token function">LFUCache</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> capacity<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        _cap <span class="token operator">=</span> capacity<span class="token punctuation">;</span>
+        _keyMap <span class="token operator">=</span> <span class="token keyword keyword-new">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> _freqMap <span class="token operator">=</span> <span class="token keyword keyword-new">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> _nodeMap <span class="token operator">=</span> <span class="token keyword keyword-new">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">Get</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> key<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>_keyMap<span class="token punctuation">.</span><span class="token function">TryGetValue</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> <span class="token keyword keyword-out">out</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> kv<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token function">Increment</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> kv<span class="token punctuation">.</span>val<span class="token punctuation">,</span> kv<span class="token punctuation">.</span>freq<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> kv<span class="token punctuation">.</span>val<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-void">void</span></span> <span class="token function">Put</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> key<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> <span class="token keyword keyword-value">value</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>_cap <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>_keyMap<span class="token punctuation">.</span><span class="token function">TryGetValue</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> <span class="token keyword keyword-out">out</span> <span class="token class-name"><span class="token keyword keyword-var">var</span></span> kv<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">Increment</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> <span class="token keyword keyword-value">value</span><span class="token punctuation">,</span> kv<span class="token punctuation">.</span>freq<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword keyword-return">return</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>_keyMap<span class="token punctuation">.</span>Count <span class="token operator">==</span> _cap<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-var">var</span></span> evict <span class="token operator">=</span> _freqMap<span class="token punctuation">[</span>_minFreq<span class="token punctuation">]</span><span class="token punctuation">.</span>Last<span class="token operator">!</span><span class="token punctuation">.</span>Value<span class="token punctuation">;</span>
+            _freqMap<span class="token punctuation">[</span>_minFreq<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">RemoveLast</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            _keyMap<span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>evict<span class="token punctuation">)</span><span class="token punctuation">;</span> _nodeMap<span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>evict<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        _keyMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-value">value</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>_freqMap<span class="token punctuation">.</span><span class="token function">ContainsKey</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> _freqMap<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">LinkedList<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _freqMap<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">AddFirst</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _nodeMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> _freqMap<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>First<span class="token operator">!</span><span class="token punctuation">;</span>
+        _minFreq <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token return-type class-name"><span class="token keyword keyword-void">void</span></span> <span class="token function">Increment</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> key<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> <span class="token keyword keyword-value">value</span><span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> freq<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        _freqMap<span class="token punctuation">[</span>freq<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">Remove</span><span class="token punctuation">(</span>_nodeMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>_freqMap<span class="token punctuation">[</span>freq<span class="token punctuation">]</span><span class="token punctuation">.</span>Count <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> _minFreq <span class="token operator">==</span> freq<span class="token punctuation">)</span> _minFreq<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token keyword keyword-int">int</span></span> nf <span class="token operator">=</span> freq <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>_freqMap<span class="token punctuation">.</span><span class="token function">ContainsKey</span><span class="token punctuation">(</span>nf<span class="token punctuation">)</span><span class="token punctuation">)</span> _freqMap<span class="token punctuation">[</span>nf<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">LinkedList<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _freqMap<span class="token punctuation">[</span>nf<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">AddFirst</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _keyMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword keyword-value">value</span><span class="token punctuation">,</span> nf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _nodeMap<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> _freqMap<span class="token punctuation">[</span>nf<span class="token punctuation">]</span><span class="token punctuation">.</span>First<span class="token operator">!</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Key insight:</strong> per-frequency doubly linked lists give O(1) LRU eviction within a frequency bucket; <code>_minFreq</code> only ever increments by 1 on a new insertion (reset to 1), keeping tracking O(1).</p>
+</blockquote>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

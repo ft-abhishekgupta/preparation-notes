@@ -1,0 +1,1447 @@
+<!DOCTYPE html><html><head>
+      <title>TriesAndStringMatching</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="color-scheme" content="light dark">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}@media (prefers-color-scheme: dark) {
+code[class*=language-],pre[class*=language-]{color:#c9d1d9;text-shadow:none;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}code[class*=language-]::mozselection,code[class*=language-]::selection,pre[class*=language-]::mozselection,pre[class*=language-]::selection{text-shadow:none;background:#234879}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#161b22}:not(pre)>code[class*=language-]{padding:.1em .3em;border-radius:.3em;color:#c9d1d9;background:#343942}pre[data-line]{position:relative}pre[class*=language-]>code[class*=language-]{position:relative;z-index:1}.line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:#2f2a1e;box-shadow:inset 5px 0 0 #674c16;z-index:0;pointer-events:none;line-height:inherit;white-space:pre}.namespace{opacity:.7}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#8b949e}.token.punctuation{color:#c9d1d9}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#79c0ff}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#a5d6ff}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{color:#a5d6ff}.token.atrule,.token.attr-value,.token.keyword{color:#f97583}.token.function{color:#d2a8ff}.token.important,.token.regex,.token.variable{color:#79b8ff}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}
+}
+html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}@media (prefers-color-scheme: dark) {
+html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#ccc;background-color:#24292e;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#fff}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#a3a3a3}html body strong{color:#fff}html body del{color:#a3a3a3}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#a3a3a3;background-color:#363d45;border-left:4px solid #48525c}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#48525c;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#fff}html body table td,html body table th{border:1px solid #48525c;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#fff;background-color:#363d45;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#48525c;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#fff;border:1px solid #48525c;border-bottom:2px solid #3a424b;padding:2px 4px;background-color:#363d45;border-radius:3px}@media print{html body{background-color:#24292e}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#fff;page-break-after:avoid}html body blockquote{color:#a3a3a3}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}
+}
+.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-details{margin:0;padding:0;border:none}.markdown-preview .md-toc ol.md-toc-ol{margin:0;padding-left:1.6em}.markdown-preview .md-toc summary.md-toc-link-wrapper{cursor:pointer;list-style-position:outside}.markdown-preview .md-toc summary.md-toc-link-wrapper::marker{font-size:.85em}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='0']{margin-left:12px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='1']{margin-left:28px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='2']{margin-left:44px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='3']{margin-left:60px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='4']{margin-left:76px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='5']{margin-left:80px}.markdown-preview a.tag,.markdown-preview a.tag:active,.markdown-preview a.tag:link,.markdown-preview a.tag:visited,.markdown-preview span.tag:not(.token){display:inline-block;background-color:var(--vscode-badge-background,rgba(127,127,127,.18));color:var(--vscode-badge-foreground,currentColor);border-radius:2em;font-size:.85em;font-weight:500;padding:.05em .55em;line-height:1.5;white-space:nowrap;text-decoration:none;text-shadow:none;box-shadow:none;transition:background-color .12s ease,opacity .12s ease}.markdown-preview a.tag{cursor:pointer}.markdown-preview a.tag:focus,.markdown-preview a.tag:hover{background-color:var(--vscode-badge-background,rgba(127,127,127,.32));color:var(--vscode-badge-foreground,currentColor);opacity:.85;text-decoration:none;outline:0}.markdown-preview .wikilink-embed-content{border-left:3px solid var(--vscode-textBlockQuote-border,rgba(128,128,128,.3));background:var(--vscode-textBlockQuote-background,rgba(128,128,128,.05));margin:.5em 0;padding:.5em .75em;border-radius:0 3px 3px 0}.markdown-preview .wikilink-embed-content.wikilink-embed-error{border-left-color:var(--vscode-errorForeground,#cf222e);color:var(--vscode-errorForeground,#cf222e);font-style:italic;opacity:.8}.markdown-preview .wikilink-embed-content h1:first-child,.markdown-preview .wikilink-embed-content h2:first-child,.markdown-preview .wikilink-embed-content h3:first-child,.markdown-preview .wikilink-embed-content h4:first-child,.markdown-preview .wikilink-embed-content h5:first-child,.markdown-preview .wikilink-embed-content h6:first-child{margin-top:.25em}.markdown-preview .wikilink-embed-content .wikilink-embed-content{margin:.25em 0;padding:.25em .5em}.markdown-preview .block-id{display:none}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));border:4px solid var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));background-clip:content-box}.scrollbar-style::-webkit-scrollbar-thumb:hover{background-color:var(--vscode-scrollbarSlider-hoverBackground,rgba(120,120,120,.66))}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));border:4px solid var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb:hover{background-color:var(--vscode-scrollbarSlider-hoverBackground,rgba(120,120,120,.66))}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-details{margin:0;padding:0;border:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc ol.md-toc-ol{margin:0;padding-left:1.6em}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='0']{padding-left:0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='1']{padding-left:16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='2']{padding-left:32px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='3']{padding-left:48px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='4']{padding-left:64px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='5']{padding-left:80px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjcB9SII.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6SII.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8L6tjPQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtD6GgLL.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9dr0Wd4kDdMuhW.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtDqHQLL.ttf) format('truetype');
+}
+html,
+body {
+  min-height: 100%;
+  background: #0f111a !important;
+}
+.markdown-preview.markdown-preview {
+  /*====================================================
+  Aurora Notes Theme
+  Markdown Preview Enhanced
+=====================================================*/
+  /*====================================================
+  Color Palette
+=====================================================*/
+  --bg: #0f111a;
+  --bg2: #1a1d2b;
+  --bg3: #24283b;
+  --text: #d7dae0;
+  --muted: #9ca3af;
+  --blue: #7aa2f7;
+  --cyan: #7dcfff;
+  --green: #9ece6a;
+  --yellow: #e0af68;
+  --orange: #ff9e64;
+  --red: #f7768e;
+  --purple: #bb9af7;
+  --pink: #ff79c6;
+  --border: #30364d;
+  /*====================================================
+  Main
+=====================================================*/
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Kalam", cursive;
+  line-height: 1.65;
+  font-size: 18px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: 28px clamp(24px, 5vw, 72px);
+  /*====================================================
+  Headings
+=====================================================*/
+  /*====================================================
+  Text
+=====================================================*/
+  /*====================================================
+  Links
+=====================================================*/
+  /*====================================================
+  Lists
+=====================================================*/
+  /*====================================================
+  Blockquotes
+=====================================================*/
+  /*====================================================
+  Inline Code
+=====================================================*/
+  /*====================================================
+  Code Blocks
+=====================================================*/
+  /*====================================================
+  Horizontal Rule
+=====================================================*/
+  /*====================================================
+  Tables
+=====================================================*/
+  /*====================================================
+  Images
+=====================================================*/
+  /*====================================================
+  Task Lists
+=====================================================*/
+  /*====================================================
+  Selection
+=====================================================*/
+  /*====================================================
+  Scrollbar
+=====================================================*/
+  /*====================================================
+  Mermaid
+=====================================================*/
+  /*====================================================
+  Math
+=====================================================*/
+  /*====================================================
+  Paragraph Spacing
+=====================================================*/
+}
+.markdown-preview.markdown-preview h1,
+.markdown-preview.markdown-preview h2,
+.markdown-preview.markdown-preview h3,
+.markdown-preview.markdown-preview h4,
+.markdown-preview.markdown-preview h5,
+.markdown-preview.markdown-preview h6 {
+  font-family: "Caveat", "Kalam", cursive;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  margin: 0.15em 0 0.05em;
+  padding-top: 0;
+  padding-bottom: 4px;
+}
+.markdown-preview.markdown-preview h1 {
+  color: var(--blue);
+  font-size: 2.5em;
+}
+.markdown-preview.markdown-preview h2 {
+  color: var(--purple);
+  font-size: 2em;
+}
+.markdown-preview.markdown-preview h3 {
+  color: var(--green);
+  font-size: 1.65em;
+}
+.markdown-preview.markdown-preview h4 {
+  color: var(--yellow);
+  font-size: 1.35em;
+}
+.markdown-preview.markdown-preview h5 {
+  color: var(--orange);
+  font-size: 1.15em;
+}
+.markdown-preview.markdown-preview h6 {
+  color: var(--red);
+}
+.markdown-preview.markdown-preview strong {
+  color: var(--yellow);
+  font-weight: 700;
+}
+.markdown-preview.markdown-preview em {
+  color: var(--cyan);
+}
+.markdown-preview.markdown-preview del {
+  color: #777;
+}
+.markdown-preview.markdown-preview a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+.markdown-preview.markdown-preview a:hover {
+  color: var(--pink);
+}
+.markdown-preview.markdown-preview li::marker {
+  color: var(--orange);
+}
+.markdown-preview.markdown-preview ul li {
+  margin: 4px 0;
+}
+.markdown-preview.markdown-preview blockquote {
+  background: linear-gradient(90deg, rgba(122, 162, 247, 0.15), rgba(187, 154, 247, 0.08));
+  border-left: 6px solid var(--blue);
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-family: "Kalam", cursive;
+  font-size: 1.05em;
+  color: #dce6ff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+.markdown-preview.markdown-preview blockquote p {
+  margin: 2px 0;
+}
+.markdown-preview.markdown-preview code {
+  font-family: "JetBrains Mono", monospace;
+  background: #20242f;
+  color: #c3e88d;
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid #3b4252;
+}
+.markdown-preview.markdown-preview pre {
+  background: #1b1f27 !important;
+  color: #ffffff !important;
+  border-radius: 16px;
+  border: 1px solid #607d8b;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  overflow-x: auto;
+}
+.markdown-preview.markdown-preview pre code {
+  display: block;
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  color: #ffffff !important;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 4;
+}
+.markdown-preview.markdown-preview pre code.hljs {
+  background: transparent !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-comment,
+.markdown-preview.markdown-preview pre code .hljs-quote,
+.markdown-preview.markdown-preview pre code .token.comment,
+.markdown-preview.markdown-preview pre code .token.prolog,
+.markdown-preview.markdown-preview pre code .token.doctype {
+  color: #b0bec5 !important;
+  font-style: italic;
+}
+.markdown-preview.markdown-preview pre code .hljs-keyword,
+.markdown-preview.markdown-preview pre code .hljs-selector-tag,
+.markdown-preview.markdown-preview pre code .hljs-literal,
+.markdown-preview.markdown-preview pre code .hljs-meta,
+.markdown-preview.markdown-preview pre code .token.keyword,
+.markdown-preview.markdown-preview pre code .token.boolean,
+.markdown-preview.markdown-preview pre code .token.constant {
+  color: #d9a7ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-string,
+.markdown-preview.markdown-preview pre code .hljs-doctag,
+.markdown-preview.markdown-preview pre code .hljs-regexp,
+.markdown-preview.markdown-preview pre code .token.string,
+.markdown-preview.markdown-preview pre code .token.char,
+.markdown-preview.markdown-preview pre code .token.regex {
+  color: #c3e88d !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-number,
+.markdown-preview.markdown-preview pre code .hljs-symbol,
+.markdown-preview.markdown-preview pre code .hljs-bullet,
+.markdown-preview.markdown-preview pre code .token.number,
+.markdown-preview.markdown-preview pre code .token.symbol {
+  color: #ffab91 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-title,
+.markdown-preview.markdown-preview pre code .hljs-section,
+.markdown-preview.markdown-preview pre code .hljs-function .hljs-title,
+.markdown-preview.markdown-preview pre code .token.function,
+.markdown-preview.markdown-preview pre code .token.method {
+  color: #82b1ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-variable,
+.markdown-preview.markdown-preview pre code .hljs-template-variable,
+.markdown-preview.markdown-preview pre code .hljs-attr,
+.markdown-preview.markdown-preview pre code .hljs-attribute,
+.markdown-preview.markdown-preview pre code .token.property,
+.markdown-preview.markdown-preview pre code .token.attr-name {
+  color: #ffe082 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-built_in,
+.markdown-preview.markdown-preview pre code .hljs-class .hljs-title,
+.markdown-preview.markdown-preview pre code .hljs-name,
+.markdown-preview.markdown-preview pre code .hljs-type,
+.markdown-preview.markdown-preview pre code .token.class-name,
+.markdown-preview.markdown-preview pre code .token.builtin,
+.markdown-preview.markdown-preview pre code .token.namespace {
+  color: #80d8ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-params,
+.markdown-preview.markdown-preview pre code .hljs-subst,
+.markdown-preview.markdown-preview pre code .token.parameter {
+  color: #ffffff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-addition,
+.markdown-preview.markdown-preview pre code .token.inserted {
+  color: #c3e88d !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-deletion,
+.markdown-preview.markdown-preview pre code .token.deleted {
+  color: #ff8a80 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-punctuation,
+.markdown-preview.markdown-preview pre code .hljs-operator,
+.markdown-preview.markdown-preview pre code .token.punctuation,
+.markdown-preview.markdown-preview pre code .token.operator {
+  color: #84ffff !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
+  margin: 16px 0;
+}
+.markdown-preview.markdown-preview table {
+  display: table;
+  width: auto;
+  max-width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+.markdown-preview.markdown-preview th {
+  background: linear-gradient(90deg, #3b4261, #2b3050);
+  color: var(--yellow);
+  padding: 9px 12px;
+}
+.markdown-preview.markdown-preview th + th {
+  border-left: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview td {
+  background: #171b28;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview td + td {
+  border-left: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview tr:nth-child(even) td {
+  background: #1b2132;
+}
+.markdown-preview.markdown-preview img {
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--border);
+  margin: 14px auto 14px 0;
+  display: block;
+}
+.markdown-preview.markdown-preview input[type="checkbox"] {
+  transform: scale(1.4);
+  accent-color: var(--green);
+  margin-right: 10px;
+}
+.markdown-preview.markdown-preview ::selection {
+  background: var(--purple);
+  color: white;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar {
+  width: 12px;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar-track {
+  background: #12151f;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--blue), var(--purple));
+  border-radius: 20px;
+}
+.markdown-preview.markdown-preview .mermaid {
+  background: #1b2030;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.markdown-preview.markdown-preview .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+.markdown-preview.markdown-preview .mermaid .edgePath path,
+.markdown-preview.markdown-preview .mermaid .flowchart-link,
+.markdown-preview.markdown-preview .mermaid .messageLine0,
+.markdown-preview.markdown-preview .mermaid .messageLine1,
+.markdown-preview.markdown-preview .mermaid .relationshipLine {
+  stroke: var(--cyan) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid marker path,
+.markdown-preview.markdown-preview .mermaid .arrowheadPath {
+  fill: var(--cyan) !important;
+  stroke: var(--cyan) !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel,
+.markdown-preview.markdown-preview .mermaid .edgeLabel p,
+.markdown-preview.markdown-preview .mermaid .edgeLabel span,
+.markdown-preview.markdown-preview .mermaid .edgeLabel text,
+.markdown-preview.markdown-preview .mermaid .edgeLabel tspan,
+.markdown-preview.markdown-preview .mermaid .labelText,
+.markdown-preview.markdown-preview .mermaid .messageText,
+.markdown-preview.markdown-preview .mermaid .loopText,
+.markdown-preview.markdown-preview .mermaid .relationshipLabel {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel,
+.markdown-preview.markdown-preview .mermaid .labelBkg {
+  background-color: #111827 !important;
+  fill: #111827 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel rect,
+.markdown-preview.markdown-preview .mermaid .label-container {
+  background: #111827 !important;
+  fill: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel p,
+.markdown-preview.markdown-preview .mermaid .edgeLabel span,
+.markdown-preview.markdown-preview .mermaid .edgeLabel div {
+  margin: 0 !important;
+  padding: 0 4px !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid foreignObject,
+.markdown-preview.markdown-preview .mermaid .edgeLabel {
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid .nodeLabel,
+.markdown-preview.markdown-preview .mermaid .nodeLabel p,
+.markdown-preview.markdown-preview .mermaid .nodeLabel span,
+.markdown-preview.markdown-preview .mermaid .label text,
+.markdown-preview.markdown-preview .mermaid .label tspan,
+.markdown-preview.markdown-preview .mermaid text,
+.markdown-preview.markdown-preview .mermaid tspan {
+  color: #f8fafc !important;
+  fill: #f8fafc !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel text,
+.markdown-preview.markdown-preview .mermaid .edgeLabel tspan,
+.markdown-preview.markdown-preview .mermaid .edgeLabel .label,
+.markdown-preview.markdown-preview .mermaid .edgeLabel .label * {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid rect.actor,
+.markdown-preview.markdown-preview .mermaid .actor-box {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid text.actor,
+.markdown-preview.markdown-preview .mermaid text.actor tspan,
+.markdown-preview.markdown-preview .mermaid .actor text,
+.markdown-preview.markdown-preview .mermaid .actor text tspan {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+.markdown-preview.markdown-preview .mermaid .actor-line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node rect,
+.markdown-preview.markdown-preview .mermaid .node polygon,
+.markdown-preview.markdown-preview .mermaid .node .label-container {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node text,
+.markdown-preview.markdown-preview .mermaid .node tspan,
+.markdown-preview.markdown-preview .mermaid .node .label,
+.markdown-preview.markdown-preview .mermaid .node .label p,
+.markdown-preview.markdown-preview .mermaid .node .label span,
+.markdown-preview.markdown-preview .mermaid .node .label div {
+  fill: #f8fafc !important;
+  color: #f8fafc !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup rect,
+.markdown-preview.markdown-preview .mermaid .classLabel .box {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup text,
+.markdown-preview.markdown-preview .mermaid .classGroup tspan,
+.markdown-preview.markdown-preview .mermaid .classLabel text,
+.markdown-preview.markdown-preview .mermaid .classLabel tspan {
+  fill: #111827 !important;
+  color: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel p,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel span,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel div,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] text,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] tspan {
+  fill: #111827 !important;
+  color: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .activation0,
+.markdown-preview.markdown-preview .mermaid .activation1,
+.markdown-preview.markdown-preview .mermaid .activation2 {
+  fill: #263238 !important;
+  stroke: var(--cyan) !important;
+}
+.markdown-preview.markdown-preview .mermaid .note {
+  fill: #263238 !important;
+  stroke: var(--yellow) !important;
+}
+.markdown-preview.markdown-preview .mermaid .noteText,
+.markdown-preview.markdown-preview .mermaid .noteText tspan,
+.markdown-preview.markdown-preview .mermaid .sequenceNumber {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid .loopLine,
+.markdown-preview.markdown-preview .mermaid .labelBox {
+  fill: #1b2030 !important;
+  stroke: var(--purple) !important;
+}
+.markdown-preview.markdown-preview .katex-display {
+  background: #181c28;
+  border-radius: 8px;
+  padding: 14px;
+}
+.markdown-preview.markdown-preview p {
+  margin: 10px 0;
+}
+/*====================================================
+Markdown Preview Enhanced index / sidebar
+=====================================================*/
+.md-sidebar-toc,
+.md-sidebar-toc.md-sidebar-toc,
+.markdown-preview-enhanced-toc,
+.markdown-preview-enhanced-toc.md-preview-toc {
+  background: #171a26 !important;
+  color: #d7dae0 !important;
+  border-color: #30364d !important;
+  font-family: "Kalam", cursive;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.md-sidebar-toc a,
+.markdown-preview-enhanced-toc a {
+  color: #b9c7e8 !important;
+}
+.md-sidebar-toc a:hover,
+.md-sidebar-toc a.active,
+.markdown-preview-enhanced-toc a:hover,
+.markdown-preview-enhanced-toc a.active {
+  color: #7dcfff !important;
+  background: #24283b !important;
+}
+.md-sidebar-toc ul,
+.markdown-preview-enhanced-toc ul {
+  padding-left: 16px;
+}
+@media (max-width: 700px) {
+  .markdown-preview.markdown-preview {
+    font-size: 15px;
+    padding: 20px 16px;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. -->
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script>
+    </head>
+    <body for="html-export">
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="tries-and-string-matching">Tries and String Matching </h1>
+<blockquote>
+<p><strong>Core idea:</strong> tries turn prefix queries into O(L) tree walks; string-matching algorithms (KMP, Z, Rabin-Karp) avoid naive O(nm) by pre-processing structure once.<br>
+<strong>Recognise it when:</strong> "autocomplete / prefix search", "find pattern in text without backtracking", "longest palindromic substring", "repeated/duplicate substring", "multi-pattern search".<br>
+<strong>Costs:</strong> Trie insert/search O(L); KMP/Z O(n + m); Rabin-Karp O(n) avg; Manacher O(n).</p>
+</blockquote>
+<hr>
+<h2 id="mental-model">Mental Model </h2>
+<h3 id="trie">Trie </h3>
+<p>Each root-to-node path spells a prefix. The invariant: <strong>every node is the unique endpoint for exactly one prefix of the inserted strings</strong>. Walking <code>k</code> characters down always takes O(k) time regardless of how many words are stored.</p>
+<h3 id="kmp--z--rabin-karp">KMP / Z / Rabin-Karp </h3>
+<p>All three avoid re-scanning text characters by building a <em>pre-processed structure</em> over the pattern (or both strings):</p>
+<ul>
+<li><strong>KMP:</strong> the LPS array encodes "if mismatch at position j, the largest prefix of pattern[0..j-1] that could still match is lps[j-1] characters long — jump there, not back to 0".</li>
+<li><strong>Z-array:</strong> <code>Z[i]</code> = how many characters starting at <code>i</code> match the pattern's prefix — build once, read off matches in one pass.</li>
+<li><strong>Rabin-Karp:</strong> maintain a rolling polynomial hash so each window shift is O(1); verify the actual strings only on a hash collision.</li>
+</ul>
+<hr>
+<h2 id="complexity-reference">Complexity Reference </h2>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Time</th>
+<th>Space</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trie insert / search / startsWith</td>
+<td>O(L)</td>
+<td>O(L) per word</td>
+<td>L = word length</td>
+</tr>
+<tr>
+<td>Trie total space (26-array)</td>
+<td>—</td>
+<td>O(26 × nodes)</td>
+<td>26 children even if sparse</td>
+</tr>
+<tr>
+<td>Trie total space (Dictionary)</td>
+<td>—</td>
+<td>O(nodes)</td>
+<td>better for large/unknown alphabet</td>
+</tr>
+<tr>
+<td>KMP build LPS</td>
+<td>O(m)</td>
+<td>O(m)</td>
+<td>m = pattern length</td>
+</tr>
+<tr>
+<td>KMP search</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>n = text length</td>
+</tr>
+<tr>
+<td>Z-array construction</td>
+<td>O(n + m)</td>
+<td>O(n + m)</td>
+<td>on concatenated string</td>
+</tr>
+<tr>
+<td>Rabin-Karp avg / worst</td>
+<td>O(n) / O(nm)</td>
+<td>O(1)</td>
+<td>verify on hash match!</td>
+</tr>
+<tr>
+<td>Manacher</td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td>after <a class="tag" data-tag="-transform" href="tag://-transform">#-transform</a></td>
+</tr>
+<tr>
+<td>Aho-Corasick build</td>
+<td>O(Σ|pᵢ| · α)</td>
+<td>O(Σ|pᵢ| · α)</td>
+<td>α = alphabet size</td>
+</tr>
+<tr>
+<td>Aho-Corasick search</td>
+<td>O(n + matches)</td>
+<td>O(1) extra</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="templates">Templates </h2>
+<h3 id="1--trie-fixed-array-children-lowercase-a-z-only">1 — Trie: fixed-array children (lowercase a-z only) </h3>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Use when: alphabet is known and small (26 letters).</span>
+<span class="token comment">// Time: O(L) per op. Space: O(26 × nodes) — can be large if many short words.</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">TrieNode</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">TrieNode<span class="token punctuation">?</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> Children <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">TrieNode</span><span class="token punctuation">[</span><span class="token number">26</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name"><span class="token keyword keyword-bool">bool</span></span> IsEnd<span class="token punctuation">;</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> PrefixCount<span class="token punctuation">;</span> <span class="token comment">// optional: count words with this prefix</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">Trie</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-readonly">readonly</span> <span class="token class-name">TrieNode</span> _root <span class="token operator">=</span> <span class="token keyword keyword-new">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-void">void</span></span> <span class="token function">Insert</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> word<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> _root<span class="token punctuation">;</span>
+        <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-var">var</span></span> c <span class="token keyword keyword-in">in</span> word<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> c <span class="token operator">-</span> <span class="token char">'a'</span><span class="token punctuation">;</span>
+            cur<span class="token punctuation">.</span>Children<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">??=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">TrieNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Children<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">!</span><span class="token punctuation">;</span>
+            cur<span class="token punctuation">.</span>PrefixCount<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        cur<span class="token punctuation">.</span>IsEnd <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-bool">bool</span></span> <span class="token function">Search</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> word<span class="token punctuation">)</span>    <span class="token operator">=&gt;</span> <span class="token function">Walk</span><span class="token punctuation">(</span>word<span class="token punctuation">)</span><span class="token punctuation">?.</span>IsEnd <span class="token operator">==</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-bool">bool</span></span> <span class="token function">StartsWith</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> pre<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">Walk</span><span class="token punctuation">(</span>pre<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span>  <span class="token function">CountPrefix</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> pre<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">Walk</span><span class="token punctuation">(</span>pre<span class="token punctuation">)</span><span class="token punctuation">?.</span>PrefixCount <span class="token operator">??</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-private">private</span> <span class="token return-type class-name">TrieNode<span class="token punctuation">?</span></span> <span class="token function">Walk</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> _root<span class="token punctuation">;</span>
+        <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-var">var</span></span> c <span class="token keyword keyword-in">in</span> s<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Children<span class="token punctuation">[</span>c <span class="token operator">-</span> <span class="token char">'a'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>cur <span class="token operator">==</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-return">return</span> cur<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="2--trie-dictionary-children-arbitrary-alphabet--unicode">2 — Trie: Dictionary children (arbitrary alphabet / Unicode) </h3>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Use when: alphabet is large, unknown, or contains non-ASCII characters.</span>
+<span class="token comment">// Time: O(L) per op. Space: O(nodes) — no wasted 26-slots.</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">TrieNode</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Dictionary<span class="token punctuation">&lt;</span><span class="token keyword keyword-char">char</span><span class="token punctuation">,</span> TrieNode<span class="token punctuation">&gt;</span></span> Children <span class="token operator">=</span> <span class="token keyword keyword-new">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name"><span class="token keyword keyword-bool">bool</span></span> IsEnd<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Fixed-array vs Dictionary trade-off:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Fixed <code>TrieNode[26]</code></th>
+<th><code>Dictionary&lt;char, TrieNode&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Access time</td>
+<td><strong>O(1)</strong></td>
+<td>O(1) avg</td>
+</tr>
+<tr>
+<td>Memory per node</td>
+<td><strong>Always 26 × 8 = 208 B</strong></td>
+<td>O(actual children)</td>
+</tr>
+<tr>
+<td>Works for Unicode</td>
+<td>❌</td>
+<td><strong>✅</strong></td>
+</tr>
+<tr>
+<td>Cache-friendly</td>
+<td><strong>✅</strong></td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Prefer when</td>
+<td>a-z only, dense</td>
+<td>large/variable alphabet</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3--binary-trie-maximum-xor">3 — Binary Trie (Maximum XOR) </h3>
+<p>Insert 32-bit integers bit-by-bit from MSB. To maximise XOR with a query, greedily take the <strong>opposite</strong> bit at each level.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Use when: "maximum XOR of two numbers" (LeetCode 421).</span>
+<span class="token comment">// Time: O(32 × n) build + O(32) query. Space: O(32 × n).</span>
+<span class="token keyword keyword-class">class</span> <span class="token class-name">BitTrieNode</span> <span class="token punctuation">{</span> <span class="token keyword keyword-public">public</span> <span class="token class-name">BitTrieNode<span class="token punctuation">?</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> C <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">BitTrieNode</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+<span class="token keyword keyword-class">class</span> <span class="token class-name">BitTrie</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-readonly">readonly</span> <span class="token class-name">BitTrieNode</span> _root <span class="token operator">=</span> <span class="token keyword keyword-new">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-void">void</span></span> <span class="token function">Insert</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> num<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> _root<span class="token punctuation">;</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> b <span class="token operator">=</span> <span class="token number">31</span><span class="token punctuation">;</span> b <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span> b<span class="token operator">--</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-int">int</span></span> bit <span class="token operator">=</span> <span class="token punctuation">(</span>num <span class="token operator">&gt;&gt;</span> b<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            cur<span class="token punctuation">.</span>C<span class="token punctuation">[</span>bit<span class="token punctuation">]</span> <span class="token operator">??=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">BitTrieNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>C<span class="token punctuation">[</span>bit<span class="token punctuation">]</span><span class="token operator">!</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Returns the maximum XOR of num with any previously inserted number.</span>
+    <span class="token keyword keyword-public">public</span> <span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">MaxXor</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> num<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> cur <span class="token operator">=</span> _root<span class="token punctuation">;</span>
+        <span class="token class-name"><span class="token keyword keyword-int">int</span></span> result <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> b <span class="token operator">=</span> <span class="token number">31</span><span class="token punctuation">;</span> b <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span> b<span class="token operator">--</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-int">int</span></span> bit <span class="token operator">=</span> <span class="token punctuation">(</span>num <span class="token operator">&gt;&gt;</span> b<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token class-name"><span class="token keyword keyword-int">int</span></span> want <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">-</span> bit<span class="token punctuation">;</span>          <span class="token comment">// greedy: prefer opposite bit</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>cur<span class="token punctuation">.</span>C<span class="token punctuation">[</span>want<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> result <span class="token operator">|=</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>C<span class="token punctuation">[</span>want<span class="token punctuation">]</span><span class="token operator">!</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+            <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>cur<span class="token punctuation">.</span>C<span class="token punctuation">[</span>bit<span class="token punctuation">]</span>  <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>C<span class="token punctuation">[</span>bit<span class="token punctuation">]</span><span class="token operator">!</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+            <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-break">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-return">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Why it works:</strong> XOR is 1 only when bits differ. At each level we greedily choose the child whose bit <em>differs</em> from <code>num</code>'s bit, maximising the contribution of each position.</p>
+</blockquote>
+<h3 id="4--kmp-lps-construction--search">4 — KMP: LPS construction + search </h3>
+<p><strong>What <code>lps[i]</code> means:</strong> the length of the longest <em>proper</em> prefix of <code>pattern[0..i]</code> that is also a suffix of <code>pattern[0..i]</code>. "Proper" = not the whole string.</p>
+<p><strong>LPS trace for <code>"ababd"</code>:</strong></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>i=0: 'a'  lps[0]=0   (base case)
+i=1: 'b'  p[1]≠p[0]  → lps[1]=0
+i=2: 'a'  p[2]=p[0]  → lps[2]=1
+i=3: 'b'  p[3]=p[1]  → lps[3]=2
+i=4: 'd'  p[4]≠p[2]  → fall back: len=lps[1]=0; p[4]≠p[0] → lps[4]=0
+Result: [0,0,1,2,0]
+</code></pre><p><strong>Why the fallback <code>len = lps[len-1]</code> is correct:</strong> if <code>pattern[i] ≠ pattern[len]</code> we cannot extend the current match, but the longest <em>shorter</em> border is <code>lps[len-1]</code> — the largest prefix of <code>pattern[0..len-1]</code> that could still be a suffix. We retry with that length without advancing <code>i</code>.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Time: O(m) build, O(n) search. Space: O(m).</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> <span class="token function">BuildLPS</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> p<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> m <span class="token operator">=</span> p<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> lps <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> len <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> m<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>p<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> p<span class="token punctuation">[</span>len<span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token punctuation">{</span> lps<span class="token punctuation">[</span>i<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token operator">++</span>len<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>len <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>       <span class="token punctuation">{</span> len <span class="token operator">=</span> lps<span class="token punctuation">[</span>len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token comment">// fall back, don't advance i</span>
+        <span class="token keyword keyword-else">else</span>                    <span class="token punctuation">{</span> lps<span class="token punctuation">[</span>i<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> lps<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Standard two-pointer KMP search — returns all start indices.</span>
+<span class="token return-type class-name">List<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span></span> <span class="token function">KMPSearch</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> text<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-string">string</span></span> pattern<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pattern<span class="token punctuation">.</span>Length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span> <span class="token number">0</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> lps <span class="token operator">=</span> <span class="token function">BuildLPS</span><span class="token punctuation">(</span>pattern<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> result <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>                   <span class="token comment">// i = text pointer, j = pattern pointer</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> text<span class="token punctuation">.</span>Length<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>text<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> pattern<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            i<span class="token operator">++</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>j <span class="token operator">==</span> pattern<span class="token punctuation">.</span>Length<span class="token punctuation">)</span>    <span class="token comment">// full match</span>
+            <span class="token punctuation">{</span>
+                result<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>i <span class="token operator">-</span> j<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                j <span class="token operator">=</span> lps<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>         <span class="token comment">// look for overlapping matches</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>j <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>  <span class="token punctuation">{</span> j <span class="token operator">=</span> lps<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token comment">// mismatch after some match</span>
+        <span class="token keyword keyword-else">else</span>             <span class="token punctuation">{</span> i<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>             <span class="token comment">// mismatch at j=0: advance text</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>KMP search trace on <code>text="ababcabcabababd"</code>, <code>pattern="ababd"</code> (lps=[0,0,1,2,0]):</strong></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>i=0,j=0: a=a  i=1,j=1
+i=1,j=1: b=b  i=2,j=2
+i=2,j=2: a=a  i=3,j=3
+i=3,j=3: b=b  i=4,j=4
+i=4,j=4: c≠d  j→lps[3]=2
+i=4,j=2: c≠a  j→lps[1]=0
+i=4,j=0: c≠a  i=5
+i=5,j=0: a=a  i=6,j=1
+i=6,j=1: b=b  i=7,j=2
+i=7,j=2: c≠a  j→lps[1]=0
+i=7,j=0: c≠a  i=8
+i=8,j=0: a=a  i=9,j=1
+i=9,j=1: b=b  i=10,j=2
+i=10,j=2: a=a  i=11,j=3
+i=11,j=3: b=b  i=12,j=4
+i=12,j=4: a≠d  j→lps[3]=2
+i=12,j=2: a=a  i=13,j=3
+i=13,j=3: b=b  i=14,j=4
+i=14,j=4: d=d  match at index 10! j→lps[4]=0
+Result: [10]
+</code></pre><h3 id="5--z-algorithm">5 — Z-Algorithm </h3>
+<p><code>Z[i]</code> = length of the longest substring starting at <code>i</code> that matches a prefix of <code>s</code>.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Time: O(n). Space: O(n).</span>
+<span class="token comment">// Pattern search: s = pattern + '$' + text; any Z[i] == pattern.Length is a match at text[i - m - 1].</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> <span class="token function">ZArray</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n <span class="token operator">=</span> s<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> z <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> l <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> r <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> r<span class="token punctuation">)</span> z<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Min</span><span class="token punctuation">(</span>r <span class="token operator">-</span> i<span class="token punctuation">,</span> z<span class="token punctuation">[</span>i <span class="token operator">-</span> l<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> z<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> n <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">[</span>z<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">==</span> s<span class="token punctuation">[</span>i <span class="token operator">+</span> z<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> z<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> z<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&gt;</span> r<span class="token punctuation">)</span> <span class="token punctuation">{</span> l <span class="token operator">=</span> i<span class="token punctuation">;</span> r <span class="token operator">=</span> i <span class="token operator">+</span> z<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> z<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Z-array trace for <code>s = "aab$aab"</code> (pattern <code>"aab"</code>, sentinel <code>'$'</code>, text <code>"aab"</code>):</strong></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Index: 0  1  2  3  4  5  6
+Char:  a  a  b  $  a  a  b
+Z:     -  1  0  0  3  1  0
+Z[4]=3 = pattern.Length → match at text position 4 - 3 - 1 = 0 ✓
+</code></pre><h3 id="6--rabin-karp-rolling-hash">6 — Rabin-Karp Rolling Hash </h3>
+<p><strong>Hash recurrence:</strong> <code>hash(s[i..i+m-1]) = (hash(s[i-1..i+m-2]) - s[i-1]·BASE^(m-1)) · BASE + s[i+m-1]</code> (all mod <code>MOD</code>).</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Time: O(n+m) average, O(nm) worst. Space: O(1).</span>
+<span class="token comment">// Always verify text.Substring on a hash match — hashes can collide.</span>
+<span class="token return-type class-name"><span class="token keyword keyword-bool">bool</span></span> <span class="token function">RabinKarp</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> text<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-string">string</span></span> pattern<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-const">const</span> <span class="token class-name"><span class="token keyword keyword-long">long</span></span> Base <span class="token operator">=</span> <span class="token number">31</span><span class="token punctuation">,</span> Mod <span class="token operator">=</span> <span class="token number">1_000_000_007</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> m <span class="token operator">=</span> pattern<span class="token punctuation">.</span>Length<span class="token punctuation">,</span> n <span class="token operator">=</span> text<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>m <span class="token operator">&gt;</span> n<span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+    <span class="token class-name"><span class="token keyword keyword-long">long</span></span> ph <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> th <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> power <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> m <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> power <span class="token operator">=</span> power <span class="token operator">*</span> Base <span class="token operator">%</span> Mod<span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        ph <span class="token operator">=</span> <span class="token punctuation">(</span>ph <span class="token operator">*</span> Base <span class="token operator">+</span> <span class="token punctuation">(</span>pattern<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token char">'a'</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">%</span> Mod<span class="token punctuation">;</span>
+        th <span class="token operator">=</span> <span class="token punctuation">(</span>th <span class="token operator">*</span> Base <span class="token operator">+</span> <span class="token punctuation">(</span>text<span class="token punctuation">[</span>i<span class="token punctuation">]</span>    <span class="token operator">-</span> <span class="token char">'a'</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">%</span> Mod<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n <span class="token operator">-</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>ph <span class="token operator">==</span> th <span class="token operator">&amp;&amp;</span> text<span class="token punctuation">.</span><span class="token function">Substring</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> m<span class="token punctuation">)</span> <span class="token operator">==</span> pattern<span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> n <span class="token operator">-</span> m<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token comment">// Remove leading character, add trailing character</span>
+            th <span class="token operator">=</span> <span class="token punctuation">(</span>th <span class="token operator">-</span> <span class="token punctuation">(</span>text<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token char">'a'</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> power <span class="token operator">%</span> Mod <span class="token operator">+</span> Mod<span class="token punctuation">)</span> <span class="token operator">%</span> Mod<span class="token punctuation">;</span>
+            th <span class="token operator">=</span> <span class="token punctuation">(</span>th <span class="token operator">*</span> Base <span class="token operator">+</span> <span class="token punctuation">(</span>text<span class="token punctuation">[</span>i <span class="token operator">+</span> m<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token char">'a'</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">%</span> Mod<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Trap:</strong> the original code had <code>th = (th - text[i] * power % Mod + Mod) * Base % Mod + text[i + m]; th %= Mod;</code> — this is wrong because <code>text[i]</code> is a <code>char</code> (raw Unicode value, not 1-based offset), and the <code>+ text[i+m]</code> before <code>%=</code> can overflow or miss the mod. The corrected version above uses <code>(c - 'a' + 1)</code> consistently and applies <code>% Mod</code> after each addition.</p>
+</blockquote>
+<p><strong>Double hashing</strong> (two independent <code>(Base, Mod)</code> pairs) reduces collision probability to ~1/10¹⁸ — use it for Longest Duplicate Substring (LeetCode 1044).</p>
+<h3 id="7--manachers-algorithm">7 — Manacher's Algorithm </h3>
+<p>Finds the longest palindromic substring (and all palindrome radii) in O(n).</p>
+<p><strong>Transform:</strong> insert <code>#</code> between every character and add sentinels: <code>"abc"</code> → <code>"^#a#b#c#$"</code>. This handles odd/even lengths uniformly — every palindrome in the transformed string is centred on a <code>#</code> or a real character.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Time: O(n). Space: O(n). Expand-around-centre O(n²) is usually fine in interviews.</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">LongestPalindrome_Manacher</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment">// Build transformed string: ^ # a # b # a # $</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> t <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">System<span class="token punctuation">.</span>Text<span class="token punctuation">.</span>StringBuilder</span><span class="token punctuation">(</span><span class="token string">"^"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-char">char</span></span> c <span class="token keyword keyword-in">in</span> s<span class="token punctuation">)</span> <span class="token punctuation">{</span> t<span class="token punctuation">.</span><span class="token function">Append</span><span class="token punctuation">(</span><span class="token char">'#'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> t<span class="token punctuation">.</span><span class="token function">Append</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    t<span class="token punctuation">.</span><span class="token function">Append</span><span class="token punctuation">(</span><span class="token string">"#$"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-string">string</span></span> T <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n <span class="token operator">=</span> T<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> P <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>   <span class="token comment">// P[i] = palindrome radius at T[i] (in transformed coords)</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> C <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> R <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>       <span class="token comment">// C = centre of rightmost palindrome, R = its right boundary</span>
+
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-int">int</span></span> mirror <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> C <span class="token operator">-</span> i<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> R<span class="token punctuation">)</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Min</span><span class="token punctuation">(</span>R <span class="token operator">-</span> i<span class="token punctuation">,</span> P<span class="token punctuation">[</span>mirror<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Attempt to expand</span>
+        <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>T<span class="token punctuation">[</span>i <span class="token operator">+</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> T<span class="token punctuation">[</span>i <span class="token operator">-</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// Update rightmost palindrome</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&gt;</span> R<span class="token punctuation">)</span> <span class="token punctuation">{</span> C <span class="token operator">=</span> i<span class="token punctuation">;</span> R <span class="token operator">=</span> i <span class="token operator">+</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// Find the maximum radius and convert back to original string indices</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> maxLen <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> centre <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&gt;</span> maxLen<span class="token punctuation">)</span> <span class="token punctuation">{</span> maxLen <span class="token operator">=</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> centre <span class="token operator">=</span> i<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+    <span class="token comment">// centre in T corresponds to original index: (centre - 1) / 2</span>
+    <span class="token comment">// length in original string = maxLen</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> start <span class="token operator">=</span> <span class="token punctuation">(</span>centre <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">-</span> maxLen<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> maxLen<span class="token punctuation">;</span> <span class="token comment">// or return s.Substring(start, maxLen);</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Mirror trick:</strong> if <code>i</code> lies inside the rightmost palindrome <code>[C-R, C+R]</code>, its mirror <code>mirror = 2C - i</code> has already been computed. <code>P[i] ≥ min(R - i, P[mirror])</code> — the smaller of the two avoids going outside the known boundary. We then try to extend.</p>
+<p><strong>Index conversion:</strong> a position <code>i</code> in <code>T</code> corresponds to original index <code>(i - 1) / 2</code>. The palindrome of radius <code>P[i]</code> in <code>T</code> has length <code>P[i]</code> in the original string. Start index = <code>(i - 1 - P[i]) / 2</code>.</p>
+<h3 id="8--expand-around-centre-interview-default-for-palindromes">8 — Expand-Around-Centre (interview default for palindromes) </h3>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Time: O(n²). Space: O(1). Use this unless O(n) is explicitly required.</span>
+<span class="token return-type class-name"><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> start<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> len<span class="token punctuation">)</span></span> <span class="token function">Expand</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> lo<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> hi<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>lo <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> hi <span class="token operator">&lt;</span> s<span class="token punctuation">.</span>Length <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">[</span>lo<span class="token punctuation">]</span> <span class="token operator">==</span> s<span class="token punctuation">[</span>hi<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> lo<span class="token operator">--</span><span class="token punctuation">;</span> hi<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span>lo <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> hi <span class="token operator">-</span> lo <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token return-type class-name"><span class="token keyword keyword-string">string</span></span> <span class="token function">LongestPalindromicSubstring</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> start <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> maxLen <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> s<span class="token punctuation">.</span>Length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-var">var</span> <span class="token punctuation">(</span>s1<span class="token punctuation">,</span> l1<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">Expand</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> i<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// odd length</span>
+        <span class="token keyword keyword-var">var</span> <span class="token punctuation">(</span>s2<span class="token punctuation">,</span> l2<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">Expand</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> i<span class="token punctuation">,</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// even length</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>l1 <span class="token operator">&gt;</span> maxLen<span class="token punctuation">)</span> <span class="token punctuation">{</span> start <span class="token operator">=</span> s1<span class="token punctuation">;</span> maxLen <span class="token operator">=</span> l1<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>l2 <span class="token operator">&gt;</span> maxLen<span class="token punctuation">)</span> <span class="token punctuation">{</span> start <span class="token operator">=</span> s2<span class="token punctuation">;</span> maxLen <span class="token operator">=</span> l2<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> s<span class="token punctuation">.</span><span class="token function">Substring</span><span class="token punctuation">(</span>start<span class="token punctuation">,</span> maxLen<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="palindrome-techniques--comparison">Palindrome Techniques — Comparison </h2>
+<table>
+<thead>
+<tr>
+<th>Technique</th>
+<th>Time</th>
+<th>Space</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expand-around-centre</td>
+<td>O(n²)</td>
+<td><strong>O(1)</strong></td>
+<td>Longest/count palindromes; interview default</td>
+</tr>
+<tr>
+<td>DP table <code>isPalin[i][j]</code></td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>Precompute all palindromes for partitioning</td>
+</tr>
+<tr>
+<td>Manacher</td>
+<td><strong>O(n)</strong></td>
+<td>O(n)</td>
+<td>When O(n) explicitly required</td>
+</tr>
+<tr>
+<td>KMP on <code>s+'#'+rev(s)</code></td>
+<td>O(n)</td>
+<td>O(n)</td>
+<td><strong>Shortest palindrome</strong> by prepending</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="trie-applications">Trie Applications </h2>
+<h3 id="autocomplete--search-suggestions-leetcode-1268">Autocomplete / Search Suggestions (LeetCode 1268) </h3>
+<p>Trie + DFS from prefix node. Collect words lexicographically:</p>
+<ul>
+<li><strong>Top-K:</strong> store a max-heap of size K at each node during insert, or DFS and stop early (words already sorted).</li>
+<li><strong>All words:</strong> DFS collecting <code>IsEnd</code> nodes, return first 3.</li>
+</ul>
+<h3 id="wildcard-search--matches-any-character--leetcode-211">Wildcard Search (<code>.</code> matches any character) — LeetCode 211 </h3>
+<p>At a <code>.</code> in the query, recurse into <strong>every non-null child</strong>. Worst case O(26^L) but pruned heavily in practice.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token return-type class-name"><span class="token keyword keyword-bool">bool</span></span> <span class="token function">Search</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> word<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> idx<span class="token punctuation">,</span> <span class="token class-name">TrieNode</span> node<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>idx <span class="token operator">==</span> word<span class="token punctuation">.</span>Length<span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> node<span class="token punctuation">.</span>IsEnd<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-char">char</span></span> c <span class="token operator">=</span> word<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>c <span class="token operator">!=</span> <span class="token char">'.'</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-return">return</span> node<span class="token punctuation">.</span>Children<span class="token punctuation">[</span>c <span class="token operator">-</span> <span class="token char">'a'</span><span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> <span class="token function">Search</span><span class="token punctuation">(</span>word<span class="token punctuation">,</span> idx <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> node<span class="token punctuation">.</span>Children<span class="token punctuation">[</span>c <span class="token operator">-</span> <span class="token char">'a'</span><span class="token punctuation">]</span><span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-var">var</span></span> child <span class="token keyword keyword-in">in</span> node<span class="token punctuation">.</span>Children<span class="token punctuation">)</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>child <span class="token operator">!=</span> <span class="token keyword keyword-null">null</span> <span class="token operator">&amp;&amp;</span> <span class="token function">Search</span><span class="token punctuation">(</span>word<span class="token punctuation">,</span> idx <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> child<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="word-break-trie-accelerated--leetcode-139">Word Break (trie-accelerated) — LeetCode 139 </h3>
+<p>Build trie from dictionary. For each DP position <code>i</code>, walk the trie from <code>s[i]</code> forward; every <code>IsEnd</code> hit at <code>i + len</code> triggers <code>dp[i + len] = true</code>. Avoids re-hashing. Full DP explanation: <a href="../DynamicProgramming/DynamicProgramming.md">Dynamic Programming</a>.</p>
+<h3 id="maximum-xor--binary-trie">Maximum XOR — Binary Trie </h3>
+<p>See <strong>Template 3</strong> above. LeetCode 421.</p>
+<h3 id="ip-routing--longest-prefix-match">IP Routing / Longest Prefix Match </h3>
+<p>Trie of binary IP prefixes. Walk bit-by-bit; the deepest matching node gives the most-specific route.</p>
+<h3 id="compressed-trie--radix-tree">Compressed Trie / Radix Tree </h3>
+<p>Merge chains of single-child nodes into one edge labelled with a substring. Reduces node count from O(total characters) to O(number of words). Used in routing tables and some lock-free data structures (<code>ConcurrentDictionary</code> internals).</p>
+<hr>
+<h2 id="kmp--lps-only-applications">KMP — LPS-Only Applications </h2>
+<p>Beyond substring search, the LPS array alone solves several problems:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Key observation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Shortest palindrome</strong> (LC 214)</td>
+<td>Concatenate <code>s + '#' + rev(s)</code>; LPS of the whole string = longest palindromic prefix of <code>s</code>; prepend the rest of <code>rev(s)</code>.</td>
+</tr>
+<tr>
+<td><strong>Repeated substring pattern</strong> (LC 459)</td>
+<td><code>s</code> has a repeated period iff <code>s.Length % (s.Length - lps[m-1]) == 0</code>.</td>
+</tr>
+<tr>
+<td><strong>Longest prefix that is also a suffix</strong></td>
+<td>Directly <code>lps[m-1]</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="aho-corasick-conceptual">Aho-Corasick (Conceptual) </h2>
+<p><strong>Structure:</strong> trie of all patterns + <strong>failure links</strong> (like KMP's lps, but cross-pattern). Each node's failure link points to the longest proper suffix of the current prefix that is also a prefix of some pattern.</p>
+<p><strong>Search:</strong> walk the text character by character through the trie, following failure links on mismatch. One pass, O(n + matches).</p>
+<p><strong>Use case:</strong> multi-pattern search where patterns are fixed (spam filtering, intrusion detection, DNA motif search). O(Σ|pᵢ| · α) build; O(n + matches) search.</p>
+<p>No full implementation needed in an interview — describe the structure and state the complexity.</p>
+<hr>
+<h2 id="string-matching-algorithm-comparison">String Matching Algorithm Comparison </h2>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Preprocessing</th>
+<th>Search</th>
+<th>Space</th>
+<th><strong>Best for</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Naive</td>
+<td>O(1)</td>
+<td>O(nm)</td>
+<td>O(1)</td>
+<td>Short text/pattern</td>
+</tr>
+<tr>
+<td><strong>KMP</strong></td>
+<td>O(m)</td>
+<td><strong>O(n)</strong></td>
+<td>O(m)</td>
+<td>Single pattern, overlapping matches</td>
+</tr>
+<tr>
+<td><strong>Z-algorithm</strong></td>
+<td>O(n+m)</td>
+<td>O(n+m)</td>
+<td>O(n+m)</td>
+<td>Prefix-based queries, palindrome tricks</td>
+</tr>
+<tr>
+<td><strong>Rabin-Karp</strong></td>
+<td>O(m)</td>
+<td>O(n) avg</td>
+<td>O(1)</td>
+<td>Multi-pattern, duplicate substring</td>
+</tr>
+<tr>
+<td><strong>Aho-Corasick</strong></td>
+<td>O(Σ|pᵢ|·α)</td>
+<td>O(n+matches)</td>
+<td>O(Σ|pᵢ|·α)</td>
+<td>Many patterns simultaneously</td>
+</tr>
+<tr>
+<td>Boyer-Moore</td>
+<td>O(m+α)</td>
+<td>O(n/m) best</td>
+<td>O(m+α)</td>
+<td>Large alphabets, long patterns (rarely needed in interviews)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="suffix-array--lcp-array-conceptual">Suffix Array + LCP Array (Conceptual) </h2>
+<p><strong>Suffix array SA:</strong> sorted array of all suffix start indices of string <code>s</code>.<br>
+<strong>LCP array:</strong> <code>LCP[i]</code> = length of longest common prefix between <code>SA[i-1]</code> and <code>SA[i]</code> (adjacent sorted suffixes).</p>
+<p><strong>Build:</strong> O(n log n) with prefix-doubling; O(n) with DC3/SA-IS (out of interview scope).</p>
+<p><strong>Use cases:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Query</th>
+<th>Answer via SA+LCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Longest repeated substring</td>
+<td><code>max(LCP)</code></td>
+</tr>
+<tr>
+<td>Number of distinct substrings</td>
+<td><code>n(n+1)/2 - sum(LCP)</code></td>
+</tr>
+<tr>
+<td>Longest common substring of two strings</td>
+<td>Concatenate with sentinel; find max LCP spanning both</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Suffix automaton / suffix tree achieve the same in O(n) time and O(n) space but are significantly more complex to implement — out of scope for most coding interviews. Use suffix array + LCP in contest/interview settings.</p>
+</blockquote>
+<hr>
+<h2 id="pattern-recognition">Pattern Recognition </h2>
+<table>
+<thead>
+<tr>
+<th>Problem says…</th>
+<th>Reach for</th>
+<th>Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"autocomplete", "words with prefix"</td>
+<td>Trie</td>
+<td>O(L) per query</td>
+</tr>
+<tr>
+<td>"wildcard search with <code>.</code>"</td>
+<td>Trie + DFS</td>
+<td>O(26^L) worst, pruned</td>
+</tr>
+<tr>
+<td>"find all words from list on board"</td>
+<td>Trie + grid DFS</td>
+<td>O(M·N·4^L)</td>
+</tr>
+<tr>
+<td>"maximum XOR of two numbers"</td>
+<td>Binary trie</td>
+<td>O(32n)</td>
+</tr>
+<tr>
+<td>"first occurrence of pattern in text"</td>
+<td>KMP</td>
+<td>O(n + m)</td>
+</tr>
+<tr>
+<td>"does string have a repeated period"</td>
+<td>KMP LPS</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>"shortest palindrome by prepending"</td>
+<td>KMP on <code>s+'#'+rev</code></td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>"any of K patterns in text"</td>
+<td>Aho-Corasick</td>
+<td>O(Σ|pᵢ| + n)</td>
+</tr>
+<tr>
+<td>"duplicate/repeated substring of length L"</td>
+<td>Rabin-Karp + binary search</td>
+<td>O(n log n)</td>
+</tr>
+<tr>
+<td>"repeated DNA sequence"</td>
+<td>Rolling hash or bitmask</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>"longest palindromic substring"</td>
+<td>Expand-around-centre</td>
+<td>O(n²) / O(1)</td>
+</tr>
+<tr>
+<td>"count palindromic substrings"</td>
+<td>Expand-around-centre</td>
+<td>O(n²) / O(1)</td>
+</tr>
+<tr>
+<td>"longest palindromic subsequence"</td>
+<td>DP — see <a href="../DynamicProgramming/DynamicProgramming.md">Dynamic Programming</a></td>
+<td>O(n²)</td>
+</tr>
+<tr>
+<td>"palindrome partitioning"</td>
+<td>DP <code>isPalin[i][j]</code> + backtrack — see <a href="../GreedyAndBacktracking/GreedyAndBacktracking.md">Greedy and Backtracking</a></td>
+<td>O(n²)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="pitfalls">Pitfalls </h2>
+<ul>
+<li><strong>Assuming lowercase-only alphabet</strong> — using a fixed <code>TrieNode[26]</code> array with uppercase, digits, or Unicode causes wrong index or <code>IndexOutOfRange</code>. Use <code>Dictionary&lt;char, TrieNode&gt;</code> for anything beyond a-z.</li>
+<li><strong>Forgetting <code>IsEnd</code> vs "node exists"</strong> — <code>Search("app")</code> must check <code>IsEnd</code>; <code>StartsWith("app")</code> checks only node ≠ null. Mixing them up is the most common trie bug.</li>
+<li><strong>Trie memory blow-up with 26-arrays</strong> — 10 000 words of average length 10 = 100 000 nodes × 26 × 8 bytes ≈ 20 MB. Switch to Dictionary children for large inputs.</li>
+<li><strong>Off-by-one in LPS</strong> — the fallback is <code>len = lps[len - 1]</code>, not <code>len = lps[len]</code> or <code>len--</code>. When <code>len == 0</code> and there is a mismatch, set <code>lps[i] = 0</code> and advance <code>i</code>; do not access <code>lps[-1]</code>.</li>
+<li><strong>Forgetting to verify on a Rabin-Karp hash match</strong> — hash collisions are rare but real. Always confirm with <code>text.Substring(i, m) == pattern</code>.</li>
+<li><strong><code>int</code> overflow in rolling hash</strong> — intermediate products like <code>hash * Base</code> can exceed <code>int.MaxValue</code>. Declare <code>hash</code>, <code>power</code>, <code>Base</code>, <code>Mod</code> as <code>long</code>; use <code>% Mod</code> after every multiplication.</li>
+<li><strong>Manacher index conversion</strong> — after finding max radius at position <code>i</code> in transformed string <code>T</code>, original start = <code>(i - 1 - P[i]) / 2</code>, length = <code>P[i]</code>. Skipping the <code>(i - 1)</code> shift is a common off-by-one.</li>
+<li><strong><code>string.Substring</code> is O(k) in C#</strong> — in an "O(n)" rolling-hash loop, calling <code>Substring</code> on every iteration silently makes it O(n·m). Only call it on hash matches (which should be rare).</li>
+<li><strong>Not pruning exhausted trie branches in Word Search II</strong> — without setting the word to <code>null</code> and removing leaf nodes, you revisit dead branches and TLE on large grids.</li>
+</ul>
+<hr>
+<h2 id="practice">Practice </h2>
+<p>→ See <a href="Problems.md">Problems.md</a> for full worked solutions.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>208</td>
+<td>Implement Trie</td>
+<td>Trie construction</td>
+</tr>
+<tr>
+<td>211</td>
+<td>Design Add and Search Words</td>
+<td>Trie + wildcard DFS</td>
+</tr>
+<tr>
+<td>212</td>
+<td>Word Search II</td>
+<td>Trie + grid DFS</td>
+</tr>
+<tr>
+<td>421</td>
+<td>Maximum XOR of Two Numbers</td>
+<td>Binary trie</td>
+</tr>
+<tr>
+<td>648</td>
+<td>Replace Words</td>
+<td>Trie prefix match</td>
+</tr>
+<tr>
+<td>720</td>
+<td>Longest Word in Dictionary</td>
+<td>Trie BFS/DFS</td>
+</tr>
+<tr>
+<td>1268</td>
+<td>Search Suggestions System</td>
+<td>Trie + sorted DFS</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Find the Index of the First Occurrence</td>
+<td>KMP</td>
+</tr>
+<tr>
+<td>459</td>
+<td>Repeated Substring Pattern</td>
+<td>KMP LPS</td>
+</tr>
+<tr>
+<td>214</td>
+<td>Shortest Palindrome</td>
+<td>KMP on <code>s+'#'+rev</code></td>
+</tr>
+<tr>
+<td>187</td>
+<td>Repeated DNA Sequences</td>
+<td>Rolling hash / bitmask</td>
+</tr>
+<tr>
+<td>1044</td>
+<td>Longest Duplicate Substring</td>
+<td>Binary search + rolling hash</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Longest Palindromic Substring</td>
+<td>Expand-around-centre / Manacher</td>
+</tr>
+<tr>
+<td>647</td>
+<td>Palindromic Substrings</td>
+<td>Expand-around-centre</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

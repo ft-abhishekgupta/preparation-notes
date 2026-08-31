@@ -1,0 +1,1877 @@
+<!DOCTYPE html><html><head>
+      <title>DynamicProgramming</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="color-scheme" content="light dark">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css">
+      
+      
+      
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.min.js"></script>
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}@media (prefers-color-scheme: dark) {
+code[class*=language-],pre[class*=language-]{color:#c9d1d9;text-shadow:none;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}code[class*=language-]::mozselection,code[class*=language-]::selection,pre[class*=language-]::mozselection,pre[class*=language-]::selection{text-shadow:none;background:#234879}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto;background:#161b22}:not(pre)>code[class*=language-]{padding:.1em .3em;border-radius:.3em;color:#c9d1d9;background:#343942}pre[data-line]{position:relative}pre[class*=language-]>code[class*=language-]{position:relative;z-index:1}.line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:#2f2a1e;box-shadow:inset 5px 0 0 #674c16;z-index:0;pointer-events:none;line-height:inherit;white-space:pre}.namespace{opacity:.7}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#8b949e}.token.punctuation{color:#c9d1d9}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#79c0ff}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#a5d6ff}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{color:#a5d6ff}.token.atrule,.token.attr-value,.token.keyword{color:#f97583}.token.function{color:#d2a8ff}.token.important,.token.regex,.token.variable{color:#79b8ff}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}
+}
+html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}@media (prefers-color-scheme: dark) {
+html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#ccc;background-color:#24292e;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#fff}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#a3a3a3}html body strong{color:#fff}html body del{color:#a3a3a3}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#a3a3a3;background-color:#363d45;border-left:4px solid #48525c}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#48525c;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#fff}html body table td,html body table th{border:1px solid #48525c;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#fff;background-color:#363d45;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#48525c;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#fff;border:1px solid #48525c;border-bottom:2px solid #3a424b;padding:2px 4px;background-color:#363d45;border-radius:3px}@media print{html body{background-color:#24292e}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#fff;page-break-after:avoid}html body blockquote{color:#a3a3a3}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}
+}
+.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-details{margin:0;padding:0;border:none}.markdown-preview .md-toc ol.md-toc-ol{margin:0;padding-left:1.6em}.markdown-preview .md-toc summary.md-toc-link-wrapper{cursor:pointer;list-style-position:outside}.markdown-preview .md-toc summary.md-toc-link-wrapper::marker{font-size:.85em}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='0']{margin-left:12px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='1']{margin-left:28px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='2']{margin-left:44px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='3']{margin-left:60px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='4']{margin-left:76px}.markdown-preview .md-toc .md-toc-link-wrapper[data-level='5']{margin-left:80px}.markdown-preview a.tag,.markdown-preview a.tag:active,.markdown-preview a.tag:link,.markdown-preview a.tag:visited,.markdown-preview span.tag:not(.token){display:inline-block;background-color:var(--vscode-badge-background,rgba(127,127,127,.18));color:var(--vscode-badge-foreground,currentColor);border-radius:2em;font-size:.85em;font-weight:500;padding:.05em .55em;line-height:1.5;white-space:nowrap;text-decoration:none;text-shadow:none;box-shadow:none;transition:background-color .12s ease,opacity .12s ease}.markdown-preview a.tag{cursor:pointer}.markdown-preview a.tag:focus,.markdown-preview a.tag:hover{background-color:var(--vscode-badge-background,rgba(127,127,127,.32));color:var(--vscode-badge-foreground,currentColor);opacity:.85;text-decoration:none;outline:0}.markdown-preview .wikilink-embed-content{border-left:3px solid var(--vscode-textBlockQuote-border,rgba(128,128,128,.3));background:var(--vscode-textBlockQuote-background,rgba(128,128,128,.05));margin:.5em 0;padding:.5em .75em;border-radius:0 3px 3px 0}.markdown-preview .wikilink-embed-content.wikilink-embed-error{border-left-color:var(--vscode-errorForeground,#cf222e);color:var(--vscode-errorForeground,#cf222e);font-style:italic;opacity:.8}.markdown-preview .wikilink-embed-content h1:first-child,.markdown-preview .wikilink-embed-content h2:first-child,.markdown-preview .wikilink-embed-content h3:first-child,.markdown-preview .wikilink-embed-content h4:first-child,.markdown-preview .wikilink-embed-content h5:first-child,.markdown-preview .wikilink-embed-content h6:first-child{margin-top:.25em}.markdown-preview .wikilink-embed-content .wikilink-embed-content{margin:.25em 0;padding:.25em .5em}.markdown-preview .block-id{display:none}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));border:4px solid var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));background-clip:content-box}.scrollbar-style::-webkit-scrollbar-thumb:hover{background-color:var(--vscode-scrollbarSlider-hoverBackground,rgba(120,120,120,.66))}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));border:4px solid var(--vscode-scrollbarSlider-background,rgba(150,150,150,.66));background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb:hover{background-color:var(--vscode-scrollbarSlider-hoverBackground,rgba(120,120,120,.66))}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-details{margin:0;padding:0;border:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc ol.md-toc-ol{margin:0;padding-left:1.6em}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='0']{padding-left:0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='1']{padding-left:16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='2']{padding-left:32px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='3']{padding-left:48px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='4']{padding-left:64px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper[data-level='5']{padding-left:80px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjcB9SII.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6SII.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8L6tjPQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtD6GgLL.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9dr0Wd4kDdMuhW.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/kalam/v18/YA9Qr0Wd4kDdMtDqHQLL.ttf) format('truetype');
+}
+html,
+body {
+  min-height: 100%;
+  background: #0f111a !important;
+}
+.markdown-preview.markdown-preview {
+  /*====================================================
+  Aurora Notes Theme
+  Markdown Preview Enhanced
+=====================================================*/
+  /*====================================================
+  Color Palette
+=====================================================*/
+  --bg: #0f111a;
+  --bg2: #1a1d2b;
+  --bg3: #24283b;
+  --text: #d7dae0;
+  --muted: #9ca3af;
+  --blue: #7aa2f7;
+  --cyan: #7dcfff;
+  --green: #9ece6a;
+  --yellow: #e0af68;
+  --orange: #ff9e64;
+  --red: #f7768e;
+  --purple: #bb9af7;
+  --pink: #ff79c6;
+  --border: #30364d;
+  /*====================================================
+  Main
+=====================================================*/
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Kalam", cursive;
+  line-height: 1.65;
+  font-size: 18px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: 28px clamp(24px, 5vw, 72px);
+  /*====================================================
+  Headings
+=====================================================*/
+  /*====================================================
+  Text
+=====================================================*/
+  /*====================================================
+  Links
+=====================================================*/
+  /*====================================================
+  Lists
+=====================================================*/
+  /*====================================================
+  Blockquotes
+=====================================================*/
+  /*====================================================
+  Inline Code
+=====================================================*/
+  /*====================================================
+  Code Blocks
+=====================================================*/
+  /*====================================================
+  Horizontal Rule
+=====================================================*/
+  /*====================================================
+  Tables
+=====================================================*/
+  /*====================================================
+  Images
+=====================================================*/
+  /*====================================================
+  Task Lists
+=====================================================*/
+  /*====================================================
+  Selection
+=====================================================*/
+  /*====================================================
+  Scrollbar
+=====================================================*/
+  /*====================================================
+  Mermaid
+=====================================================*/
+  /*====================================================
+  Math
+=====================================================*/
+  /*====================================================
+  Paragraph Spacing
+=====================================================*/
+}
+.markdown-preview.markdown-preview h1,
+.markdown-preview.markdown-preview h2,
+.markdown-preview.markdown-preview h3,
+.markdown-preview.markdown-preview h4,
+.markdown-preview.markdown-preview h5,
+.markdown-preview.markdown-preview h6 {
+  font-family: "Caveat", "Kalam", cursive;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  margin: 0.15em 0 0.05em;
+  padding-top: 0;
+  padding-bottom: 4px;
+}
+.markdown-preview.markdown-preview h1 {
+  color: var(--blue);
+  font-size: 2.5em;
+}
+.markdown-preview.markdown-preview h2 {
+  color: var(--purple);
+  font-size: 2em;
+}
+.markdown-preview.markdown-preview h3 {
+  color: var(--green);
+  font-size: 1.65em;
+}
+.markdown-preview.markdown-preview h4 {
+  color: var(--yellow);
+  font-size: 1.35em;
+}
+.markdown-preview.markdown-preview h5 {
+  color: var(--orange);
+  font-size: 1.15em;
+}
+.markdown-preview.markdown-preview h6 {
+  color: var(--red);
+}
+.markdown-preview.markdown-preview strong {
+  color: var(--yellow);
+  font-weight: 700;
+}
+.markdown-preview.markdown-preview em {
+  color: var(--cyan);
+}
+.markdown-preview.markdown-preview del {
+  color: #777;
+}
+.markdown-preview.markdown-preview a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+.markdown-preview.markdown-preview a:hover {
+  color: var(--pink);
+}
+.markdown-preview.markdown-preview li::marker {
+  color: var(--orange);
+}
+.markdown-preview.markdown-preview ul li {
+  margin: 4px 0;
+}
+.markdown-preview.markdown-preview blockquote {
+  background: linear-gradient(90deg, rgba(122, 162, 247, 0.15), rgba(187, 154, 247, 0.08));
+  border-left: 6px solid var(--blue);
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-family: "Kalam", cursive;
+  font-size: 1.05em;
+  color: #dce6ff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+.markdown-preview.markdown-preview blockquote p {
+  margin: 2px 0;
+}
+.markdown-preview.markdown-preview code {
+  font-family: "JetBrains Mono", monospace;
+  background: #20242f;
+  color: #c3e88d;
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid #3b4252;
+}
+.markdown-preview.markdown-preview pre {
+  background: #1b1f27 !important;
+  color: #ffffff !important;
+  border-radius: 16px;
+  border: 1px solid #607d8b;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  overflow-x: auto;
+}
+.markdown-preview.markdown-preview pre code {
+  display: block;
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  color: #ffffff !important;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 4;
+}
+.markdown-preview.markdown-preview pre code.hljs {
+  background: transparent !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-comment,
+.markdown-preview.markdown-preview pre code .hljs-quote,
+.markdown-preview.markdown-preview pre code .token.comment,
+.markdown-preview.markdown-preview pre code .token.prolog,
+.markdown-preview.markdown-preview pre code .token.doctype {
+  color: #b0bec5 !important;
+  font-style: italic;
+}
+.markdown-preview.markdown-preview pre code .hljs-keyword,
+.markdown-preview.markdown-preview pre code .hljs-selector-tag,
+.markdown-preview.markdown-preview pre code .hljs-literal,
+.markdown-preview.markdown-preview pre code .hljs-meta,
+.markdown-preview.markdown-preview pre code .token.keyword,
+.markdown-preview.markdown-preview pre code .token.boolean,
+.markdown-preview.markdown-preview pre code .token.constant {
+  color: #d9a7ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-string,
+.markdown-preview.markdown-preview pre code .hljs-doctag,
+.markdown-preview.markdown-preview pre code .hljs-regexp,
+.markdown-preview.markdown-preview pre code .token.string,
+.markdown-preview.markdown-preview pre code .token.char,
+.markdown-preview.markdown-preview pre code .token.regex {
+  color: #c3e88d !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-number,
+.markdown-preview.markdown-preview pre code .hljs-symbol,
+.markdown-preview.markdown-preview pre code .hljs-bullet,
+.markdown-preview.markdown-preview pre code .token.number,
+.markdown-preview.markdown-preview pre code .token.symbol {
+  color: #ffab91 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-title,
+.markdown-preview.markdown-preview pre code .hljs-section,
+.markdown-preview.markdown-preview pre code .hljs-function .hljs-title,
+.markdown-preview.markdown-preview pre code .token.function,
+.markdown-preview.markdown-preview pre code .token.method {
+  color: #82b1ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-variable,
+.markdown-preview.markdown-preview pre code .hljs-template-variable,
+.markdown-preview.markdown-preview pre code .hljs-attr,
+.markdown-preview.markdown-preview pre code .hljs-attribute,
+.markdown-preview.markdown-preview pre code .token.property,
+.markdown-preview.markdown-preview pre code .token.attr-name {
+  color: #ffe082 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-built_in,
+.markdown-preview.markdown-preview pre code .hljs-class .hljs-title,
+.markdown-preview.markdown-preview pre code .hljs-name,
+.markdown-preview.markdown-preview pre code .hljs-type,
+.markdown-preview.markdown-preview pre code .token.class-name,
+.markdown-preview.markdown-preview pre code .token.builtin,
+.markdown-preview.markdown-preview pre code .token.namespace {
+  color: #80d8ff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-params,
+.markdown-preview.markdown-preview pre code .hljs-subst,
+.markdown-preview.markdown-preview pre code .token.parameter {
+  color: #ffffff !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-addition,
+.markdown-preview.markdown-preview pre code .token.inserted {
+  color: #c3e88d !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-deletion,
+.markdown-preview.markdown-preview pre code .token.deleted {
+  color: #ff8a80 !important;
+}
+.markdown-preview.markdown-preview pre code .hljs-punctuation,
+.markdown-preview.markdown-preview pre code .hljs-operator,
+.markdown-preview.markdown-preview pre code .token.punctuation,
+.markdown-preview.markdown-preview pre code .token.operator {
+  color: #84ffff !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
+  margin: 16px 0;
+}
+.markdown-preview.markdown-preview table {
+  display: table;
+  width: auto;
+  max-width: 100%;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 16px 0;
+}
+.markdown-preview.markdown-preview th {
+  background: linear-gradient(90deg, #3b4261, #2b3050);
+  color: var(--yellow);
+  padding: 9px 12px;
+}
+.markdown-preview.markdown-preview th + th {
+  border-left: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview td {
+  background: #171b28;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview td + td {
+  border-left: 1px solid var(--border);
+}
+.markdown-preview.markdown-preview tr:nth-child(even) td {
+  background: #1b2132;
+}
+.markdown-preview.markdown-preview img {
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--border);
+  margin: 14px auto 14px 0;
+  display: block;
+}
+.markdown-preview.markdown-preview input[type="checkbox"] {
+  transform: scale(1.4);
+  accent-color: var(--green);
+  margin-right: 10px;
+}
+.markdown-preview.markdown-preview ::selection {
+  background: var(--purple);
+  color: white;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar {
+  width: 12px;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar-track {
+  background: #12151f;
+}
+.markdown-preview.markdown-preview ::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--blue), var(--purple));
+  border-radius: 20px;
+}
+.markdown-preview.markdown-preview .mermaid {
+  background: #1b2030;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.markdown-preview.markdown-preview .mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+.markdown-preview.markdown-preview .mermaid .edgePath path,
+.markdown-preview.markdown-preview .mermaid .flowchart-link,
+.markdown-preview.markdown-preview .mermaid .messageLine0,
+.markdown-preview.markdown-preview .mermaid .messageLine1,
+.markdown-preview.markdown-preview .mermaid .relationshipLine {
+  stroke: var(--cyan) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid marker path,
+.markdown-preview.markdown-preview .mermaid .arrowheadPath {
+  fill: var(--cyan) !important;
+  stroke: var(--cyan) !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel,
+.markdown-preview.markdown-preview .mermaid .edgeLabel p,
+.markdown-preview.markdown-preview .mermaid .edgeLabel span,
+.markdown-preview.markdown-preview .mermaid .edgeLabel text,
+.markdown-preview.markdown-preview .mermaid .edgeLabel tspan,
+.markdown-preview.markdown-preview .mermaid .labelText,
+.markdown-preview.markdown-preview .mermaid .messageText,
+.markdown-preview.markdown-preview .mermaid .loopText,
+.markdown-preview.markdown-preview .mermaid .relationshipLabel {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel,
+.markdown-preview.markdown-preview .mermaid .labelBkg {
+  background-color: #111827 !important;
+  fill: #111827 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel rect,
+.markdown-preview.markdown-preview .mermaid .label-container {
+  background: #111827 !important;
+  fill: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel p,
+.markdown-preview.markdown-preview .mermaid .edgeLabel span,
+.markdown-preview.markdown-preview .mermaid .edgeLabel div {
+  margin: 0 !important;
+  padding: 0 4px !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid foreignObject,
+.markdown-preview.markdown-preview .mermaid .edgeLabel {
+  overflow: visible !important;
+}
+.markdown-preview.markdown-preview .mermaid .nodeLabel,
+.markdown-preview.markdown-preview .mermaid .nodeLabel p,
+.markdown-preview.markdown-preview .mermaid .nodeLabel span,
+.markdown-preview.markdown-preview .mermaid .label text,
+.markdown-preview.markdown-preview .mermaid .label tspan,
+.markdown-preview.markdown-preview .mermaid text,
+.markdown-preview.markdown-preview .mermaid tspan {
+  color: #f8fafc !important;
+  fill: #f8fafc !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .edgeLabel text,
+.markdown-preview.markdown-preview .mermaid .edgeLabel tspan,
+.markdown-preview.markdown-preview .mermaid .edgeLabel .label,
+.markdown-preview.markdown-preview .mermaid .edgeLabel .label * {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid rect.actor,
+.markdown-preview.markdown-preview .mermaid .actor-box {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid text.actor,
+.markdown-preview.markdown-preview .mermaid text.actor tspan,
+.markdown-preview.markdown-preview .mermaid .actor text,
+.markdown-preview.markdown-preview .mermaid .actor text tspan {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+.markdown-preview.markdown-preview .mermaid .actor-line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node rect,
+.markdown-preview.markdown-preview .mermaid .node polygon,
+.markdown-preview.markdown-preview .mermaid .node .label-container {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .node text,
+.markdown-preview.markdown-preview .mermaid .node tspan,
+.markdown-preview.markdown-preview .mermaid .node .label,
+.markdown-preview.markdown-preview .mermaid .node .label p,
+.markdown-preview.markdown-preview .mermaid .node .label span,
+.markdown-preview.markdown-preview .mermaid .node .label div {
+  fill: #f8fafc !important;
+  color: #f8fafc !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup rect,
+.markdown-preview.markdown-preview .mermaid .classLabel .box {
+  fill: #111827 !important;
+  stroke: var(--purple) !important;
+  stroke-width: 2px !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup line {
+  stroke: var(--purple) !important;
+  stroke-width: 1.5px !important;
+}
+.markdown-preview.markdown-preview .mermaid .classGroup text,
+.markdown-preview.markdown-preview .mermaid .classGroup tspan,
+.markdown-preview.markdown-preview .mermaid .classLabel text,
+.markdown-preview.markdown-preview .mermaid .classLabel tspan {
+  fill: #111827 !important;
+  color: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel p,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel span,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] .nodeLabel div,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] text,
+.markdown-preview.markdown-preview .mermaid svg[aria-roledescription*="class" i] tspan {
+  fill: #111827 !important;
+  color: #111827 !important;
+  opacity: 1 !important;
+}
+.markdown-preview.markdown-preview .mermaid .activation0,
+.markdown-preview.markdown-preview .mermaid .activation1,
+.markdown-preview.markdown-preview .mermaid .activation2 {
+  fill: #263238 !important;
+  stroke: var(--cyan) !important;
+}
+.markdown-preview.markdown-preview .mermaid .note {
+  fill: #263238 !important;
+  stroke: var(--yellow) !important;
+}
+.markdown-preview.markdown-preview .mermaid .noteText,
+.markdown-preview.markdown-preview .mermaid .noteText tspan,
+.markdown-preview.markdown-preview .mermaid .sequenceNumber {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+.markdown-preview.markdown-preview .mermaid .loopLine,
+.markdown-preview.markdown-preview .mermaid .labelBox {
+  fill: #1b2030 !important;
+  stroke: var(--purple) !important;
+}
+.markdown-preview.markdown-preview .katex-display {
+  background: #181c28;
+  border-radius: 8px;
+  padding: 14px;
+}
+.markdown-preview.markdown-preview p {
+  margin: 10px 0;
+}
+/*====================================================
+Markdown Preview Enhanced index / sidebar
+=====================================================*/
+.md-sidebar-toc,
+.md-sidebar-toc.md-sidebar-toc,
+.markdown-preview-enhanced-toc,
+.markdown-preview-enhanced-toc.md-preview-toc {
+  background: #171a26 !important;
+  color: #d7dae0 !important;
+  border-color: #30364d !important;
+  font-family: "Kalam", cursive;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.md-sidebar-toc a,
+.markdown-preview-enhanced-toc a {
+  color: #b9c7e8 !important;
+}
+.md-sidebar-toc a:hover,
+.md-sidebar-toc a.active,
+.markdown-preview-enhanced-toc a:hover,
+.markdown-preview-enhanced-toc a.active {
+  color: #7dcfff !important;
+  background: #24283b !important;
+}
+.md-sidebar-toc ul,
+.markdown-preview-enhanced-toc ul {
+  padding-left: 16px;
+}
+@media (max-width: 700px) {
+  .markdown-preview.markdown-preview {
+    font-size: 15px;
+    padding: 20px 16px;
+  }
+}
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. -->
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script>
+    </head>
+    <body for="html-export">
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="dynamic-programming">Dynamic Programming </h1>
+<blockquote>
+<p><strong>Core idea:</strong> Break a hard decision problem into overlapping subproblems; cache answers so each subproblem is solved exactly once.<br>
+<strong>Recognise it when:</strong> "optimal / count / feasible over all subsets / subsequences / partitions"; "minimum/maximum number of steps/coins/operations"; "in how many ways can you…"; "can you reach / partition / match".<br>
+<strong>Costs:</strong> O(states × transitions) time, O(states) space (often reducible via rolling arrays).</p>
+</blockquote>
+<h2 id="mental-model">Mental Model </h2>
+<p>Two necessary conditions must both hold:</p>
+<ol>
+<li><strong>Overlapping subproblems</strong> — the same smaller problem recurs inside the recursion tree (contrast: divide &amp; conquer has <em>independent</em> subproblems).</li>
+<li><strong>Optimal substructure</strong> — the optimal answer for a problem can be built from optimal answers of its subproblems.</li>
+</ol>
+<p>The invariant: <em>after filling <code>dp[0..i]</code>, the value <code>dp[i]</code> is the correct answer for the sub-problem defined by <code>i</code>.</em></p>
+<hr>
+<h2 id="how-to-find-the-dp--5-step-recipe">How to Find the DP — 5-Step Recipe </h2>
+<p>This is the hard part. Code is mechanical once you have the recurrence.</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Question to answer</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>What decision is made at each step?</td>
+<td>Decision variable(s)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>What is the <em>minimum</em> information needed to make that decision?</td>
+<td><strong>The state</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>How does the answer for state <code>s</code> relate to answers for strictly smaller states?</td>
+<td><strong>The recurrence</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>What states have trivially known answers?</td>
+<td><strong>Base cases</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Trace a tiny example (n ≤ 4) to verify correctness</td>
+<td>Confidence check</td>
+</tr>
+</tbody>
+</table>
+<h3 id="worked-example--coin-change-leetcode-322">Worked example — Coin Change (LeetCode 322) </h3>
+<p><strong>Problem:</strong> given coins <code>[1,2,5]</code> and <code>amount = 11</code>, return the minimum number of coins.</p>
+<p><strong>Step 1 — decision:</strong> at each remaining amount <code>a</code>, try every coin <code>c</code>.</p>
+<p><strong>Step 2 — state:</strong> <code>dp[a]</code> = minimum coins to make amount <code>a</code>. One integer is enough because coin denominations are fixed globally.</p>
+<p><strong>Step 3 — recurrence:</strong></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>dp[a] = min over c in coins where c ≤ a  of  (dp[a - c] + 1)
+</code></pre><p><strong>Step 4 — base cases:</strong> <code>dp[0] = 0</code> (zero coins for zero amount). Sentinel: <code>dp[a] = amount + 1</code> (safe "infinity"; adding 1 never overflows unlike <code>int.MaxValue + 1</code>).</p>
+<p><strong>Step 5 — trace</strong> (<code>amount = 5</code>, coins <code>[1,2,5]</code>):</p>
+<table>
+<thead>
+<tr>
+<th>a</th>
+<th>try 1</th>
+<th>try 2</th>
+<th>try 5</th>
+<th>dp[a]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>dp[0]+1=1</td>
+<td>—</td>
+<td>—</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>dp[1]+1=2</td>
+<td>dp[0]+1=1</td>
+<td>—</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>dp[2]+1=2</td>
+<td>dp[1]+1=2</td>
+<td>—</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>dp[3]+1=3</td>
+<td>dp[2]+1=2</td>
+<td>—</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>dp[4]+1=3</td>
+<td>dp[3]+1=3</td>
+<td>dp[0]+1=1</td>
+<td><strong>1</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Brute-force → memo → tabulation → space-optimised:</strong></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>BRUTE FORCE | O(amount^coins) | O(amount)   [exponential — recomputes everything]
+
+def coinChange(coins, amount):
+    if amount == 0: return 0
+    best = ∞
+    for c in coins:
+        if c &lt;= amount:
+            sub = coinChange(coins, amount - c)
+            if sub != ∞: best = min(best, sub + 1)
+    return best
+
+------------------------------------------------------------------------------
+
+MEMOISATION | O(amount × |coins|) | O(amount)
+
+Add memo[amount] lookup/store — same recursion, no repeated work.
+
+------------------------------------------------------------------------------
+
+TABULATION | O(amount × |coins|) | O(amount)
+
+dp[0..amount], fill left to right (each dp[a] depends only on dp[a-c] for c ≤ a).
+
+------------------------------------------------------------------------------
+
+SPACE-OPTIMISED | O(amount × |coins|) | O(amount)
+
+Already O(amount) — 1-D array, no further reduction possible here.
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">CoinChange</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> coins<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> amount<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> INF <span class="token operator">=</span> amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    Array<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>dp<span class="token punctuation">,</span> INF<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> a <span class="token operator">&lt;=</span> amount<span class="token punctuation">;</span> a<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> c <span class="token keyword keyword-in">in</span> coins<span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>c <span class="token operator">&lt;=</span> a <span class="token operator">&amp;&amp;</span> dp<span class="token punctuation">[</span>a <span class="token operator">-</span> c<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> dp<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">)</span>
+                dp<span class="token punctuation">[</span>a<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>a <span class="token operator">-</span> c<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span> <span class="token operator">==</span> INF <span class="token punctuation">?</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation">:</span> dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="memoisation-vs-tabulation">Memoisation vs Tabulation </h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Memoisation (top-down)</th>
+<th>Tabulation (bottom-up)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code style</td>
+<td>Recursive, natural</td>
+<td>Iterative, explicit order</td>
+</tr>
+<tr>
+<td>Space</td>
+<td>Call stack + cache</td>
+<td>Table only</td>
+</tr>
+<tr>
+<td>Computes</td>
+<td>Only needed states</td>
+<td>All states in dependency order</td>
+</tr>
+<tr>
+<td>Overflow risk</td>
+<td>Stack overflow for n = 10⁵</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Easier when</td>
+<td>Recurrence is obvious; state space sparse</td>
+<td>Iteration order is clear; dense problems</td>
+</tr>
+<tr>
+<td>Space-optimise</td>
+<td>Hard (need to know which states to keep)</td>
+<td>Easy — rolling arrays</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="memo-key-choice-in-c">Memo Key Choice in C# </h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Speed</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int[] dp</code> with sentinel <code>-1</code></td>
+<td>✅ Fastest</td>
+<td>State is a single bounded integer</td>
+</tr>
+<tr>
+<td><code>int[,] dp</code> with sentinel <code>-1</code></td>
+<td>✅ Fast</td>
+<td>Two bounded integer dimensions</td>
+</tr>
+<tr>
+<td><code>Dictionary&lt;(int,int), int&gt;</code></td>
+<td>Moderate</td>
+<td>State space sparse / unbounded</td>
+</tr>
+<tr>
+<td><code>Dictionary&lt;string, int&gt;</code></td>
+<td>❌ Slow (string alloc + hash)</td>
+<td>Avoid — use tuple key instead</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Trap:</strong> If <code>-1</code> is a valid answer (e.g. "return -1 if impossible"), use a different sentinel such as <code>int.MinValue</code> or a separate <code>bool[] visited</code>.</p>
+</blockquote>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Array + sentinel pattern (fastest)</span>
+<span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> memo <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+Array<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>memo<span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">Solve</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token number">0</span><span class="token punctuation">;</span>           <span class="token comment">// base case</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>memo<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> memo<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> memo<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token comment">/* recurrence */</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="state-dimensionality-guide">State Dimensionality Guide </h2>
+<table>
+<thead>
+<tr>
+<th># dims</th>
+<th>What varies between subproblems</th>
+<th>Typical problems</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-D</td>
+<td>One index (position, amount, capacity)</td>
+<td>Fibonacci, Coin Change, House Robber, Climbing Stairs</td>
+</tr>
+<tr>
+<td>2-D</td>
+<td>Two indices (two strings, index + budget, start + end)</td>
+<td>LCS, Edit Distance, Interval DP, Knapsack</td>
+</tr>
+<tr>
+<td>3-D</td>
+<td>Three indices or one index + two constrained counts</td>
+<td>Stock with at-most k transactions, Regex matching with backref</td>
+</tr>
+<tr>
+<td>Bitmask</td>
+<td>Subset of a small set (n ≤ 20)</td>
+<td>TSP, Partition-to-K subsets</td>
+</tr>
+<tr>
+<td>Tree</td>
+<td>Node + subtree state</td>
+<td>House Robber III, max independent set</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recognition heuristics:</strong></p>
+<ul>
+<li>One string/array, one running quantity → <strong>1-D</strong> (<code>dp[i]</code>).</li>
+<li>Two strings, or "first i from A and first j from B" → <strong>2-D</strong> (<code>dp[i][j]</code>).</li>
+<li>"At most k transactions / colors / segments" → extra dimension for k.</li>
+<li>"All nodes in some set visited" → bitmask.</li>
+<li>"On a tree / DAG" → tree DP, return a tuple.</li>
+</ul>
+<hr>
+<h2 id="subsequence-vs-substring--subarray">Subsequence vs Substring / Subarray </h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Technique</th>
+<th>Key state</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Contiguous</strong> (substring / subarray)</td>
+<td>Kadane / sliding window / <code>dp[i]</code> ending at <code>i</code></td>
+<td><code>dp[i]</code> = best ending exactly at <code>i</code></td>
+<td>Max Subarray (53), Maximal Square (221)</td>
+</tr>
+<tr>
+<td><strong>Non-contiguous</strong> (subsequence)</td>
+<td>2-D DP over two strings, or 1-D with scan</td>
+<td><code>dp[i][j]</code> for two-string problems; <code>dp[i]</code> for one-string</td>
+<td>LCS (1143), LIS (300), Edit Distance (72)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Trap:</strong> "Subarray / substring" problems want a contiguous answer — do NOT use the 2-D LCS approach. "Subsequence" means elements may be skipped.</p>
+</blockquote>
+<hr>
+<h2 id="two-dpi-conventions">Two dp[i] Conventions </h2>
+<table>
+<thead>
+<tr>
+<th>Convention</th>
+<th>Meaning</th>
+<th>When to use</th>
+<th>Final answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dp[i]</code> = answer for <strong>prefix [0..i]</strong></td>
+<td>Best you can achieve <em>using</em> the first i elements</td>
+<td>When you can always extend the prefix</td>
+<td><code>dp[n-1]</code> or <code>dp[n]</code></td>
+</tr>
+<tr>
+<td><code>dp[i]</code> = answer <strong>ending exactly at i</strong></td>
+<td>Best answer whose last element is i</td>
+<td>When the answer must include element i (LIS, max subarray)</td>
+<td><code>max(dp[0..n-1])</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example — LIS uses "ending exactly at i":</strong><br>
+<code>dp = [1,1,1,1]</code> for <code>nums = [3,2,1,4]</code>. Answer is <code>max(dp) = 2</code>, not <code>dp[3] = 2</code> by coincidence — you <em>must</em> scan all.</p>
+<hr>
+<h2 id="reconstructing-the-solution">Reconstructing the Solution </h2>
+<p>DP computes the <em>value</em>; to get the actual solution, store a <code>parent</code> / <code>choice</code> array.</p>
+<h3 id="lcs--print-the-actual-subsequence">LCS — print the actual subsequence </h3>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token return-type class-name"><span class="token keyword keyword-string">string</span></span> <span class="token function">LCSString</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s1<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-string">string</span></span> s2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> m <span class="token operator">=</span> s1<span class="token punctuation">.</span>Length<span class="token punctuation">,</span> n <span class="token operator">=</span> s2<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>m <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j<span class="token punctuation">]</span> <span class="token operator">=</span> s1<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> s2<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+                <span class="token punctuation">?</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span>
+                <span class="token punctuation">:</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Backtrack</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> sb <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">System<span class="token punctuation">.</span>Text<span class="token punctuation">.</span>StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> r <span class="token operator">=</span> m<span class="token punctuation">,</span> c <span class="token operator">=</span> n<span class="token punctuation">;</span>
+    <span class="token keyword keyword-while">while</span> <span class="token punctuation">(</span>r <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> c <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>s1<span class="token punctuation">[</span>r <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> s2<span class="token punctuation">[</span>c <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> sb<span class="token punctuation">.</span><span class="token function">Insert</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> s1<span class="token punctuation">[</span>r <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> r<span class="token operator">--</span><span class="token punctuation">;</span> c<span class="token operator">--</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+        <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>r <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> c<span class="token punctuation">]</span> <span class="token operator">&gt;</span> dp<span class="token punctuation">[</span>r<span class="token punctuation">,</span> c <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> r<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-else">else</span> c<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> sb<span class="token punctuation">.</span><span class="token function">ToString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="coin-change--print-the-coins-used">Coin Change — print the coins used </h3>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token return-type class-name">List<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span></span> <span class="token function">CoinChangePath</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> coins<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> amount<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> INF <span class="token operator">=</span> amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> from <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// which coin was used</span>
+    Array<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>dp<span class="token punctuation">,</span> INF<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Array<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>from<span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> a <span class="token operator">&lt;=</span> amount<span class="token punctuation">;</span> a<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> c <span class="token keyword keyword-in">in</span> coins<span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>c <span class="token operator">&lt;=</span> a <span class="token operator">&amp;&amp;</span> dp<span class="token punctuation">[</span>a <span class="token operator">-</span> c<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> dp<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                dp<span class="token punctuation">[</span>a<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>a <span class="token operator">-</span> c<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                from<span class="token punctuation">[</span>a<span class="token punctuation">]</span> <span class="token operator">=</span> c<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span> <span class="token operator">==</span> INF<span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> result <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> a <span class="token operator">=</span> amount<span class="token punctuation">;</span> a <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">;</span> a <span class="token operator">-=</span> from<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        result<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>from<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="space-optimisation">Space Optimisation </h2>
+<p><strong>General rule:</strong> if <code>dp[i]</code> depends only on <code>dp[i-1]</code> (and possibly <code>dp[i-2]</code>), keep only those rows.</p>
+<h3 id="why-01-knapsack-inner-loop-must-go-backwards">Why 0/1 Knapsack inner loop must go <strong>backwards</strong> </h3>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>Forward (wrong for 0/1):  dp[w] uses dp[w-wt] which was ALREADY UPDATED this item → item reused
+Backward (correct):       dp[w] uses dp[w-wt] from the PREVIOUS item row → each item used ≤ once
+</code></pre><p><strong>Trace</strong> with <code>weights=[2]</code>, <code>values=[3]</code>, <code>capacity=4</code>:</p>
+<table>
+<thead>
+<tr>
+<th>w</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>backward w=4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>backward w=3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>backward w=2</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>With <strong>forward</strong> loop: <code>dp[2]=3</code>, then <code>dp[4] = dp[4-2]+3 = 6</code> — item counted twice. ❌</p>
+<h3 id="why-unbounded-knapsack-inner-loop-goes-forwards">Why Unbounded Knapsack inner loop goes <strong>forwards</strong> </h3>
+<p>Items <em>can</em> be reused, so using the updated <code>dp[w-c]</code> (from this same item's pass) is <em>correct</em>.</p>
+<h3 id="2-d--1-d-rolling-array-for-lcs--knapsack">2-D → 1-D rolling array for LCS / Knapsack </h3>
+<p>For LCS, <code>dp[i][j]</code> depends only on <code>dp[i-1][j-1]</code>, <code>dp[i-1][j]</code>, <code>dp[i][j-1]</code> → keep two rows (prev, curr) or one row + a <code>diag</code> variable.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// LCS O(min(m,n)) space</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">LCS</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s1<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-string">string</span></span> s2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>s1<span class="token punctuation">.</span>Length <span class="token operator">&lt;</span> s2<span class="token punctuation">.</span>Length<span class="token punctuation">)</span> <span class="token punctuation">(</span>s1<span class="token punctuation">,</span> s2<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span>s2<span class="token punctuation">,</span> s1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// s2 is shorter</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n <span class="token operator">=</span> s2<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> prev <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> s1<span class="token punctuation">.</span>Length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-var">var</span></span> curr <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            curr<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> s1<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> s2<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+                <span class="token punctuation">?</span> prev<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span>
+                <span class="token punctuation">:</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>prev<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> curr<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        prev <span class="token operator">=</span> curr<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> prev<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="dp-table-fill-order">DP Table Fill Order </h2>
+<div class="mermaid">flowchart LR
+    subgraph "2D DP (LCS / Edit Distance)"
+        A["dp[i][0] = i (base: delete all)"] --&gt; C["Fill row-by-row, left to right"]
+        B["dp[0][j] = j (base: insert all)"] --&gt; C
+        C --&gt; D["dp[i][j] from dp[i-1][j-1], dp[i-1][j], dp[i][j-1]"]
+    end
+</div><hr>
+<h2 id="counting-dp-vs-optimisation-dp">Counting DP vs Optimisation DP </h2>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Recurrence operator</th>
+<th>Sentinel</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimum / maximum</td>
+<td><code>min</code> / <code>max</code></td>
+<td><code>+∞</code> or <code>amount+1</code></td>
+<td>Coin Change, Edit Distance</td>
+</tr>
+<tr>
+<td>Count ways</td>
+<td><code>+</code> (sum)</td>
+<td>0</td>
+<td>Climbing Stairs, Coin Change II</td>
+</tr>
+<tr>
+<td>Feasibility</td>
+<td><code>OR</code></td>
+<td><code>false</code></td>
+<td>Partition Equal Subset Sum</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Trap:</strong> counting DP can overflow <code>int</code> (e.g., LeetCode 91 with long strings). Use <code>long</code> or apply modulo <code>1_000_000_007</code>.</p>
+</blockquote>
+<hr>
+<h2 id="family-1--linear--fibonacci-style">Family 1 — Linear / Fibonacci-Style </h2>
+<p><strong>State:</strong> <code>dp[i]</code> = answer for first <code>i</code> items.<br>
+<strong>Recurrence:</strong> <code>dp[i] = f(dp[i-1], dp[i-2], ...)</code>.<br>
+<strong>Base case:</strong> <code>dp[0]</code>, <code>dp[1]</code> (problem-specific).<br>
+<strong>Order:</strong> left to right.<br>
+<strong>Answer:</strong> <code>dp[n]</code>.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Climbing Stairs — O(n) time, O(1) space</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">ClimbStairs</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> n<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>n <span class="token operator">&lt;=</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> n<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span>b<span class="token punctuation">,</span> a <span class="token operator">+</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 70 (Climbing Stairs), 746 (Min Cost Climbing Stairs), 198/213 (House Robber I/II), 91 (Decode Ways).</p>
+<hr>
+<h2 id="family-2--01-knapsack">Family 2 — 0/1 Knapsack </h2>
+<p><strong>State:</strong> <code>dp[w]</code> = max value using items seen so far with weight limit <code>w</code>.<br>
+<strong>Recurrence:</strong> <code>dp[w] = max(dp[w], dp[w - wt[i]] + val[i])</code> (only when <code>w &gt;= wt[i]</code>).<br>
+<strong>Base case:</strong> <code>dp[0..W] = 0</code>.<br>
+<strong>Order:</strong> outer = items, inner = <code>w</code> from <code>W</code> down to <code>wt[i]</code> (backwards — prevents reuse).<br>
+<strong>Answer:</strong> <code>dp[W]</code>.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">Knapsack01</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> weights<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> values<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> capacity<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>capacity <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> weights<span class="token punctuation">.</span>Length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> w <span class="token operator">=</span> capacity<span class="token punctuation">;</span> w <span class="token operator">&gt;=</span> weights<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span> w<span class="token operator">--</span><span class="token punctuation">)</span>
+            dp<span class="token punctuation">[</span>w<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>w<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>w <span class="token operator">-</span> weights<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">+</span> values<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span>capacity<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 416 (Partition Equal Subset Sum), 494 (Target Sum), 1049 (Last Stone Weight II).</p>
+<hr>
+<h2 id="family-3--unbounded-knapsack">Family 3 — Unbounded Knapsack </h2>
+<p><strong>State:</strong> <code>dp[a]</code> = min coins / max value for amount / capacity <code>a</code>.<br>
+<strong>Recurrence:</strong> <code>dp[a] = best(dp[a], dp[a - coin] + 1)</code>.<br>
+<strong>Order:</strong> inner loop <strong>forwards</strong> (allows item reuse).<br>
+<strong>Answer:</strong> <code>dp[amount]</code>.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Coin Change (min coins) — O(amount × |coins|) time, O(amount) space</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">CoinChange</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> coins<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> amount<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> INF <span class="token operator">=</span> amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    Array<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>dp<span class="token punctuation">,</span> INF<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> a <span class="token operator">&lt;=</span> amount<span class="token punctuation">;</span> a<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> c <span class="token keyword keyword-in">in</span> coins<span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>c <span class="token operator">&lt;=</span> a <span class="token operator">&amp;&amp;</span> dp<span class="token punctuation">[</span>a <span class="token operator">-</span> c<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> dp<span class="token punctuation">[</span>a<span class="token punctuation">]</span><span class="token punctuation">)</span>
+                dp<span class="token punctuation">[</span>a<span class="token punctuation">]</span> <span class="token operator">=</span> dp<span class="token punctuation">[</span>a <span class="token operator">-</span> c<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span> <span class="token operator">==</span> INF <span class="token punctuation">?</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation">:</span> dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Coin Change II (count ways) — dp[a] += dp[a - c]; iterate coins outer</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">CoinChangeII</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> coins<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> amount<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>amount <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> c <span class="token keyword keyword-in">in</span> coins<span class="token punctuation">)</span>           <span class="token comment">// outer = coins → avoids counting permutations</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> a <span class="token operator">=</span> c<span class="token punctuation">;</span> a <span class="token operator">&lt;=</span> amount<span class="token punctuation">;</span> a<span class="token operator">++</span><span class="token punctuation">)</span>
+            dp<span class="token punctuation">[</span>a<span class="token punctuation">]</span> <span class="token operator">+=</span> dp<span class="token punctuation">[</span>a <span class="token operator">-</span> c<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span>amount<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Why coins-outer for combinations:</strong> iterating coins in the outer loop ensures each combination is counted once. Swapping the loops counts ordered arrangements (permutations) instead.</p>
+</blockquote>
+<p><strong>Canonical problems:</strong> LeetCode 322 (Coin Change), 518 (Coin Change II), 279 (Perfect Squares), 377 (Combination Sum IV — permutations, so amount-outer).</p>
+<hr>
+<h2 id="family-4--lis-longest-increasing-subsequence">Family 4 — LIS (Longest Increasing Subsequence) </h2>
+<p><strong>State:</strong> <code>dp[i]</code> = length of LIS ending exactly at index <code>i</code>.<br>
+<strong>Recurrence:</strong> <code>dp[i] = 1 + max(dp[j])</code> for all <code>j &lt; i</code> where <code>nums[j] &lt; nums[i]</code>.<br>
+<strong>Answer:</strong> <code>max(dp)</code>.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// O(n²) DP</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">LIS_N2</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> nums<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n <span class="token operator">=</span> nums<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    Array<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>dp<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> ans <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> i<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&lt;</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ans <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>ans<span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> ans<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// O(n log n) — patience sorting (binary search on tails)</span>
+<span class="token comment">// See SearchingAndSorting.md for the binary-search template.</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">LIS_NLogN</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> nums<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> tails <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name">List<span class="token punctuation">&lt;</span><span class="token keyword keyword-int">int</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> x <span class="token keyword keyword-in">in</span> nums<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-int">int</span></span> pos <span class="token operator">=</span> tails<span class="token punctuation">.</span><span class="token function">BinarySearch</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pos <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> pos <span class="token operator">=</span> <span class="token operator">~</span>pos<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>pos <span class="token operator">==</span> tails<span class="token punctuation">.</span>Count<span class="token punctuation">)</span> tails<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-else">else</span> tails<span class="token punctuation">[</span>pos<span class="token punctuation">]</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> tails<span class="token punctuation">.</span>Count<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><blockquote>
+<p><strong>Why patience sorting works:</strong> <code>tails[i]</code> = smallest possible tail of an increasing subsequence of length <code>i+1</code>. Replacing <code>tails[pos]</code> with a smaller value keeps the tails array optimistic for future extensions without changing its length.</p>
+</blockquote>
+<p><strong>Canonical problems:</strong> LeetCode 300 (LIS), 354 (Russian Doll Envelopes — 2-D LIS), 673 (Number of LIS), 1027 (Longest Arithmetic Subsequence).</p>
+<hr>
+<h2 id="family-5--lcs-and-string-dp">Family 5 — LCS and String DP </h2>
+<p><strong>State:</strong> <code>dp[i][j]</code> = LCS length of <code>s1[0..i-1]</code> and <code>s2[0..j-1]</code>.<br>
+<strong>Recurrence:</strong></p>
+<ul>
+<li>If <code>s1[i-1] == s2[j-1]</code>: <code>dp[i][j] = dp[i-1][j-1] + 1</code></li>
+<li>Else: <code>dp[i][j] = max(dp[i-1][j], dp[i][j-1])</code></li>
+</ul>
+<p><strong>Base case:</strong> <code>dp[i][0] = dp[0][j] = 0</code>.<br>
+<strong>Order:</strong> row by row, left to right.<br>
+<strong>Answer:</strong> <code>dp[m][n]</code>.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// LCS length — O(mn) time, O(mn) space</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">LongestCommonSubsequence</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s1<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-string">string</span></span> s2<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> m <span class="token operator">=</span> s1<span class="token punctuation">.</span>Length<span class="token punctuation">,</span> n <span class="token operator">=</span> s2<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>m <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j<span class="token punctuation">]</span> <span class="token operator">=</span> s1<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> s2<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+                <span class="token punctuation">?</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span>
+                <span class="token punctuation">:</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span>m<span class="token punctuation">,</span> n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Edit Distance — O(mn) time, O(mn) space (LeetCode 72)</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">EditDistance</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-string">string</span></span> t<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> m <span class="token operator">=</span> s<span class="token punctuation">.</span>Length<span class="token punctuation">,</span> n <span class="token operator">=</span> t<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>m <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> i<span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> j<span class="token punctuation">]</span> <span class="token operator">=</span> j<span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j<span class="token punctuation">]</span> <span class="token operator">=</span> s<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> t<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+                <span class="token punctuation">?</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+                <span class="token punctuation">:</span> <span class="token number">1</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">Min</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span><span class="token function">Min</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> j<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span>m<span class="token punctuation">,</span> n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 1143 (LCS), 72 (Edit Distance), 115 (Distinct Subsequences), 97 (Interleaving String), 10 (Regex Matching), 44 (Wildcard Matching).</p>
+<hr>
+<h2 id="family-6--grid-dp">Family 6 — Grid DP </h2>
+<p><strong>State:</strong> <code>dp[r][c]</code> = answer at cell (r, c).<br>
+<strong>Recurrence:</strong> depends on allowed moves (usually <code>dp[r][c] = grid[r][c] + min(dp[r-1][c], dp[r][c-1])</code>).<br>
+<strong>Base case:</strong> first row/column from boundary conditions.<br>
+<strong>Order:</strong> row by row, left to right.<br>
+<strong>Answer:</strong> <code>dp[m-1][n-1]</code> (or aggregate).</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Unique Paths — O(mn) time, O(n) space</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">UniquePaths</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> m<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    Array<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>dp<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            dp<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+=</span> dp<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 62/63 (Unique Paths), 64 (Min Path Sum), 120 (Triangle), 221 (Maximal Square), 174 (Dungeon Game — fill bottom-right to top-left).</p>
+<hr>
+<h2 id="family-7--partition--subset-sum">Family 7 — Partition / Subset Sum </h2>
+<p>Subset sum is 0/1 knapsack with boolean <code>dp</code>. <code>dp[s] |= dp[s - num]</code> (reverse iteration).</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Partition Equal Subset Sum — O(n × sum) time, O(sum) space</span>
+<span class="token return-type class-name"><span class="token keyword keyword-bool">bool</span></span> <span class="token function">CanPartition</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> nums<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> total <span class="token operator">=</span> nums<span class="token punctuation">.</span><span class="token function">Sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>total <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> target <span class="token operator">=</span> total <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-bool">bool</span></span><span class="token punctuation">[</span>target <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> num <span class="token keyword keyword-in">in</span> nums<span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> s <span class="token operator">=</span> target<span class="token punctuation">;</span> s <span class="token operator">&gt;=</span> num<span class="token punctuation">;</span> s<span class="token operator">--</span><span class="token punctuation">)</span>
+            dp<span class="token punctuation">[</span>s<span class="token punctuation">]</span> <span class="token operator">|=</span> dp<span class="token punctuation">[</span>s <span class="token operator">-</span> num<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span>target<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 416 (Partition Equal Subset Sum), 494 (Target Sum), 1049 (Last Stone Weight II), 698 (Partition to K Equal Sum Subsets — bitmask DP).</p>
+<hr>
+<h2 id="family-8--palindrome-dp">Family 8 — Palindrome DP </h2>
+<p>Precompute <code>isPalin[i][j]</code> in O(n²), fill by increasing length.<br>
+<code>isPalin[i][j] = s[i] == s[j] &amp;&amp; (j - i &lt;= 2 || isPalin[i+1][j-1])</code>.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Longest Palindromic Subsequence (LeetCode 516)</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">LongestPalindromeSubseq</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-string">string</span></span> s<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n <span class="token operator">=</span> s<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n<span class="token punctuation">,</span> n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> len <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> len <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> len<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n <span class="token operator">-</span> len<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> i <span class="token operator">+</span> len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j<span class="token punctuation">]</span> <span class="token operator">=</span> s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> s<span class="token punctuation">[</span>j<span class="token punctuation">]</span>
+                <span class="token punctuation">?</span> <span class="token punctuation">(</span>len <span class="token operator">==</span> <span class="token number">2</span> <span class="token punctuation">?</span> <span class="token number">2</span> <span class="token punctuation">:</span> dp<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span>
+                <span class="token punctuation">:</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> j<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 516 (Longest Palindromic Subsequence), 132 (Palindrome Partitioning II).</p>
+<hr>
+<h2 id="family-9--interval-dp">Family 9 — Interval DP </h2>
+<p><strong>State:</strong> <code>dp[i][j]</code> = optimal cost for interval <code>[i, j]</code>.<br>
+<strong>Recurrence:</strong> try all split points <code>k</code>: <code>dp[i][j] = opt over k in [i, j-1] of (dp[i][k] + dp[k+1][j] + merge_cost)</code>.<br>
+<strong>Order:</strong> increasing interval length (so sub-intervals are already filled).<br>
+<strong>Answer:</strong> <code>dp[0][n-1]</code>.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Burst Balloons skeleton — O(n³) time, O(n²) space</span>
+<span class="token comment">// Pad nums with 1s at both ends; dp[i][j] = max coins in open interval (i,j)</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">MaxCoins</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> nums<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n <span class="token operator">=</span> nums<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> a <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> a<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> N <span class="token operator">=</span> n <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>N<span class="token punctuation">,</span> N<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> len <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> len <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> len<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">+</span> len <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> i <span class="token operator">+</span> len<span class="token punctuation">;</span>
+            <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> k <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> j<span class="token punctuation">;</span> k<span class="token operator">++</span><span class="token punctuation">)</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> k<span class="token punctuation">]</span> <span class="token operator">+</span> dp<span class="token punctuation">[</span>k<span class="token punctuation">,</span> j<span class="token punctuation">]</span> <span class="token operator">+</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> a<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">*</span> a<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> N <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 312 (Burst Balloons), 486 (Predict the Winner), 877 (Stone Game), Matrix Chain Multiplication.</p>
+<hr>
+<h2 id="family-10--bitmask-dp">Family 10 — Bitmask DP </h2>
+<p><strong>State:</strong> <code>dp[mask][i]</code> = optimal value having visited nodes in <code>mask</code>, currently at <code>i</code>.<br>
+<strong>Recurrence:</strong> <code>dp[mask | (1&lt;&lt;j)][j] = opt(dp[mask][i] + cost[i][j])</code>.<br>
+<strong>Order:</strong> iterate <code>mask</code> from 0 to <code>2^n - 1</code>.<br>
+<strong>Feasibility:</strong> n ≤ 20.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// TSP skeleton — O(2^n × n²) time, O(2^n × n) space</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">TSP</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> n<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">,</span><span class="token punctuation">]</span></span> dist<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> FULL <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> n<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> n<span class="token punctuation">,</span> n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-var">var</span></span> row <span class="token keyword keyword-in">in</span> Enumerable<span class="token punctuation">.</span><span class="token function">Range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> n<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>row<span class="token punctuation">,</span> i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword keyword-int">int</span><span class="token punctuation">.</span>MaxValue <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    dp<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> mask <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> mask <span class="token operator">&lt;=</span> FULL<span class="token punctuation">;</span> mask<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> u <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> u <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> u<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>mask <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> u<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> dp<span class="token punctuation">[</span>mask<span class="token punctuation">,</span> u<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token keyword keyword-int">int</span><span class="token punctuation">.</span>MaxValue <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword keyword-continue">continue</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> v <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> v <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> v<span class="token operator">++</span><span class="token punctuation">)</span>
+                <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>mask <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> v<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                    dp<span class="token punctuation">[</span>mask <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> v<span class="token punctuation">)</span><span class="token punctuation">,</span> v<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Min</span><span class="token punctuation">(</span>
+                        dp<span class="token punctuation">[</span>mask <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> v<span class="token punctuation">)</span><span class="token punctuation">,</span> v<span class="token punctuation">]</span><span class="token punctuation">,</span> dp<span class="token punctuation">[</span>mask<span class="token punctuation">,</span> u<span class="token punctuation">]</span> <span class="token operator">+</span> dist<span class="token punctuation">[</span>u<span class="token punctuation">,</span> v<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span>FULL<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// adjust for open/closed tour</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 847 (Shortest Path Visiting All Nodes), 943 (Find Shortest Superstring), 698 (Partition to K Equal Sum Subsets).</p>
+<hr>
+<h2 id="family-11--tree-dp">Family 11 — Tree DP </h2>
+<p>Return a tuple of values from each subtree (post-order). Each node computes its state from its children's states.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// House Robber III — O(n) time, O(h) space</span>
+<span class="token return-type class-name"><span class="token punctuation">(</span><span class="token keyword keyword-int">int</span> rob<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span> skip<span class="token punctuation">)</span></span> <span class="token function">RobTree</span><span class="token punctuation">(</span><span class="token class-name">TreeNode<span class="token punctuation">?</span></span> node<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>node <span class="token operator">==</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-var">var</span> <span class="token punctuation">(</span>lr<span class="token punctuation">,</span> ls<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">RobTree</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>left<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-var">var</span> <span class="token punctuation">(</span>rr<span class="token punctuation">,</span> rs<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">RobTree</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> rob <span class="token operator">=</span> node<span class="token punctuation">.</span>val <span class="token operator">+</span> ls <span class="token operator">+</span> rs<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> skip <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>lr<span class="token punctuation">,</span> ls<span class="token punctuation">)</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>rr<span class="token punctuation">,</span> rs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span>rob<span class="token punctuation">,</span> skip<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// Answer: var (r, s) = RobTree(root); return Math.Max(r, s);</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 337 (House Robber III), LeetCode 543/124 (Diameter/Max Path Sum in Trees — see <a href="../Trees/Trees.md">Trees</a>).</p>
+<hr>
+<h2 id="family-12--state-machine-dp-stocks">Family 12 — State Machine DP (Stocks) </h2>
+<p>Model each day's state as a node in a finite state machine. Transition costs are the DP recurrences.</p>
+<p><strong>LeetCode 121 — at most 1 transaction:</strong></p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">MaxProfit121</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> prices<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> minBuy <span class="token operator">=</span> <span class="token keyword keyword-int">int</span><span class="token punctuation">.</span>MaxValue<span class="token punctuation">,</span> maxProfit <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> p <span class="token keyword keyword-in">in</span> prices<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        minBuy <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Min</span><span class="token punctuation">(</span>minBuy<span class="token punctuation">,</span> p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        maxProfit <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>maxProfit<span class="token punctuation">,</span> p <span class="token operator">-</span> minBuy<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> maxProfit<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>General state machine framing (used for 122 / 309 / 714):</strong></p>
+<pre data-role="codeBlock" data-info="text" class="language-text text"><code>States: hold (own a stock), sold (just sold today), rest (not holding, not just sold)
+Transitions each day:
+    hold  = max(hold,  rest  - price)   // buy or keep holding
+    sold  = hold_prev + price            // sell today
+    rest  = max(rest,  sold)             // cooldown ends or keep resting
+Answer: max(sold, rest)
+</code></pre><pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// With Cooldown (LeetCode 309) — O(n) time, O(1) space</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">MaxProfitCooldown</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> prices<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> hold <span class="token operator">=</span> <span class="token keyword keyword-int">int</span><span class="token punctuation">.</span>MinValue<span class="token punctuation">,</span> sold <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> rest <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> p <span class="token keyword keyword-in">in</span> prices<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-int">int</span></span> prevHold <span class="token operator">=</span> hold<span class="token punctuation">,</span> prevSold <span class="token operator">=</span> sold<span class="token punctuation">,</span> prevRest <span class="token operator">=</span> rest<span class="token punctuation">;</span>
+        hold <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>prevHold<span class="token punctuation">,</span> prevRest <span class="token operator">-</span> p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        sold <span class="token operator">=</span> prevHold <span class="token operator">+</span> p<span class="token punctuation">;</span>
+        rest <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>prevRest<span class="token punctuation">,</span> prevSold<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>sold<span class="token punctuation">,</span> rest<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// With Transaction Fee (LeetCode 714)</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">MaxProfitFee</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> prices<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span></span> fee<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> hold <span class="token operator">=</span> <span class="token keyword keyword-int">int</span><span class="token punctuation">.</span>MinValue<span class="token punctuation">,</span> free <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-foreach">foreach</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> p <span class="token keyword keyword-in">in</span> prices<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-int">int</span></span> prevHold <span class="token operator">=</span> hold<span class="token punctuation">;</span>
+        hold <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>hold<span class="token punctuation">,</span> free <span class="token operator">-</span> p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        free <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>free<span class="token punctuation">,</span> prevHold <span class="token operator">+</span> p <span class="token operator">-</span> fee<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> free<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// At most k transactions (LeetCode 188) — O(nk) time, O(k) space</span>
+<span class="token return-type class-name"><span class="token keyword keyword-int">int</span></span> <span class="token function">MaxProfitK</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> k<span class="token punctuation">,</span> <span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> prices<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n <span class="token operator">=</span> prices<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>k <span class="token operator">&gt;=</span> n <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span>   <span class="token comment">// unlimited effectively</span>
+    <span class="token punctuation">{</span>
+        <span class="token class-name"><span class="token keyword keyword-int">int</span></span> profit <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>prices<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&gt;</span> prices<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> profit <span class="token operator">+=</span> prices<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> prices<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> profit<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> buy <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>k <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>   <span class="token comment">// buy[i] = best profit in state "holding after i-th buy"</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> sell <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>k <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>  <span class="token comment">// sell[i] = best profit after i-th sell</span>
+    Array<span class="token punctuation">.</span><span class="token function">Fill</span><span class="token punctuation">(</span>buy<span class="token punctuation">,</span> <span class="token keyword keyword-int">int</span><span class="token punctuation">.</span>MinValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> k<span class="token punctuation">;</span> j <span class="token operator">&gt;=</span> <span class="token number">1</span><span class="token punctuation">;</span> j<span class="token operator">--</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            buy<span class="token punctuation">[</span>j<span class="token punctuation">]</span>  <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>buy<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>  sell<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">-</span> prices<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            sell<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>sell<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> buy<span class="token punctuation">[</span>j<span class="token punctuation">]</span>      <span class="token operator">+</span> prices<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> sell<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><p><strong>Canonical problems:</strong> LeetCode 121, 122, 123 (at most 2 transactions = k=2 above), 188, 309, 714.</p>
+<hr>
+<h2 id="family-13--kadane--max-subarray-as-dp">Family 13 — Kadane / Max Subarray as DP </h2>
+<p><strong>State:</strong> <code>dp[i]</code> = max subarray sum ending exactly at index <code>i</code>.<br>
+<strong>Recurrence:</strong> <code>dp[i] = max(nums[i], dp[i-1] + nums[i])</code> — either start fresh or extend.<br>
+<strong>Answer:</strong> <code>max(dp)</code>.<br>
+<strong>Space-optimised:</strong> single variable <code>cur</code>, global <code>best</code>.</p>
+<blockquote>
+<p>Kadane is owned by <a href="../ArraysAndStrings/ArraysAndStrings.md">Arrays and Strings</a>. Recognise the DP framing: <code>dp[i]</code> = max ending exactly at <code>i</code>.</p>
+</blockquote>
+<hr>
+<h2 id="family-14--digit-dp">Family 14 — Digit DP </h2>
+<p>Count integers in <code>[0, R]</code> (or <code>[L, R]</code>) satisfying a digit-level property (e.g., digit sum divisible by k, no two adjacent same digits).</p>
+<p><strong>State:</strong> <code>(position, tight, leading_zero, accumulated_property)</code>.</p>
+<ul>
+<li><code>tight</code> = true if current prefix still matches the upper bound digit-by-digit.</li>
+<li><code>leading_zero</code> = true if no non-zero digit placed yet (handles "0" prefix edge cases).</li>
+</ul>
+<p><strong>Recurrence:</strong> for each digit <code>d</code> at <code>position</code>, recurse with updated <code>tight</code> and <code>accumulated_property</code>.<br>
+<strong>Memoize</strong> on <code>(pos, tight, …)</code> — state space is O(digits × 2 × property_range).</p>
+<p>Rarely appears in standard interviews; common in competitive programming.</p>
+<hr>
+<h2 id="family-15--game-theory--minimax-dp">Family 15 — Game Theory / Minimax DP </h2>
+<p><strong>State:</strong> <code>dp[i][j]</code> = max score the <em>current player</em> can guarantee from subgame <code>[i, j]</code>.<br>
+<strong>Recurrence:</strong> <code>dp[i][j] = max(a[i] - dp[i+1][j], a[j] - dp[i][j-1])</code>.</p>
+<ul>
+<li>Current player picks left or right end; opponent then plays optimally on the remainder.</li>
+<li>The subtracted <code>dp[...]</code> term represents the opponent's future gain.</li>
+</ul>
+<p><strong>Answer:</strong> <code>dp[0][n-1] &gt;= 0</code> → first player wins.</p>
+<pre data-role="codeBlock" data-info="csharp" class="language-csharp csharp"><code><span class="token comment">// Predict the Winner (LeetCode 486) / Stone Game (LeetCode 877)</span>
+<span class="token return-type class-name"><span class="token keyword keyword-bool">bool</span></span> <span class="token function">PredictTheWinner</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> nums<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token class-name"><span class="token keyword keyword-int">int</span></span> n <span class="token operator">=</span> nums<span class="token punctuation">.</span>Length<span class="token punctuation">;</span>
+    <span class="token class-name"><span class="token keyword keyword-var">var</span></span> dp <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token constructor-invocation class-name"><span class="token keyword keyword-int">int</span></span><span class="token punctuation">[</span>n<span class="token punctuation">,</span> n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> i<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> len <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> len <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> len<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword keyword-int">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n <span class="token operator">-</span> len<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token class-name"><span class="token keyword keyword-int">int</span></span> j <span class="token operator">=</span> i <span class="token operator">+</span> len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j<span class="token punctuation">]</span> <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">Max</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> dp<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> j<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">-</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">,</span> j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token keyword keyword-return">return</span> dp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><hr>
+<h2 id="pattern-recognition">Pattern Recognition </h2>
+<table>
+<thead>
+<tr>
+<th>Problem says…</th>
+<th>Family</th>
+<th>Key state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Min/max coins / operations / edits"</td>
+<td>Unbounded knapsack / Edit distance</td>
+<td><code>dp[amount]</code> / <code>dp[i][j]</code></td>
+</tr>
+<tr>
+<td>"In how many ways"</td>
+<td>Counting DP (sum recurrence)</td>
+<td>varies</td>
+</tr>
+<tr>
+<td>"Can you partition / reach sum"</td>
+<td>0/1 knapsack, bool dp</td>
+<td><code>dp[target]</code></td>
+</tr>
+<tr>
+<td>"Longest subsequence (non-contiguous)"</td>
+<td>LIS / LCS</td>
+<td><code>dp[i]</code> or <code>dp[i][j]</code></td>
+</tr>
+<tr>
+<td>"Longest subarray / substring (contiguous)"</td>
+<td>Kadane / sliding window</td>
+<td><code>dp[i]</code> ending at i</td>
+</tr>
+<tr>
+<td>"On a grid, move right/down"</td>
+<td>Grid DP</td>
+<td><code>dp[r][c]</code></td>
+</tr>
+<tr>
+<td>"Intervals, merge, burst, split"</td>
+<td>Interval DP</td>
+<td><code>dp[i][j]</code> by length</td>
+</tr>
+<tr>
+<td>"Visit all nodes in small graph"</td>
+<td>Bitmask DP</td>
+<td><code>dp[mask][node]</code></td>
+</tr>
+<tr>
+<td>"Tree, each subtree independent"</td>
+<td>Tree DP</td>
+<td>return tuple</td>
+</tr>
+<tr>
+<td>"Stock buy/sell with constraints"</td>
+<td>State machine DP</td>
+<td>hold/sold/rest</td>
+</tr>
+<tr>
+<td>"Digit property counting"</td>
+<td>Digit DP</td>
+<td>(pos, tight, acc)</td>
+</tr>
+<tr>
+<td>"First player wins game theory"</td>
+<td>Minimax / game DP</td>
+<td><code>dp[i][j]</code> score diff</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="comparison-all-dp-families">Comparison: All DP Families </h2>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>State</th>
+<th>Inner loop direction</th>
+<th>Classic problem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0/1 Knapsack</td>
+<td><code>dp[w]</code></td>
+<td><strong>Reverse</strong> (no reuse)</td>
+<td>Partition Equal Subset</td>
+</tr>
+<tr>
+<td>Unbounded Knapsack</td>
+<td><code>dp[a]</code></td>
+<td><strong>Forward</strong> (reuse OK)</td>
+<td>Coin Change</td>
+</tr>
+<tr>
+<td>LIS</td>
+<td><code>dp[i]</code> ending at i</td>
+<td>j &lt; i scan / binary search</td>
+<td>LIS 300</td>
+</tr>
+<tr>
+<td>LCS / Edit</td>
+<td><code>dp[i][j]</code> 2-D</td>
+<td>Row by row</td>
+<td>LCS 1143, Edit 72</td>
+</tr>
+<tr>
+<td>House Robber</td>
+<td><code>dp[i]</code> prefix max</td>
+<td>Left to right</td>
+<td>198 / 213</td>
+</tr>
+<tr>
+<td>Grid</td>
+<td><code>dp[r][c]</code></td>
+<td>Row by row</td>
+<td>Unique Paths 62</td>
+</tr>
+<tr>
+<td>Bitmask</td>
+<td><code>dp[mask][i]</code></td>
+<td>mask 0 → 2^n</td>
+<td>TSP, 847</td>
+</tr>
+<tr>
+<td>Palindrome</td>
+<td><code>dp[i][j]</code> by length</td>
+<td>Increasing length</td>
+<td>516, 132</td>
+</tr>
+<tr>
+<td>Interval</td>
+<td><code>dp[i][j]</code> by length</td>
+<td>Increasing length</td>
+<td>Burst Balloons 312</td>
+</tr>
+<tr>
+<td>Tree DP</td>
+<td>tuple per node</td>
+<td>Post-order</td>
+<td>House Robber III 337</td>
+</tr>
+<tr>
+<td>State machine</td>
+<td>hold/sold/rest</td>
+<td>Left to right</td>
+<td>Stocks 121–714</td>
+</tr>
+<tr>
+<td>Counting</td>
+<td><code>dp[i]</code> sum</td>
+<td>Left to right</td>
+<td>Climbing Stairs 70</td>
+</tr>
+<tr>
+<td>Game theory</td>
+<td><code>dp[i][j]</code></td>
+<td>Increasing length</td>
+<td>Predict Winner 486</td>
+</tr>
+<tr>
+<td>Digit</td>
+<td>(pos, tight, acc)</td>
+<td>Recursive</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="pitfalls">Pitfalls </h2>
+<ul>
+<li><strong>Sentinel collision:</strong> using <code>-1</code> as "uncomputed" but the answer can be <code>-1</code>. Use <code>int.MinValue</code> or a separate <code>bool[] computed</code> array.</li>
+<li><strong>Integer overflow in counting DP:</strong> <code>dp[i] += dp[j]</code> can exceed <code>int.MaxValue</code> for large n. Use <code>long</code> or <code>% 1_000_000_007</code>.</li>
+<li><strong><code>int.MaxValue + 1</code> overflow:</strong> never do <code>dp[i] = int.MaxValue; dp[i] + 1</code>. Use <code>amount + 1</code> or <code>n + 1</code> as a safe sentinel.</li>
+<li><strong>Wrong iteration order:</strong> 0/1 knapsack must iterate capacity backwards; LCS must fill <code>dp[i-1][j-1]</code> before <code>dp[i][j]</code>.</li>
+<li><strong>Forgetting <code>dp[0]</code> base case:</strong> many recurrences silently break if <code>dp[0]</code> is not set (e.g., <code>dp[0] = 1</code> for counting "zero items = one way").</li>
+<li><strong>Off-by-one — 0-indexed strings with 1-indexed table:</strong> <code>dp[i][j]</code> corresponds to <code>s1[i-1]</code> and <code>s2[j-1]</code>. Keep this consistent or use 0-indexed table with boundary guards.</li>
+<li><strong>Returning <code>dp[n-1]</code> instead of <code>max(dp)</code>:</strong> "ending exactly at i" convention requires scanning all dp values.</li>
+<li><strong>Stack overflow for n = 10⁵ in top-down:</strong> C# default stack is ~1 MB. Use tabulation or increase stack with <code>Thread</code>.</li>
+<li><strong>Recursion without base cases:</strong> causes infinite loops or wrong answers — always handle the empty/zero state first.</li>
+</ul>
+<hr>
+<h2 id="practice">Practice </h2>
+<p>See <a href="Problems.md">Problems.md</a> for worked solutions.</p>
+<table>
+<thead>
+<tr>
+<th>LeetCode</th>
+<th>Problem</th>
+<th>Family</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>70</td>
+<td>Climbing Stairs</td>
+<td>Linear</td>
+</tr>
+<tr>
+<td>198 / 213</td>
+<td>House Robber I / II</td>
+<td>Linear</td>
+</tr>
+<tr>
+<td>322</td>
+<td>Coin Change</td>
+<td>Unbounded Knapsack</td>
+</tr>
+<tr>
+<td>518</td>
+<td>Coin Change II</td>
+<td>Unbounded Knapsack</td>
+</tr>
+<tr>
+<td>300</td>
+<td>LIS</td>
+<td>LIS</td>
+</tr>
+<tr>
+<td>1143</td>
+<td>LCS</td>
+<td>LCS</td>
+</tr>
+<tr>
+<td>72</td>
+<td>Edit Distance</td>
+<td>String DP</td>
+</tr>
+<tr>
+<td>416</td>
+<td>Partition Equal Subset Sum</td>
+<td>0/1 Knapsack</td>
+</tr>
+<tr>
+<td>62</td>
+<td>Unique Paths</td>
+<td>Grid</td>
+</tr>
+<tr>
+<td>312</td>
+<td>Burst Balloons</td>
+<td>Interval</td>
+</tr>
+<tr>
+<td>847</td>
+<td>Shortest Path Visiting All Nodes</td>
+<td>Bitmask</td>
+</tr>
+<tr>
+<td>337</td>
+<td>House Robber III</td>
+<td>Tree DP</td>
+</tr>
+<tr>
+<td>121–714</td>
+<td>Stock Series</td>
+<td>State Machine</td>
+</tr>
+<tr>
+<td>486</td>
+<td>Predict the Winner</td>
+<td>Game Theory</td>
+</tr>
+</tbody>
+</table>
+<hr>
+
+      </div>
+      
+      
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('div.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('div.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('div.mermaid')
+  })
+}
+</script>
+    
+    
+    
+  
+    </body></html>

@@ -84,7 +84,8 @@ preparation-notes/
 ├── 04-LowLevelDesign/         # OOP, SOLID, design patterns, UML, problems
 ├── 05-HighLevelDesign/        # system design, building blocks, API design
 ├── 06-SoftwareEngineering/    # Git and engineering practice
-└── 07-Behavioral/
+├── 07-Behavioral/
+└── tools/                     # HTML export script (see "Exporting to HTML")
 ```
 
 Conventions:
@@ -98,7 +99,42 @@ Conventions:
 
 1. Create `NN-Section/Topic/Topic.md` and keep the images in the same folder.
 2. Link it from the section `README.md` and from the table of contents above.
-3. Commit and push to `main`; the site redeploys automatically.
+3. Run the export script (below) to regenerate the HTML and refresh `index.html`.
+4. Commit and push to `main`; the site redeploys automatically.
+
+## Exporting to HTML
+
+Every `*.md` file has a sibling `*.html` file rendered with
+[Markdown Preview Enhanced](https://shd101wyy.github.io/markdown-preview-enhanced/)
+(crossnote). Regenerate all of them — overwriting whatever is there — with:
+
+```powershell
+./tools/export-html.ps1          # Windows
+```
+
+```bash
+./tools/export-html.sh           # macOS / Linux
+```
+
+Both wrappers install the toolchain into `tools/node_modules` on first run (Node.js
+is the only prerequisite) and then call `tools/export-html.cjs`, which:
+
+1. exports every Markdown file in the repository to a sibling `.html` file, and
+2. rebuilds the note catalogue inside `index.html` from the files on disk —
+   titles come from each note's `#` heading and descriptions from its first
+   paragraph, so no manual list has to be maintained.
+
+Useful flags (accepted by the wrappers and by `node tools/export-html.cjs`):
+
+| Flag | Effect |
+| ---- | ------ |
+| `-Filter <text>` / `--filter <text>` | Only export notes whose path contains `<text>`. |
+| `-SkipIndex` / `--skip-index` | Export the HTML but leave `index.html` alone. |
+| `-IndexOnly` / `--index-only` | Only rebuild `index.html`. |
+
+> The generated block in `index.html` sits between the `/* BEGIN GENERATED NOTES */`
+> and `/* END GENERATED NOTES */` markers — edit the surrounding page freely, but
+> not that block.
 
 ## Live site
 
