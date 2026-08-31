@@ -5963,6 +5963,9 @@ HOUSE_ROBBER(nums):
     return prev1
 ```
 
+> If houses are arranged in a circle
+> Calculate 2 DPs, 1st one 0 to n-2, 2nd one 0 to n-1. Return max
+
 ### 3. Coin Change
 
 Given coins of different denominations and a total amount of money, find the fewest number of coins that you need to make up that amount. If that amount cannot be made up by any combination of the coins, return -1.

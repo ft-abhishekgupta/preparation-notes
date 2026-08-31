@@ -256,6 +256,23 @@ COUNTING_SORT_BY_DIGIT(arr, exp):
     copy output into arr
 ```
 
+## Quickselect
+
+Average O(n); uses partition from quicksort. Finds kth smallest without full sort.
+
+```csharp
+int QuickSelect(int[] nums, int lo, int hi, int k)
+{
+    if (lo == hi) return nums[lo];
+    int pivot = nums[hi], p = lo;
+    for (int i = lo; i < hi; i++)
+        if (nums[i] <= pivot) { (nums[i], nums[p]) = (nums[p], nums[i]); p++; }
+    (nums[p], nums[hi]) = (nums[hi], nums[p]);
+    if (p == k) return nums[p];
+    return p > k ? QuickSelect(nums, lo, p - 1, k) : QuickSelect(nums, p + 1, hi, k);
+}
+```
+
 | Sorting Algorithm | Time Complexity       | Space Complexity | Stable? | In-place? | When to Use                                     |
 | ----------------- | --------------------- | ---------------- | ------- | --------- | ----------------------------------------------- |
 | Bubble Sort       | O(n^2)                | O(1)             | ✅      | ✅        | Small datasets, educational purposes            |
@@ -267,3 +284,11 @@ COUNTING_SORT_BY_DIGIT(arr, exp):
 | Counting Sort     | O(n + k)              | O(k)             | ✅      | ❌        | Small range of integers, non-comparison sort    |
 | Bucket Sort       | O(n + k)              | O(n + k)         | ✅      | ❌        | Uniformly distributed data, non-comparison sort |
 | Radix Sort        | O(nk)                 | O(n + k)         | ✅      | ❌        | Large datasets of integers, non-comparison sort |
+
+## C# Sort Internals
+
+- **`Array.Sort`** — introspective sort (quicksort → heapsort fallback at depth limit). **Not stable**. O(n log n).
+- **`List<T>.Sort`** — delegates to `Array.Sort`. **Not stable**.
+- **`OrderBy` (LINQ)** — merge sort internally. **Stable**. Returns new sequence.
+- **`Array.Sort` with `IComparer<T>`** — custom comparison, still not stable.
+- For stable in-place sort: use `OrderBy(...).ToArray()` or implement stable sort.

@@ -1,6 +1,4 @@
-# Trees and Graphs
-
-## Tree
+# Trees
 
 Tree is a hierarchical data structure that consists of nodes connected by edges.
 It has a root node and zero or more child nodes, forming a parent-child relationship.
@@ -126,6 +124,110 @@ INSERT(root, key):
     else if key > root.value:
         root.right = INSERT(root.right, key)
     return root
+
+DELETE...
+```
+
+---
+
+## LCA — Lowest Common Ancestor
+
+```csharp
+// Binary Tree (LeetCode 236) — O(n)
+TreeNode LCA(TreeNode root, TreeNode p, TreeNode q)
+{
+    if (root == null || root == p || root == q) return root;
+    var left  = LCA(root.Left,  p, q);
+    var right = LCA(root.Right, p, q);
+    if (left != null && right != null) return root; // p and q in different subtrees
+    return left ?? right;
+}
+
+// BST LCA (LeetCode 235) — O(h) — exploit ordering
+TreeNode LCABST(TreeNode root, TreeNode p, TreeNode q)
+{
+    while (root != null)
+    {
+        if (p.Val < root.Val && q.Val < root.Val) root = root.Left;
+        else if (p.Val > root.Val && q.Val > root.Val) root = root.Right;
+        else return root; // split point = LCA
+    }
+    return null;
+}
+```
+
+---
+
+## Path Sum Family
+
+```csharp
+// All root-to-leaf paths summing to target — LeetCode 113
+void PathSumDFS(TreeNode node, int remain, List<int> path, IList<IList<int>> res)
+{
+    if (node == null) return;
+    path.Add(node.Val);
+    if (node.Left == null && node.Right == null && remain == node.Val)
+        res.Add(new List<int>(path));
+    PathSumDFS(node.Left,  remain - node.Val, path, res);
+    PathSumDFS(node.Right, remain - node.Val, path, res);
+    path.RemoveAt(path.Count - 1); // backtrack
+}
+
+// Max path sum through any nodes — LeetCode 124 — tree DP
+int _maxPath = int.MinValue;
+int MaxGain(TreeNode node)
+{
+    if (node == null) return 0;
+    int l = Math.Max(0, MaxGain(node.Left));   // ignore negative branches
+    int r = Math.Max(0, MaxGain(node.Right));
+    _maxPath = Math.Max(_maxPath, node.Val + l + r);
+    return node.Val + Math.Max(l, r);           // return single-branch gain
+}
+```
+
+---
+
+## Serialize / Deserialize Binary Tree (LeetCode 297)
+
+```csharp
+string Serialize(TreeNode root)
+{
+    var sb = new StringBuilder();
+    void Dfs(TreeNode n) {
+        if (n == null) { sb.Append("null,"); return; }
+        sb.Append(n.Val).Append(',');
+        Dfs(n.Left); Dfs(n.Right);
+    }
+    Dfs(root);
+    return sb.ToString();
+}
+
+TreeNode Deserialize(string data)
+{
+    var q = new Queue<string>(data.Split(','));
+    TreeNode Build() {
+        var val = q.Dequeue();
+        if (val == "null") return null;
+        return new TreeNode(int.Parse(val), Build(), Build());
+    }
+    return Build();
+}
+// Preorder serialization uniquely encodes a binary tree (null markers included).
+```
+
+---
+
+## Validate BST
+
+```csharp
+bool IsValidBST(TreeNode root, long min = long.MinValue, long max = long.MaxValue)
+{
+    if (root == null) return true;
+    if (root.Val <= min || root.Val >= max) return false;
+    return IsValidBST(root.Left, min, root.Val)
+        && IsValidBST(root.Right, root.Val, max);
+}
+// Pass min/max bounds down recursion; use long to handle int.MinValue/MaxValue edge cases.
 ```
 
 ### AVL Tree - Self-Balancing Binary Search Tree
@@ -171,7 +273,6 @@ LEFT_ROTATE(x):
     return y
 
 INSERT(root, key):
-
     // Normal BST insertion
     if root == null:
         return new Node(key)
@@ -219,288 +320,16 @@ INSERT(root, key):
 - Each node can have m/2 to m keys
 - Keys within nodes are sorted
 
+## AVL vs Red-Black vs B-Tree
+
+| Aspect                  | AVL                      | Red-Black                            | B-Tree                     |
+| ----------------------- | ------------------------ | ------------------------------------ | -------------------------- |
+| Balance condition       | Height diff ≤ 1          | Approx height ≤ 2×min                | All leaves same depth      |
+| Lookup                  | O(log n)                 | O(log n)                             | O(log_t n)                 |
+| Insert/delete rotations | More (strictly balanced) | Fewer (2-3 rotations max)            | Split/merge nodes          |
+| Read-heavy              | Better (lower height)    | OK                                   | Excellent (high fanout)    |
+| Write-heavy             | OK                       | Better                               | Excellent (sequential I/O) |
+| Disk/block storage      | Poor (small nodes)       | Poor                                 | Designed for it            |
+| Use case                | In-memory sorted maps    | JVM `TreeMap`, Linux scheduler (CFS) | DB indexes, file systems   |
+
 ### Heap
-
-- Complete Binary Tree
-- Max Heap: Parent node >= Child nodes
-- Min Heap: Parent node <= Child nodes
-- Applications: Priority Queue, Heap Sort, Graph Algorithms (Dijkstra's, Prim's)
-
-![alt text](image-5.png)
-
-**Array representation of Heap:**
-
-- For node at index i:
-  - Left child index = 2 \* i + 1
-  - Right child index = 2 \* i + 2
-  - Parent index = (i - 1) / 2
-  - Root node is at index 0
-  - Leaf nodes are at indices n/2 to n-1 (0-based indexing)
-
-**Operations on Heap:**
-
-- Insert
-  - Insert at end > Heapify up (compare with parent and swap if necessary)
-- Delete
-  - Replace root with last element > Heapify down (compare with children and swap if necessary)
-- Build Heap
-  - Assume all elements are in the array, leaf nodes are already heaps
-  - Operate on all non-leaf nodes from bottom to top and heapify each node
-
-```cs
-INSERT_HEAP(arr, key):
-    arr.append(key)
-    i = length(arr) - 1
-    while i != 0 and arr[PARENT(i)] < arr[i]:
-        swap(arr[i], arr[PARENT(i)])
-        i = PARENT(i)
-
-DELETE_HEAP(arr, key):
-    index = FIND_INDEX(arr, key)
-    if index == -1:
-        return
-    arr[index] = arr[length(arr) - 1]
-    arr.pop()
-    HEAPIFY(arr, length(arr), index)
-
-HEAPIFY(arr, n, i):
-    largest = i
-    left = 2 * i + 1
-    right = 2 * i + 2
-
-    if left < n and arr[left] > arr[largest]:
-        largest = left
-
-    if right < n and arr[right] > arr[largest]:
-        largest = right
-
-    if largest != i:
-        swap(arr[i], arr[largest])
-        HEAPIFY(arr, n, largest)
-```
-
-## Graph
-
-Non linear data structure consisting of nodes (vertices) and edges connecting them.
-
-- G = (V, E) where V is a set of vertices and E is a set of edges
-- May be directed or undirected, weighted or unweighted, cyclic or acyclic.
-- Applications: Social Networks, Web Graphs, Transportation Networks, Network Routing, Dependency Graphs
-
-**Terminology:**
-
-- _Vertex_: A node in the graph
-- _Edge_: A connection between two vertices
-- _Degree_: Number of edges connected to a vertex
-- _Weight_: The value associated with an edge, representing cost, distance, or capacity
-- _In-degree_: Number of edges coming into a vertex (for directed graphs)
-- _Out-degree_: Number of edges going out from a vertex (for directed graphs)
-- _Path_: A sequence of edges connecting a sequence of vertices
-- _Cycle_: A path that starts and ends at the same vertex
-
-![alt text](image-6.png)
-
-- _Undirected Graph_: A graph in which edges do not have a direction, and can be traversed in both directions
-- _Directed Graph (Digraph)_: A graph in which edges have a direction, going from one vertex to another
-- _Weighted Graph_: A graph in which edges have weights or costs associated with them
-- _Unweighted Graph_: A graph in which edges do not have weights or costs associated with them
-- _Connected Graph_: A graph in which there is a path between every pair of vertices
-- _Disconnected Graph_: A graph in which at least two vertices are not connected by a path
-
-### Graph Representation
-
-![alt text](image-7.png)
-
-| Property             | **Adjacency Matrix**                               | **Adjacency List**                             |
-| -------------------- | -------------------------------------------------- | ---------------------------------------------- |
-| **Structure**        | `V × V` 2D array                                   | Array / HashMap of size `V`                    |
-| **Edge Storage**     | `matrix[i][j] = 1/weight` if edge exists, else `0` | Each vertex stores a list of adjacent vertices |
-| **Undirected Graph** | Symmetric                                          | Store both directions                          |
-| **Directed Graph**   | Generally asymmetric                               | Store outgoing edges                           |
-| **Weighted Graph**   | Cell stores edge weight                            | Store `(neighbor, weight)`                     |
-| **Check Edge**       | **O(1)**                                           | O(degree)                                      |
-| **Find Neighbors**   | O(V)                                               | **O(degree)**                                  |
-| **Add Edge**         | **O(1)**                                           | **O(1)**                                       |
-| **Remove Edge**      | **O(1)**                                           | O(degree)                                      |
-| **Best For**         | **Dense graphs**                                   | **Sparse graphs**                              |
-| **Space Complexity** | **O(V²)**                                          | **O(V + E)**                                   |
-| **Key Advantage**    | Fast edge existence check                          | Memory efficient & fast neighbor traversal     |
-
-| Operation     | Matrix              | List                 |
-| ------------- | ------------------- | -------------------- |
-| Create        | `V × V` array       | `V` empty lists      |
-| Add edge      | `matrix[u][v] = 1`  | `graph[u].add(v)`    |
-| Remove edge   | `matrix[u][v] = 0`  | `graph[u].remove(v)` |
-| Check edge    | `matrix[u][v] != 0` | `v in graph[u]`      |
-| Get neighbors | Scan row `u`        | `graph[u]`           |
-
-### Graph Traversal
-
-Traversal is the process of visiting all the vertices and edges of a graph in a systematic manner
-
-| Property             | **Depth-First Search (DFS)**                                     | **Breadth-First Search (BFS)**                                                                 |
-| -------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Approach**         | Explore as far as possible along each branch before backtracking | Explore all neighbors at the present depth prior to moving on to nodes at the next depth level |
-| **Data Structure**   | Stack (recursion or explicit)                                    | Queue                                                                                          |
-| **Time Complexity**  | O(V + E)                                                         | O(V + E)                                                                                       |
-| **Space Complexity** | O(V)                                                             | O(V)                                                                                           |
-| **Use Cases**        | Topological sorting, cycle detection, pathfinding in mazes       | Shortest path in unweighted graphs, level order traversal                                      |
-
-> BFS goes wide and DFS goes deep.
-
-```cs
-// Depth-First Search (DFS)
-DFS(graph, start, visited):
-    visited.add(start)
-    visit(start)
-    for neighbor in graph[start]:
-        if neighbor not in visited:
-            DFS(graph, neighbor, visited)
-
-// Breadth-First Search (BFS)
-BFS(graph, start):
-    visited = set()
-    queue = new Queue()
-    queue.enqueue(start)
-    visited.add(start)
-    while not queue.isEmpty():
-        vertex = queue.dequeue()
-        visit(vertex)
-        for neighbor in graph[vertex]:
-            if neighbor not in visited:
-                visited.add(neighbor)
-                queue.enqueue(neighbor)
-```
-
-### BFS DFS Applications
-
-```cs
-// Shortest Path in Unweighted Graph
-SHORTEST_PATH_UNWEIGHTED(graph, start, target):
-    visited = set()
-    queue = new Queue()
-    queue.enqueue((start, 0)) // (vertex, distance)
-    visited.add(start)
-    while not queue.isEmpty():
-        (vertex, distance) = queue.dequeue()
-        if vertex == target:
-            return distance
-        for neighbor in graph[vertex]:
-            if neighbor not in visited:
-                visited.add(neighbor)
-                queue.enqueue((neighbor, distance + 1))
-    return -1 // target not reachable
-
-// Cycle Detection in Undirected Graph
-HAS_CYCLE_UNDIRECTED(graph):
-    visited = set()
-    for vertex in graph:
-        if vertex not in visited:
-            if DFS_CYCLE(graph, vertex, visited, -1):
-                return true
-    return false
-
-// Cycle Detection in Directed Graph
-HAS_CYCLE_DIRECTED(graph):
-    visited = set()
-    recursionStack = set()
-    for vertex in graph:
-        if vertex not in visited:
-            if DFS_CYCLE_DIRECTED(graph, vertex, visited, recursionStack):
-                return true
-    return false
-
-// Connected Components in Undirected Graph
-CONNECTED_COMPONENTS_UNDIRECTED(graph):
-    visited = set()
-    components = []
-    for vertex in graph:
-        if vertex not in visited:
-            component = []
-            DFS_COMPONENT(graph, vertex, visited, component)
-            components.append(component)
-    return components
-
-// Topological Sort in Directed Acyclic Graph (DAG) - Kahn's Algorithm
-// Topological sort is a linear ordering of vertices such that for every directed edge u → v, vertex u comes before v in the ordering.
-// If the graph has a cycle, topological sort gives result < V
-TOPOLOGICAL_SORT(graph):
-    queue = new Queue()
-    inDegree = array of size V, initialized to 0
-    for vertex in graph:
-        for neighbor in graph[vertex]:
-            inDegree[neighbor]++
-    for vertex in graph:
-        if inDegree[vertex] == 0:
-            queue.enqueue(vertex)
-    while not queue.isEmpty():
-        vertex = queue.dequeue()
-        visit(vertex)
-        for neighbor in graph[vertex]:
-            inDegree[neighbor]--
-            if inDegree[neighbor] == 0:
-                queue.enqueue(neighbor)
-```
-
-### Graph Algorithms
-
-```cs
-// Dijkstra's Algorithm
-// Finds the shortest path from a source vertex to all other vertices in a weighted graph with non-negative edge weights
-Dijkstra(graph, source):
-    dist = array of size V, initialized to ∞
-    dist[source] = 0
-    priorityQueue = new MinHeap()
-    priorityQueue.insert((0, source)) // (distance, vertex)
-
-    while not priorityQueue.isEmpty():
-        (currentDist, u) = priorityQueue.extractMin()
-        if currentDist > dist[u]:
-            continue
-        for each neighbor v of u:
-            weight = edge weight from u to v
-            if dist[u] + weight < dist[v]:
-                dist[v] = dist[u] + weight
-                priorityQueue.insert((dist[v], v))
-    return dist
-
-// Bellman-Ford Algorithm
-// Finds the shortest path from a source vertex to all other vertices in a weighted graph, even with negative edge weights, and detects negative-weight cycles
-BellmanFord(graph, source):
-    dist = array of size V, initialized to ∞
-    dist[source] = 0
-
-    for i from 1 to V-1:
-        for each edge (u, v) with weight w in graph:
-            if dist[u] + w < dist[v]:
-                dist[v] = dist[u] + w
-
-    // Check for negative-weight cycles
-    for each edge (u, v) with weight w in graph:
-        if dist[u] + w < dist[v]:
-            throw "Graph contains a negative-weight cycle"
-
-    return dist
-
-// Prim's Algorithm
-// Finds the Minimum Spanning Tree (MST) of a connected, undirected graph with weighted edges
-Prim(graph, start):
-    mstSet = set() // vertices included in MST
-    key = array of size V, initialized to ∞
-    parent = array of size V, initialized to -1
-    key[start] = 0
-    priorityQueue = new MinHeap()
-    priorityQueue.insert((0, start)) // (key, vertex)
-
-    while not priorityQueue.isEmpty():
-        (currentKey, u) = priorityQueue.extractMin()
-        mstSet.add(u)
-        for each neighbor v of u:
-            weight = edge weight from u to v
-            if v not in mstSet and weight < key[v]:
-                key[v] = weight
-                parent[v] = u
-                priorityQueue.insert((key[v], v))
-
-    return parent // Represents the MST edges
-```

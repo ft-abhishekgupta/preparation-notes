@@ -226,7 +226,7 @@ Make the HLD efficient and satisfy non functional requirements
 - DB Hops should be minimized as much as possible
 - Dont state vague statements which requires more explainations
 
---
+---
 
 ## Common System Design Patterns
 
@@ -238,11 +238,115 @@ Make the HLD efficient and satisfy non functional requirements
   - HTTP Polling (Default)
   - Websockets
   - SSE
-- Server side updates
+- Server side updates - Pushing updates to correct server
   - Pub/Sub
   - Stateful servers
 
 ![alt text](image-5.png)
+
+**HTTP Poling**
+
+- Works for few second latency
+- Simple to implement, default choice
+- Overhead of TCP connection
+
+**Long Poling**
+
+- Poling with long timeouts
+- Server response waits till it has some updates to push
+- Not suitable for frequent updates
+
+**SSE - Server Sent Events**
+
+- Server can send data anytime, Events
+- Browser supports auto reconnection
+- Existing HTTP infra and connection
+
+**Web Sockets**
+
+- TCP - Full Duplex
+- Stateful connection
+- Layer 4 LB Suitable
+
+**WebRTC**
+
+- Peer to Peer connection
+- Requires lot of setup
+- Video Calling, Multiplayer games
+
+IN PRACTICE - UPDATES TO CLIENT
+![alt text](image-14.png)
+
+**Server Side Poling**
+
+- Latency High
+- DB Needed to save updates
+- Not a usual solution
+  ![alt text](image-15.png)
+
+**Consistent Hashing**
+
+- Each server assigned a set of users
+- Zookeeper keep track of what users connected to what servers
+- Overhead of scaling
+
+![alt text](image-16.png)
+
+**Pub/Sub**
+
+- Clients can connect to any server, That server subscribe for that users updates
+- Redis - Simple, No Durability
+- Kafka - Complex, Durable, Replay capability
+
+![alt text](image-17.png)
+
+![alt text](image-18.png)
+
+IN PRACTICE - UPDATES TO SERVER
+![alt text](image-19.png)
+
+- Live Dashboard
+  - Polling
+  - SSE + Pub/Sub
+- Chat Application
+  - Depends
+- Collab Editors
+  - Websockets + Consistent Hashing
+
+Client → Server / Server → Client Communication
+
+| Technique                    | Pros                                                                                                                                        | Cons                                                                                                                                       | When to Use                                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| **Simple Polling**           | Very simple; stateless; no special infrastructure; works with standard HTTP; easy to explain                                                | Higher latency; limited update frequency; bandwidth/resource waste; many clients create significant overhead                               | When **real-time latency isn't critical** and updates can be delayed by a few seconds                  |
+| **Long Polling**             | Near-real-time; standard HTTP; easy to implement; no special infrastructure; stateless server                                               | Higher latency than persistent connections; more HTTP overhead; resource-intensive with many clients; concurrent connection limits         | When you need **near-real-time updates** but want to keep infrastructure simple                        |
+| **SSE (Server-Sent Events)** | Built into modern browsers; automatic reconnection; HTTP-based; efficient for frequent **server → client** updates; simpler than WebSockets | One-way communication; browser/connection limits; some infrastructure may not support streaming; long-lived requests complicate monitoring | When updates are **server → client only**, e.g. dashboards, notifications, AI text streaming           |
+| **WebSockets**               | Full-duplex communication; low overhead; efficient for frequent messages; wide browser support                                              | More complex; requires persistent/stateful connections; scaling/load balancing is harder; reconnection handling required                   | When you need **frequent, low-latency, bidirectional** communication, e.g. chat, collaborative apps    |
+| **WebRTC**                   | Peer-to-peer; very low latency; reduces server bandwidth/load; native audio/video support                                                   | Most complex; requires signaling; NAT/firewall traversal; connection setup delay                                                           | **Video/audio calls, gaming, peer-to-peer communication**, or cases where clients communicate directly |
+
+Server-Side Update Propagation
+
+| Technique              | Pros                                                                                                                                                       | Cons                                                                                                                         | When to Use                                                                                     |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **Pull / Polling**     | Very simple; state constrained to DB; no special infrastructure; easy to implement                                                                         | High latency; unnecessary DB load when updates are infrequent; doesn't provide truly real-time updates                       | Simple systems where **slight delay is acceptable**                                             |
+| **Simple Hashing**     | Predictable user → server assignment; relatively simple; enables routing messages to the correct server                                                    | Changing server count can remap many users; scaling becomes disruptive; requires coordination service                        | When you have **persistent connections** and a relatively stable number of servers              |
+| **Consistent Hashing** | Minimal connection movement when scaling; predictable assignment; works well with stateful connections; easy to add/remove servers                         | More complex; requires coordination/service for routing information; connection state can be lost if a server fails          | **WebSocket/SSE systems with persistent connections** that need to scale dynamically            |
+| **Pub/Sub**            | Efficient broadcasting to many clients; minimizes state in endpoint servers; easy endpoint-server load balancing; decouples update source from connections | Pub/Sub can become bottleneck/SPOF; extra network hop/latency; many-to-many connections between Pub/Sub and endpoint servers | When **many clients need the same updates** and you want scalable, loosely coupled architecture |
+
+**How do you handle connection failures and reconnection**
+
+- Heartbeat to check if connection still active
+- Sequence number for messages to track last received
+- Per User Message Queue
+
+**What happens when a single user has millions of followers who all need the same update?**
+
+- Batching and Heirarchichal Distribution
+  ![alt text](image-20.png)
+
+**How do you maintain message ordering across distributed servers**
+
+- Vector clocks and Logical Timestamp helps
+- Funnel all message through single system first to be stamped for order
 
 ### Managing Long Running Tasks
 
