@@ -48,3 +48,18 @@ High level design describes the overall architecture of a system: its components
       4. Scaling Reads Quiz
    3. Scaling Writes
       1. Scaling Writes
+      2. Quiz
+      3. Practice Ad Click
+      4. Ad Click
+   4. Real Time Updates
+      1. Practice FB Live Comment
+      2. FB Live Comment
+      3. Real Time Updates (Video Only)
+      4. Quiz
+      5. Whatsapp
+   5. Dealing with Contention
+      1. Ticketmaster
+      2. Dealing with contention
+      3. Online Auction
+   6. Multi-step Processes
+      1. Notification System

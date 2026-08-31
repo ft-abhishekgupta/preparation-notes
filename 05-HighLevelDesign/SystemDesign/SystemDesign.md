@@ -356,7 +356,9 @@ Server-Side Update Propagation
 
 ![alt text](image-6.png)
 
-### Dealing with Contention
+---
+
+### Dealing with Contention / Race condition
 
 - Prevent race condition and ensure data consistency
   - Concurrency control
@@ -364,6 +366,77 @@ Server-Side Update Propagation
   - Distributed Locks, 2PC, Queue based serialization
 
 ![alt text](image-7.png)
+
+**Solution** 1. Compare and Set 2. Locking
+
+OPERATION ON SAME DB ROW
+
+1. Conditional Write - SIMPLE SOLUTION - Transaction
+   1. DB has row level locking by default, so write queries are send with condition (_WHERE CLAUSE_)
+   2. Thus compare and set operation do not require 2 db calls, between which another can also call
+   3. If transaction needs multiple writes, make one dependent on another's result
+   4. ![alt text](image-21.png)
+   5. If tickets also has seat number, then implement the locking/ticket counter at seat level
+2. Explicit Locking for complex logic
+   1. Pessimistic Locking
+      1. DB results are locked for everyone unless released after processing
+      2. When collision is high
+   2. Optimistic concurrency control
+      1. Assumes conflicts are rare
+      2. Using versioning to control incorrect writes
+      3. DB query reads the version of data, and only writes if it still the same version
+      4. ![alt text](image-22.png)
+      5. Retry needed
+
+> Transaction + Pessimistic Locking for Serialization
+
+WRITE SKEW: When writes and reads are dependent on each other, even though same row is not read
+Example - Delete my row if someone else is already present
+
+Solution - DB Isolation Levels - Serializable
+![alt text](image-23.png)
+
+- Serializable is very costly as DB has to check all the transactions.
+- Instead convert the 2 row problem into single row problem by doing conditional write or locking
+
+OUTSIDE DB LOCKING
+
+- Hold lock as data instead of locking inside a DB transaction
+- Lifetime can be more than a single db transaction
+- **Distributed Lock**
+  - Redis wih TTL - Lock stored in redis that auto expires after ttl
+    - Inmemory and quick
+  - Database column to store the person holding the lock
+  - Zookeeper
+    - Doesnt double grant or corrupt data
+    - Managed distributed lock
+    - Overhead of maintenance
+
+IN PRACTICE
+
+- Start simple then complex
+
+![alt text](image-24.png)
+
+DEEP DIVES
+**How do you prevent deadlocks with pessimistic locking?**
+![alt text](image-25.png)
+
+- Grab lock in a prederministic order
+- Also modern databases already detects any deadlocks and handle them by retrying
+
+**How to handle ABA problem with optimistic concurrency?**
+Read v1 version, then v2 happens and then again version is back to v1 when we are about to write.
+So choose the version number that is monotonic
+Ex - Based on review count (But if someone deletes)
+
+**What about performance when everyone wants same resource?**
+![alt text](image-26.png)
+
+If strong consistency needed on one hot row, use queue. Throughput limited
+![alt text](image-27.png)
+
+---
 
 ### Scaling Reads
 
@@ -471,6 +544,8 @@ Create broadcast nodes for reads, where each broadcast node handles set of users
 
 ![alt text](image-10.png)
 
+---
+
 ### Multi-Step Process
 
 - Workflows coordination
@@ -479,6 +554,72 @@ Create broadcast nodes for reads, where each broadcast node handles set of users
 - State Management, Retry Logic, Failure recovery
 
 ![alt text](image-11.png)
+
+ISSUES WITH SIMPLE FLOW IN SINGLE NODE SYSTEM
+
+- Crashes, Retry
+
+![alt text](image-35.png)
+
+SOLUTION-
+
+- Choreography
+- Orchestration
+
+**Sagas and Compensations**
+
+- Sagas are group of sequential steps that gets completed one at a time
+- If something fails, compensation actions are also performed in reverse order
+- Compensation can also fail, so need their own retry and idempotency logic
+
+![alt text](image-28.png)
+
+![alt text](image-29.png)
+
+**Choreography**
+
+- Instead of storing the current step, store stream of steps that got here
+- Durable Log - Kafka
+- Workers are subscribe to it, react based on states, needs to be idempotent
+- Workers can scale independently
+- IMPLICIT WORKFLOW
+- CONS - Adding new step in between requires lot of changes
+
+![alt text](image-30.png)
+
+![alt text](image-31.png)
+
+**Orchestration Engines**
+
+- Temporal, AWS Step Function
+- **Workflow** - Deterministic code that has the entire flow,
+- **Activities** - Idempotent actions
+- History stored in db. Replay happens without issues
+
+![alt text](image-32.png)
+
+![alt text](image-33.png)
+
+DEEP DIVES
+**How do you handle updates to workflow?**
+
+- Versioning
+- Patching
+
+**How to make sure a step runs exactly once?**
+
+- Idempotency Key
+- Double check before replaying any step
+
+**How do we manage history size**
+
+- Keep activity input output small
+- Continue as new - Create a new worflow with current state as start
+
+WHEN TO USE WHEN NOT TO
+![alt text](image-34.png)
+
+---
 
 ### Proximity Based Services
 
