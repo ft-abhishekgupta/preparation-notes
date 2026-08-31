@@ -1,584 +1,869 @@
 # Two Pointers and Sliding Window — Problems
 
-## Valid Palindrome
+| # | Problem | LeetCode | Pattern | Difficulty |
+| - | ------- | -------- | ------- | ---------- |
+| 1 | Valid Palindrome | 125 | Opposite-Ends | Easy |
+| 2 | Two Sum II — Input Array Is Sorted | 167 | Opposite-Ends | Medium |
+| 3 | Container With Most Water | 11 | Opposite-Ends | Medium |
+| 4 | Trapping Rain Water | 42 | Opposite-Ends / Prefix Max | Hard |
+| 5 | 3Sum | 15 | Fix-One + Opposite-Ends | Medium |
+| 6 | 4Sum | 18 | Fix-Two + Opposite-Ends | Medium |
+| 7 | Remove Duplicates from Sorted Array | 26 | Fast/Slow Write-Pointer | Easy |
+| 8 | Move Zeroes | 283 | Fast/Slow Write-Pointer | Easy |
+| 9 | Minimum Size Subarray Sum | 209 | Variable Window — Shortest | Medium |
+| 10 | Longest Substring Without Repeating Characters | 3 | Variable Window — Longest | Medium |
+| 11 | Longest Repeating Character Replacement | 424 | Variable Window — Longest | Medium |
+| 12 | Fruit Into Baskets | 904 | Variable Window — At-Most-K | Medium |
+| 13 | Permutation in String | 567 | Fixed Window + Freq | Medium |
+| 14 | Minimum Window Substring | 76 | Variable Window — Shortest | Hard |
+| 15 | Subarrays with K Different Integers | 992 | At-Most-K Trick | Hard |
+| 16 | Sliding Window Maximum | 239 | Fixed Window + Monotonic Deque | Hard |
 
-Given a string s, determine whether it is a palindrome. Case Insensitive and ignore non-alphanumeric characters.
+---
 
-**Example:** `s = "A man, a plan, a canal: Panama"` → `true`
+## Opposite-Ends Two Pointers
+
+### Valid Palindrome — LeetCode 125
+
+Determine whether a string is a palindrome, ignoring non-alphanumeric characters and case.
+
+**Example:** `"A man, a plan, a canal: Panama"` → `true`
 
 ```text
-BRUTE FORCE | O(N) | O(N)
-Create a new string with only alphanumeric characters and check whether it is equal to its reverse
+BRUTE FORCE | O(n) | O(n)
 
------------------------------------------------------------------------------
+Build a cleaned string (alphanumeric, lowercase), then compare it to its reverse.
 
-TWO POINTERS | O(N) | O(1)
+------------------------------------------------------------------------------
 
-left = 0
-right = length(s) - 1
+TWO POINTERS | O(n) | O(1)
 
-while left < right
-    while left < right and s[left] is not alphanumeric
-        left++
-    while left < right and s[right] is not alphanumeric
-        right--
-    if lowercase(s[left]) != lowercase(s[right])
-        return false
-    left++
-    right--
+lo = 0, hi = len - 1
+while lo < hi:
+    skip non-alphanumeric from lo (advance lo)
+    skip non-alphanumeric from hi (retreat hi)
+    if tolower(s[lo]) != tolower(s[hi]) → return false
+    lo++, hi--
 return true
-
------------------------------------------------------------------------------
-
-RECURSION | O(N) | O(N)
-function isPalindrome(left, right)
-    skip invalid characters from left
-    skip invalid characters from right
-    if left >= right
-        return true
-    if lowercase(s[left]) != lowercase(s[right])
-        return false
-    return isPalindrome(left + 1, right - 1)
 ```
 
-## Remove Duplicates from Sorted Array
+```csharp
+// Optimal implementation
+public bool IsPalindrome(string s)
+{
+    int lo = 0, hi = s.Length - 1;
+    while (lo < hi)
+    {
+        while (lo < hi && !char.IsLetterOrDigit(s[lo])) lo++;
+        while (lo < hi && !char.IsLetterOrDigit(s[hi])) hi--;
+        if (char.ToLower(s[lo]) != char.ToLower(s[hi])) return false;
+        lo++; hi--;
+    }
+    return true;
+}
+```
 
-Given a sorted integer array nums, remove the duplicates in-place such that each unique element appears only once.
+> **Key insight:** converging pointers skip noise at both ends simultaneously; no extra allocation needed.
 
-**Example:** `nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]` → `5` (nums = [0, 1, 2, 3, 4])
+---
+
+### Two Sum II — Input Array Is Sorted — LeetCode 167
+
+Given a sorted array `numbers` and a `target`, return the 1-based indices of the two numbers that add up to `target`.
+
+**Example:** `numbers = [2, 7, 11, 15], target = 9` → `[1, 2]`
 
 ```text
-BRUTE FORCE | O(N) | O(N)
+BRUTE FORCE | O(n²) | O(1)
 
-Create a new array and copy unique elements to it
-
-------------------------------------------------------------------------------
-
-HASHING | O(N) | O(N)
-
-Create a hash set and add each element to it, then copy the unique elements back to the original array
+Check every pair.
 
 ------------------------------------------------------------------------------
 
-TWO POINTERS | O(N) | O(1)
+BINARY SEARCH | O(n log n) | O(1)
 
-if nums is empty
-    return 0
+For each index i, binary-search for target - numbers[i] in i+1..n-1.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — TWO POINTERS | O(n) | O(1)
+
+lo = 0, hi = n - 1
+while lo < hi:
+    sum = numbers[lo] + numbers[hi]
+    if sum == target → return [lo+1, hi+1]
+    if sum < target  → lo++
+    else             → hi--
+```
+
+```csharp
+// Optimal implementation
+public int[] TwoSum(int[] numbers, int target)
+{
+    int lo = 0, hi = numbers.Length - 1;
+    while (lo < hi)
+    {
+        int sum = numbers[lo] + numbers[hi];
+        if (sum == target) return new[] { lo + 1, hi + 1 };
+        if (sum < target)  lo++;
+        else               hi--;
+    }
+    return Array.Empty<int>();
+}
+```
+
+> **Key insight:** sorted order means a sum too small → advance `lo`; too large → retreat `hi`; no pair is skipped.
+
+---
+
+### Container With Most Water — LeetCode 11
+
+Given heights of n vertical lines, find two lines that form a container holding the most water.
+
+**Example:** `height = [1,8,6,2,5,4,8,3,7]` → `49`
+
+```text
+BRUTE FORCE | O(n²) | O(1)
+
+Check every pair of lines and track the maximum area.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — TWO POINTERS | O(n) | O(1)
+
+lo = 0, hi = n - 1, best = 0
+while lo < hi:
+    area = (hi - lo) * min(height[lo], height[hi])
+    best = max(best, area)
+    if height[lo] < height[hi]: lo++
+    else: hi--
+return best
+```
+
+```csharp
+// Optimal implementation
+public int MaxArea(int[] height)
+{
+    int lo = 0, hi = height.Length - 1, best = 0;
+    while (lo < hi)
+    {
+        best = Math.Max(best, (hi - lo) * Math.Min(height[lo], height[hi]));
+        if (height[lo] < height[hi]) lo++;
+        else hi--;
+    }
+    return best;
+}
+```
+
+> **Key insight:** the shorter line caps the area; moving it inward is the only way to possibly improve the answer — moving the taller line can only reduce or maintain the cap while shrinking the width.
+
+---
+
+### Trapping Rain Water — LeetCode 42
+
+Given `height` array, compute total water trapped after rain.
+
+**Example:** `height = [0,1,0,2,1,0,1,3,2,1,2,1]` → `6`
+
+Water at position `i` = `min(leftMax[i], rightMax[i]) − height[i]`.
+
+```text
+BRUTE FORCE | O(n²) | O(1)
+
+For each index, scan left for leftMax and right for rightMax.
+
+------------------------------------------------------------------------------
+
+PREFIX/SUFFIX MAX ARRAYS | O(n) | O(n)
+
+Build leftMax[] (running max left→right) and rightMax[] (right→left).
+For each i: water += min(leftMax[i], rightMax[i]) - height[i].
+
+------------------------------------------------------------------------------
+
+OPTIMAL — TWO POINTERS | O(n) | O(1)
+
+lo=0, hi=n-1, leftMax=0, rightMax=0, total=0
+while lo < hi:
+    if height[lo] <= height[hi]:
+        if height[lo] >= leftMax: leftMax = height[lo]
+        else: total += leftMax - height[lo]
+        lo++
+    else:
+        if height[right] >= rightMax: rightMax = height[hi]
+        else: total += rightMax - height[hi]
+        hi--
+return total
+```
+
+**Why two-pointer works:** when `height[lo] ≤ height[hi]`, we know `rightMax ≥ height[hi] ≥ height[lo]`, so the water at `lo` is determined purely by `leftMax`. We can process `lo` without knowing the exact `rightMax`.
+
+For the monotonic-stack horizontal-layer approach, see [monotonic stack](../StacksAndQueues/StacksAndQueues.md).
+
+```csharp
+// Optimal implementation
+public int Trap(int[] height)
+{
+    int lo = 0, hi = height.Length - 1;
+    int leftMax = 0, rightMax = 0, total = 0;
+    while (lo < hi)
+    {
+        if (height[lo] <= height[hi])
+        {
+            if (height[lo] >= leftMax) leftMax = height[lo];
+            else total += leftMax - height[lo];
+            lo++;
+        }
+        else
+        {
+            if (height[hi] >= rightMax) rightMax = height[hi];
+            else total += rightMax - height[hi];
+            hi--;
+        }
+    }
+    return total;
+}
+```
+
+> **Key insight:** whichever side has the smaller height, its water level is fully determined by its own running max — process that side and advance the pointer.
+
+---
+
+### 3Sum — LeetCode 15
+
+Find all unique triplets in `nums` that sum to zero.
+
+**Example:** `nums = [-1,0,1,2,-1,-4]` → `[[-1,-1,2],[-1,0,1]]`
+
+```text
+BRUTE FORCE | O(n³) | O(1)
+
+Check every triple.
+
+------------------------------------------------------------------------------
+
+HASH SET | O(n²) | O(n)
+
+Fix one element; use a hash set to find the complementary pair. Deduplicate with a normalised key.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — SORT + TWO POINTERS | O(n²) | O(1) excluding output
+
+sort nums
+for i = 0 to n-3:
+    skip i if nums[i] == nums[i-1] (i > 0)
+    lo = i+1, hi = n-1
+    while lo < hi:
+        sum = nums[i] + nums[lo] + nums[hi]
+        if sum == 0:
+            record; skip lo/hi duplicates; lo++, hi--
+        else if sum < 0: lo++
+        else: hi--
+```
+
+```csharp
+// Optimal implementation
+public IList<IList<int>> ThreeSum(int[] nums)
+{
+    Array.Sort(nums);
+    var result = new List<IList<int>>();
+    for (int i = 0; i < nums.Length - 2; i++)
+    {
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+        int lo = i + 1, hi = nums.Length - 1;
+        while (lo < hi)
+        {
+            int sum = nums[i] + nums[lo] + nums[hi];
+            if (sum == 0)
+            {
+                result.Add(new List<int> { nums[i], nums[lo], nums[hi] });
+                while (lo < hi && nums[lo] == nums[lo + 1]) lo++;
+                while (lo < hi && nums[hi] == nums[hi - 1]) hi--;
+                lo++; hi--;
+            }
+            else if (sum < 0) lo++;
+            else hi--;
+        }
+    }
+    return result;
+}
+```
+
+> **Key insight:** sort first so the inner two-pointer scan is O(n); skip duplicates at the outer index *before* the inner loop, and at inner indices *after* recording a hit.
+
+---
+
+### 4Sum — LeetCode 18
+
+Find all unique quadruplets in `nums` that sum to `target`.
+
+**Example:** `nums = [1,0,-1,0,-2,2], target = 0` → `[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]`
+
+```text
+BRUTE FORCE | O(n⁴) | O(1)
+
+Check every quadruple.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — SORT + FIX TWO + TWO POINTERS | O(n³) | O(1) excluding output
+
+sort nums
+for i = 0 to n-4:
+    skip outer duplicates
+    for j = i+1 to n-3:
+        skip inner duplicates
+        lo = j+1, hi = n-1
+        two-pointer scan for target - nums[i] - nums[j]
+```
+
+```csharp
+// Optimal implementation
+public IList<IList<int>> FourSum(int[] nums, int target)
+{
+    Array.Sort(nums);
+    var result = new List<IList<int>>();
+    int n = nums.Length;
+    for (int i = 0; i < n - 3; i++)
+    {
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+        for (int j = i + 1; j < n - 2; j++)
+        {
+            if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+            int lo = j + 1, hi = n - 1;
+            while (lo < hi)
+            {
+                long sum = (long)nums[i] + nums[j] + nums[lo] + nums[hi];
+                if (sum == target)
+                {
+                    result.Add(new List<int> { nums[i], nums[j], nums[lo], nums[hi] });
+                    while (lo < hi && nums[lo] == nums[lo + 1]) lo++;
+                    while (lo < hi && nums[hi] == nums[hi - 1]) hi--;
+                    lo++; hi--;
+                }
+                else if (sum < target) lo++;
+                else hi--;
+            }
+        }
+    }
+    return result;
+}
+```
+
+> **Key insight:** cast to `long` before summing to avoid overflow; the fix-two + two-pointer structure generalises k-Sum to O(nᵏ⁻¹).
+
+---
+
+## Same-Direction (Fast/Slow) Pointers
+
+### Remove Duplicates from Sorted Array — LeetCode 26
+
+Given a sorted array, remove duplicates in-place; return the count of unique elements.
+
+**Example:** `nums = [0,0,1,1,1,2,2,3,3,4]` → `5`, `nums = [0,1,2,3,4,…]`
+
+```text
+BRUTE FORCE | O(n) | O(n)
+
+Copy unique elements to a new array.
+
+------------------------------------------------------------------------------
+
+HASHING | O(n) | O(n)
+
+Use a LinkedHashSet to preserve order, then copy back.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — TWO POINTERS (WRITE-POINTER) | O(n) | O(1)
+
 slow = 0
-for fast = 1 to n - 1
-    if nums[fast] != nums[slow]
+for fast = 1 to n-1:
+    if nums[fast] != nums[slow]:
         slow++
         nums[slow] = nums[fast]
 return slow + 1
 ```
 
-## Move Zeroes
+```csharp
+// Optimal implementation
+public int RemoveDuplicates(int[] nums)
+{
+    if (nums.Length == 0) return 0;
+    int slow = 0;
+    for (int fast = 1; fast < nums.Length; fast++)
+    {
+        if (nums[fast] != nums[slow])
+            nums[++slow] = nums[fast];
+    }
+    return slow + 1;
+}
+```
 
-Given an integer array nums, move all 0s to the end of the array while maintaining the relative order of all non-zero elements
+> **Key insight:** `slow` is the write cursor; copy only when a new unique value is encountered — sorted order guarantees duplicates are adjacent.
 
-**Example:** `nums = [0, 1, 0, 3, 12]` → `[1, 3, 12, 0, 0]`
+---
+
+### Move Zeroes — LeetCode 283
+
+Move all zeroes to the end while preserving the relative order of non-zero elements, in-place.
+
+**Example:** `nums = [0,1,0,3,12]` → `[1,3,12,0,0]`
 
 ```text
-BRUTE FORCE | O(N) | O(N)
+BRUTE FORCE | O(n) | O(n)
 
-Create a new array and copy non-zero elements to it, then fill the rest with zeros
-
-SHIFTING IN PLACE | O(N^2) | O(1)
-
-For every zero, shift the following elements one position left and write the zero at the end
+Copy non-zero elements to a new array, fill remainder with zeros.
 
 ------------------------------------------------------------------------------
 
-TWO POINTERS | O(N) | O(1)
+SHIFTING IN-PLACE | O(n²) | O(1)
+
+For each zero, shift subsequent elements left and write 0 at the end.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — WRITE-POINTER | O(n) | O(1)
 
 slow = 0
-for fast = 0 to n - 1
-    if nums[fast] != 0
-        nums[slow] = nums[fast]
-        slow++
-for i = slow to n - 1
-    nums[i] = 0
+for fast = 0 to n-1:
+    if nums[fast] != 0:
+        nums[slow++] = nums[fast]
+fill nums[slow..n-1] with 0
 ```
 
-## Two Sum II — Input Array Is Sorted
-
-Given sorted array of integers `numbers` and an integer `target`, return the indices of the two numbers such that they add up to `target`. The returned indices are 1-based.
-
-**Example:** `numbers = [2, 7, 11, 15], target = 9` → `[1, 2]`
-
-```text
-BRUTE FORCE | O(N^2) | O(1)
-
-Check every pair of elements and return the pair whose sum equals target
-
------------------------------------------------------------------------------
-
-BINARY SEARCH | O(N log N) | O(1)
-
-for i = 0 to n - 1
-    required = target - numbers[i]
-    binary search for required
-        in range i + 1 ... n - 1
-    if found
-        return [i + 1, foundIndex + 1]
-
------------------------------------------------------------------------------
-
-HASHING | O(N) | O(N)
-
-create empty hash map
-for i = 0 to n - 1
-    required = target - numbers[i]
-    if required exists in map
-        return [map[required] + 1, i + 1]
-    map[numbers[i]] = i
-
------------------------------------------------------------------------------
-
-TWO POINTERS | O(N) | O(1)
-
-left = 0
-right = n - 1
-
-while left < right
-    sum = numbers[left] + numbers[right]
-    if sum == target
-        return [left + 1, right + 1]
-    else if sum < target
-        left++
-    else
-        right--
+```csharp
+// Optimal implementation
+public void MoveZeroes(int[] nums)
+{
+    int slow = 0;
+    for (int fast = 0; fast < nums.Length; fast++)
+        if (nums[fast] != 0) nums[slow++] = nums[fast];
+    while (slow < nums.Length) nums[slow++] = 0;
+}
 ```
 
-## 3Sum
+> **Key insight:** write-pointer compacts non-zeros to the front in one pass; a second pass fills the tail with zeros.
 
-Given an integer array `nums`, return all unique triplets `[nums[i], nums[j], nums[k]]` such that `nums[i] + nums[j] + nums[k] == 0`.
+---
 
-**Example:** `nums = [-1, 0, 1, 2, -1, -4]` → `[[-1, -1, 2], [-1, 0, 1]]`
+## Variable-Size Sliding Window
+
+### Minimum Size Subarray Sum — LeetCode 209
+
+Find the minimum length contiguous subarray with sum ≥ `target`. Return 0 if none exists.
+
+**Example:** `target = 7, nums = [2,3,1,2,4,3]` → `2` (subarray `[4,3]`)
 
 ```text
-BRUTE FORCE | O(N^3) | O(1)
+BRUTE FORCE | O(n²) | O(1)
 
-Check every triplet of elements and return the triplets whose sum equals 0
-
------------------------------------------------------------------------------
-
-HASH SET | O(N^2) | O(N)
-
-Fix one element and use a hash set to find pairs that sum to the negative of the fixed element
-
-create empty result set
-for i = 0 to n - 1
-    create empty hash set
-    target = -nums[i]
-    for j = i + 1 to n - 1
-        required = target - nums[j]
-        if required exists in hash set
-            triplet = [nums[i], required, nums[j]]
-            add normalized triplet to result set
-        add nums[j] to hash set
-return result
+Check every subarray, track the minimum length with sum >= target.
 
 ------------------------------------------------------------------------------
 
-SORTING + TWO POINTERS | O(N^2) | O(1)
+PREFIX SUM + BINARY SEARCH | O(n log n) | O(n)
 
-sort nums
-create empty result
-for i = 0 to n - 3
-    if i > 0 and nums[i] == nums[i - 1]
-        continue
-    left = i + 1
-    right = n - 1
-    while left < right
-        sum = nums[i] + nums[left] + nums[right]
-        if sum == 0
-            add [nums[i], nums[left], nums[right]] to result
-            left++
-            right--
-            // Skip duplicates
-            while left < right and nums[left] == nums[left - 1]
-                left++
-            while left < right and nums[right] == nums[right + 1]
-                right--
-        else if sum < 0
-            left++
-        else
-            right--
-
-return result
-```
-
-## Container With Most Water
-
-Given an array `height` of non-negative integers where `height[i]` represents the height of a vertical line at position `i`, find two lines that together with the x-axis form a container, such that the container contains the most water.
-
-**Example:** `height = [1, 8, 6, 2, 5, 4, 8, 3, 7]` → `49`
-
-```text
-BRUTE FORCE | O(N^2) | O(1)
-
-Check every pair of lines and calculate the area of water they can contain
-
------------------------------------------------------------------------------
-
-TWO POINTERS | O(N) | O(1)
-
-// The shorter line caps the area, so moving the taller one can never improve it
-
-left = 0
-right = n - 1
-maxArea = 0
-while left < right:
-    width = right - left
-    shorter = min(height[left], height[right])
-    maxArea = max(maxArea, width * shorter)
-    if height[left] < height[right]:
-        left++
-    else:
-        right--
-return maxArea
-```
-
-## Trapping Rain Water
-
-Given an array `height` of non-negative integers where `height[i]` represents the height of a vertical line at position `i`, compute how much water it can trap after raining.
-
-**Example:** `height = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]` → `6`
-
-```text
-water[i] =  min(leftMax[i], rightMax[i]) - height[i]
-
-BRUTE FORCE | O(N^2) | O(1)
-
-Calculate the water trapped at each index by finding the maximum height to the left and right of that index
-
------------------------------------------------------------------------------
-
-PREFIX AND SUFFIX MAX | O(N) | O(N)
-
-leftMax[0] = height[0]
-for i = 1 to n - 1
-    leftMax[i] = max(leftMax[i - 1], height[i])
-
-rightMax[n - 1] = height[n - 1]
-for i = n - 2 to 0
-    rightMax[i] = max(rightMax[i + 1], height[i])
-
-totalWater = 0
-for i = 0 to n - 1
-    waterLevel = min(leftMax[i], rightMax[i])
-    water = waterLevel - height[i]
-    totalWater += water
+Build prefix sums; for each right endpoint binary-search for the leftmost index
+where prefix[right] - prefix[left] >= target.
 
 ------------------------------------------------------------------------------
 
-TWO POINTERS | O(N) | O(1)
+OPTIMAL — VARIABLE SLIDING WINDOW (SHORTEST) | O(n) | O(1)
 
-left = 0
-right = n - 1
-leftMax = 0
-rightMax = 0
-totalWater = 0
+lo = 0, windowSum = 0, best = ∞
+for hi = 0 to n-1:
+    windowSum += nums[hi]
+    while windowSum >= target:          ← shrink while VALID
+        best = min(best, hi - lo + 1)  ← record INSIDE loop
+        windowSum -= nums[lo++]
+return best == ∞ ? 0 : best
+```
 
-while left < right
-    if height[left] <= height[right]
-        if height[left] >= leftMax
-            leftMax = height[left]
-        else
-            totalWater += leftMax - height[left]
-        left++
-    else
-        if height[right] >= rightMax
-            rightMax = height[right]
-        else
-            totalWater += rightMax - height[right]
-        right--
-return totalWater
+```csharp
+// Optimal implementation
+public int MinSubArrayLen(int target, int[] nums)
+{
+    int lo = 0, windowSum = 0, best = int.MaxValue;
+    for (int hi = 0; hi < nums.Length; hi++)
+    {
+        windowSum += nums[hi];
+        while (windowSum >= target)
+        {
+            best = Math.Min(best, hi - lo + 1);
+            windowSum -= nums[lo++];
+        }
+    }
+    return best == int.MaxValue ? 0 : best;
+}
+```
+
+> **Key insight:** for the *shortest* window, record inside the shrink loop (while the window is still valid), then keep shrinking — the classic inversion from the longest-window template.
+
+---
+
+### Longest Substring Without Repeating Characters — LeetCode 3
+
+Find the length of the longest substring with all unique characters.
+
+**Example:** `s = "abcabcbb"` → `3` (`"abc"`)
+
+```text
+BRUTE FORCE | O(n³) | O(k)
+
+Check every substring for uniqueness.
 
 ------------------------------------------------------------------------------
 
-MONOTONIC STACK | O(N) | O(N)
+HASH SET SLIDING WINDOW | O(n²) | O(k)
 
-create empty stack of indices
-totalWater = 0
+Expand right; when duplicate found, shrink left one at a time until removed.
 
-for right = 0 to n - 1
-    while stack is not empty
-          and height[right] > height[stack.top]
-        bottom = stack.pop()
-        if stack is empty
-            break
-        left = stack.top
-        width = right - left - 1
-        boundedHeight = min(height[left], height[right]) - height[bottom]
-        totalWater += width × boundedHeight
-    push right onto stack
-return totalWater
+------------------------------------------------------------------------------
+
+OPTIMAL — SLIDING WINDOW + LAST-SEEN MAP | O(n) | O(k)
+
+lastSeen = {}; lo = 0; best = 0
+for hi = 0 to n-1:
+    if s[hi] in lastSeen:
+        lo = max(lo, lastSeen[s[hi]] + 1)   // jump lo past the duplicate
+    lastSeen[s[hi]] = hi
+    best = max(best, hi - lo + 1)
+return best
 ```
 
-## Longest Substring Without Repeating Characters
-
-Given a string s, find the length of the longest substring without repeating characters.
-
-**Example:** `s = "abcabcbb"` → `3` ("abc")
-
-```text
-BRUTE FORCE | O(N^3) | O(N)
-
-Check every substring and see if it has all unique characters
-
---------------------------------------------------------------------------------
-
-HASH SET | O(N^2) | O(K)
-
-Add characters to a hash set until a duplicate is found, then remove characters from the start of the substring until the duplicate is removed
-
---------------------------------------------------------------------------------
-
-SLIDING WINDOW + HASH SET | O(N) | O(K)
-
-left = 0
-maxLength = 0
-set = empty
-
-for right = 0 to n-1:
-    while s[right] is in set:
-        remove s[left]
-        left++
-    add s[right]
-    maxLength = max(maxLength, right - left + 1)
-
-return maxLength
-
---------------------------------------------------------------------------------
-
-OPTIMIZED SLIDING WINDOW + HASH MAP FOR LAST SEEN| O(N) | O(K)
-
-lastSeen = empty map
-left = 0
-maxLength = 0
-
-for right from 0 to n-1:
-
-    if s[right] exists in lastSeen:
-        left = max(left, lastSeen[s[right]] + 1)
-
-    lastSeen[s[right]] = right
-
-    maxLength = max(maxLength, right-left+1)
-
-return maxLength
-
---------------------------------------------------------------------------------
-
-FIXED CHARACTER SET | O(N) | O(K)
-
-Use array of size K to store last seen index of each character instead of a hash map
+```csharp
+// Optimal implementation
+public int LengthOfLongestSubstring(string s)
+{
+    var lastSeen = new Dictionary<char, int>();
+    int lo = 0, best = 0;
+    for (int hi = 0; hi < s.Length; hi++)
+    {
+        if (lastSeen.TryGetValue(s[hi], out int prev) && prev >= lo)
+            lo = prev + 1;
+        lastSeen[s[hi]] = hi;
+        best = Math.Max(best, hi - lo + 1);
+    }
+    return best;
+}
 ```
 
-## Longest Repeating Character Replacement
+> **Key insight:** store last-seen index and jump `lo` directly past the duplicate instead of shrinking one-by-one — same O(n) complexity but cleaner.
 
-You are given a string s containing uppercase English letters and an integer k.
-You can replace at most k characters with any other uppercase letter.
-Return the length of the longest substring that can be transformed into a string containing only the same character.
+---
+
+### Longest Repeating Character Replacement — LeetCode 424
+
+Given string `s` of uppercase letters and integer `k`, return the longest substring you can make into a single repeated character by replacing at most `k` characters.
 
 **Example:** `s = "AABABBA", k = 1` → `4`
 
 ```text
-SLIDING WINDOW + HASH MAP | O(N) | O(K)
+OPTIMAL — SLIDING WINDOW + MAX FREQUENCY | O(n) | O(1)
 
-left = 0
-maxFrequency = 0
-answer = 0
-frequency = empty map
-
-for right from 0 to n-1:
-    frequency[s[right]]++
-    maxFrequency = max(maxFrequency, frequency[s[right]])
-    windowLength = right - left + 1
-    replacements = windowLength - maxFrequency
-
-    while replacements > k:
-        frequency[s[left]]--
-        left++
-        windowLength = right - left + 1
-
-    answer =  max(answer, right - left + 1)
-return answer
+freq = {}, lo = 0, maxFreq = 0, best = 0
+for hi = 0 to n-1:
+    freq[s[hi]]++
+    maxFreq = max(maxFreq, freq[s[hi]])
+    // window length - maxFreq = replacements needed
+    if (hi - lo + 1) - maxFreq > k:
+        freq[s[lo]]--
+        lo++
+    best = max(best, hi - lo + 1)
+return best
 ```
 
-> Max Frequency is stale but it does not matter because the window will shrink until the condition is satisfied again.
+> `maxFreq` can be stale (it may not reflect the current window after shrinking), but the window only grows when a genuinely better `maxFreq` is found — so the answer is never under-counted.
 
-## Permutation in String
+```csharp
+// Optimal implementation
+public int CharacterReplacement(string s, int k)
+{
+    var freq = new int[26];
+    int lo = 0, maxFreq = 0, best = 0;
+    for (int hi = 0; hi < s.Length; hi++)
+    {
+        maxFreq = Math.Max(maxFreq, ++freq[s[hi] - 'A']);
+        if ((hi - lo + 1) - maxFreq > k)
+            freq[s[lo++] - 'A']--;
+        best = Math.Max(best, hi - lo + 1);
+    }
+    return best;
+}
+```
 
-Given two strings s1 and s2, determine whether s2 contains a permutation of s1 as a substring.
+> **Key insight:** the window is valid when `(length − maxFrequency) ≤ k`; `maxFreq` is monotonically non-decreasing so the window only ever grows by 1 per step.
 
-**Example:** `s1 = "ab", s2 = "eidbaooo"` → `true` ("ba")
+---
+
+### Fruit Into Baskets — LeetCode 904
+
+You have two baskets. From a row of fruit trees, pick the maximum number of consecutive fruits such that you use at most 2 distinct fruit types.
+
+**Example:** `fruits = [1,2,1,2,3]` → `4` (pick indices 0–3: types 1 and 2)
+
+This is equivalent to: *longest subarray with at most 2 distinct values*.
 
 ```text
-BRUTE FORCE | O(M! * N) | O(K)
+OPTIMAL — VARIABLE SLIDING WINDOW (AT-MOST-K, K=2) | O(n) | O(1)
 
-Generate all permutations of s1 and check whether any of them is a substring of s2
-
-OPTIMIZED BRUTE FORCE | O(M * N) | O(1)
-
-Check every substring of s2 with length equal to s1 and see if it is a permutation of s1
-
---------------------------------------------------------------------------------
-
-SORTING | O(N * M log M) | O(K)
-
-Sort s1 and every substring of s2 with length equal to s1 and check whether they are equal
-
---------------------------------------------------------------------------------
-
-SLIDING WINDOW + FREQ ARRAY | O(N) | O(K)
-
-// Check the frequency map at each step
-
-m = length(s1)
-if m > length(s2)
-    return false
-create freq1
-create freqWindow
-for i = 0 to m - 1
-    freq1[s1[i]]++
-    freqWindow[s2[i]]++
-if freq1 == freqWindow
-    return true
-for right = m to length(s2) - 1
-    entering = s2[right]
-    leaving = s2[right - m]
-    freqWindow[entering]++
-    freqWindow[leaving]--
-    if freq1 == freqWindow
-        return true
-return false
-
-// Alternatively, maintain a difference count and check whether it is zero at each step
+freq = {}, lo = 0, best = 0
+for hi = 0 to n-1:
+    freq[fruits[hi]]++
+    while freq.size > 2:        // more than 2 distinct → invalid
+        freq[fruits[lo]]--
+        if freq[fruits[lo]] == 0: remove key
+        lo++
+    best = max(best, hi - lo + 1)
+return best
 ```
 
-> Use hash map instead of frequency array for a larger character set.
+```csharp
+// Optimal implementation
+public int TotalFruit(int[] fruits)
+{
+    var freq = new Dictionary<int, int>();
+    int lo = 0, best = 0;
+    for (int hi = 0; hi < fruits.Length; hi++)
+    {
+        freq[fruits[hi]] = freq.GetValueOrDefault(fruits[hi]) + 1;
+        while (freq.Count > 2)
+        {
+            freq[fruits[lo]]--;
+            if (freq[fruits[lo]] == 0) freq.Remove(fruits[lo]);
+            lo++;
+        }
+        best = Math.Max(best, hi - lo + 1);
+    }
+    return best;
+}
+```
 
-## Minimum Window Substring
+> **Key insight:** "at most K distinct" is the direct sliding-window template; generalise K to solve similar problems (e.g. K=2 here, K=26 for no-repeat substring).
 
-Given two strings s and t, return the minimum window in s which will contain all the characters in t. If there is no such window, return the empty string "".
+---
+
+### Permutation in String — LeetCode 567
+
+Determine whether `s2` contains any permutation of `s1` as a substring.
+
+**Example:** `s1 = "ab", s2 = "eidbaooo"` → `true` (`"ba"` at index 3)
+
+```text
+BRUTE FORCE | O(m! × n) | O(k)
+
+Generate all permutations of s1 and search for each in s2.
+
+------------------------------------------------------------------------------
+
+SORTING | O(n × m log m) | O(k)
+
+Sort s1; for each window of length m in s2, sort and compare.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — FIXED SLIDING WINDOW + FREQ ARRAY | O(n) | O(1)
+
+Build freq1[26] for s1; build freqW[26] for the first window of s2.
+Compare; if equal → found.
+Slide: increment freqW[entering], decrement freqW[leaving], compare.
+```
+
+```csharp
+// Optimal implementation
+public bool CheckInclusion(string s1, string s2)
+{
+    if (s1.Length > s2.Length) return false;
+    int[] freq1 = new int[26], freqW = new int[26];
+    int m = s1.Length;
+    for (int i = 0; i < m; i++) { freq1[s1[i] - 'a']++; freqW[s2[i] - 'a']++; }
+    if (freq1.SequenceEqual(freqW)) return true;
+    for (int i = m; i < s2.Length; i++)
+    {
+        freqW[s2[i] - 'a']++;
+        freqW[s2[i - m] - 'a']--;
+        if (freq1.SequenceEqual(freqW)) return true;
+    }
+    return false;
+}
+```
+
+> **Key insight:** permutation check = frequency equality; a fixed-size window slides in O(1) per step by adding the incoming character and removing the outgoing one.
+
+---
+
+### Minimum Window Substring — LeetCode 76
+
+Find the shortest substring of `s` containing all characters of `t` (including duplicates).
 
 **Example:** `s = "ADOBECODEBANC", t = "ABC"` → `"BANC"`
 
 ```text
-BRUTE FORCE | O(N^3) | O(K)
+BRUTE FORCE | O(n³) | O(k)
 
-Find every substring of s and check whether it contains all characters of t
+Check every substring; test if it contains all chars of t.
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
-SLIDING WINDOW + HASH MAP | O(N + M) | O(K)
+SLIDING WINDOW — FORMED COUNT | O(n + m) | O(k)
 
-need = frequency map of t
-window = empty map
-required = number of distinct characters in t
-formed = 0   // Number of distinct characters in the current window that match the required frequency
-left = 0
-bestLength = infinity
-bestStart = 0
-
-for right from 0 to s.length - 1:
-    current = s[right]
-    add current to window
-
-    if current exists in need AND window[current] == need[current]:
-        formed++
-
+need = freq map of t; required = |distinct chars in t|; formed = 0
+lo = 0; best = (∞, 0, 0)
+for hi:
+    add s[hi] to window; if window[s[hi]] == need[s[hi]]: formed++
     while formed == required:
-        update best answer
-        leftChar = s[left]
-        remove leftChar from window
+        update best
+        remove s[lo] from window; if window[s[lo]] < need[s[lo]]: formed--
+        lo++
 
-        if leftChar exists in need AND window[leftChar] < need[leftChar]:
-            formed--
-        left++
+------------------------------------------------------------------------------
 
-return best substring
+OPTIMAL — MISSING-COUNT | O(n + m) | O(k)
 
---------------------------------------------------------------------------------
-
-MISSING COUNT | O(N + M) | O(K)
-
-// Tracks duplicates and missing characters instead of distinct characters
-
-need = frequency(t)
-missing = t.length
-left = 0
-
-for right:
-    c = s[right]
-    if c is required:
-        if window[c] < need[c]:
-            missing--
-        window[c]++
-
+missing = |t|; need = freq(t); lo = 0
+for hi:
+    if s[hi] needed AND window[s[hi]] < need[s[hi]]: missing--
+    window[s[hi]]++
     while missing == 0:
-        update answer
-        c = s[left]
-
-        if c is required:
-            window[c]--
-            if window[c] < need[c]:
-                missing++
-        left++
+        update best (hi - lo + 1)
+        window[s[lo]]--
+        if s[lo] needed AND window[s[lo]] < need[s[lo]]: missing++
+        lo++
 ```
 
-## Sliding Window Maximum
+```csharp
+// Optimal implementation
+public string MinWindow(string s, string t)
+{
+    var need = new Dictionary<char, int>();
+    foreach (char c in t) need[c] = need.GetValueOrDefault(c) + 1;
 
-Given an integer array nums and an integer k, there is a sliding window of size k.
-The window moves from left to right one position at a time.
-Return the maximum value in every window.
+    int missing = t.Length, lo = 0, bestLen = int.MaxValue, bestStart = 0;
+    var window = new Dictionary<char, int>();
 
-**Example:** `nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3` → `[3, 3, 5, 5, 6, 7]`
+    for (int hi = 0; hi < s.Length; hi++)
+    {
+        char r = s[hi];
+        window[r] = window.GetValueOrDefault(r) + 1;
+        if (need.ContainsKey(r) && window[r] <= need[r]) missing--;
+
+        while (missing == 0)
+        {
+            if (hi - lo + 1 < bestLen) { bestLen = hi - lo + 1; bestStart = lo; }
+            char l = s[lo];
+            window[l]--;
+            if (need.ContainsKey(l) && window[l] < need[l]) missing++;
+            lo++;
+        }
+    }
+    return bestLen == int.MaxValue ? "" : s.Substring(bestStart, bestLen);
+}
+```
+
+> **Key insight:** track `missing` (number of characters still needed) so the shrink condition is a single integer check; shrinking while `missing == 0` minimises the window length.
+
+---
+
+## Fixed-Size Sliding Window
+
+### Subarrays with K Different Integers — LeetCode 992
+
+Count subarrays with **exactly** K distinct integers.
+
+**Example:** `nums = [1,2,1,3,4], k = 3` → `3`
 
 ```text
-BRUTE FORCE | O(N * K) | O(1)
+BRUTE FORCE | O(n²) | O(k)
 
-For each window, scan the k elements to find the maximum
+Check every subarray; count those with exactly k distinct values.
 
---------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
-MAX HEAP + LAZY DELETION | O(N log N) | O(N)
+OPTIMAL — AT-MOST-K TRICK | O(n) | O(k)
 
-// Only the maximum can be inspected, so out-of-window entries are discarded lazily when they reach the top
-// The heap can hold every element, hence O(N) space
+count(exactly K) = count(atMost K) - count(atMost K-1)
 
-heap = max heap of (value, index)
-
-for i = 0 to n-1:
-    add nums[i]
-    while heap.max.index <= i-k:
-        remove max
-    if i >= k-1:
-        result.add(heap.max.value)
-
---------------------------------------------------------------------------------
-
-MONOTONIC DEQUE | O(N) | O(K)
-
-// Deque stores indices of elements in decreasing order of their values. Front is the maximum
-// Any new maximum will remove all smaller elements from the back of the deque
-
-deque = empty
-
-for i from 0 to n-1:
-    // Remove elements outside window
-    while deque not empty AND deque.front < i-k+1:
-        remove front
-
-    // Remove elements smaller than current
-    while deque not empty AND nums[deque.back] <= nums[i]:
-        remove back
-
-    add i to back
-
-    if i >= k-1:
-        result.add(nums[deque.front])
+atMost(K): standard sliding window — shrink while distinct > K,
+           add (hi - lo + 1) to count after each step.
 ```
+
+```csharp
+// Optimal implementation
+public int SubarraysWithKDistinct(int[] nums, int k) =>
+    CountAtMost(nums, k) - CountAtMost(nums, k - 1);
+
+private int CountAtMost(int[] nums, int k)
+{
+    var freq = new Dictionary<int, int>();
+    int lo = 0, count = 0;
+    for (int hi = 0; hi < nums.Length; hi++)
+    {
+        freq[nums[hi]] = freq.GetValueOrDefault(nums[hi]) + 1;
+        while (freq.Count > k)
+        {
+            freq[nums[lo]]--;
+            if (freq[nums[lo]] == 0) freq.Remove(nums[lo]);
+            lo++;
+        }
+        count += hi - lo + 1;
+    }
+    return count;
+}
+```
+
+> **Key insight:** exact-K windows aren't directly shrinkable; the at-most-K trick decomposes the problem into two monotone windows, each solvable with standard sliding-window counting.
+
+---
+
+### Sliding Window Maximum — LeetCode 239
+
+Given array `nums` and window size `k`, return the maximum of each window as it slides across.
+
+**Example:** `nums = [1,3,-1,-3,5,3,6,7], k = 3` → `[3,3,5,5,6,7]`
+
+The efficient solution uses a **monotonic deque** — template and full rationale live in [StacksAndQueues](../StacksAndQueues/StacksAndQueues.md). Summary:
+
+```text
+BRUTE FORCE | O(n × k) | O(1)
+
+Scan each window of size k for its maximum.
+
+------------------------------------------------------------------------------
+
+MAX HEAP + LAZY DELETION | O(n log n) | O(n)
+
+Maintain a max-heap; lazily discard out-of-window indices from the top.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — MONOTONIC DEQUE | O(n) | O(k)
+
+Deque stores indices in decreasing order of value (front = current max).
+For each i:
+  remove front if out of window (index < i - k + 1)
+  pop back while nums[back] <= nums[i]  (they can never be a future max)
+  push i to back
+  if i >= k-1: emit nums[deque.front]
+```
+
+```csharp
+// Optimal implementation — see StacksAndQueues for template rationale
+public int[] MaxSlidingWindow(int[] nums, int k)
+{
+    var dq = new LinkedList<int>(); // stores indices
+    var result = new int[nums.Length - k + 1];
+    for (int i = 0; i < nums.Length; i++)
+    {
+        if (dq.Count > 0 && dq.First.Value < i - k + 1) dq.RemoveFirst();
+        while (dq.Count > 0 && nums[dq.Last.Value] <= nums[i]) dq.RemoveLast();
+        dq.AddLast(i);
+        if (i >= k - 1) result[i - k + 1] = nums[dq.First.Value];
+    }
+    return result;
+}
+```
+
+> **Key insight:** a monotonic deque removes elements that can never be a future window maximum, giving O(1) amortised max per step; see [monotonic deque](../StacksAndQueues/StacksAndQueues.md) for the full explanation.
+

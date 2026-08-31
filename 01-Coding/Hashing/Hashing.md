@@ -1,61 +1,78 @@
 # Hashing
 
-## Core Concepts
+> **Core idea:** trade O(n) space for O(1) average-time lookup by mapping keys to array indices via a hash function.
+> **Recognise it when:** "find if X exists", "count occurrences", "group by property", "two elements sum to target", "number of subarrays with property P".
+> **Costs:** `O(n) time, O(n) space` for a single pass; O(1) average per operation.
 
-- **Hash function** — maps key to bucket index. Good properties: uniform distribution, deterministic, fast to compute, avalanche effect (small key change → large hash change).
-- **Collision** — two distinct keys map to the same bucket. Unavoidable by pigeonhole; must be resolved.
-- **Load factor (α)** — `count / capacity`. As α → 1, collision probability rises; C# `Dictionary` resizes (doubles) when α exceeds ~0.72 (prime bucket count keeps distribution uniform).
-- **Chaining** — each bucket is a linked list of colliding entries. O(1+α) average lookup; O(n) worst.
-- **Open addressing** — on collision, probe for next empty slot. Probing strategies: linear, quadratic, double hashing.
+## Mental Model
+
+A hash table is an array indexed by `hash(key) % capacity`. The key invariant: **every lookup and insert touches at most O(1+α) entries on average**, where α = load factor. When α exceeds a threshold the table resizes, paying O(n) amortised once.
+
+The higher-level pattern: **convert a linear scan into a constant-time question** by recording what you have seen so far in a dictionary/set.
 
 ---
 
-## Collision Resolution Comparison
+## Complexity Reference
 
-| Strategy           | Lookup avg | Lookup worst      | Cache friendliness     | Delete complexity        |
-| ------------------ | ---------- | ----------------- | ---------------------- | ------------------------ |
-| Chaining           | O(1+α)     | O(n)              | Poor (pointer chase)   | Easy (remove from list)  |
-| Linear probing     | O(1/(1-α)) | O(n)              | Excellent (sequential) | Needs tombstone          |
-| Quadratic probing  | O(1/(1-α)) | O(n)              | Medium                 | Needs tombstone          |
-| Robin Hood hashing | O(1) avg   | O(log n) expected | Good                   | Complex (backward shift) |
+| Operation | `Dictionary<K,V>` avg | `Dictionary<K,V>` worst | Notes |
+| --------- | --------------------- | ----------------------- | ----- |
+| `Add` / `[]` | O(1) | O(n) | worst = all keys collide |
+| `TryGetValue` / `ContainsKey` | O(1) | O(n) | |
+| `Remove` | O(1) | O(n) | |
+| Iterate | O(n) | O(n) | order is not insertion order |
+| `int[26]` char-freq array | **O(1)** | O(1) | fastest for a-z problems |
 
-**Robin Hood** — on collision, steal slot from the richer entry (smaller probe distance) for the poorer (larger probe distance). Evens out probe sequences; used in Rust's `HashMap`.
+---
+
+## Hash Function Properties
+
+- **Uniform distribution** — spreads keys evenly across buckets.
+- **Deterministic** — same key always yields same hash.
+- **Avalanche effect** — one-bit key change flips ~half the hash bits.
+- **Fast to compute** — ideally O(key length).
+- **Collision** — two distinct keys → same bucket. Unavoidable by pigeonhole; must be resolved.
+- **Load factor α** = `count / capacity`. C# `Dictionary` resizes when α ≈ 0.72 (prime bucket sizes keep distribution uniform).
+
+---
+
+## Collision Resolution Strategies
+
+| Strategy | Lookup avg | Lookup worst | Cache | Delete |
+| -------- | ---------- | ------------ | ----- | ------ |
+| Chaining | O(1+α) | O(n) | Poor (pointer chase) | Easy |
+| Linear probing | O(1/(1−α)) | O(n) | **Excellent** (sequential) | Needs tombstone |
+| Quadratic probing | O(1/(1−α)) | O(n) | Medium | Needs tombstone |
+| **Robin Hood** | O(1) avg | O(log n) expected | Good | Complex (backward shift) |
+| Double hashing | O(1/(1−α)) | O(n) | Medium | Needs tombstone |
+
+**Robin Hood** — on collision, steal the slot from the entry with the smaller probe distance ("richer") and give it to the entry probing longer ("poorer"). Evens probe sequences; used in Rust's `HashMap`.
 
 ---
 
 ## C# `Dictionary<K,V>` Internals
 
-`Dictionary<K,V>` uses **chaining with open-addressing-style arrays** (not pointer-linked lists):
+`Dictionary<K,V>` uses **chaining implemented over struct arrays** (no heap-allocated linked-list nodes):
 
-- `int[] _buckets` — length = prime ≥ capacity; stores index into `_entries` of the head of a chain.
-- `Entry[] _entries` — struct array; each `Entry` = `{ hashCode, next (chain index), key, value }`.
-- On `Add(key, val)`: compute `hash = key.GetHashCode()`, bucket = `hash % _buckets.Length`; walk chain to detect duplicate; prepend new entry to chain.
-- On resize: double to next prime; rehash all entries.
-- `GetHashCode` is called once per operation; `Equals` is called for each chain element with matching `hashCode`.
+- `int[] _buckets` — length = prime ≥ requested capacity; stores index (1-based) into `_entries` for the chain head.
+- `Entry[] _entries` — struct array; each entry = `{ hashCode, next (chain index), key, value }`.
+- **Add:** hash = `key.GetHashCode()`, bucket = `(uint)hash % _buckets.Length`; walk chain to detect duplicate; prepend new entry.
+- **Resize:** when α exceeds threshold, grow to next prime, rehash all entries into new arrays.
+- `GetHashCode` called **once** per operation; `Equals` called for each chain node with matching `hashCode`.
 
-```mermaid
-flowchart LR
-    K["key.GetHashCode()"] --> B["bucket = hash % prime"]
-    B --> E["_entries chain walk"]
-    E --> F["Equals check per node"]
-    F --> G["Found or -1"]
-```
+`HashSet<T>` is internally identical to `Dictionary<T,_>` without the value field. Same O(1) average for `Add`, `Remove`, `Contains`, plus set algebra: `UnionWith`, `IntersectWith`, `ExceptWith`.
 
 ---
 
 ## `GetHashCode` / `Equals` Contract
 
-**Contract (must satisfy both or `Dictionary` breaks):**
+**Two rules — break either and `Dictionary` silently loses entries:**
 
-1. If `a.Equals(b)` then `a.GetHashCode() == b.GetHashCode()`.
-2. `GetHashCode()` must be stable during the object's lifetime as a dictionary key — do NOT use mutable fields.
-3. `Equals` must be reflexive, symmetric, transitive, consistent.
+1. `a.Equals(b)` ⟹ `a.GetHashCode() == b.GetHashCode()`
+2. `GetHashCode()` must be **stable** for the object's lifetime as a key — never hash mutable fields.
 
-**Why mutable keys break dictionaries:**
-When a key's hash changes after insertion, the lookup bucket index changes — the entry is "lost" (it's in bucket `oldHash % size` but lookups probe `newHash % size`).
+**Why mutable keys break dictionaries:** after mutation the key's hash changes, so lookup probes a different bucket than the one the entry was stored in — the entry is effectively lost.
 
 ```csharp
-// Good immutable value-based key
 public sealed class Point
 {
     public int X { get; }
@@ -68,166 +85,244 @@ public sealed class Point
 
 ---
 
-## HashSet
-
-`HashSet<T>` is a `Dictionary<T, bool>` without the value. Same O(1) avg ops: `Add`, `Remove`, `Contains`.
+## Designing a Good `GetHashCode`
 
 ```csharp
-var set = new HashSet<int>();
-set.Add(1); set.Add(2); set.Add(1); // set = {1, 2}
-set.Contains(2); // true — O(1)
-set.ExceptWith(other);     // A \ B
-set.IntersectWith(other);  // A ∩ B
-set.UnionWith(other);      // A ∪ B
+// Preferred: HashCode.Combine — SipHash-based mixing, handles ordering
+public override int GetHashCode() => HashCode.Combine(Field1, Field2, Field3);
+
+// For sequence keys (e.g. char[] canonical form):
+public override int GetHashCode()
+{
+    var h = new HashCode();
+    foreach (var item in _items) h.Add(item);
+    return h.ToHashCode();
+}
 ```
+
+- **Never** use XOR alone — commutative, so `{1,2}` and `{2,1}` collide.
+- **Never** hash mutable fields.
+- C# string `GetHashCode` is **randomised per process** (DOTNET_SYSTEM_GLOBALIZATION_HASH_ALGORITHM) — never persist or compare across processes.
 
 ---
 
-## Frequency Counting Patterns
+## Templates
+
+### Frequency Map
+
+**Use when:** count occurrences, detect duplicates, find most/least frequent.
 
 ```csharp
-// Count frequencies
+// O(n) time, O(k) space where k = distinct values
 var freq = new Dictionary<int, int>();
 foreach (int x in nums)
     freq[x] = freq.GetValueOrDefault(x) + 1;
 
-// Top-k most frequent (use min-heap of size k)
-var pq = new PriorityQueue<int, int>();
+// For lowercase-only strings — faster: O(1) space
+var freq = new int[26];
+foreach (char c in s) freq[c - 'a']++;
+```
+
+### Complement Lookup (Two-Sum Family)
+
+**Use when:** find two (or more) elements satisfying a sum/difference constraint.
+
+```csharp
+// O(n) time, O(n) space
+var seen = new Dictionary<int, int>(); // value → index
+for (int i = 0; i < nums.Length; i++)
+{
+    int complement = target - nums[i];
+    if (seen.TryGetValue(complement, out int j)) return [j, i];
+    seen[nums[i]] = i;
+}
+```
+
+### Canonical-Key Grouping
+
+**Use when:** group strings/sequences that are "equivalent" under some transform.
+
+```csharp
+// Group anagrams — sorted key O(n·k·log k); frequency-string key O(n·k)
+var groups = new Dictionary<string, List<string>>();
+foreach (var s in strs)
+{
+    string key = string.Concat(s.OrderBy(c => c));   // or: freq-array key below
+    if (!groups.TryGetValue(key, out var list))
+        groups[key] = list = new List<string>();
+    list.Add(s);
+}
+
+// O(n·k) frequency-string key for a-z
+static string FreqKey(string s)
+{
+    var cnt = new int[26];
+    foreach (char c in s) cnt[c - 'a']++;
+    return string.Join(",", cnt);
+}
+```
+
+### Prefix Sum + HashMap
+
+**Use when:** count subarrays satisfying a sum/modular constraint.
+
+**General principle:** "number of subarrays ending at index `j` with property P" → "how many earlier prefix values satisfy the matching condition". Seed `prefixCount[identity] = 1` before the loop.
+
+```csharp
+// Template — O(n) time, O(n) space
+var prefixCount = new Dictionary<int, int> { [0] = 1 };
+int prefix = 0, result = 0;
+foreach (int x in nums)
+{
+    prefix = Transform(prefix, x);          // e.g. prefix += x, or prefix = (prefix + x) % k
+    int need = MatchingValue(prefix);       // e.g. prefix - k, or prefix (for balance problems)
+    result += prefixCount.GetValueOrDefault(need);
+    prefixCount[prefix] = prefixCount.GetValueOrDefault(prefix) + 1;
+}
+```
+
+**Three instantiations:**
+
+| Problem | `prefix` | `need` | Seed |
+| ------- | -------- | ------ | ---- |
+| Subarray Sum = K (560) | `prefix += x` | `prefix - k` | `[0]=1` |
+| Contiguous Array (525) | `+1` for 1, `-1` for 0 | `prefix` (seen before → equal 0s and 1s between) | `[0]=1` |
+| Divisible by K (974) | `(prefix + x % k + k) % k` | `prefix` (same remainder → difference divisible) | `[0]=1` |
+
+### HashSet Membership / Dedup
+
+**Use when:** O(1) "have I seen this?", remove duplicates, detect cycle.
+
+```csharp
+var seen = new HashSet<int>();
+foreach (int x in nums)
+{
+    if (!seen.Add(x)) return true; // duplicate found
+}
+return false;
+```
+
+---
+
+## Top-K Frequent Elements (LeetCode 347)
+
+Build the frequency map here; the heap phase belongs to [Heaps and Priority Queues](../HeapsAndPriorityQueues/HeapsAndPriorityQueues.md).
+
+```csharp
+// Step 1 (hashing): build frequency map — O(n)
+var freq = new Dictionary<int, int>();
+foreach (int x in nums) freq[x] = freq.GetValueOrDefault(x) + 1;
+
+// Step 2a (heap): maintain min-heap of size k — O(n log k) — see HeapsAndPriorityQueues.md
+// Step 2b (bucket sort): O(n) alternative — hashing-flavoured
+var buckets = new List<int>[nums.Length + 1];
 foreach (var (val, cnt) in freq)
 {
-    pq.Enqueue(val, cnt);
-    if (pq.Count > k) pq.Dequeue(); // evict least frequent
+    buckets[cnt] ??= new List<int>();
+    buckets[cnt].Add(val);
 }
-// LeetCode 347 — Top K Frequent Elements
+var result = new List<int>();
+for (int i = buckets.Length - 1; i >= 1 && result.Count < k; i--)
+    if (buckets[i] != null) result.AddRange(buckets[i]);
+return result.ToArray();
 ```
+
+> **Why bucket sort works:** frequency is bounded by `n`, so an array of `n+1` buckets indexed by frequency lets us scan from high to low in O(n).
 
 ---
 
-## Two-Sum Family
+## Pattern Recognition
 
-```csharp
-// Two Sum (LeetCode 1) — O(n) time, O(n) space
-int[] TwoSum(int[] nums, int target)
-{
-    var map = new Dictionary<int, int>(); // value → index
-    for (int i = 0; i < nums.Length; i++)
-    {
-        int complement = target - nums[i];
-        if (map.TryGetValue(complement, out int j)) return [j, i];
-        map[nums[i]] = i;
-    }
-    return [];
-}
-
-// Four Sum Count (LeetCode 454) — O(n²)
-int FourSumCount(int[] A, int[] B, int[] C, int[] D)
-{
-    var map = new Dictionary<int, int>();
-    foreach (int a in A) foreach (int b in B)
-        map[a + b] = map.GetValueOrDefault(a + b) + 1;
-    int count = 0;
-    foreach (int c in C) foreach (int d in D)
-        count += map.GetValueOrDefault(-(c + d));
-    return count;
-}
-```
+| Problem says… | Reach for | Complexity |
+| ------------- | --------- | ---------- |
+| "Two numbers sum to target" | Complement lookup dict | O(n) |
+| "Count subarrays summing to k" | Prefix sum + dict | O(n) |
+| "Group by equivalent form" | Canonical-key dict | O(n·k) |
+| "Contains duplicate" / "have I seen X" | HashSet | O(n) |
+| "Longest consecutive sequence" | HashSet + start-of-run check | O(n) |
+| "Top k frequent" | Freq map + heap or bucket sort | O(n log k) / O(n) |
+| "Character frequency equal?" | `int[26]` array | O(n), O(1) space |
+| "At most k distinct" / sliding window | TwoPointers + dict | O(n) |
+| "kth largest / smallest" | Heap (not hash) | O(n log k) |
+| "Prefix-based search / autocomplete" | Trie (not hash) | O(m) |
+| "Ordered iteration by key" | `SortedDictionary` | O(log n) per op |
+| "Range sum queries after updates" | Fenwick / segment tree | O(log n) |
 
 ---
 
-## Group Anagrams
+## Variants and Differences
 
-```csharp
-// LeetCode 49 — O(n * k log k) where k = max word length
-IList<IList<string>> GroupAnagrams(string[] strs)
-{
-    var map = new Dictionary<string, List<string>>();
-    foreach (var s in strs)
-    {
-        var key = string.Concat(s.OrderBy(c => c)); // sorted chars as key
-        if (!map.ContainsKey(key)) map[key] = new List<string>();
-        map[key].Add(s);
-    }
-    return new List<IList<string>>(map.Values);
-}
-// Alternative key: 26-char frequency string — avoids sort, O(n*k)
-```
+### When Hashmap is the Wrong Tool
 
----
+| Need | Better Structure | Why |
+| ---- | ---------------- | --- |
+| Ordered iteration by key | `SortedDictionary<K,V>` | HashMap order is undefined |
+| Top-K / median / kth element | `PriorityQueue` / heap | HashMap can't compare magnitudes |
+| Prefix-match / autocomplete | Trie | HashMap can't share prefixes |
+| Range sum / point update | Fenwick tree / segment tree | HashMap has no positional concept |
+| Range max / min queries | Sparse table / segment tree | Same |
+| Windowed frequency with eviction | Dict + deque (monotonic) | Pure dict misses the eviction invariant |
 
-## Subarray Sum Equals K (Prefix Sum + HashMap)
+### `Dictionary` vs `SortedDictionary` vs `int[]`
 
-```csharp
-// LeetCode 560 — O(n) time, O(n) space
-int SubarraySum(int[] nums, int k)
-{
-    var prefixCount = new Dictionary<int, int> { [0] = 1 };
-    int sum = 0, count = 0;
-    foreach (int x in nums)
-    {
-        sum += x;
-        count += prefixCount.GetValueOrDefault(sum - k);
-        prefixCount[sum] = prefixCount.GetValueOrDefault(sum) + 1;
-    }
-    return count;
-}
-// Key insight: subarray[i+1..j] sums to k iff prefix[j] - prefix[i] = k
-//              iff prefix[i] = prefix[j] - k was seen before.
-```
-
-**Canonical problems:**
-
-- LeetCode 1 — Two Sum
-- LeetCode 49 — Group Anagrams
-- LeetCode 347 — Top K Frequent Elements
-- LeetCode 560 — Subarray Sum Equals K
-- LeetCode 128 — Longest Consecutive Sequence (O(n) with HashSet)
-- LeetCode 454 — 4Sum II
+| Criterion | `Dictionary<K,V>` | `SortedDictionary<K,V>` | `int[26]` |
+| --------- | ----------------- | ----------------------- | --------- |
+| Lookup | **O(1) avg** | O(log n) | **O(1)** |
+| Ordered iteration | ❌ | ✅ | ✅ (by index) |
+| Arbitrary key type | ✅ | ✅ | ❌ (only small ints) |
+| Memory per entry | ~40 B | ~80 B (tree node) | **4 B** |
+| Best for | General purpose | Need min/max/range | a-z char counts |
 
 ---
 
-## Longest Consecutive Sequence
+## Pitfalls
 
-```csharp
-// LeetCode 128 — O(n) with HashSet
-int LongestConsecutive(int[] nums)
-{
-    var set = new HashSet<int>(nums);
-    int best = 0;
-    foreach (int n in set)
-    {
-        if (set.Contains(n - 1)) continue; // only start from sequence beginning
-        int len = 1;
-        while (set.Contains(n + len)) len++;
-        best = Math.Max(best, len);
-    }
-    return best;
-}
-```
+- **Mutable keys** — mutating a key after insertion makes it unreachable. Always use immutable keys.
+- **`KeyNotFoundException` from indexer** — `dict[key]` throws if missing. Prefer `TryGetValue` or `GetValueOrDefault`.
+- **Forgetting `prefixCount[0] = 1`** — without it, subarrays starting at index 0 are not counted in prefix-sum problems.
+- **`int[26]` vs `Dictionary` for a-z** — the array is ~10× faster, allocates no heap objects, and has O(1) guaranteed (no hash collisions). Use it whenever the key set is small and contiguous.
+- **Hash order ≠ insertion order** — never rely on `Dictionary` iteration order. Use `List` or `LinkedList` if order matters.
+- **`null` keys** — `Dictionary<K,V>` throws `ArgumentNullException` on null reference-type keys. Guard explicitly.
+- **Value-type boxing** — `Dictionary<object, V>` or `HashSet<object>` boxes value types on every operation. Use typed generics.
+- **`string.GetHashCode` is not stable across processes** — C# randomises it per-process by default. Never persist, serialise, or compare `string.GetHashCode()` across processes or app restarts.
+- **`GetValueOrDefault` vs `TryGetValue`** — both are safe (no throw), but `TryGetValue` is marginally faster (one lookup) when you also need the value. `GetValueOrDefault` is cleaner for one-liners.
 
 ---
 
-## Consistent Hashing (Pointer)
+## Consistent Hashing (Interview Topic)
 
-Consistent hashing distributes keys across nodes so that when a node is added/removed, only `n/k` keys need remapping (not all). Uses a virtual ring of hash slots. Each physical node owns multiple virtual nodes for even distribution.
-See [System Design — Consistent Hashing](../05-System-Design-HLD/08-Consistent-Hashing-Sharding-and-Rate-Limiting.md) for full treatment.
+Consistent hashing distributes keys across nodes on a virtual hash ring so that adding/removing a node remaps only `n/k` keys (not all `n`). Each physical node owns multiple virtual nodes (vnodes) for even load. Used in distributed caches (Memcached, Redis Cluster) and databases (Cassandra, DynamoDB).
+
+Key property: `O(log n)` lookup via binary search on the sorted ring. Adding a node only steals keys from the adjacent neighbour, not a full rehash.
+
+> No broken link — the full system-design treatment is outside this coding-interview repo scope.
 
 ---
 
-## Designing a Good `GetHashCode`
+## Rolling Hash (Pointer)
 
-```csharp
-// Combine multiple fields: use HashCode.Combine (crypto-quality mixing)
-public override int GetHashCode()
-    => HashCode.Combine(Field1, Field2, Field3);
+Rolling hash computes `hash(window)` in O(1) by sliding: subtract the outgoing character's contribution and add the incoming one. Used in Rabin-Karp substring search. See [Tries and String Matching](../TriesAndStringMatching/TriesAndStringMatching.md) for the full implementation and collision-handling discussion.
 
-// For collections as keys (rare — prefer value-type wrappers):
-public override int GetHashCode()
-{
-    var hash = new HashCode();
-    foreach (var item in _items) hash.Add(item);
-    return hash.ToHashCode();
-}
-// Never use: XOR alone (commutative → {1,2} same hash as {2,1})
-// Never use: mutable fields
-// C# randomises seed per-process (ASLR) — HashCode.Combine is not stable across processes.
-```
+---
+
+## Practice
+
+See [Problems.md](Problems.md) for worked solutions.
+
+| # | Problem | Pattern |
+| - | ------- | ------- |
+| 1 | Two Sum | Complement lookup |
+| 49 | Group Anagrams | Canonical-key grouping |
+| 128 | Longest Consecutive Sequence | HashSet membership |
+| 205 | Isomorphic Strings | Bijection map |
+| 217 | Contains Duplicate | HashSet dedup |
+| 242 | Valid Anagram | Frequency map |
+| 290 | Word Pattern | Bijection map |
+| 347 | Top K Frequent Elements | Freq map + bucket sort / heap |
+| 380 | Insert Delete GetRandom O(1) | Dict + list |
+| 383 | Ransom Note | Frequency map |
+| 387 | First Unique Character | Frequency map |
+| 454 | 4Sum II | Complement lookup |
+| 525 | Contiguous Array | Prefix sum + HashMap |
+| 560 | Subarray Sum Equals K | Prefix sum + HashMap |
+| 974 | Subarray Sums Divisible by K | Prefix sum + HashMap |

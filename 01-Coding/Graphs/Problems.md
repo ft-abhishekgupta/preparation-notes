@@ -1,787 +1,1151 @@
 # Graphs — Problems
 
-## Number of Islands
+| # | Problem | LeetCode | Pattern | Difficulty |
+| - | ------- | -------- | ------- | ---------- |
+| 1 | Number of Islands | 200 | Grid Traversal | Medium |
+| 2 | Max Area of Island | 695 | Grid Traversal | Medium |
+| 3 | Flood Fill | 733 | Grid Traversal | Easy |
+| 4 | Surrounded Regions | 130 | Grid Traversal | Medium |
+| 5 | Pacific Atlantic Water Flow | 417 | Grid Traversal | Medium |
+| 6 | Longest Increasing Path in a Matrix | 329 | Grid DFS + Memo | Hard |
+| 7 | Rotting Oranges | 994 | Multi-Source BFS | Medium |
+| 8 | 01 Matrix | 542 | Multi-Source BFS | Medium |
+| 9 | Walls and Gates | 286 | Multi-Source BFS | Medium |
+| 10 | Word Ladder | 127 | BFS / Bidirectional BFS | Hard |
+| 11 | Clone Graph | 133 | DFS + HashMap | Medium |
+| 12 | Course Schedule | 207 | Topological Sort | Medium |
+| 13 | Course Schedule II | 210 | Topological Sort | Medium |
+| 14 | Alien Dictionary | 269 | Topological Sort | Hard |
+| 15 | Number of Provinces | 547 | Union-Find | Medium |
+| 16 | Graph Valid Tree | 261 | Union-Find | Medium |
+| 17 | Redundant Connection | 684 | Union-Find | Medium |
+| 18 | Accounts Merge | 721 | Union-Find | Medium |
+| 19 | Network Delay Time | 743 | Shortest Path | Medium |
+| 20 | Cheapest Flights Within K Stops | 787 | Shortest Path | Medium |
+| 21 | Path with Minimum Effort | 1631 | Shortest Path | Medium |
+| 22 | Swim in Rising Water | 778 | Shortest Path | Hard |
+| 23 | Find City With Smallest Neighbours <= Threshold | 1334 | Floyd-Warshall | Medium |
+| 24 | Min Cost to Connect All Points | 1584 | MST | Medium |
+| 25 | Is Graph Bipartite | 785 | Bipartite | Medium |
+| 26 | Critical Connections in a Network | 1192 | Bridges (Tarjan) | Hard |
+| 27 | Reconstruct Itinerary | 332 | Eulerian Path | Hard |
+| 28 | Word Search II | 212 | see Tries | Hard |
 
-Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+---
 
-**Example:** `grid = [["1","1","0"],["1","0","0"],["0","0","1"]]` → `2`
+## Grid Traversal (Flood Fill)
+
+### Number of Islands — LeetCode 200
+
+Count islands in a binary grid ('1' = land, '0' = water). An island is a group of '1's connected horizontally/vertically.
+
+**Example:** `grid = [["1","1","0"],["1","0","0"],["0","0","1"]]` -> `2`
 
 ```text
-DFS | O(M * N) | O(M * N)
+OPTIMAL — DFS IN-PLACE MARK | O(M*N) | O(M*N)
 
-NUMBER_OF_ISLANDS(grid):
-    rows = grid.rows
-    cols = grid.cols
-    islands = 0
-    for r = 0 to rows - 1:
-        for c = 0 to cols - 1:
-            if grid[r][c] == '1':
-                islands++
-                DFS(r, c)
-    return islands
-
-DFS(r, c):
-    if r < 0 OR r >= rows OR
-       c < 0 OR c >= cols:
-        return
-    if grid[r][c] != '1':
-        return
-    grid[r][c] = '0'
-    DFS(r + 1, c)
-    DFS(r - 1, c)
-    DFS(r, c + 1)
-    DFS(r, c - 1)
+For each unvisited '1': increment count, DFS to sink the island (mark '0').
 ```
 
-## Clone Graph
-
-Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph. Each node in the graph contains a value (int) and a list (List[Node]) of its neighbors.
-
-**Example:** `adjList = [[2,4],[1,3],[2,4],[1,3]]` → an identical, fully independent deep copy
-
-```text
-DFS + HASHMAP | O(V + E) | O(V)
-
-// Need hashmap to keep track of visited nodes and their corresponding cloned nodes.
-
-CLONE_GRAPH(node):
-    if node == null:
-        return null
-    visited = empty hashmap
-    return DFS(node)
-
-DFS(node):
-    if node exists in visited:
-        return visited[node]
-    clone = new Node(node.value)
-    visited[node] = clone
-    for neighbor in node.neighbors:
-        clonedNeighbor = DFS(neighbor)
-        clone.neighbors.add(clonedNeighbor)
-    return clone
+```csharp
+public int NumIslands(char[][] grid)
+{
+    int rows = grid.Length, cols = grid[0].Length, islands = 0;
+    void Dfs(int r, int c)
+    {
+        if (r < 0 || r >= rows || c < 0 || c >= cols || grid[r][c] != '1') return;
+        grid[r][c] = '0';
+        Dfs(r+1,c); Dfs(r-1,c); Dfs(r,c+1); Dfs(r,c-1);
+    }
+    for (int r = 0; r < rows; r++)
+        for (int c = 0; c < cols; c++)
+            if (grid[r][c] == '1') { islands++; Dfs(r, c); }
+    return islands;
+}
 ```
 
-## Pacific Atlantic Water Flow
+> **Key insight:** Sink each island ('1'->'0') during DFS so no separate `visited` array is needed.
 
-Given an m x n matrix of non-negative integers representing the height of each unit cell in a continent, the "Pacific ocean" touches the left and top edges of the matrix and the "Atlantic ocean" touches the right and bottom edges. Water can only flow in four directions (up, down, left, or right) from a cell to another one with height equal or lower. Find the list of grid coordinates where water can flow to both the Pacific and Atlantic ocean.
+---
 
-**Example:** `heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]` → `[[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]`
+### Max Area of Island — LeetCode 695
+
+Find the largest island (maximum count of connected '1's).
+
+**Example:** `grid = [[0,0,1,0],[0,1,1,0],[0,1,0,0]]` -> `4`
 
 ```text
-BRUTE FORCE DFS | O((R * C)^2) | O(R * C)
+OPTIMAL — DFS RETURNING SIZE | O(M*N) | O(M*N)
 
-From every cell, perform DFS to check if it can reach both oceans.
+DFS returns the cell count; accumulate with 1+ at each level.
+```
+
+```csharp
+public int MaxAreaOfIsland(int[][] grid)
+{
+    int rows = grid.Length, cols = grid[0].Length, best = 0;
+    int Dfs(int r, int c)
+    {
+        if (r < 0 || r >= rows || c < 0 || c >= cols || grid[r][c] != 1) return 0;
+        grid[r][c] = 0;
+        return 1 + Dfs(r+1,c) + Dfs(r-1,c) + Dfs(r,c+1) + Dfs(r,c-1);
+    }
+    for (int r = 0; r < rows; r++)
+        for (int c = 0; c < cols; c++)
+            best = Math.Max(best, Dfs(r, c));
+    return best;
+}
+```
+
+> **Key insight:** DFS returns subtree size — accumulate with `1 +` at each level.
+
+---
+
+### Flood Fill — LeetCode 733
+
+From `(sr, sc)`, replace all cells of the original colour with `newColor` (4-directional).
+
+**Example:** `image=[[1,1,1],[1,1,0],[1,0,1]], sr=1, sc=1, color=2` -> `[[2,2,2],[2,2,0],[2,0,1]]`
+
+```text
+OPTIMAL — DFS | O(M*N) | O(M*N)
+
+Guard: if start cell already equals newColor, return immediately — prevents infinite loop.
+```
+
+```csharp
+public int[][] FloodFill(int[][] image, int sr, int sc, int color)
+{
+    int orig = image[sr][sc];
+    if (orig == color) return image;
+    int rows = image.Length, cols = image[0].Length;
+    void Dfs(int r, int c)
+    {
+        if (r < 0 || r >= rows || c < 0 || c >= cols || image[r][c] != orig) return;
+        image[r][c] = color;
+        Dfs(r+1,c); Dfs(r-1,c); Dfs(r,c+1); Dfs(r,c-1);
+    }
+    Dfs(sr, sc);
+    return image;
+}
+```
+
+> **Key insight:** Guard `orig == color` at the start — otherwise the recursion never terminates.
+
+---
+
+### Surrounded Regions — LeetCode 130
+
+Capture all 'O' regions not connected to any border cell by replacing them with 'X'.
+
+**Example:** Board with 'O's — border-connected 'O's stay; interior 'O's become 'X'.
+
+```text
+BRUTE FORCE | O((M*N)^2) | O(M*N)
+
+For each 'O', BFS to border — redundant work.
 
 ------------------------------------------------------------------------------
 
-REVERSAL DFS | O(R * C) | O(R * C)
+OPTIMAL — REVERSE FLOOD FILL FROM BORDERS | O(M*N) | O(M*N)
 
-// Start from edge cells adjacent to the Pacific and Atlantic oceans and perform DFS to mark all cells that can reach each ocean. The intersection of these two sets gives the result.
-
-PACIFIC_ATLANTIC(heights):
-    pacific = empty set
-    atlantic = empty set
-    for every cell touching Pacific:
-        DFS(cell, pacific)
-    for every cell touching Atlantic:
-        DFS(cell, atlantic)
-    result = intersection(pacific, atlantic)
-    return result
-
-DFS(r, c, reachable):
-    if cell already in reachable:
-        return
-    add (r, c) to reachable
-    for each direction:
-        nr = r + dr
-        nc = c + dc
-        if outside grid:
-            continue
-        if heights[nr][nc] < heights[r][c]:
-            continue
-        DFS(nr, nc, reachable)
+1. DFS from every border 'O', mark reachable cells 'S' (safe).
+2. Scan: 'O' -> 'X' (captured), 'S' -> 'O' (restore).
 ```
 
-## Course Schedule
+```csharp
+public void Solve(char[][] board)
+{
+    int rows = board.Length, cols = board[0].Length;
+    void Dfs(int r, int c)
+    {
+        if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] != 'O') return;
+        board[r][c] = 'S';
+        Dfs(r+1,c); Dfs(r-1,c); Dfs(r,c+1); Dfs(r,c-1);
+    }
+    for (int r = 0; r < rows; r++) { Dfs(r,0); Dfs(r,cols-1); }
+    for (int c = 0; c < cols; c++) { Dfs(0,c); Dfs(rows-1,c); }
+    for (int r = 0; r < rows; r++)
+        for (int c = 0; c < cols; c++)
+            board[r][c] = board[r][c] == 'S' ? 'O' : (board[r][c] == 'O' ? 'X' : board[r][c]);
+}
+```
 
-There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return true if you can finish all courses. Otherwise, return false.
+> **Key insight:** Mark border-connected cells safe first, then capture everything else in a single scan.
 
-Does the directed graph contain a cycle?
+---
 
-**Example:** `numCourses = 2, prerequisites = [[1,0]]` → `true`
+### Pacific Atlantic Water Flow — LeetCode 417
+
+Return cells from which water can flow to both the Pacific (top/left) and Atlantic (bottom/right) oceans.
+
+**Example:** `heights=[[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]` -> `[[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]`
 
 ```text
-DFS CYCLE DETECTION | O(V + E) | O(V)
+BRUTE FORCE | O((M*N)^2) | O(M*N)
 
-// 0 = unvisited, 1 = currently visiting, 2 = completely processed
-
-CAN_FINISH(numCourses, prerequisites):
-    graph = build adjacency list
-    state = array filled with 0
-    for course = 0 to numCourses - 1:
-        if state[course] == 0:
-            if DFS(course):
-                return false
-    return true
-
-DFS(course):
-    if state[course] == 1:
-        return true       // cycle
-    if state[course] == 2:
-        return false      // already processed
-    state[course] = 1    // visiting
-    for next in graph[course]:
-        if DFS(next):
-            return true
-    state[course] = 2    // completed
-    return false
+DFS from every cell toward both oceans — redundant exploration.
 
 ------------------------------------------------------------------------------
 
-TOPOLOGICAL SORT | O(V + E) | O(V)
+OPTIMAL — REVERSE BFS FROM BOTH OCEAN BORDERS | O(M*N) | O(M*N)
 
-// If we can remove all nodes with indegree 0, there is no cycle
-// Indegree = number of incoming edges
-
-indegree = calculate indegrees
-queue = all nodes with indegree 0
-processed = 0
-while queue not empty:
-    course = dequeue
-    processed++
-    for next in graph[course]:
-        indegree[next]--
-        if indegree[next] == 0:
-            enqueue(next)
-return processed == numCourses
+BFS inward (to equal-or-higher neighbours) from Pacific seeds and Atlantic seeds.
+Intersection = cells that can reach both.
 ```
 
-## Course Schedule II
+```csharp
+public IList<IList<int>> PacificAtlantic(int[][] h)
+{
+    int R = h.Length, C = h[0].Length;
+    bool[,] pac = new bool[R,C], atl = new bool[R,C];
+    int[] dr = {-1,1,0,0}, dc = {0,0,-1,1};
+    void Bfs(bool[,] vis, Queue<(int r,int c)> q)
+    {
+        while (q.Count > 0)
+        {
+            var (r,c) = q.Dequeue();
+            for (int d = 0; d < 4; d++)
+            {
+                int nr = r+dr[d], nc = c+dc[d];
+                if (nr>=0&&nr<R&&nc>=0&&nc<C&&!vis[nr,nc]&&h[nr][nc]>=h[r][c])
+                { vis[nr,nc]=true; q.Enqueue((nr,nc)); }
+            }
+        }
+    }
+    var pq = new Queue<(int,int)>(); var aq = new Queue<(int,int)>();
+    for (int r=0;r<R;r++){pac[r,0]=true;pq.Enqueue((r,0));atl[r,C-1]=true;aq.Enqueue((r,C-1));}
+    for (int c=0;c<C;c++){pac[0,c]=true;pq.Enqueue((0,c));atl[R-1,c]=true;aq.Enqueue((R-1,c));}
+    Bfs(pac,pq); Bfs(atl,aq);
+    var res = new List<IList<int>>();
+    for (int r=0;r<R;r++) for(int c=0;c<C;c++) if(pac[r,c]&&atl[r,c]) res.Add(new[]{r,c});
+    return res;
+}
+```
 
-Same as Course Schedule, but return the order of courses to finish all courses. If there are multiple valid orders, return any of them. If it is impossible to finish all courses, return an empty array.
+> **Key insight:** Reverse the flow — BFS uphill from ocean borders avoids per-cell DFS.
 
-**Example:** `numCourses = 2, prerequisites = [[1,0]]` → `[0, 1]`
+---
+
+### Longest Increasing Path in a Matrix — LeetCode 329
+
+Longest strictly increasing path in a matrix (4 directions, no wrapping).
+
+**Example:** `matrix=[[9,9,4],[6,6,8],[2,1,1]]` -> `4` (1->2->6->9)
 
 ```text
-DFS TOPOLOGICAL SORT | O(V + E) | O(V + E)
+BRUTE FORCE DFS | O(4^(M*N)) | O(M*N)
 
-state = 0 for all nodes
-result = []
-
-DFS(course):
-    if state[course] == 1:
-        cycle
-        return false
-    if state[course] == 2:
-        return true
-    state[course] = 1
-    for next in graph[course]:
-        if DFS(next) == false:
-            return false
-    state[course] = 2
-    add course to result
-    return true
-
-reverse(result)
+DFS from every cell without memoisation.
 
 ------------------------------------------------------------------------------
 
-KAHN'S ALGORITHM | O(V + E) | O(V + E)
+OPTIMAL — DFS + MEMOISATION | O(M*N) | O(M*N)
 
-COURSE_ORDER(numCourses, prerequisites):
-    graph = adjacency list
-    indegree = array
-    for each prerequisite:
-        graph[prerequisite] add course
-        indegree[course]++
-    queue = all courses with indegree == 0
-    result = []
-    while queue not empty:
-        course = dequeue
-        result.add(course)
-        for next in graph[course]:
-            indegree[next]--
-            if indegree[next] == 0:
-                enqueue(next)
-    if result.size != numCourses:
-        return []
-    return result
+Strict increase = implicit DAG (no cycles). No visited set needed.
+memo[r][c] = length of the longest increasing path starting at (r,c).
 ```
 
-## Rotten Oranges
+```csharp
+public int LongestIncreasingPath(int[][] matrix)
+{
+    int rows = matrix.Length, cols = matrix[0].Length;
+    int[,] memo = new int[rows, cols];
+    int[] dr = {-1,1,0,0}, dc = {0,0,-1,1};
+    int Dfs(int r, int c)
+    {
+        if (memo[r,c] != 0) return memo[r,c];
+        int best = 1;
+        for (int d = 0; d < 4; d++)
+        {
+            int nr = r+dr[d], nc = c+dc[d];
+            if (nr>=0&&nr<rows&&nc>=0&&nc<cols&&matrix[nr][nc]>matrix[r][c])
+                best = Math.Max(best, 1+Dfs(nr,nc));
+        }
+        return memo[r,c] = best;
+    }
+    int ans = 0;
+    for (int r=0;r<rows;r++) for(int c=0;c<cols;c++) ans = Math.Max(ans, Dfs(r,c));
+    return ans;
+}
+```
 
-You are given an m x n grid where each cell can have one of three values:
+> **Key insight:** Strict increase creates an implicit DAG — DFS+memo is safe without a visited set.
 
-- 0 representing an empty cell,
-- 1 representing a fresh orange, or
-- 2 representing a rotten orange.
+---
 
-Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
-Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.
+## Multi-Source BFS
 
-**Example:** `grid = [[2,1,1],[1,1,0],[0,1,1]]` → `4`
+### Rotting Oranges — LeetCode 994
+
+Each minute, fresh oranges adjacent to rotten ones become rotten. Return minutes until all fresh are rotten, or -1.
+
+**Example:** `grid=[[2,1,1],[1,1,0],[0,1,1]]` -> `4`
 
 ```text
-BRUTE FORCE | O(M * N * Minutes) | O(M * N)
+BRUTE FORCE SIMULATION | O(M*N*minutes) | O(M*N)
 
-Simulate the rotting process minute by minute, updating the grid until no fresh oranges remain or no more can rot.
+Repeatedly scan grid until no change.
 
 ------------------------------------------------------------------------------
 
-MULTI-SOURCE BFS | O(M * N) | O(M * N)
+OPTIMAL — MULTI-SOURCE BFS | O(M*N) | O(M*N)
 
-ROTTING_ORANGES(grid):
-    queue = empty
-    fresh = 0
-    for every cell:
-        if cell == 2:
-            queue.enqueue(cell)
-        if cell == 1:
-            fresh++
-    minutes = 0
-    while queue not empty AND fresh > 0:
-        levelSize = queue.size
-        repeat levelSize times:
-            cell = queue.dequeue()
-            for each direction:
-                neighbor = adjacent cell
-                if neighbor is fresh:
-                    make neighbor rotten
-                    fresh--
-                    queue.enqueue(neighbor)
-        minutes++
-    if fresh > 0:
-        return -1
-    return minutes
+Seed all rotten cells at time 0. Level-by-level BFS = 1 minute per level.
 ```
 
-## Word Ladder
-
-Given two words (beginWord and endWord), and a dictionary's word list, find the length of the shortest transformation sequence from beginWord to endWord, such that:
-
-1. Only one letter can be changed at a time.
-2. Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
-
-**Example:** `beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]` → `5`
-
-```text
-BFS | O(N * M^2) | O(N * M)
-Where N is the number of words in the word list and M is the length of each word.
-
-// Unweighted shortest path problem
-
-WORD_LADDER(beginWord, endWord, wordList):
-    dictionary = HashSet(wordList)
-    if endWord not in dictionary:
-        return 0
-    queue = [(beginWord, 1)]
-    visited = {beginWord}
-    while queue not empty:
-        (word, distance) = dequeue
-        if word == endWord:
-            return distance
-        for i = 0 to word.length - 1:
-            original = word[i]
-            for c = 'a' to 'z':
-                word[i] = c
-                if word in dictionary
-                   AND word not in visited:
-                    visited.add(word)
-                    enqueue(word, distance + 1)
-            word[i] = original
-    return 0
-
--------------------------------------------------------------------------------
-
-BIDIRECTIONAL BFS | O(N * M^2) | O(N * M)
-Where N is the number of words in the word list and M is the length of each word.
-
-// Search from both the beginWord and endWord simultaneously to reduce the search space.
-
-front = {beginWord}
-back = {endWord}
-visited = {beginWord, endWord}
-distance = 1
-while front not empty AND back not empty:
-    always expand smaller frontier
-    nextFront = empty set
-    for word in front:
-        generate all one-character neighbors
-        for neighbor:
-            if neighbor in back:
-                return distance + 1
-            if neighbor not visited:
-                visited.add(neighbor)
-                nextFront.add(neighbor)
-    front = nextFront
-    distance++
-return 0
+```csharp
+public int OrangesRotting(int[][] grid)
+{
+    int rows=grid.Length,cols=grid[0].Length,fresh=0,minutes=0;
+    var q = new Queue<(int r,int c)>();
+    for(int r=0;r<rows;r++) for(int c=0;c<cols;c++)
+    { if(grid[r][c]==2) q.Enqueue((r,c)); else if(grid[r][c]==1) fresh++; }
+    int[] dr={-1,1,0,0},dc={0,0,-1,1};
+    while(q.Count>0&&fresh>0)
+    {
+        int size=q.Count; minutes++;
+        for(int i=0;i<size;i++)
+        {
+            var (r,c)=q.Dequeue();
+            for(int d=0;d<4;d++)
+            {
+                int nr=r+dr[d],nc=c+dc[d];
+                if(nr>=0&&nr<rows&&nc>=0&&nc<cols&&grid[nr][nc]==1)
+                { grid[nr][nc]=2; fresh--; q.Enqueue((nr,nc)); }
+            }
+        }
+    }
+    return fresh==0 ? minutes : -1;
+}
 ```
 
-## Graph Valid Tree
+> **Key insight:** Multi-source BFS with all rotten cells simultaneously gives exact per-minute distances in one pass.
 
-Given n nodes labeled from 0 to n - 1 and a list of undirected edges (each edge is a pair of nodes), write a function to check whether these edges make up a valid tree.
+---
 
-A valid tree must satisfy two conditions:
+### 01 Matrix — LeetCode 542
 
-1. It must be fully connected (there is a path between any two nodes). Number of edges must be n - 1.
-2. It must not contain any cycles.
+For each cell, find the distance to the nearest `0`.
 
-**Example:** `n = 5, edges = [[0,1],[0,2],[0,3],[1,4]]` → `true`
+**Example:** `mat=[[0,0,0],[0,1,0],[1,1,1]]` -> `[[0,0,0],[0,1,0],[1,2,1]]`
 
 ```text
-DFS | O(V + E) | O(V + E)
+BRUTE FORCE BFS FROM EACH 1 | O((M*N)^2) | O(M*N)
 
-VALID_TREE(n, edges):
-    if edges.length != n - 1:
-        return false
-    graph = build adjacency list
-    visited = empty set
-    if DFS(0, -1) == false:
-        return false
-    return visited.size == n
-
-DFS(node, parent):
-    visited.add(node)
-    for neighbor in graph[node]:
-        if neighbor == parent:
-            continue
-        if neighbor in visited:
-            return false
-        if DFS(neighbor, node) == false:
-            return false
-    return true
+BFS from every '1' independently.
 
 ------------------------------------------------------------------------------
 
-UNION-FIND | O(V + E) | O(V)
+OPTIMAL — MULTI-SOURCE BFS FROM ALL 0s | O(M*N) | O(M*N)
 
-// n nodes must have n - 1 edges to be a tree. Use union-find to detect cycles.
-
-VALID_TREE(n, edges):
-    if edges.length != n - 1:
-        return false
-    DSU = initialize(n)
-    for (u, v) in edges:
-        if FIND(u) == FIND(v):
-            return false
-        UNION(u, v)
-    return true
+Seed all 0s (distance 0). BFS outward fills each '1' with nearest-0 distance.
 ```
 
-## Redundant Connection
+```csharp
+public int[][] UpdateMatrix(int[][] mat)
+{
+    int rows=mat.Length,cols=mat[0].Length;
+    int[][] dist=new int[rows][]; for(int i=0;i<rows;i++) dist[i]=new int[cols];
+    var q=new Queue<(int r,int c)>();
+    for(int r=0;r<rows;r++) for(int c=0;c<cols;c++)
+    { if(mat[r][c]==0) q.Enqueue((r,c)); else dist[r][c]=int.MaxValue; }
+    int[] dr={-1,1,0,0},dc={0,0,-1,1};
+    while(q.Count>0)
+    {
+        var (r,c)=q.Dequeue();
+        for(int d=0;d<4;d++)
+        {
+            int nr=r+dr[d],nc=c+dc[d];
+            if(nr>=0&&nr<rows&&nc>=0&&nc<cols&&dist[nr][nc]>dist[r][c]+1)
+            { dist[nr][nc]=dist[r][c]+1; q.Enqueue((nr,nc)); }
+        }
+    }
+    return dist;
+}
+```
 
-Given a connected undirected graph of n nodes labeled from 1 to n, and an array edges where edges[i] = [ui, vi] indicates that there is an edge between ui and vi in the graph. The graph is a tree plus one additional edge. Return an edge that can be removed so that the resulting graph is a tree of n nodes. If there are multiple answers, return the answer that occurs last in the input.
+> **Key insight:** BFS from all zeros simultaneously is O(M·N); BFS from each '1' separately is O((M·N)²).
 
-**Example:** `edges = [[1,2],[1,3],[2,3]]` → `[2, 3]`
+---
+
+### Walls and Gates — LeetCode 286
+
+Fill each empty room (INF) with the distance to its nearest gate (0). Walls are -1.
+
+**Example:** Grid of INF/0/-1 -> each INF filled with shortest gate distance.
+
+```text
+OPTIMAL — MULTI-SOURCE BFS FROM ALL GATES | O(M*N) | O(M*N)
+
+Seed all gates; BFS outward assigns distances. Same pattern as 01 Matrix.
+```
+
+```csharp
+public void WallsAndGates(int[][] rooms)
+{
+    int rows=rooms.Length,cols=rooms[0].Length;
+    var q=new Queue<(int r,int c)>();
+    for(int r=0;r<rows;r++) for(int c=0;c<cols;c++) if(rooms[r][c]==0) q.Enqueue((r,c));
+    int[] dr={-1,1,0,0},dc={0,0,-1,1};
+    while(q.Count>0)
+    {
+        var (r,c)=q.Dequeue();
+        for(int d=0;d<4;d++)
+        {
+            int nr=r+dr[d],nc=c+dc[d];
+            if(nr>=0&&nr<rows&&nc>=0&&nc<cols&&rooms[nr][nc]==int.MaxValue)
+            { rooms[nr][nc]=rooms[r][c]+1; q.Enqueue((nr,nc)); }
+        }
+    }
+}
+```
+
+> **Key insight:** Multi-source BFS from all gates fills the entire grid in a single O(M·N) pass.
+
+---
+
+### Word Ladder — LeetCode 127
+
+Shortest transformation chain from `beginWord` to `endWord`, changing one letter at a time through dictionary words.
+
+**Example:** `beginWord="hit", endWord="cog", wordList=["hot","dot","dog","lot","log","cog"]` -> `5`
+
+```text
+BFS | O(N*M^2) | O(N*M)
+
+N = word count, M = word length. Generate M*26 neighbours per dequeued word.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — BIDIRECTIONAL BFS | O(N*M^2) | O(N*M)
+
+Search from both ends; always expand the smaller frontier.
+Stops when a generated neighbour is in the opposite frontier.
+Reduces search space from O(b^d) to O(b^(d/2)).
+```
+
+```csharp
+public int LadderLength(string beginWord, string endWord, IList<string> wordList)
+{
+    var dict = new HashSet<string>(wordList);
+    if (!dict.Contains(endWord)) return 0;
+    var front = new HashSet<string>{beginWord};
+    var back  = new HashSet<string>{endWord};
+    int dist = 1;
+    while (front.Count>0&&back.Count>0)
+    {
+        if (front.Count > back.Count) (front,back)=(back,front);
+        var next = new HashSet<string>();
+        foreach (var word in front)
+        {
+            char[] arr = word.ToCharArray();
+            for (int i=0;i<arr.Length;i++)
+            {
+                char orig=arr[i];
+                for (char c='a';c<='z';c++)
+                {
+                    if (c==orig) continue;
+                    arr[i]=c; var nb=new string(arr);
+                    if (back.Contains(nb)) return dist+1;
+                    if (dict.Contains(nb)) { next.Add(nb); dict.Remove(nb); }
+                    arr[i]=orig;
+                }
+            }
+        }
+        front=next; dist++;
+    }
+    return 0;
+}
+```
+
+> **Key insight:** Bidirectional BFS dramatically shrinks the search space — always expand the smaller frontier.
+
+---
+
+## Clone
+
+### Clone Graph — LeetCode 133
+
+Deep copy a connected undirected graph (each node has `val` and `neighbors`).
+
+**Example:** `adjList=[[2,4],[1,3],[2,4],[1,3]]` -> identical independent clone.
+
+```text
+OPTIMAL — DFS + HASHMAP | O(V+E) | O(V)
+
+Map original -> clone before recursing into neighbours to handle cycles.
+```
+
+```csharp
+public Node CloneGraph(Node node)
+{
+    if (node == null) return null;
+    var map = new Dictionary<Node,Node>();
+    Node Dfs(Node n)
+    {
+        if (map.ContainsKey(n)) return map[n];
+        var clone = new Node(n.val);
+        map[n] = clone; // store BEFORE recursing — handles cycles
+        foreach (var nb in n.neighbors) clone.neighbors.Add(Dfs(nb));
+        return clone;
+    }
+    return Dfs(node);
+}
+```
+
+> **Key insight:** Store the clone before recursing — prevents infinite loops on cycles.
+
+---
+
+## Topological Sort
+
+### Course Schedule — LeetCode 207
+
+Can all courses be finished given prerequisite constraints?
+
+**Example:** `numCourses=2, prerequisites=[[1,0]]` -> `true`
+
+```text
+DFS 3-COLOUR | O(V+E) | O(V)
+
+States: 0=unvisited, 1=in-stack, 2=done. Back edge to state-1 = cycle.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — KAHN'S TOPOLOGICAL SORT | O(V+E) | O(V)
+
+If processed count < numCourses, a cycle blocked full processing.
+```
+
+```csharp
+public bool CanFinish(int numCourses, int[][] prerequisites)
+{
+    var g=new List<int>[numCourses]; for(int i=0;i<numCourses;i++) g[i]=new();
+    int[] indeg=new int[numCourses];
+    foreach(var p in prerequisites){g[p[1]].Add(p[0]);indeg[p[0]]++;}
+    var q=new Queue<int>(); for(int i=0;i<numCourses;i++) if(indeg[i]==0) q.Enqueue(i);
+    int done=0;
+    while(q.Count>0){int u=q.Dequeue();done++;foreach(int v in g[u])if(--indeg[v]==0)q.Enqueue(v);}
+    return done==numCourses;
+}
+```
+
+> **Key insight:** Kahn's: nodes with indegree 0 are safe to process; a remaining cycle prevents count reaching V.
+
+---
+
+### Course Schedule II — LeetCode 210
+
+Return a valid topological course order, or empty array if impossible.
+
+**Example:** `numCourses=4, prerequisites=[[1,0],[2,0],[3,1],[3,2]]` -> `[0,1,2,3]`
+
+```text
+DFS POST-ORDER | O(V+E) | O(V+E)
+
+Post-order DFS; reverse gives topo order.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — KAHN'S BFS | O(V+E) | O(V+E)
+
+Dequeue order is directly the topological order.
+```
+
+```csharp
+public int[] FindOrder(int numCourses, int[][] prerequisites)
+{
+    var g=new List<int>[numCourses]; for(int i=0;i<numCourses;i++) g[i]=new();
+    int[] indeg=new int[numCourses];
+    foreach(var p in prerequisites){g[p[1]].Add(p[0]);indeg[p[0]]++;}
+    var q=new Queue<int>(); for(int i=0;i<numCourses;i++) if(indeg[i]==0) q.Enqueue(i);
+    var res=new List<int>();
+    while(q.Count>0){int u=q.Dequeue();res.Add(u);foreach(int v in g[u])if(--indeg[v]==0)q.Enqueue(v);}
+    return res.Count==numCourses ? res.ToArray() : Array.Empty<int>();
+}
+```
+
+> **Key insight:** Kahn's dequeue order is a valid topo order; empty result signals a cycle.
+
+---
+
+### Alien Dictionary — LeetCode 269
+
+Derive character ordering of an alien language from a sorted word list.
+
+**Example:** `words=["wrt","wrf","er","ett","rftt"]` -> `"wertf"`
+
+```text
+TOPOLOGICAL SORT | O(C + U + E) | O(U + E)
+C = total characters, U = unique chars, E = ordering edges.
+
+Compare adjacent word pairs -> first differing char gives a directed edge.
+Topo sort on characters; return "" on cycle or invalid prefix.
+```
+
+```csharp
+public string AlienOrder(string[] words)
+{
+    var indeg=new Dictionary<char,int>(); var g=new Dictionary<char,List<char>>();
+    foreach(var w in words) foreach(char c in w){indeg.TryAdd(c,0);g.TryAdd(c,new());}
+    for(int i=0;i<words.Length-1;i++)
+    {
+        string a=words[i],b=words[i+1];
+        if(a.Length>b.Length&&a.StartsWith(b)) return "";
+        for(int j=0;j<Math.Min(a.Length,b.Length);j++)
+            if(a[j]!=b[j]){g[a[j]].Add(b[j]);indeg[b[j]]++;break;}
+    }
+    var q=new Queue<char>(); foreach(var kv in indeg) if(kv.Value==0) q.Enqueue(kv.Key);
+    var sb=new System.Text.StringBuilder();
+    while(q.Count>0){char c=q.Dequeue();sb.Append(c);foreach(char nb in g[c])if(--indeg[nb]==0)q.Enqueue(nb);}
+    return sb.Length==indeg.Count ? sb.ToString() : "";
+}
+```
+
+> **Key insight:** First differing char in adjacent word pairs gives a directed ordering edge; topo sort resolves the alphabet.
+
+---
+
+## Union-Find
+
+### Number of Provinces — LeetCode 547
+
+Count connected components from an n*n adjacency matrix.
+
+**Example:** `isConnected=[[1,1,0],[1,1,0],[0,0,1]]` -> `2`
+
+```text
+DFS COMPONENT COUNT | O(V^2) | O(V)
+
+DFS/BFS from each unvisited node.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — UNION-FIND | O(V^2 * alpha(V)) | O(V)
+
+Union all connected pairs; count remaining components.
+```
+
+```csharp
+public int FindCircleNum(int[][] isConnected)
+{
+    int n=isConnected.Length;
+    int[] parent=Enumerable.Range(0,n).ToArray(), rank=new int[n]; int comp=n;
+    int Find(int x)=>parent[x]==x?x:parent[x]=Find(parent[x]);
+    void Union(int a,int b){int ra=Find(a),rb=Find(b);if(ra==rb)return;
+        if(rank[ra]<rank[rb])(ra,rb)=(rb,ra);parent[rb]=ra;if(rank[ra]==rank[rb])rank[ra]++;comp--;}
+    for(int i=0;i<n;i++) for(int j=i+1;j<n;j++) if(isConnected[i][j]==1) Union(i,j);
+    return comp;
+}
+```
+
+> **Key insight:** Province = connected component; DSU counts them with near-constant-time operations.
+
+---
+
+### Graph Valid Tree — LeetCode 261
+
+Given `n` nodes and `edges`, check if they form a valid tree (connected + acyclic).
+
+**Example:** `n=5, edges=[[0,1],[0,2],[0,3],[1,4]]` -> `true`
+
+```text
+DFS | O(V+E) | O(V+E)
+
+Check connected and cycle-free.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — UNION-FIND | O(E*alpha(V)) | O(V)
+
+Tree iff exactly n-1 edges AND no Union fails (no cycle).
+```
+
+```csharp
+public bool ValidTree(int n, int[][] edges)
+{
+    if(edges.Length!=n-1) return false;
+    int[] parent=Enumerable.Range(0,n).ToArray(), rank=new int[n];
+    int Find(int x)=>parent[x]==x?x:parent[x]=Find(parent[x]);
+    bool Union(int a,int b){int ra=Find(a),rb=Find(b);if(ra==rb)return false;
+        if(rank[ra]<rank[rb])(ra,rb)=(rb,ra);parent[rb]=ra;if(rank[ra]==rank[rb])rank[ra]++;return true;}
+    foreach(var e in edges) if(!Union(e[0],e[1])) return false;
+    return true;
+}
+```
+
+> **Key insight:** Exactly n-1 edges and no cycle are necessary and sufficient for a tree.
+
+---
+
+### Redundant Connection — LeetCode 684
+
+A tree plus one extra edge; return the redundant edge.
+
+**Example:** `edges=[[1,2],[1,3],[2,3]]` -> `[2,3]`
 
 ```text
 BRUTE FORCE | O(N^2) | O(N)
 
-For each edge, remove it and check if the graph is still connected and acyclic.
+Remove each edge; check connectivity.
 
 ------------------------------------------------------------------------------
 
-UNION-FIND | O(E * α(V)) | O(V)
-Where α(N) is the inverse Ackermann function, which grows very slowly and is practically constant for reasonable values of N.
+OPTIMAL — UNION-FIND | O(E*alpha(V)) | O(V)
 
-// Process edge one by one. If both endpoints of an edge are already connected, then this edge is redundant.
-
-findRedundantConnection(edges):
-    n = number of nodes
-    parent = array of size n + 1
-    rank = array of size n + 1 initialized to 0
-    FOR i = 1 TO n:
-        parent[i] = i
-    FOR each edge (u, v) in edges:
-        IF union(u, v) == FALSE:
-            RETURN (u, v)       // This edge creates a cycle
-    RETURN NONE
-
-find(x):
-    IF parent[x] != x:
-        parent[x] = find(parent[x])    // Path compression
-    RETURN parent[x]
-
-union(x, y):
-    rootX = find(x)
-    rootY = find(y)
-    IF rootX == rootY:
-        RETURN FALSE                    // Already connected → cycle
-    IF rank[rootX] < rank[rootY]:
-        parent[rootX] = rootY
-    ELSE IF rank[rootX] > rank[rootY]:
-        parent[rootY] = rootX
-    ELSE:
-        parent[rootY] = rootX
-        rank[rootX] = rank[rootX] + 1
-    RETURN TRUE
+Process edges in order; first failed Union = redundant edge.
 ```
 
-## Network Delay Time
+```csharp
+public int[] FindRedundantConnection(int[][] edges)
+{
+    int n=edges.Length;
+    int[] parent=Enumerable.Range(0,n+1).ToArray(), rank=new int[n+1];
+    int Find(int x)=>parent[x]==x?x:parent[x]=Find(parent[x]);
+    bool Union(int a,int b){int ra=Find(a),rb=Find(b);if(ra==rb)return false;
+        if(rank[ra]<rank[rb])(ra,rb)=(rb,ra);parent[rb]=ra;if(rank[ra]==rank[rb])rank[ra]++;return true;}
+    foreach(var e in edges) if(!Union(e[0],e[1])) return e;
+    return Array.Empty<int>();
+}
+```
 
-Given a network of n nodes, labeled from 1 to n, and a list of travel times as directed edges times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes for a signal to travel from source to target. We send a signal from a certain node k. Return the time it takes for all the n nodes to receive the signal. If it is impossible for all the n nodes to receive the signal, return -1.
+> **Key insight:** First failed Union (both endpoints already connected) identifies the edge that closes the cycle.
 
-**Example:** `times = [[2,1,1],[2,3,1],[3,4,1]], n = 4, k = 2` → `2`
+---
+
+### Accounts Merge — LeetCode 721
+
+Merge accounts sharing an email. Each account is `[name, email1, ...]`.
+
+**Example:** Two John accounts sharing "b@m" get merged.
 
 ```text
-BELLMAN-FORD | O(V * E) | O(V)
-// Relax all edges V - 1 times. If we can still relax an edge, then there is a negative cycle.
+DFS ON EMAIL GRAPH | O(N*K*log(N*K)) | O(N*K)
 
-distance[K] = 0
-others = infinity
-
-repeat V - 1 times:
-    for each (u, v, weight):
-        distance[v] = min(distance[v], distance[u] + weight)
+Build email graph; find components.
 
 ------------------------------------------------------------------------------
 
-DIJKSTRA | O((V+E) * log(V)) | O(V + E)
+OPTIMAL — UNION-FIND ON EMAILS | O(N*K*alpha(N*K)) | O(N*K)
 
-NETWORK_DELAY(times, n, k):
-    graph = adjacency list
-    distance = array filled with infinity
-    distance[k] = 0
-    minHeap = empty
-    push (0, k) into minHeap
-    while minHeap not empty:
-        (currentDistance, node) = pop minimum
-        if currentDistance > distance[node]:
-            continue
-        for (neighbor, weight) in graph[node]:
-            newDistance = currentDistance + weight
-            if newDistance < distance[neighbor]:
-                distance[neighbor] = newDistance
-                push (newDistance, neighbor)
-    answer = maximum distance
-    if any distance == infinity:
-        return -1
-    return answer
+Index each email. Union all emails in the same account. Group by root.
 ```
 
-## Min cost to connect all points
+```csharp
+public IList<IList<string>> AccountsMerge(IList<IList<string>> accounts)
+{
+    var emailId=new Dictionary<string,int>(); var emailOwner=new Dictionary<string,string>(); int id=0;
+    foreach(var acc in accounts)
+        for(int i=1;i<acc.Count;i++){emailId.TryAdd(acc[i],id++);emailOwner.TryAdd(acc[i],acc[0]);}
+    int[] parent=Enumerable.Range(0,id).ToArray(), rank=new int[id];
+    int Find(int x)=>parent[x]==x?x:parent[x]=Find(parent[x]);
+    void Union(int a,int b){int ra=Find(a),rb=Find(b);if(ra==rb)return;
+        if(rank[ra]<rank[rb])(ra,rb)=(rb,ra);parent[rb]=ra;if(rank[ra]==rank[rb])rank[ra]++;}
+    foreach(var acc in accounts)
+        for(int i=2;i<acc.Count;i++) Union(emailId[acc[1]],emailId[acc[i]]);
+    var groups=new Dictionary<int,SortedSet<string>>();
+    foreach(var (email,eid) in emailId)
+    { int root=Find(eid); if(!groups.ContainsKey(root))groups[root]=new(); groups[root].Add(email); }
+    var res=new List<IList<string>>();
+    foreach(var (root,emails) in groups)
+    { var list=new List<string>{emailOwner[emails.First()]};list.AddRange(emails);res.Add(list); }
+    return res;
+}
+```
 
-You are given an array points representing integer coordinates of some points on a 2D-plane, where points[i] = [xi, yi]. The cost of connecting two points [xi, yi] and [xj, yj] is the manhattan distance between them: |xi - xj| + |yi - yj|, where |val| denotes the absolute value of val.
-Return the minimum cost to make all points connected. All points are connected if there is exactly one simple path between any two points.
+> **Key insight:** Union-Find naturally groups emails across accounts; SortedSet provides sorted output.
 
-Minimum Spanning Tree problem.
+---
 
-**Example:** `points = [[0,0],[2,2],[3,10],[5,2],[7,0]]` → `20`
+## Shortest Path
+
+### Network Delay Time — LeetCode 743
+
+Signal from `k`; return time for all `n` nodes to receive it, or -1.
+
+**Example:** `times=[[2,1,1],[2,3,1],[3,4,1]], n=4, k=2` -> `2`
 
 ```text
-KRUSKAL'S ALGORITHM | O(V ^ 2 Log V) | O(V^2)
-Where E is the number of edges and V is the number of vertices.
+BELLMAN-FORD | O(V*E) | O(V)
 
-// Sort all edges by weight and add them to the MST if they don't create a cycle (using union-find).
-// Kruskal = Generate edges → Sort by weight → Union-Find → Take edge if components differ → Stop at V−1 edges.
-
-FUNCTION minCostConnectPoints(points):
-    n = number of points
-    edges = empty list
-    // Create all possible edges
-    FOR i = 0 TO n - 1:
-        FOR j = i + 1 TO n - 1:
-            distance =
-                ABS(points[i].x - points[j].x)
-                + ABS(points[i].y - points[j].y)
-            edges.ADD((distance, i, j))
-    // Kruskal: process cheapest edges first
-    SORT edges BY distance ASCENDING
-    // Initialize Union-Find
-    parent = array of size n
-    rank = array of size n
-    FOR i = 0 TO n - 1:
-        parent[i] = i
-        rank[i] = 0
-    totalCost = 0
-    edgesUsed = 0
-    FOR each (cost, u, v) in edges:
-        rootU = FIND(u)
-        rootV = FIND(v)
-        // If different components, connect them
-        IF rootU != rootV:
-            UNION(rootU, rootV)
-            totalCost = totalCost + cost
-            edgesUsed = edgesUsed + 1
-            // MST has n - 1 edges
-            IF edgesUsed == n - 1:
-                BREAK
-    RETURN totalCost
-
-FUNCTION FIND(x):
-    IF parent[x] != x:
-        parent[x] = FIND(parent[x])
-    RETURN parent[x]
-
-FUNCTION UNION(x, y):
-    rootX = FIND(x)
-    rootY = FIND(y)
-    IF rootX == rootY:
-        RETURN
-    IF rank[rootX] < rank[rootY]:
-        parent[rootX] = rootY
-    ELSE IF rank[rootX] > rank[rootY]:
-        parent[rootY] = rootX
-    ELSE:
-        parent[rootY] = rootX
-        rank[rootX] = rank[rootX] + 1
+Relax all edges V-1 times.
 
 ------------------------------------------------------------------------------
 
-PRIM'S ALGORITHM | O(V^2) | O(V)
+OPTIMAL — DIJKSTRA | O((V+E) log V) | O(V+E)
 
-// At every step, select the unvisited point with the cheapest connection to the current MST
-
-MIN_COST_CONNECT(points):
-    n = points.length
-    minCost = array filled with infinity
-    visited = array filled with false
-    minCost[0] = 0
-    answer = 0
-    repeat n times:
-        u = unvisited node with smallest minCost[u]
-        visited[u] = true
-        answer += minCost[u]
-        for v = 0 to n - 1:
-            if visited[v]:
-                continue
-            cost = ManhattanDistance(points[u], points[v])
-            minCost[v] = min(minCost[v], cost)
-    return answer
+SSSP from k; answer = max dist (unreachable = -1).
 ```
 
-## Aliens Dictionary
+```csharp
+public int NetworkDelayTime(int[][] times, int n, int k)
+{
+    var g=new List<(int v,int w)>[n+1]; for(int i=0;i<=n;i++) g[i]=new();
+    foreach(var t in times) g[t[0]].Add((t[1],t[2]));
+    int[] dist=new int[n+1]; Array.Fill(dist,int.MaxValue); dist[k]=0;
+    var pq=new PriorityQueue<int,int>(); pq.Enqueue(k,0);
+    while(pq.TryDequeue(out int u,out int d))
+    {
+        if(d>dist[u]) continue;
+        foreach(var (v,w) in g[u]) if(dist[u]+w<dist[v]){dist[v]=dist[u]+w;pq.Enqueue(v,dist[v]);}
+    }
+    int ans=0;
+    for(int i=1;i<=n;i++){if(dist[i]==int.MaxValue)return -1;ans=Math.Max(ans,dist[i]);}
+    return ans;
+}
+```
 
-Given a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language, derive the order of letters in this language.
+> **Key insight:** SSSP + max distance — the last node reached is the signal bottleneck.
 
-**Example:** `words = ["wrt","wrf","er","ett","rftt"]` → `"wertf"`
+---
+
+### Cheapest Flights Within K Stops — LeetCode 787
+
+Cheapest price from `src` to `dst` using at most `k` stops.
+
+**Example:** `n=4, flights=[[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]], src=0, dst=3, k=1` -> `700`
 
 ```text
-TOPOLOGICAL SORT | O(C + V + E) | O(V + E)
-C: Total number of characters in all words
-V: Number of unique characters
-E: Number of edges in the graph
+PLAIN DIJKSTRA | WRONG
 
-ALIEN_ORDER(words):
-    graph = empty adjacency list
-    indegree = hashmap
-    add every character to graph
-    add every character to indegree with 0
-    for i = 0 to words.length - 2:
-        a = words[i]
-        b = words[i + 1]
-        if a is invalid prefix of b:
-            return ""
-        for j = 0 to min(a.length, b.length) - 1:
-            if a[j] != b[j]:
-                u = a[j]
-                v = b[j]
-                if v not already in graph[u]:
-                    graph[u].add(v)
-                    indegree[v]++
-                break
-    queue = all characters with indegree 0
-    result = ""
-    while queue not empty:
-        c = dequeue
-        result += c
-        for next in graph[c]:
-            indegree[next]--
-            if indegree[next] == 0:
-                enqueue(next)
-    if result.length != numberOfUniqueCharacters:
-        return ""
-    return result
+Minimises cost only; can discard a costlier path with fewer hops that reaches dst cheaper.
+
+------------------------------------------------------------------------------
+
+BELLMAN-FORD K+1 ROUNDS WITH SNAPSHOT | O(K*E) | O(V)
+
+Relax all edges k+1 times. Snapshot prev=dist.Clone() before each round
+prevents chaining multiple hops within one round (at-most-K-edges invariant).
+
+------------------------------------------------------------------------------
+
+OPTIMAL — BELLMAN-FORD WITH SNAPSHOT | O(K*E) | O(V)
 ```
 
-## Longest Increasing Path in a Matrix
+```csharp
+public int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k)
+{
+    const int INF=1_000_000_000;
+    int[] dist=new int[n]; Array.Fill(dist,INF); dist[src]=0;
+    for(int i=0;i<=k;i++)
+    {
+        int[] prev=(int[])dist.Clone(); // snapshot: prevents same-round chaining
+        foreach(var f in flights)
+            if(prev[f[0]]<INF) dist[f[1]]=Math.Min(dist[f[1]],prev[f[0]]+f[2]);
+    }
+    return dist[dst]==INF?-1:dist[dst];
+}
+```
 
-Given an m × n integer matrix, return the length of the longest strictly increasing path. Moves are allowed in four directions and cannot wrap around or move diagonally.
+> **Key insight:** Per-round snapshot enforces at-most K+1 edges — without it one round chains unlimited hops.
 
-**Example:** `matrix = [[9,9,4],[6,6,8],[2,1,1]]` → `4` (1 → 2 → 6 → 9)
+---
+
+### Path with Minimum Effort — LeetCode 1631
+
+Path from (0,0) to (rows-1,cols-1) minimising the maximum absolute height difference.
+
+**Example:** `heights=[[1,2,2],[3,8,2],[5,3,5]]` -> `2`
 
 ```text
-BRUTE FORCE DFS | O(4^(M * N)) | O(M * N)
+BINARY SEARCH + BFS | O(M*N*log(maxVal)) | O(M*N)
 
-Run a DFS from every cell and keep the longest path found
-
-------------------------------------------------------------------------------
-
-DFS + MEMOIZATION | O(M * N) | O(M * N)
-
-// The strictly increasing constraint makes the graph a DAG, so no visited set is needed
-// memo[r][c] = length of the longest increasing path starting at (r, c)
-
-LONGEST_PATH(matrix):
-    memo = 2D array filled with 0
-    answer = 0
-    for every cell (r, c):
-        answer = max(answer, DFS(r, c))
-    return answer
-
-DFS(r, c):
-    if memo[r][c] != 0:
-        return memo[r][c]
-    best = 1
-    for each direction:
-        nr = r + dr
-        nc = c + dc
-        if outside grid:
-            continue
-        if matrix[nr][nc] <= matrix[r][c]:
-            continue
-        best = max(best, 1 + DFS(nr, nc))
-    memo[r][c] = best
-    return best
+Binary search on effort; BFS feasibility check.
 
 ------------------------------------------------------------------------------
 
-TOPOLOGICAL SORT (PEELING) | O(M * N) | O(M * N)
+OPTIMAL — DIJKSTRA (MIN-MAX PATH) | O(M*N*log(M*N)) | O(M*N)
 
-Compute the outdegree of every cell towards larger neighbours
-Repeatedly remove all cells with outdegree 0; the number of rounds is the answer
+Treat height diff as edge weight. Dijkstra finds min-max path (cost = max edge, not sum).
 ```
 
-## Cheapest Flights Within K Stops
+```csharp
+public int MinimumEffortPath(int[][] heights)
+{
+    int rows=heights.Length,cols=heights[0].Length;
+    int[,] eff=new int[rows,cols];
+    for(int r=0;r<rows;r++) for(int c=0;c<cols;c++) eff[r,c]=int.MaxValue;
+    eff[0,0]=0;
+    var pq=new PriorityQueue<(int r,int c),int>(); pq.Enqueue((0,0),0);
+    int[] dr={-1,1,0,0},dc={0,0,-1,1};
+    while(pq.TryDequeue(out var cur,out int e))
+    {
+        var (r,c)=cur; if(e>eff[r,c]) continue;
+        if(r==rows-1&&c==cols-1) return e;
+        for(int d=0;d<4;d++)
+        {
+            int nr=r+dr[d],nc=c+dc[d];
+            if(nr<0||nr>=rows||nc<0||nc>=cols) continue;
+            int ne=Math.Max(e,Math.Abs(heights[nr][nc]-heights[r][c]));
+            if(ne<eff[nr,nc]){eff[nr,nc]=ne;pq.Enqueue((nr,nc),ne);}
+        }
+    }
+    return 0;
+}
+```
 
-Given n cities and flights `[from, to, price]`, return the cheapest price from src to dst using at most k stops. If there is no such route, return -1.
+> **Key insight:** Redefine cost as max(edge weights) — Dijkstra still works because this cost is monotonically non-decreasing.
 
-**Example:** `n = 4, flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]], src = 0, dst = 3, k = 1` → `700`
+---
+
+### Swim in Rising Water — LeetCode 778
+
+Find the earliest time to swim from (0,0) to (n-1,n-1) when water rises to `t` at time `t`.
+
+**Example:** `grid=[[0,2],[1,3]]` -> `3`
 
 ```text
-PLAIN DIJKSTRA | INCORRECT
+BINARY SEARCH + BFS | O(N^2 log N) | O(N^2)
 
-Dijkstra minimises cost only, so it can discard a costlier path that uses fewer stops
-The state must include the number of stops used
-
-------------------------------------------------------------------------------
-
-BELLMAN-FORD (K + 1 ROUNDS) | O(K * E) | O(V)
-
-// Relaxing all edges i times finds the cheapest path using at most i edges
-// The snapshot is required so that one round cannot use edges relaxed in the same round
-
-distance = array filled with infinity
-distance[src] = 0
-
-repeat k + 1 times:
-    previous = copy of distance
-    for each (from, to, price) in flights:
-        if previous[from] == infinity:
-            continue
-        distance[to] = min(distance[to], previous[from] + price)
-
-if distance[dst] == infinity:
-    return -1
-return distance[dst]
+Binary search on t; BFS with cells <= t.
 
 ------------------------------------------------------------------------------
 
-BFS / DIJKSTRA ON (CITY, STOPS) | O(E * K log(E * K)) | O(V * K)
+OPTIMAL — DIJKSTRA (MIN-MAX PATH) | O(N^2 log N) | O(N^2)
 
-Push (cost, city, stopsUsed) into a min heap
-Skip a state when stopsUsed > k or when the city was already reached with fewer stops and lower cost
+dist[r][c] = min over all paths of max cell value along the path.
 ```
 
-## All-Pairs Shortest Path
+```csharp
+public int SwimInWater(int[][] grid)
+{
+    int n=grid.Length; int[,] dist=new int[n,n];
+    for(int r=0;r<n;r++) for(int c=0;c<n;c++) dist[r,c]=int.MaxValue;
+    dist[0,0]=grid[0][0];
+    var pq=new PriorityQueue<(int r,int c),int>(); pq.Enqueue((0,0),grid[0][0]);
+    int[] dr={-1,1,0,0},dc={0,0,-1,1};
+    while(pq.TryDequeue(out var cur,out int t))
+    {
+        var (r,c)=cur; if(t>dist[r,c]) continue;
+        if(r==n-1&&c==n-1) return t;
+        for(int d=0;d<4;d++)
+        {
+            int nr=r+dr[d],nc=c+dc[d];
+            if(nr<0||nr>=n||nc<0||nc>=n) continue;
+            int nt=Math.Max(t,grid[nr][nc]);
+            if(nt<dist[nr,nc]){dist[nr,nc]=nt;pq.Enqueue((nr,nc),nt);}
+        }
+    }
+    return -1;
+}
+```
 
-Given a weighted directed graph, compute the shortest distance between every pair of vertices.
+> **Key insight:** Minimum time = min over all paths of max cell value — a min-max path solved by Dijkstra.
 
-**Example:** `n = 3, edges = [[0,1,4],[1,2,3],[0,2,10]]` → `distance[0][2] = 7`
+---
+
+### Find the City With the Smallest Number of Neighbours at a Threshold Distance — LeetCode 1334
+
+Return the city with the fewest cities reachable within `distanceThreshold`; largest index on ties.
+
+**Example:** `n=4, edges=[[0,1,3],[1,2,1],[1,3,4],[2,3,1]], distanceThreshold=4` -> `3`
 
 ```text
-DIJKSTRA FROM EVERY NODE | O(V * (V + E) log V) | O(V^2)
+DIJKSTRA FROM EACH CITY | O(V*(V+E) log V) | O(V^2)
 
-Better for large sparse graphs, but does not support negative edges
+Run SSSP from every city.
 
 ------------------------------------------------------------------------------
 
-FLOYD-WARSHALL | O(V^3) | O(V^2)
+OPTIMAL — FLOYD-WARSHALL | O(V^3) | O(V^2)
 
-// distance[i][j] using only the first k vertices as intermediates
-// k MUST be the outermost loop, otherwise the recurrence is wrong
-
-initialise distance[i][i] = 0
-initialise distance[u][v] = weight(u, v), otherwise infinity
-
-for k = 0 to n - 1:
-    for i = 0 to n - 1:
-        for j = 0 to n - 1:
-            if distance[i][k] + distance[k][j] < distance[i][j]:
-                distance[i][j] = distance[i][k] + distance[k][j]
+All-pairs in one triple loop; then count reachable per city.
 ```
 
-> - Negative edges are allowed; `distance[i][i] < 0` means a negative cycle exists.
-> - Replacing `min`/`+` with `OR`/`AND` gives the transitive closure (reachability).
+```csharp
+public int FindTheCity(int n, int[][] edges, int distanceThreshold)
+{
+    int[,] dist=new int[n,n];
+    for(int i=0;i<n;i++) for(int j=0;j<n;j++) dist[i,j]=i==j?0:int.MaxValue/2;
+    foreach(var e in edges){dist[e[0],e[1]]=e[2];dist[e[1],e[0]]=e[2];}
+    for(int k=0;k<n;k++) for(int i=0;i<n;i++) for(int j=0;j<n;j++)
+        dist[i,j]=Math.Min(dist[i,j],dist[i,k]+dist[k,j]);
+    int ans=-1,minCount=n+1;
+    for(int i=0;i<n;i++)
+    {
+        int cnt=0; for(int j=0;j<n;j++) if(i!=j&&dist[i,j]<=distanceThreshold) cnt++;
+        if(cnt<=minCount){minCount=cnt;ans=i;} // iterating up keeps largest index on ties
+    }
+    return ans;
+}
+```
 
-## Critical Connections in a Network
+> **Key insight:** Floyd-Warshall gives all-pairs in O(V^3); iterating cities upward keeps the largest index on ties.
 
-Given an undirected connected graph, return all bridges: edges whose removal disconnects the graph.
+---
 
-**Example:** `n = 4, connections = [[0,1],[1,2],[2,0],[1,3]]` → `[[1,3]]`
+## Minimum Spanning Tree
+
+### Min Cost to Connect All Points — LeetCode 1584
+
+Connect all 2D points with minimum total Manhattan distance.
+
+**Example:** `points=[[0,0],[2,2],[3,10],[5,2],[7,0]]` -> `20`
 
 ```text
-BRUTE FORCE | O(E * (V + E)) | O(V + E)
+KRUSKAL | O(V^2 log V) | O(V^2)
 
-Remove each edge and check whether the graph is still connected
+Generate all V^2 edges, sort, then DSU.
 
 ------------------------------------------------------------------------------
 
-TARJAN'S BRIDGE ALGORITHM | O(V + E) | O(V + E)
+OPTIMAL — PRIM'S O(V^2) | O(V^2) | O(V)
 
-// discovery[node] = when the node was first visited
-// low[node] = earliest discovery time reachable from the node's subtree using at most one back edge
-// If a child cannot reach the current node or higher, the connecting edge is a bridge
-
-timer = 0
-
-DFS(node, parent):
-    discovery[node] = low[node] = timer++
-    for neighbor in graph[node]:
-        if neighbor == parent:
-            continue                     // Skip only one occurrence for parallel edges
-        if neighbor is visited:
-            low[node] = min(low[node], discovery[neighbor])
-        else:
-            DFS(neighbor, node)
-            low[node] = min(low[node], low[neighbor])
-            if low[neighbor] > discovery[node]:
-                add (node, neighbor) to bridges
+Dense (complete) graph: scan all unvisited nodes each step.
+O(V^2) scan beats O(V^2 log V) Kruskal for complete graphs.
 ```
 
-> - Articulation point: `low[child] >= discovery[node]`; the DFS root is one only when it has two or more children.
-> - Strongly connected components in a directed graph use Tarjan (one DFS with a stack) or Kosaraju (two DFS passes on the graph and its reverse).
+```csharp
+public int MinCostConnectPoints(int[][] points)
+{
+    int n=points.Length; int[] minCost=new int[n]; Array.Fill(minCost,int.MaxValue); minCost[0]=0;
+    bool[] inMST=new bool[n]; int total=0;
+    for(int iter=0;iter<n;iter++)
+    {
+        int u=-1;
+        for(int i=0;i<n;i++) if(!inMST[i]&&(u==-1||minCost[i]<minCost[u])) u=i;
+        inMST[u]=true; total+=minCost[u];
+        for(int v=0;v<n;v++) if(!inMST[v])
+        {
+            int d=Math.Abs(points[u][0]-points[v][0])+Math.Abs(points[u][1]-points[v][1]);
+            if(d<minCost[v]) minCost[v]=d;
+        }
+    }
+    return total;
+}
+```
 
-## Reconstruct Itinerary
+> **Key insight:** On a complete graph, Prim's linear scan per iteration is optimal — no need to sort all edges.
 
-Given a list of airline tickets `[from, to]`, reconstruct the itinerary that starts at `"JFK"` and uses every ticket exactly once. If several are valid, return the lexicographically smallest one.
+---
 
-**Example:** `tickets = [["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]` → `["JFK","MUC","LHR","SFO","SJC"]`
+## Bipartite
+
+### Is Graph Bipartite — LeetCode 785
+
+Can the graph be split into two groups such that every edge connects nodes from different groups?
+
+**Example:** `graph=[[1,3],[0,2],[1,3],[0,2]]` -> `true`
+
+```text
+OPTIMAL — BFS 2-COLOURING | O(V+E) | O(V)
+
+Alternate colours via BFS; same-colour adjacent nodes = not bipartite.
+```
+
+```csharp
+public bool IsBipartite(int[][] graph)
+{
+    int n=graph.Length; int[] col=new int[n]; Array.Fill(col,-1);
+    for(int i=0;i<n;i++)
+    {
+        if(col[i]!=-1) continue;
+        var q=new Queue<int>(); q.Enqueue(i); col[i]=0;
+        while(q.Count>0)
+        {
+            int u=q.Dequeue();
+            foreach(int v in graph[u])
+            {
+                if(col[v]==-1){col[v]=1-col[u];q.Enqueue(v);}
+                else if(col[v]==col[u]) return false;
+            }
+        }
+    }
+    return true;
+}
+```
+
+> **Key insight:** A graph is bipartite iff it has no odd-length cycle — BFS 2-colouring detects this implicitly.
+
+---
+
+## Advanced (SCC, Bridges, Euler)
+
+### Critical Connections in a Network — LeetCode 1192
+
+Find all bridges in an undirected connected graph.
+
+**Example:** `n=4, connections=[[0,1],[1,2],[2,0],[1,3]]` -> `[[1,3]]`
+
+```text
+BRUTE FORCE | O(E*(V+E)) | O(V+E)
+
+Remove each edge; check connectivity.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — TARJAN'S BRIDGE ALGORITHM | O(V+E) | O(V+E)
+
+disc[u] = discovery time. low[u] = earliest disc reachable from subtree via one back edge.
+Edge (u,v) is a bridge iff low[v] > disc[u].
+```
+
+```csharp
+public IList<IList<int>> CriticalConnections(int n, IList<IList<int>> connections)
+{
+    var g=new List<int>[n]; for(int i=0;i<n;i++) g[i]=new();
+    foreach(var e in connections){g[e[0]].Add(e[1]);g[e[1]].Add(e[0]);}
+    int[] disc=new int[n],low=new int[n]; Array.Fill(disc,-1); int timer=0;
+    var res=new List<IList<int>>();
+    void Dfs(int u,int par)
+    {
+        disc[u]=low[u]=timer++;
+        foreach(int v in g[u])
+        {
+            if(v==par) continue;
+            if(disc[v]==-1){Dfs(v,u);low[u]=Math.Min(low[u],low[v]);
+                if(low[v]>disc[u]) res.Add(new[]{u,v});}
+            else low[u]=Math.Min(low[u],disc[v]);
+        }
+    }
+    for(int i=0;i<n;i++) if(disc[i]==-1) Dfs(i,-1);
+    return res;
+}
+```
+
+> **Key insight:** `low[v] > disc[u]` means v cannot reach u without this edge — its removal disconnects the graph.
+
+---
+
+### Reconstruct Itinerary — LeetCode 332
+
+Flight itinerary from "JFK" using all tickets exactly once; lexicographically smallest if multiple valid.
+
+**Example:** `tickets=[["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]` -> `["JFK","MUC","LHR","SFO","SJC"]`
 
 ```text
 BACKTRACKING | O(E!) | O(E)
 
-Try every unused ticket in lexicographic order and undo on failure
+Try unused tickets in lex order; undo on dead-end.
 
 ------------------------------------------------------------------------------
 
-HIERHOLZER'S ALGORITHM (EULERIAN PATH) | O(E log E) | O(E)
+OPTIMAL — HIERHOLZER'S EULERIAN PATH | O(E log E) | O(E)
 
-// Greedily walking forward can get stuck at a dead end before all edges are used
-// Post-order emission fixes this: a stuck node is appended first and ends up last
-
-build adjacency lists and sort each one (or use a min heap per node)
-route = empty list
-
-DFS(node):
-    while graph[node] is not empty:
-        next = remove the smallest destination from graph[node]
-        DFS(next)
-    route.add(node)              // Post-order
-
-DFS("JFK")
-reverse route
+Post-order DFS over sorted adjacency lists.
+Dead-end nodes prepended to result; reverse = itinerary.
 ```
 
-> An Eulerian path exists when the graph is connected and at most one vertex has `outdegree - indegree == 1` (the start) and at most one has `indegree - outdegree == 1` (the end).
+```csharp
+public IList<string> FindItinerary(IList<IList<string>> tickets)
+{
+    var g=new Dictionary<string,SortedList<int,string>>(); int idx=0;
+    foreach(var t in tickets){if(!g.ContainsKey(t[0]))g[t[0]]=new();g[t[0]].Add(idx++,t[1]);}
+    var route=new LinkedList<string>();
+    void Dfs(string u)
+    {
+        while(g.TryGetValue(u,out var nb)&&nb.Count>0)
+        { var f=nb.First!; nb.RemoveAt(0); Dfs(f.Value); }
+        route.AddFirst(u);
+    }
+    Dfs("JFK");
+    return route.ToList();
+}
+```
+
+> **Key insight:** Post-order prepending (Hierholzer) handles dead-ends — a stuck node is the last in its sub-path, so prepending places it correctly.
+
+---
+
+*Word Search II (LeetCode 212) — Trie-based multi-word search; see [Tries and String Matching](../TriesAndStringMatching/Problems.md).*

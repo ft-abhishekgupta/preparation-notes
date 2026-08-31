@@ -1,862 +1,1677 @@
-# Greedy, Intervals and Backtracking — Problems
+# Greedy and Backtracking — Problems
 
-## Minimum Meeting Rooms Required
+| # | Problem | LeetCode | Pattern | Difficulty |
+| - | ------- | -------- | ------- | ---------- |
+| 1 | Meeting Rooms | 252 | Intervals | Easy |
+| 2 | Merge Intervals | 56 | Intervals | Medium |
+| 3 | Insert Interval | 57 | Intervals | Medium |
+| 4 | Non-overlapping Intervals | 435 | Intervals | Medium |
+| 5 | Minimum Arrows to Burst Balloons | 452 | Intervals | Medium |
+| 6 | Meeting Rooms II | 253 | Intervals | Medium |
+| 7 | Car Pooling | 1094 | Intervals | Medium |
+| 8 | Jump Game | 55 | Classic Greedy | Medium |
+| 9 | Jump Game II | 45 | Classic Greedy | Medium |
+| 10 | Gas Station | 134 | Classic Greedy | Medium |
+| 11 | Assign Cookies | 455 | Classic Greedy | Easy |
+| 12 | Best Time to Buy and Sell Stock II | 122 | Classic Greedy | Medium |
+| 13 | Candy | 135 | Classic Greedy | Hard |
+| 14 | Partition Labels | 763 | Classic Greedy | Medium |
+| 15 | Hand of Straights | 846 | Classic Greedy | Medium |
+| 16 | Boats to Save People | 881 | Classic Greedy | Medium |
+| 17 | Majority Element | 169 | Classic Greedy | Easy |
+| 18 | Task Scheduler | 621 | Classic Greedy | Medium |
+| 19 | Subsets | 78 | Subsets and Combinations | Medium |
+| 20 | Subsets II | 90 | Subsets and Combinations | Medium |
+| 21 | Combinations | 77 | Subsets and Combinations | Medium |
+| 22 | Combination Sum | 39 | Subsets and Combinations | Medium |
+| 23 | Combination Sum II | 40 | Subsets and Combinations | Medium |
+| 24 | Combination Sum III | 216 | Subsets and Combinations | Medium |
+| 25 | Permutations | 46 | Permutations | Medium |
+| 26 | Permutations II | 47 | Permutations | Medium |
+| 27 | Letter Combinations of a Phone Number | 17 | Permutations | Medium |
+| 28 | Generate Parentheses | 22 | Constraint Satisfaction | Medium |
+| 29 | Palindrome Partitioning | 131 | Constraint Satisfaction | Medium |
+| 30 | Restore IP Addresses | 93 | Constraint Satisfaction | Medium |
+| 31 | Word Search | 79 | Grid and Board Search | Medium |
+| 32 | N-Queens | 51 | Grid and Board Search | Hard |
+| 33 | N-Queens II | 52 | Grid and Board Search | Hard |
+| 34 | Sudoku Solver | 37 | Grid and Board Search | Hard |
+| 35 | Unique Paths III | 980 | Grid and Board Search | Hard |
+| 36 | Kth Largest Element | 215 | Divide and Conquer | Medium |
 
-Given an array of meeting intervals `intervals[i] = [start, end]`, return the minimum number of conference rooms required so that all meetings can take place without conflicts.
+---
 
-**Example:** `intervals = [[0,30],[5,10],[15,20]]` → `2`
+## Intervals
 
-1. Associate start time with +1, end time with -1
-2. Put everything in an array and sort
-3. Iterate and calculate running max
+### Meeting Rooms — LeetCode 252
 
-```text
-SWEEP LINE | O(N log N) | O(N)
+Given meeting intervals `[start, end]`, determine whether one person can attend all meetings without any overlap.
 
-// Start +1, End -1. Create list of events sort and calculate running sum to find max overlap
-
-starts = all meeting start times
-ends = all meeting end times
-sort starts
-sort ends
-i = 0
-j = 0
-rooms = 0
-maxRooms = 0
-while i < N
-    if starts[i] < ends[j]
-        rooms++
-        maxRooms = max(maxRooms, rooms)
-        i++
-    else
-        rooms--
-        j++
-
-return maxRooms
-
--------------------------------------------------------------------------------------
-
-HEAP | O(N log N) | O(N)
-
-// Min Heap tracks the end time of meetings, to reuse that room. The size of the heap is the number of rooms needed.
-
-sort meetings by start time
-create minHeap
-maxRooms = 0
-for each meeting [start, end]
-    if minHeap is not empty
-       and minHeap.minimum <= start
-        remove minimum from minHeap
-    add end to minHeap
-    maxRooms = max(maxRooms, size of minHeap)
-
-return maxRooms
-```
-
-> - Use a min heap when the intervals arrive as a stream, and use sorted arrays when the whole set is known upfront.
-> - HEAP: which resource becomes available next. SORTED ARRAYS: how many resources are in use at a given time.
-
-```cs
-public int MinMeetingRooms(List<Interval> intervals) {
-    int max = 0, len = intervals.Count, curr = 0;
-    var arr = new(int x, int y)[len * 2];
-    for (int i = 0; i < len; i++) {
-        arr[i] = (intervals[i].start, 1);
-        arr[i + len] = (intervals[i].end, -1);
-    }
-    Array.Sort(arr, (a, b) =>
-        a.x != b.x ? a.x.CompareTo(b.x) : a.y.CompareTo(b.y));
-    for (int i = 0; i < len * 2; i++) {
-        curr += arr[i].y;
-        max = Math.Max(max, curr);
-    }
-    return max;
-}
-```
-
-## Merge A New Interval
-
-Given an array of non-overlapping intervals sorted by start time and a new interval, insert the new interval and merge any overlaps.
-
-**Example:** `intervals = [[1,3],[6,9]], newInterval = [2,5]` → `[[1,5],[6,9]]`
-
-1. Tackle case by case. Interval before, overlapping, after
+**Example:** `[[0,30],[5,10],[15,20]]` → `false`
 
 ```text
-MERGE INTERVALS | O(N) | O(N)
+BRUTE FORCE | O(n²) | O(1)
 
-Insert the new interval in sorted order, then apply the Merge Intervals algorithm
+Compare every pair of intervals; return false on the first overlap found.
 
-------------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
-SINGLE PASS | O(N) | O(1)
+OPTIMAL — SORT BY START | O(n log n) | O(1)
 
-result = []
-i = 0
-
-// Add intervals that end before newInterval starts
-while i < n AND intervals[i].end < newInterval.start:
-    add intervals[i] to result
-    i++
-
-// Merge intervals that overlap newInterval
-while i < n AND intervals[i].start <= newInterval.end:
-    newInterval.start = min(newInterval.start, intervals[i].start)
-    newInterval.end = max(newInterval.end, intervals[i].end)
-    i++
-
-// Add the merged interval
-add newInterval to result
-
-// Add intervals that start after newInterval ends
-while i < n:
-    add intervals[i] to result
-    i++
-
-return result
-```
-
-```cs
-public int[][] Insert(int[][] intervals, int[] newI) {
-        int len = intervals.Length;
-        int start = newI[0];
-        int end = newI[1];
-        var ans = new List<int[]>();
-        int i = 0;
-        while(i < len && intervals[i][1] < newI[0])
-            ans.Add(intervals[i++]);
-        while(i < len && intervals[i][0] <= newI[1]){
-            start = Math.Min(intervals[i][0],start);
-            end = Math.Max(intervals[i][1],end);
-            i++;
-        }
-        ans.Add([start,end]);
-        while(i < len)
-            ans.Add(intervals[i++]);
-        return ans.ToArray();
-    }
-```
-
-## Merge Intervals
-
-Given an array of intervals where `intervals[i] = [start, end]`, merge all overlapping intervals and return the resulting non-overlapping intervals.
-
-**Example:** `intervals = [[1,3],[2,6],[8,10],[15,18]]` → `[[1,6],[8,10],[15,18]]`
-
-```text
-BRUTE FORCE | O(N^2) | O(1)
-
-Repeatedly compare intervals and merge every overlapping pair
-
-------------------------------------------------------------------------------------
-
-SORTING | O(N log N) | O(1)
-
-sort intervals by start
-result = []
-current = first interval
-
-for each next interval:
-    if next.start <= current.end:
-        current.end = max(current.end, next.end)
-    else:
-        add current to result
-        current = next
-add current to result
-return result
-```
-
-## Non-overlapping Intervals
-
-Given an array of intervals: intervals[i] = [start, end]
-Return the minimum number of intervals that must be removed so that the remaining intervals are non-overlapping.
-
-**Example:** `intervals = [[1,2],[2,3],[3,4],[1,3]]` → `1`
-
-```text
-BRUTE FORCE | O(2^N) | O(1)
-
-Explore every combination of intervals and return the minimum number of removed intervals that results in a non-overlapping set
-
-------------------------------------------------------------------------------------
-
-GREEDY | O(N log N) | O(1)
-
-// Remove the interval with the larger end time to maximize the number of non-overlapping intervals
-
-sort intervals by end
-lastEnd = -infinity
-removed = 0
-
-for each interval:
-    if interval.start >= lastEnd:
-        keep interval
-        lastEnd = interval.end
-    else:
-        remove interval
-        removed++
-
-return removed
-
-GREEDY WITH START TIME SORTING | O(N log N) | O(1)
+After sorting by start time, only adjacent intervals can possibly overlap.
 
 sort by start
-lastEnd = intervals[0].end
-removed = 0
-
-for each next interval:
-    if next.start < lastEnd:
-        removed++
-        lastEnd = min(lastEnd, next.end)
-    else:
-        lastEnd = next.end
-
-return removed
-```
-
-## Meeting Rooms
-
-Given an array of meeting intervals `intervals[i] = [start, end]`, determine whether one person could attend all of the meetings.
-
-**Example:** `intervals = [[0,30],[5,10],[15,20]]` → `false`
-
-```text
-BRUTE FORCE | O(N^2) | O(1)
-
-Compare every pair of intervals and return false on the first overlap
-
-------------------------------------------------------------------------------------
-
-SORTING | O(N log N) | O(1)
-
-// After sorting by start time, only adjacent intervals can overlap
-
-sort intervals by start
-
-for i = 1 to n - 1:
-    if intervals[i].start < intervals[i - 1].end:
-        return false
-
+for i = 1 to n-1:
+    if intervals[i][0] < intervals[i-1][1]: return false
 return true
 ```
 
-> Touching intervals such as `[1,5]` and `[5,8]` do not conflict, so the comparison must be strict.
+```csharp
+public bool CanAttendMeetings(int[][] intervals)
+{
+    Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));
+    for (int i = 1; i < intervals.Length; i++)
+        if (intervals[i][0] < intervals[i - 1][1]) return false;
+    return true;
+}
+```
 
-## Minimum Number of Arrows to Burst Balloons
+> **Key insight:** touching intervals `[1,5]` and `[5,8]` do not conflict — the overlap check must be strict `<`.
 
-Given an array of points where points[i] = [xstart, xend] represents a balloon whose horizontal diameter stretches between xstart and xend. Return the minimum number of arrows that must be shot to burst all balloons
+---
 
-**Example:** `points = [[10,16],[2,8],[1,6],[7,12]]` → `2`
+### Merge Intervals — LeetCode 56
+
+Given an array of intervals, merge all overlapping intervals and return the non-overlapping result.
+
+**Example:** `[[1,3],[2,6],[8,10],[15,18]]` → `[[1,6],[8,10],[15,18]]`
 
 ```text
-BRUTE FORCE | O(N^2) | O(1)
+BRUTE FORCE | O(n²) | O(n)
 
-Repeatedly find overlapping balloons and burst them with one arrow until all balloons are burst.
+Repeatedly scan for any overlapping pair and merge them until none remain.
 
------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
-SORTING | O(N log N) | O(1)
+OPTIMAL — SORT BY START | O(n log n) | O(n)
 
-// Sort the balloons by their end points and shoot arrows at the end of each balloon, skipping any balloons that overlap with the last shot arrow.
+Sort by start. Walk through: if the next interval's start <= last result end, extend;
+otherwise emit the last and continue.
 
-sort balloons by end coordinate
-arrows = 0
-arrowPosition = -infinity
-for each balloon [start, end]:
-    if start > arrowPosition:
-        // Current arrow cannot burst this balloon
-        arrows++
-        // Shoot at the balloon's end
-        arrowPosition = end
+sort by start
+result = [intervals[0]]
+for each iv from index 1:
+    last = result.last
+    if iv[0] <= last[1]: last[1] = max(last[1], iv[1])
+    else: result.add(iv)
+return result
+```
+
+```csharp
+public int[][] Merge(int[][] intervals)
+{
+    Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));
+    var res = new List<int[]> { intervals[0] };
+    for (int i = 1; i < intervals.Length; i++)
+    {
+        var last = res[^1];
+        if (intervals[i][0] <= last[1])
+            last[1] = Math.Max(last[1], intervals[i][1]);
+        else
+            res.Add(intervals[i]);
+    }
+    return res.ToArray();
+}
+```
+
+> **Key insight:** after sorting by start, only the last interval in the result can ever overlap the next candidate — no inner loop needed.
+
+---
+
+### Insert Interval — LeetCode 57
+
+Given sorted non-overlapping intervals and a new interval, insert it and merge any overlaps. The input is already sorted — no re-sort needed.
+
+**Example:** `[[1,3],[6,9]], newInterval=[2,5]` → `[[1,5],[6,9]]`
+
+```text
+OPTIMAL — SINGLE PASS | O(n) | O(n)
+
+Three phases:
+  1. Add all intervals ending before the new interval starts.
+  2. Merge all intervals overlapping the new interval.
+  3. Add remaining intervals unchanged.
+
+i = 0
+while intervals[i][1] < newI[0]: result.add(intervals[i++])
+while intervals[i][0] <= newI[1]:
+    newI[0] = min(newI[0], intervals[i][0])
+    newI[1] = max(newI[1], intervals[i][1])
+    i++
+result.add(newI)
+while i < n: result.add(intervals[i++])
+```
+
+```csharp
+public int[][] Insert(int[][] intervals, int[] newI)
+{
+    var res = new List<int[]>();
+    int i = 0, n = intervals.Length;
+    while (i < n && intervals[i][1] < newI[0])
+        res.Add(intervals[i++]);
+    while (i < n && intervals[i][0] <= newI[1])
+    {
+        newI[0] = Math.Min(newI[0], intervals[i][0]);
+        newI[1] = Math.Max(newI[1], intervals[i][1]);
+        i++;
+    }
+    res.Add(newI);
+    while (i < n) res.Add(intervals[i++]);
+    return res.ToArray();
+}
+```
+
+> **Key insight:** three clean while-loops (before / overlap / after) handle all edge cases without conditional branching.
+
+---
+
+### Non-overlapping Intervals — LeetCode 435
+
+Return the minimum number of intervals to remove so the remaining intervals are non-overlapping.
+
+**Example:** `[[1,2],[2,3],[3,4],[1,3]]` → `1` (remove `[1,3]`)
+
+```text
+BRUTE FORCE | O(2ⁿ) | O(1)
+
+Try every subset; return the minimum removals that yield a non-overlapping set.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — GREEDY SORT BY END | O(n log n) | O(1)
+
+Equivalent to maximising the count of kept intervals (activity selection).
+Sort by end; greedily keep each interval that starts >= last kept end.
+Every skipped interval counts as a removal.
+
+sort by end
+lastEnd = INT_MIN, removed = 0
+for each [s, e]:
+    if s >= lastEnd: lastEnd = e      // keep
+    else: removed++                   // remove (discard the one with larger end)
+return removed
+```
+
+```csharp
+public int EraseOverlapIntervals(int[][] intervals)
+{
+    Array.Sort(intervals, (a, b) => a[1].CompareTo(b[1]));
+    int removed = 0, lastEnd = int.MinValue;
+    foreach (var iv in intervals)
+    {
+        if (iv[0] >= lastEnd) lastEnd = iv[1];
+        else removed++;
+    }
+    return removed;
+}
+```
+
+> **Key insight:** minimum removals = n − maximum non-overlapping count; sort by end and greedily keep intervals to maximise what stays.
+
+---
+
+### Minimum Arrows to Burst Balloons — LeetCode 452
+
+Each balloon spans `[xstart, xend]`. An arrow at x bursts all balloons with `xstart <= x <= xend`. Return the minimum arrows needed.
+
+**Example:** `[[10,16],[2,8],[1,6],[7,12]]` → `2`
+
+```text
+BRUTE FORCE | O(n²) | O(1)
+
+Repeatedly find overlapping groups and count them.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — GREEDY SORT BY END | O(n log n) | O(1)
+
+Sort by end. Shoot at the end of the first balloon; any balloon with start <= that
+position is also burst. Advance to the next unbursted balloon and repeat.
+
+sort by end
+arrows = 0, arrowPos = LONG_MIN
+for each [start, end]:
+    if start > arrowPos: arrows++; arrowPos = end
 return arrows
 ```
 
-## Jump Game
-
-You are given an integer array nums. nums[i] tells you the maximum number of positions you can jump forward from index i.You start at index 0. Determine whether you can reach the last index.
-
-**Example:** `nums = [2, 3, 1, 1, 4]` → `true`
-
-```text
-DFS | O(2^N) | O(N)
-Use depth-first search to explore all possible jumps from the current index. If you reach the last index, return true.
-
------------------------------------------------------------------------------
-
-DP | O(N^2) | O(N)
-// dp[i] = whether we can reach the end from index i
-
-function canJump(nums):
-    n = length(nums)
-    dp[n - 1] = true
-    for i from n - 2 down to 0:
-        maxReach = min(i + nums[i], n - 1)
-        for j from i + 1 to maxReach:
-            if dp[j] == true:
-                dp[i] = true
-                break
-    return dp[0]
-
------------------------------------------------------------------------------
-
-GREEDY | O(N) | O(1)
-// Keep track of the farthest index we can reach while iterating through the array.
-
-function canJump(nums):
-    farthest = 0
-    for i from 0 to n - 1:
-        if i > farthest:
-            return false
-        farthest = max(
-            farthest,
-            i + nums[i]
-        )
-        if farthest >= n - 1:
-            return true
-    return true
+```csharp
+public int FindMinArrowShots(int[][] points)
+{
+    Array.Sort(points, (a, b) => a[1].CompareTo(b[1]));
+    int arrows = 0;
+    long arrowPos = long.MinValue;
+    foreach (var p in points)
+    {
+        if (p[0] > arrowPos) { arrows++; arrowPos = p[1]; }
+    }
+    return arrows;
+}
 ```
 
-## Jump Game II
+> **Key insight:** touching balloons `[1,6]` and `[6,8]` share x=6 and ARE burst by the same arrow — use strict `>` to detect "not reached".
 
-You are given an integer array nums. nums[i] represents the maximum number of positions you can jump forward from index i. You start at index 0. Return the minimum number of jumps required to reach the last index. You can assume that the last index is always reachable.
+---
 
-**Example:** `nums = [2, 3, 1, 1, 4]` → `2`
+### Meeting Rooms II — LeetCode 253
 
-```text
-DFS | O(2^N) | O(N)
-Use depth-first search to explore all possible jumps from the current index. Keep track of the minimum number of jumps needed to reach the last index.
+Find the minimum number of conference rooms required so all meetings can run simultaneously.
 
------------------------------------------------------------------------------
+This problem is owned by **[Heaps and Priority Queues](../HeapsAndPriorityQueues/Problems.md)**. Use a min-heap of end times: sort meetings by start; pop the heap when the earliest-ending room is free; push the current meeting's end time.
 
-DP | O(N^2) | O(N)
+> **Key insight:** minimum rooms = maximum number of meetings active at any instant.
 
-// dp[i] = minimum number of jumps to reach the end from index i
+---
 
-function minJumps(nums):
-    n = length(nums)
-    dp = array of size n
-    fill dp with infinity
-    dp[0] = 0
-    for i from 0 to n - 1:
-        for j from 1 to nums[i]:
-            next = i + j
-            if next >= n:
-                break
-            dp[next] = min(
-                dp[next],
-                dp[i] + 1
-            )
-    return dp[n - 1]
+### Car Pooling — LeetCode 1094
 
------------------------------------------------------------------------------
-GREEDY | O(N) | O(1)
+A car has `capacity` seats. Given trips `[numPassengers, from, to]`, return whether all passengers can be served without exceeding capacity.
 
-// Keep track of the current range of reachable indices and the farthest index reachable in the next jump.
-
-function jump(nums):
-    jumps = 0                   // Number of jumps made so far
-    currentEnd = 0              // The farthest index reachable with the current number of jumps
-    farthest = 0                // The farthest index reachable with one more jump
-    n = length(nums)
-    for i from 0 to n - 2:
-        farthest = max(
-            farthest,
-            i + nums[i]
-        )
-        if i == currentEnd:
-            jumps++
-            currentEnd = farthest
-    return jumps
-```
-
-## Gas Station
-
-You are given two arrays: gas[i], cost[i]. There are N gas stations arranged in a circular route.
-
-- gas[i] = amount of gas available at station i
-- cost[i] = gas required to travel from station i to station (i + 1)
-
-You start with an empty tank. Return the index of the gas station from which you can start and complete the entire circular route exactly once. If no solution exists, return -1.
-
-**Example:** `gas = [1,2,3,4,5], cost = [3,4,5,1,2]` → `3`
+**Example:** `[[2,1,5],[3,3,7]], capacity=4` → `false`
 
 ```text
-BRUTE FORCE | O(N^2) | O(1)
+BRUTE FORCE | O(n · maxStop) | O(maxStop)
 
-For each gas station, simulate the journey around the circuit. If you can complete the circuit starting from that station, return its index. If no station allows a complete circuit, return -1.
+For each mile marker, compute passengers currently in the car.
 
-// If total gas < total cost, then no solution exists.
+------------------------------------------------------------------------------
 
------------------------------------------------------------------------------
+SWEEP LINE | O(n log n) | O(n)
 
-GREEDY | O(N) | O(1)
+Emit +passengers at pickup, -passengers at dropoff. Sort events; track running sum.
 
-// If starting at start causes the tank to become negative at station i, then none of the stations between start and i can be a valid starting point either.
+------------------------------------------------------------------------------
 
-function gasStation(gas, cost):
-    totalTank = 0                       // Tracks the total gas surplus across the entire route
-    currentTank = 0                     // Tracks the current gas surplus from the starting station
-    start = 0                           // Current candidate starting station.
-    n = length(gas)
-    for i from 0 to n - 1:
-        gain = gas[i] - cost[i]
-        totalTank += gain
-        currentTank += gain
-        if currentTank < 0:
-            start = i + 1
-            currentTank = 0
-    if totalTank >= 0:
-        return start
-    return -1
+OPTIMAL — DIFFERENCE ARRAY | O(n + maxStop) | O(maxStop)
+
+Stops are bounded [0, 1000]. Use a difference array for O(1) updates, O(maxStop) scan.
+
+diff[from] += numPassengers
+diff[to]   -= numPassengers
+prefix-sum the array; if any prefix sum > capacity: return false
 ```
 
-## Partition Labels
+```csharp
+public bool CarPooling(int[][] trips, int capacity)
+{
+    int[] diff = new int[1001];
+    foreach (var t in trips)
+    {
+        diff[t[1]] += t[0];
+        diff[t[2]] -= t[0];
+    }
+    int curr = 0;
+    for (int i = 0; i <= 1000; i++)
+    {
+        curr += diff[i];
+        if (curr > capacity) return false;
+    }
+    return true;
+}
+```
 
-You are given a string s. You need to partition the string into as many parts as possible such that: Each character appears in at most one partition. After partitioning, return the sizes of all partitions.
-Example - s = "ababcbacadefegdehijhklij" > "ababcbaca" | "defegde" | "hijhklij" > [9, 7, 8]
+> **Key insight:** bounded stop range [0, 1000] makes a difference array simpler and faster than sorting events.
 
-**Example:** `s = "ababcbacadefegdehijhklij"` → `[9, 7, 8]`
+---
+
+## Classic Greedy
+
+### Jump Game — LeetCode 55
+
+Given `nums[i]` = max jump length from index `i`, determine if you can reach the last index starting from index 0.
+
+**Example:** `[2,3,1,1,4]` → `true`; `[3,2,1,0,4]` → `false`
 
 ```text
-BRUTE FORCE | O(N^2) | O(1)
+DFS | O(2ⁿ) | O(n)
 
-Search for the last occurrence of each character in the string and create partitions accordingly.
+Explore every possible jump path; memoisation reduces to O(n²).
 
------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
-GREEDY | O(N) | O(1)
+DP | O(n²) | O(n)
 
-// Pre calculate the last occurrence of each character, then iterate through the string to create partitions based on the last occurrences. If all characters in the current partition have their last occurrence within the partition, we can finalize the partition.
+dp[i] = can we reach the end from index i? Work backwards from n-1.
 
-function partitionLabels(s):
-    last = array/map
-    // Find last occurrence of every character
-    n = length(s)
-    for i from 0 to n - 1:
-        last[s[i]] = i
-    result = []
-    start = 0
-    end = 0
-    for i from 0 to n - 1:
-        end = max(end, last[s[i]])
-        if i == end:
-            result.add(i - start + 1)
-            start = i + 1
-    return result
+dp[n-1] = true
+for i = n-2 down to 0:
+    for j = i+1 to min(i+nums[i], n-1):
+        if dp[j]: dp[i] = true; break
+return dp[0]
+
+------------------------------------------------------------------------------
+
+OPTIMAL — GREEDY | O(n) | O(1)
+
+Track farthest reachable index. If current index ever exceeds it, we are stuck.
+
+reach = 0
+for i = 0 to n-1:
+    if i > reach: return false
+    reach = max(reach, i + nums[i])
+return true
 ```
 
-## Backtracking Template
+```csharp
+public bool CanJump(int[] nums)
+{
+    int reach = 0;
+    for (int i = 0; i < nums.Length; i++)
+    {
+        if (i > reach) return false;
+        reach = Math.Max(reach, i + nums[i]);
+    }
+    return true;
+}
+```
 
-Subsets, Permutations, Combinations
+> **Key insight:** once we know the farthest index reachable from positions 0..i, we never need to revisit earlier indices.
 
-CHECK > MARK > EXPLORE > UNMARK
+---
 
-## Subsets
+### Jump Game II — LeetCode 45
 
-Given an integer array nums of unique elements, return all possible subsets (the power set).
+Return the minimum number of jumps to reach the last index (always reachable).
 
-**Example:** `nums = [1, 2, 3]` → `[[],[1],[2],[3],[1,2],[1,3],[2,3],[1,2,3]]`
+**Example:** `[2,3,1,1,4]` → `2`
 
 ```text
-BACKTRACKING | O(N * 2^N) | O(N)
+DFS | O(2ⁿ) | O(n)
 
-At each element, choose to include it in the current subset or not. Recursively build all subsets.
+Explore all jump paths; return minimum.
 
-function subsets(nums):
-    result = []
-    current = []
-    backtrack(index):
-        if index == length(nums):
-            result.add(copy(current))
-            return
-        // Choice 1: include nums[index]
-        current.add(nums[index])
-        backtrack(index + 1)
-        current.removeLast()
-        // Choice 2: don't include nums[index]
-        backtrack(index + 1)
-    backtrack(0)
-    return result
+------------------------------------------------------------------------------
+
+DP | O(n²) | O(n)
+
+dp[i] = minimum jumps to reach index i from 0.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — GREEDY (implicit BFS levels) | O(n) | O(1)
+
+currentEnd = right boundary of the current jump level.
+farthest   = best right boundary reachable in the next jump.
+When i reaches currentEnd, take a jump and advance the boundary.
+
+jumps = 0, currentEnd = 0, farthest = 0
+for i = 0 to n-2:
+    farthest = max(farthest, i + nums[i])
+    if i == currentEnd: jumps++; currentEnd = farthest
+return jumps
 ```
 
-## Subsets II
+```csharp
+public int Jump(int[] nums)
+{
+    int jumps = 0, currentEnd = 0, farthest = 0;
+    for (int i = 0; i < nums.Length - 1; i++)
+    {
+        farthest = Math.Max(farthest, i + nums[i]);
+        if (i == currentEnd) { jumps++; currentEnd = farthest; }
+    }
+    return jumps;
+}
+```
 
-Given an integer array nums that may contain duplicates, return all possible subsets (the power set) without duplicate subsets.
+> **Key insight:** think BFS levels — `currentEnd` is the boundary of the current level; crossing it costs exactly one jump.
 
-**Example:** `nums = [1, 2, 2]` → `[[],[1],[2],[1,2],[2,2],[1,2,2]]`
+---
+
+### Gas Station — LeetCode 134
+
+N stations in a circle. `gas[i]` available, `cost[i]` to reach next. Find the starting index to complete the circuit, or −1.
+
+**Example:** `gas=[1,2,3,4,5], cost=[3,4,5,1,2]` → `3`
 
 ```text
-BACKTRACKING | O(N * 2^N) | O(N)
+BRUTE FORCE | O(n²) | O(1)
 
-Sort the array to handle duplicates. At each element, choose to include it in the current subset or not, skipping duplicates.
+Try starting from each station and simulate the full circuit.
 
-function subsetsWithDup(nums):
-    sort(nums)
-    result = []
-    current = []
-    backtrack(start):
-        result.add(copy(current))
-        for i from start to n - 1:
-            // Skip duplicate choices
-            // at the same recursion level.
-            if i > start AND nums[i] == nums[i - 1]:
-                continue
-            // Choose
-            current.add(nums[i])
-            // Explore
-            backtrack(i + 1)
-            // Undo
-            current.removeLast()
-    backtrack(0)
-    return result
+------------------------------------------------------------------------------
+
+OPTIMAL — GREEDY | O(n) | O(1)
+
+Key observations:
+1. If total gas >= total cost, a valid start always exists (exactly one).
+2. If running tank < 0 at station i, no station between start and i can be
+   the valid start — reset candidate to i+1.
+
+totalTank = 0, currentTank = 0, start = 0
+for i = 0 to n-1:
+    gain = gas[i] - cost[i]
+    totalTank += gain; currentTank += gain
+    if currentTank < 0: start = i+1; currentTank = 0
+return totalTank >= 0 ? start : -1
 ```
+
+```csharp
+public int CanCompleteCircuit(int[] gas, int[] cost)
+{
+    int total = 0, tank = 0, start = 0;
+    for (int i = 0; i < gas.Length; i++)
+    {
+        int gain = gas[i] - cost[i];
+        total += gain;
+        tank += gain;
+        if (tank < 0) { start = i + 1; tank = 0; }
+    }
+    return total >= 0 ? start : -1;
+}
+```
+
+> **Key insight:** the last reset point is guaranteed to be the answer if a solution exists — no second pass needed.
+
+---
+
+### Assign Cookies — LeetCode 455
+
+Each child has greed factor `g[i]`; each cookie has size `s[j]`. Cookie satisfies child if `s[j] >= g[i]`. Maximise the number of content children.
+
+**Example:** `g=[1,2,3], s=[1,1]` → `1`
+
+```text
+OPTIMAL — GREEDY TWO POINTERS | O(n log n) | O(1)
+
+Sort both. Satisfy the least greedy child first with the smallest sufficient cookie.
+If the smallest cookie fits, advance both pointers; otherwise discard the cookie.
+
+sort g, sort s
+i = 0, j = 0
+while i < g.length and j < s.length:
+    if s[j] >= g[i]: i++
+    j++
+return i
+```
+
+```csharp
+public int FindContentChildren(int[] g, int[] s)
+{
+    Array.Sort(g);
+    Array.Sort(s);
+    int i = 0, j = 0;
+    while (i < g.Length && j < s.Length)
+    {
+        if (s[j] >= g[i]) i++;
+        j++;
+    }
+    return i;
+}
+```
+
+> **Key insight:** always satisfy the least greedy child first — this wastes the fewest cookie sizes and leaves larger cookies for greedier children.
+
+---
+
+### Best Time to Buy and Sell Stock II — LeetCode 122
+
+Make unlimited buy/sell transactions (cannot hold two stocks simultaneously). Maximise total profit.
+
+**Example:** `[7,1,5,3,6,4]` → `7`
+
+```text
+OPTIMAL — GREEDY | O(n) | O(1)
+
+Capture every upward day-to-day price difference.
+This equals the sum of profits from all optimal non-overlapping transactions.
+
+profit = 0
+for i = 1 to n-1:
+    if prices[i] > prices[i-1]: profit += prices[i] - prices[i-1]
+return profit
+```
+
+```csharp
+public int MaxProfit(int[] prices)
+{
+    int profit = 0;
+    for (int i = 1; i < prices.Length; i++)
+        if (prices[i] > prices[i - 1]) profit += prices[i] - prices[i - 1];
+    return profit;
+}
+```
+
+> **Key insight:** every positive day-to-day delta is a profitable micro-transaction; summing them equals the optimal buy-low-sell-high strategy.
+
+---
+
+### Candy — LeetCode 135
+
+Give each child at least 1 candy. A child with a higher rating than a neighbour must get strictly more candies. Minimise total candies.
+
+**Example:** `[1,0,2]` → `5` (candies: `[2,1,2]`)
+
+```text
+BRUTE FORCE | O(n²) | O(n)
+
+Repeatedly scan and adjust until all constraints are satisfied.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — TWO-PASS GREEDY | O(n) | O(n)
+
+Left pass enforces the left-neighbour constraint.
+Right pass enforces the right-neighbour constraint.
+Taking max of both passes satisfies both directions simultaneously.
+
+candies = [1, 1, ..., 1]
+left → right: if ratings[i] > ratings[i-1]: candies[i] = candies[i-1] + 1
+right → left: if ratings[i] > ratings[i+1]: candies[i] = max(candies[i], candies[i+1]+1)
+return sum(candies)
+```
+
+```csharp
+public int Candy(int[] ratings)
+{
+    int n = ratings.Length;
+    int[] c = new int[n];
+    Array.Fill(c, 1);
+    for (int i = 1; i < n; i++)
+        if (ratings[i] > ratings[i - 1]) c[i] = c[i - 1] + 1;
+    for (int i = n - 2; i >= 0; i--)
+        if (ratings[i] > ratings[i + 1]) c[i] = Math.Max(c[i], c[i + 1] + 1);
+    return c.Sum();
+}
+```
+
+> **Key insight:** two independent directional passes are sufficient — each only looks one way, and taking the max of both results satisfies both constraints.
+
+---
+
+### Partition Labels — LeetCode 763
+
+Partition string `s` into as many parts as possible so each character appears in at most one part. Return part sizes.
+
+**Example:** `"ababcbacadefegdehijhklij"` → `[9,7,8]`
+
+```text
+OPTIMAL — GREEDY | O(n) | O(1)
+
+Pre-compute last[c] = last index of character c.
+Scan left to right extending current partition end to last[s[i]].
+When i reaches end, emit the partition size and start a new one.
+
+last[c] = last occurrence index of c
+start = 0, end = 0
+for i = 0 to n-1:
+    end = max(end, last[s[i]])
+    if i == end: result.add(i - start + 1); start = i + 1
+return result
+```
+
+```csharp
+public IList<int> PartitionLabels(string s)
+{
+    int[] last = new int[26];
+    for (int i = 0; i < s.Length; i++) last[s[i] - 'a'] = i;
+    var res = new List<int>();
+    int start = 0, end = 0;
+    for (int i = 0; i < s.Length; i++)
+    {
+        end = Math.Max(end, last[s[i] - 'a']);
+        if (i == end) { res.Add(end - start + 1); start = i + 1; }
+    }
+    return res;
+}
+```
+
+> **Key insight:** a partition can close at index `i` only when every character seen so far has its last occurrence at or before `i`.
+
+---
+
+### Hand of Straights — LeetCode 846
+
+Given a hand of cards and `groupSize`, determine if all cards can be arranged into groups of `groupSize` consecutive values.
+
+**Example:** `hand=[1,2,3,6,2,3,4,7,8], groupSize=3` → `true`
+
+```text
+OPTIMAL — GREEDY + SORTED FREQUENCY MAP | O(n log n) | O(n)
+
+Always fill groups starting from the smallest available card.
+If the smallest card appears k times, we must start exactly k groups from it.
+
+if hand.length % groupSize != 0: return false
+freq = sorted frequency map of hand
+for each (card, count) in ascending order:
+    if count == 0: continue
+    for j = 0 to groupSize-1:
+        if freq[card+j] < count: return false
+        freq[card+j] -= count
+return true
+```
+
+```csharp
+public bool IsNStraightHand(int[] hand, int groupSize)
+{
+    if (hand.Length % groupSize != 0) return false;
+    var freq = new SortedDictionary<int, int>();
+    foreach (int c in hand)
+        freq[c] = freq.GetValueOrDefault(c) + 1;
+    foreach (var (card, count) in freq)
+    {
+        if (count == 0) continue;
+        for (int j = 0; j < groupSize; j++)
+        {
+            if (!freq.TryGetValue(card + j, out int f) || f < count)
+                return false;
+            freq[card + j] = f - count;
+        }
+    }
+    return true;
+}
+```
+
+> **Key insight:** always start filling from the smallest unprocessed card — any other starting point leaves an ungroupable gap.
+
+---
+
+### Boats to Save People — LeetCode 881
+
+Each boat holds at most 2 people with total weight <= `limit`. Return the minimum number of boats needed.
+
+**Example:** `people=[3,2,2,1], limit=3` → `3`
+
+```text
+OPTIMAL — GREEDY TWO POINTERS | O(n log n) | O(1)
+
+Sort. Pair the heaviest with the lightest if they fit together;
+otherwise the heaviest goes alone. Either way, one boat is used per iteration.
+
+sort people
+lo = 0, hi = n-1, boats = 0
+while lo <= hi:
+    if people[lo] + people[hi] <= limit: lo++
+    hi--; boats++
+return boats
+```
+
+```csharp
+public int NumRescueBoats(int[] people, int limit)
+{
+    Array.Sort(people);
+    int lo = 0, hi = people.Length - 1, boats = 0;
+    while (lo <= hi)
+    {
+        if (people[lo] + people[hi] <= limit) lo++;
+        hi--;
+        boats++;
+    }
+    return boats;
+}
+```
+
+> **Key insight:** the heaviest person either pairs with the lightest (if possible) or goes alone — no other pairing can do better.
+
+---
+
+### Majority Element — LeetCode 169
+
+Find the element appearing more than n/2 times in an array (guaranteed to exist).
+
+Full analysis in [Arrays and Strings](../ArraysAndStrings/Problems.md). Boyer-Moore Voting (greedy): maintain a candidate and counter. On mismatch decrement; when counter hits 0 reset to current element. The majority element always survives. O(n) time, O(1) space.
+
+> **Key insight:** majority element votes cancel all minority votes and still have surplus.
+
+---
+
+### Task Scheduler — LeetCode 621
+
+Schedule CPU tasks with cooldown `n` between identical tasks. Return minimum intervals needed.
+
+Full solution in [Heaps and Priority Queues](../HeapsAndPriorityQueues/Problems.md). Greedy formula: `max(tasks.Length, (maxFreq - 1) * (n + 1) + countOfMaxFreq)`.
+
+> **Key insight:** idle slots are entirely determined by the frequency of the most common task.
+
+---
+
+## Subsets and Combinations
+
+### Subsets — LeetCode 78
+
+Return all subsets of an array of unique integers (the power set).
+
+**Example:** `[1,2,3]` → `[[],[1],[2],[3],[1,2],[1,3],[2,3],[1,2,3]]`
+
+```text
+OPTIMAL — BACKTRACKING | O(n · 2ⁿ) | O(n)
+
+Record the current path at every node (not just leaves) to capture all subsets.
+Recurse forward from index start to avoid generating duplicates by ordering.
+
+backtrack(start):
+    result.add(copy(cur))
+    for i = start to n-1:
+        cur.add(nums[i])
+        backtrack(i + 1)
+        cur.removeLast()
+```
+
+```csharp
+public IList<IList<int>> Subsets(int[] nums)
+{
+    var res = new List<IList<int>>();
+    void Bt(int start, List<int> cur)
+    {
+        res.Add(new List<int>(cur));
+        for (int i = start; i < nums.Length; i++)
+        {
+            cur.Add(nums[i]);
+            Bt(i + 1, cur);
+            cur.RemoveAt(cur.Count - 1);
+        }
+    }
+    Bt(0, new List<int>());
+    return res;
+}
+```
+
+> **Key insight:** add to results at every node (before the loop), not only at leaves — this captures the empty set and all partial subsets.
+
+---
+
+### Subsets II — LeetCode 90
+
+Return all unique subsets when the input may contain duplicates.
+
+**Example:** `[1,2,2]` → `[[],[1],[1,2],[1,2,2],[2],[2,2]]`
+
+```text
+OPTIMAL — BACKTRACKING + DEDUP | O(n · 2ⁿ) | O(n)
+
+Sort first. Skip nums[i] when it equals nums[i-1] AND i > start.
+i > start (not i > 0) limits the skip to siblings at the same recursion depth.
+
+Trace for sorted [1,2,2]:
+  Bt(0): add []
+    i=0 (1): add [1] → Bt(1): add [1]
+      i=1 (2): add [1,2] → Bt(2): add [1,2]
+        i=2 (2): add [1,2,2] → Bt(3): add [1,2,2] ✓
+      i=2 (2): i(2) > start(1) AND nums[2]==nums[1] → SKIP
+    i=1 (2): add [2] → Bt(2): add [2]
+      i=2 (2): add [2,2] → Bt(3): add [2,2] ✓
+    i=2 (2): i(2) > start(0) AND nums[2]==nums[1] → SKIP
+Result: [[],[1],[1,2],[1,2,2],[2],[2,2]] ✓
+
+sort(nums)
+backtrack(start):
+    result.add(copy(cur))
+    for i = start to n-1:
+        if i > start AND nums[i] == nums[i-1]: continue
+        cur.add(nums[i])
+        backtrack(i + 1)
+        cur.removeLast()
+```
+
+```csharp
+public IList<IList<int>> SubsetsWithDup(int[] nums)
+{
+    Array.Sort(nums);
+    var res = new List<IList<int>>();
+    void Bt(int start, List<int> cur)
+    {
+        res.Add(new List<int>(cur));
+        for (int i = start; i < nums.Length; i++)
+        {
+            if (i > start && nums[i] == nums[i - 1]) continue;
+            cur.Add(nums[i]);
+            Bt(i + 1, cur);
+            cur.RemoveAt(cur.Count - 1);
+        }
+    }
+    Bt(0, new List<int>());
+    return res;
+}
+```
+
+> **Key insight:** `i > start` (not `i > 0`) restricts the duplicate skip to siblings at the **same recursion depth** — the same value is still allowed as the first pick at a deeper level.
+
+---
+
+### Combinations — LeetCode 77
+
+Return all combinations of `k` numbers chosen from `[1, n]`.
+
+**Example:** `n=4, k=2` → `[[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]`
+
+```text
+OPTIMAL — BACKTRACKING WITH PRUNING | O(k · C(n,k)) | O(k)
+
+Standard subsets shape with a size constraint.
+Upper-bound pruning: if fewer candidates remain than slots needed, stop.
+
+backtrack(start):
+    if cur.size == k: result.add(copy(cur)); return
+    need = k - cur.size
+    for i = start to n - need + 1:
+        cur.add(i)
+        backtrack(i + 1)
+        cur.removeLast()
+```
+
+```csharp
+public IList<IList<int>> Combine(int n, int k)
+{
+    var res = new List<IList<int>>();
+    void Bt(int start, List<int> cur)
+    {
+        if (cur.Count == k) { res.Add(new List<int>(cur)); return; }
+        int need = k - cur.Count;
+        for (int i = start; i <= n - need + 1; i++)
+        {
+            cur.Add(i);
+            Bt(i + 1, cur);
+            cur.RemoveAt(cur.Count - 1);
+        }
+    }
+    Bt(1, new List<int>());
+    return res;
+}
+```
+
+> **Key insight:** the upper bound `n - (k - cur.Count) + 1` prunes branches that cannot fill the remaining slots.
+
+---
+
+### Combination Sum — LeetCode 39
+
+Find all combinations from distinct `candidates` summing to `target`. Each candidate may be used unlimited times.
+
+**Example:** `candidates=[2,3,6,7], target=7` → `[[2,2,3],[7]]`
+
+```text
+OPTIMAL — BACKTRACKING | O(n^(T/m)) | O(T/m)
+
+T = target, m = minimum candidate value.
+Reuse allowed: pass i (not i+1) when recursing.
+Sort and break early when candidate > remaining.
+
+sort(candidates)
+backtrack(start, remaining):
+    if remaining == 0: result.add(copy(cur)); return
+    for i = start to n-1:
+        if candidates[i] > remaining: break
+        cur.add(candidates[i])
+        backtrack(i, remaining - candidates[i])   // i, not i+1
+        cur.removeLast()
+```
+
+```csharp
+public IList<IList<int>> CombinationSum(int[] candidates, int target)
+{
+    Array.Sort(candidates);
+    var res = new List<IList<int>>();
+    void Bt(int start, int rem, List<int> cur)
+    {
+        if (rem == 0) { res.Add(new List<int>(cur)); return; }
+        for (int i = start; i < candidates.Length; i++)
+        {
+            if (candidates[i] > rem) break;
+            cur.Add(candidates[i]);
+            Bt(i, rem - candidates[i], cur);
+            cur.RemoveAt(cur.Count - 1);
+        }
+    }
+    Bt(0, target, new List<int>());
+    return res;
+}
+```
+
+> **Key insight:** passing `i` (not `i+1`) allows reusing the same candidate; sorting enables the early `break` to prune impossible branches.
+
+---
+
+### Combination Sum II — LeetCode 40
+
+Find all unique combinations from `candidates` (may contain duplicates) summing to `target`. Each element used at most once.
+
+**Example:** `[10,1,2,7,6,1,5], target=8` → `[[1,1,6],[1,2,5],[1,7],[2,6]]`
+
+```text
+OPTIMAL — BACKTRACKING + DEDUP | O(n · 2ⁿ) | O(n)
+
+Sort. Skip duplicates at the same recursion level: i > start AND candidates[i] == candidates[i-1].
+Pass i+1 (no reuse). Break when candidate > remaining.
+
+sort(candidates)
+backtrack(start, remaining):
+    if remaining == 0: result.add(copy(cur)); return
+    for i = start to n-1:
+        if i > start AND candidates[i] == candidates[i-1]: continue
+        if candidates[i] > remaining: break
+        cur.add(candidates[i])
+        backtrack(i + 1, remaining - candidates[i])
+        cur.removeLast()
+```
+
+```csharp
+public IList<IList<int>> CombinationSum2(int[] candidates, int target)
+{
+    Array.Sort(candidates);
+    var res = new List<IList<int>>();
+    void Bt(int start, int rem, List<int> cur)
+    {
+        if (rem == 0) { res.Add(new List<int>(cur)); return; }
+        for (int i = start; i < candidates.Length; i++)
+        {
+            if (i > start && candidates[i] == candidates[i - 1]) continue;
+            if (candidates[i] > rem) break;
+            cur.Add(candidates[i]);
+            Bt(i + 1, rem - candidates[i], cur);
+            cur.RemoveAt(cur.Count - 1);
+        }
+    }
+    Bt(0, target, new List<int>());
+    return res;
+}
+```
+
+> **Key insight:** `i > start` restricts the duplicate skip to sibling choices at the same depth — the same value can still be the first pick at a deeper level.
+
+---
+
+### Combination Sum III — LeetCode 216
+
+Find all combinations of exactly `k` numbers from 1–9 that sum to `n`. Each number used at most once.
+
+**Example:** `k=3, n=7` → `[[1,2,4]]`
+
+```text
+OPTIMAL — BACKTRACKING | O(k · C(9,k)) | O(k)
+
+Digits 1–9, no duplicates. Two termination conditions: cur.size == k AND remaining == 0.
+
+backtrack(start, remaining):
+    if cur.size == k AND remaining == 0: result.add(copy(cur)); return
+    if cur.size == k OR remaining <= 0: return
+    for i = start to 9:
+        cur.add(i)
+        backtrack(i + 1, remaining - i)
+        cur.removeLast()
+```
+
+```csharp
+public IList<IList<int>> CombinationSum3(int k, int n)
+{
+    var res = new List<IList<int>>();
+    void Bt(int start, int rem, List<int> cur)
+    {
+        if (cur.Count == k && rem == 0) { res.Add(new List<int>(cur)); return; }
+        if (cur.Count == k || rem <= 0) return;
+        for (int i = start; i <= 9; i++)
+        {
+            cur.Add(i);
+            Bt(i + 1, rem - i, cur);
+            cur.RemoveAt(cur.Count - 1);
+        }
+    }
+    Bt(1, n, new List<int>());
+    return res;
+}
+```
+
+> **Key insight:** the fixed 1–9 domain bounds the search space tightly; two termination conditions (count and sum) provide clean early exits.
+
+---
 
 ## Permutations
 
-Given an integer array nums of unique elements, return all possible permutations.
+### Permutations — LeetCode 46
 
-**Example:** `nums = [1, 2, 3]` → `[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]`
+Return all permutations of an array of unique integers.
+
+**Example:** `[1,2,3]` → `[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]`
 
 ```text
-BACKTRACKING | O(N * N!) | O(N)
+OPTIMAL — BACKTRACKING + used[] | O(n · n!) | O(n)
 
-For each position in the permutation, choose an unused number from nums and recursively build the permutation.
+For each position, try every unused element.
+Unlike subsets there is no start index — every unused element is a candidate at every position.
 
-function permutations(nums):
-    result = []
-    current = []
-    used = array of false
-    backtrack():
-        if current.size == nums.length:
-            result.add(copy(current))
-            return
-        for i from 0 to nums.length - 1:
-            if used[i]:
-                continue
-            // Choose
-            used[i] = true
-            current.add(nums[i])
-            // Explore
-            backtrack()
-            // Undo
-            current.removeLast()
-            used[i] = false
-    backtrack()
-    return result
-
-
------------------------------------------------------------------------------
-
-SWAP | O(N * N!) | O(N)
-
-// At each recursion level, swap the current index with each of the remaining indices to generate permutations.
-
-function permutations(nums):
-    result = []
-    backtrack(start):
-        if start == nums.length:
-            result.add(copy(nums))
-            return
-        for i from start to nums.length - 1:
-            swap(nums[start], nums[i])
-            backtrack(start + 1)
-            swap(nums[start], nums[i])  // undo
-    backtrack(0)
-    return result
+used = boolean array of false
+backtrack():
+    if cur.size == n: result.add(copy(cur)); return
+    for i = 0 to n-1:
+        if used[i]: continue
+        used[i] = true; cur.add(nums[i])
+        backtrack()
+        used[i] = false; cur.removeLast()
 ```
 
-## Combination Sum
-
-Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order. The same number may be chosen from candidates an unlimited number of times.
-
-**Example:** `candidates = [2, 3, 6, 7], target = 7` → `[[2,2,3],[7]]`
-
-```text
-BACKTRACKING | O(N^(T/m)) | O(T/m)
-Where T is the target and m is the minimum value in candidates. The maximum depth of the recursion tree is T/m, and at each level, we have N choices (the number of candidates).
-
-function combinationSum(candidates, target):
-    sort(candidates)
-    result = []
-    current = []
-    backtrack(start, remaining):
-        if remaining == 0:
-            result.add(copy(current))
-            return
-        for i from start to n - 1:
-            if candidates[i] > remaining:
-                break
-            current.add(candidates[i])
-            // i, not i+1
-            backtrack(i, remaining - candidates[i])
-            current.removeLast()
-    backtrack(0, target)
-    return result
+```csharp
+public IList<IList<int>> Permute(int[] nums)
+{
+    var res = new List<IList<int>>();
+    bool[] used = new bool[nums.Length];
+    void Bt(List<int> cur)
+    {
+        if (cur.Count == nums.Length) { res.Add(new List<int>(cur)); return; }
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (used[i]) continue;
+            used[i] = true;
+            cur.Add(nums[i]);
+            Bt(cur);
+            used[i] = false;
+            cur.RemoveAt(cur.Count - 1);
+        }
+    }
+    Bt(new List<int>());
+    return res;
+}
 ```
 
-## Combination Sum II
+> **Key insight:** the `used[]` array (not a `start` index) is the right structure for permutations — any unused element can go at any position.
 
-Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target. Each number in candidates may only be used once in the combination. Input may contain duplicates.
+---
 
-**Example:** `candidates = [10,1,2,7,6,1,5], target = 8` → `[[1,1,6],[1,2,5],[1,7],[2,6]]`
+### Permutations II — LeetCode 47
+
+Return all unique permutations when the input may contain duplicates.
+
+**Example:** `[1,1,2]` → `[[1,1,2],[1,2,1],[2,1,1]]`
 
 ```text
-BACKTRACKING | O(N * 2^N) | O(N)
-Every element is either taken or skipped, and copying each valid combination costs O(N).
+OPTIMAL — BACKTRACKING + used[] + DEDUP | O(n · n!) | O(n)
 
-// Sort the candidates
-// Do not reuse the same element in the same recursion level
-// Skip duplicates in the same recursion level
+Sort first. The dedup condition is:
+    i > 0 AND nums[i] == nums[i-1] AND !used[i-1]
 
-function combinationSum2(candidates, target):
-    sort(candidates)
-    result = []
-    current = []
-    backtrack(start, remaining):
-        if remaining == 0:
-            result.add(copy(current))
-            return
-        for i from start to n - 1:
-            // Skip duplicate choices
-            // at the same recursion level.
-            if i > start AND
-               candidates[i] == candidates[i - 1]:
-                continue
-            // Since sorted, nothing after this can fit.
-            if candidates[i] > remaining:
-                break
-            // Choose
-            current.add(candidates[i])
-            // Cannot reuse this element.
-            backtrack(i + 1, remaining - candidates[i])
-            // Undo
-            current.removeLast()
-    backtrack(0, target)
-    return result
+Why !used[i-1]?
+  Case A — used[i-1] is TRUE:
+    nums[i-1] was placed earlier on the CURRENT PATH.
+    Placing nums[i] now gives a DIFFERENT ordering (nums[i-1] precedes nums[i]
+    somewhere earlier in the permutation). → ALLOW IT.
+
+  Case B — used[i-1] is FALSE:
+    nums[i-1] has NOT been placed yet at this recursion level.
+    We would be placing the later duplicate (nums[i]) BEFORE the earlier one (nums[i-1])
+    at this level, creating a permutation identical to one where nums[i-1] is placed first.
+    → SKIP IT.
+
+Trace for sorted [1a, 1b, 2]:
+  Bt(): try i=0 (1a): used[0]=true
+    try i=1 (1b): used[1]=true
+      try i=2 (2): → [1a,1b,2] ✓
+    try i=2 (2): used[2]=true
+      try i=1 (1b): → [1a,2,1b] ✓
+  try i=1 (1b): i>0, nums[1]==nums[0], !used[0]=true → SKIP (avoids [1b,1a,2])
+  try i=2 (2): used[2]=true
+    try i=0 (1a): used[0]=true
+      try i=1 (1b): → [2,1a,1b] ✓
+    try i=1 (1b): i>0, nums[1]==nums[0], !used[0]=true → SKIP
+Final: [[1,1,2],[1,2,1],[2,1,1]] ✓
+
+sort(nums)
+backtrack():
+    if cur.size == n: result.add(copy(cur)); return
+    for i = 0 to n-1:
+        if used[i]: continue
+        if i > 0 AND nums[i] == nums[i-1] AND !used[i-1]: continue
+        used[i] = true; cur.add(nums[i])
+        backtrack()
+        used[i] = false; cur.removeLast()
 ```
 
-## Letter Combinations of a Phone Number
-
-Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order. A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
-
-**Example:** `digits = "23"` → `["ad","ae","af","bd","be","bf","cd","ce","cf"]`
-
-```text
-BACKTRACKING | O(4^N) | O(N)
-Where N is the length of the input digits. Each digit can map to at most 4 letters, leading to a maximum of 4^N combinations.
-
-function letterCombinations(digits):
-    mapping = ["","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"]
-    if digits is empty:
-        return []
-    result = []
-    current = ""
-    backtrack(index):
-        if index == length(digits):
-            result.add(current)
-            return
-        letters = mapping[digits[index]]
-        for letter in letters:
-            current += letter
-            backtrack(index + 1)
-            current remove last character
-    backtrack(0)
-    return result
+```csharp
+public IList<IList<int>> PermuteUnique(int[] nums)
+{
+    Array.Sort(nums);
+    var res = new List<IList<int>>();
+    bool[] used = new bool[nums.Length];
+    void Bt(List<int> cur)
+    {
+        if (cur.Count == nums.Length) { res.Add(new List<int>(cur)); return; }
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (used[i]) continue;
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) continue;
+            used[i] = true;
+            cur.Add(nums[i]);
+            Bt(cur);
+            used[i] = false;
+            cur.RemoveAt(cur.Count - 1);
+        }
+    }
+    Bt(new List<int>());
+    return res;
+}
 ```
 
-## Generate Parentheses
+> **Key insight:** `!used[i-1]` skips placing `nums[i]` before its identical predecessor at the same recursion level — enforcing a canonical left-to-right ordering for equal elements eliminates all duplicate permutations.
 
-Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+---
 
-**Example:** `n = 3` → `["((()))","(()())","(())()","()(())","()()()"]`
+### Letter Combinations of a Phone Number — LeetCode 17
+
+Given a digit string (`2`–`9`), return all letter combinations it could represent on a phone keypad.
+
+**Example:** `"23"` → `["ad","ae","af","bd","be","bf","cd","ce","cf"]`
 
 ```text
-BACKTRACKING | O(4^N / sqrt(N)) | O(N)
-The number of valid sequences is the Nth Catalan number, and each one costs O(N) to build.
+OPTIMAL — BACKTRACKING | O(4ⁿ) | O(n)
 
-function generateParenthesis(n):
-    result = []
-    current = ""
-    backtrack(open, close):
-        if length(current) == 2 * n:
-            result.add(current)
-            return
-        if open < n:
-            current += "("
-            backtrack(open + 1, close)
-            current remove last character
-        if close < open:
-            current += ")"
-            backtrack(open, close + 1)
-            current remove last character
-    backtrack(0, 0)
-    return result
+Map each digit to its letters. At position idx, try each letter for digits[idx].
+Writing into a fixed-size char array indexed by position makes explicit undo unnecessary.
+
+mapping = ["","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"]
+backtrack(idx):
+    if idx == digits.length: result.add(new string(buf)); return
+    for each letter in mapping[digits[idx]]:
+        buf[idx] = letter
+        backtrack(idx + 1)
 ```
 
-## Word Search
-
-Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
-
-**Example:** `board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"` → `true`
-
-```text
-BACKTRACKING | O(M * N * 4^L) | O(M * N)
-Where M is the number of rows, N is the number of columns, and L is the length of the word. Each cell can lead to 4 possible directions (up, down, left, right) for each character in the word.
-
-function exist(board, word):
-    rows = number of rows
-    cols = number of columns
-    visited = false matrix
-    for row from 0 to rows - 1:
-        for col from 0 to cols - 1:
-            if backtrack(row, col, 0):
-                return true
-    return false
-
-function backtrack(row, col, index):
-    if index == word.length:
-        return true
-    if outside grid:
-        return false
-    if visited[row][col]:
-        return false
-    if board[row][col] != word[index]:
-        return false
-    // Choose
-    visited[row][col] = true
-    // Explore
-    found =
-        backtrack(row + 1, col, index + 1)
-        OR
-        backtrack(row - 1, col, index + 1)
-        OR
-        backtrack(row, col + 1, index + 1)
-        OR
-        backtrack(row, col - 1, index + 1)
-    // Undo
-    visited[row][col] = false
-    return found
-
------------------------------------------------------------------------------
-
-OPTIMIZED BACKTRACKING | O(M * N * 4^L) | O(L)
-
-// Instead of using a visited matrix, temporarily mark the cell as visited by changing its value. Restore it after exploring.
-
-function backtrack(row, col, index):
-    if index == word.length:
-        return true
-    if invalid position:
-        return false
-    if board[row][col] != word[index]:
-        return false
-    original = board[row][col]
-    // Mark visited
-    board[row][col] = '#'
-    found =
-        backtrack(down)
-        OR
-        backtrack(up)
-        OR
-        backtrack(right)
-        OR
-        backtrack(left)
-    // Undo
-    board[row][col] = original
-    return found
+```csharp
+public IList<string> LetterCombinations(string digits)
+{
+    if (digits.Length == 0) return new List<string>();
+    string[] map = ["", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"];
+    var res = new List<string>();
+    void Bt(int idx, char[] buf)
+    {
+        if (idx == digits.Length) { res.Add(new string(buf)); return; }
+        foreach (char c in map[digits[idx] - '0'])
+        {
+            buf[idx] = c;
+            Bt(idx + 1, buf);
+        }
+    }
+    Bt(0, new char[digits.Length]);
+    return res;
+}
 ```
 
-## Palindrome Partitioning
+> **Key insight:** writing into a fixed-size buffer indexed by position eliminates the explicit undo step — overwriting the slot is its own "undo" on the next sibling iteration.
 
-Given a string s, partition it such that every substring of the partition is a palindrome. Return all possible partitions.
+---
 
-**Example:** `s = "aab"` → `[["a","a","b"],["aa","b"]]`
+## Constraint Satisfaction
+
+### Generate Parentheses — LeetCode 22
+
+Given `n` pairs of parentheses, generate all valid combinations.
+
+**Example:** `n=3` → `["((()))","(()())","(())()","()(())","()()()"]`
 
 ```text
-BACKTRACKING | O(N * 2^N) | O(N)
+OPTIMAL — BACKTRACKING | O(4ⁿ / sqrt(n)) | O(n)
 
-// Every position is either a cut point or not, so there are 2^(N-1) partitions
+The count equals the nth Catalan number; each string has length 2n.
+Two constraints: open < n allows another '('; close < open allows another ')'.
+Writing into a fixed-size buffer eliminates explicit undo.
 
-function partition(s):
-    result = []
-    current = []
-    backtrack(start):
-        if start == length(s):
-            result.add(copy(current))
-            return
-        for end from start to n - 1:
-            if s[start...end] is not a palindrome:
-                continue
-            // Choose
-            current.add(s[start...end])
-            // Explore
-            backtrack(end + 1)
-            // Undo
-            current.removeLast()
-    backtrack(0)
-    return result
+backtrack(open, close, idx):
+    if idx == 2n: result.add(new string(buf)); return
+    if open < n:    buf[idx]='('; backtrack(open+1, close, idx+1)
+    if close < open: buf[idx]=')'; backtrack(open, close+1, idx+1)
+```
 
------------------------------------------------------------------------------
+```csharp
+public IList<string> GenerateParenthesis(int n)
+{
+    var res = new List<string>();
+    char[] buf = new char[2 * n];
+    void Bt(int open, int close, int idx)
+    {
+        if (idx == 2 * n) { res.Add(new string(buf)); return; }
+        if (open < n) { buf[idx] = '('; Bt(open + 1, close, idx + 1); }
+        if (close < open) { buf[idx] = ')'; Bt(open, close + 1, idx + 1); }
+    }
+    Bt(0, 0, 0);
+    return res;
+}
+```
 
-BACKTRACKING + DP PRECOMPUTE | O(N * 2^N) | O(N^2)
+> **Key insight:** the two numeric constraints (`open < n`, `close < open`) replace all explicit validity checks and implicitly prune every invalid branch.
 
-// Precompute isPalindrome[i][j] so each check is O(1) instead of O(N)
-// isPalindrome[i][j] = s[i] == s[j] AND (j - i < 2 OR isPalindrome[i + 1][j - 1])
+---
+
+### Palindrome Partitioning — LeetCode 131
+
+Partition string `s` so every substring is a palindrome. Return all such partitions.
+
+**Example:** `"aab"` → `[["a","a","b"],["aa","b"]]`
+
+```text
+BACKTRACKING | O(n · 2ⁿ) | O(n)
+
+Try every cut; recurse if s[start..end] is a palindrome. O(n) check per substring.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — BACKTRACKING + DP PRECOMPUTE | O(n · 2ⁿ) | O(n²)
+
+Precompute isPalin[i][j] in O(n²) so each palindrome check is O(1).
+
+isPalin[i][j] = (s[i] == s[j]) AND (j-i < 2 OR isPalin[i+1][j-1])
 
 for length = 1 to n:
-    for i = 0 to n - length:
-        j = i + length - 1
-        isPalindrome[i][j] =
-            s[i] == s[j]
-            AND (length < 3 OR isPalindrome[i + 1][j - 1])
+    for i = 0 to n-length:
+        j = i+length-1
+        isPalin[i][j] = s[i]==s[j] AND (length < 3 OR isPalin[i+1][j-1])
+
+backtrack(start):
+    if start == n: result.add(copy(cur)); return
+    for end = start to n-1:
+        if isPalin[start][end]:
+            cur.add(s[start..end+1])
+            backtrack(end + 1)
+            cur.removeLast()
 ```
 
-> Minimum-cuts variant is pure DP: `cuts[i] = min(cuts[j - 1] + 1)` for every `j` where `s[j..i]` is a palindrome.
+```csharp
+public IList<IList<string>> Partition(string s)
+{
+    int n = s.Length;
+    bool[,] p = new bool[n, n];
+    for (int len = 1; len <= n; len++)
+        for (int i = 0; i <= n - len; i++)
+        {
+            int j = i + len - 1;
+            p[i, j] = s[i] == s[j] && (len < 3 || p[i + 1, j - 1]);
+        }
+    var res = new List<IList<string>>();
+    void Bt(int start, List<string> cur)
+    {
+        if (start == n) { res.Add(new List<string>(cur)); return; }
+        for (int end = start; end < n; end++)
+        {
+            if (!p[start, end]) continue;
+            cur.Add(s[start..(end + 1)]);
+            Bt(end + 1, cur);
+            cur.RemoveAt(cur.Count - 1);
+        }
+    }
+    Bt(0, new List<string>());
+    return res;
+}
+```
 
-## N-Queens
+> **Key insight:** DP precomputation turns O(n) palindrome checks into O(1), reducing the constant factor significantly for dense inputs.
 
-Place n queens on an n × n chessboard so that no two queens attack each other. Return all distinct solutions.
+---
 
-**Example:** `n = 4` → `[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]`
+### Restore IP Addresses — LeetCode 93
+
+Given a string of digits, return all valid IPv4 addresses formable by inserting exactly 3 dots.
+
+**Example:** `"25525511135"` → `["255.255.11.135","255.255.111.35"]`
 
 ```text
-BRUTE FORCE | O(N^N) | O(N)
+OPTIMAL — BACKTRACKING | O(1) | O(1)
 
-Try every column for every row and validate the full board at the end
+Exactly 4 segments, each 1–3 digits, value 0–255, no leading zeros.
+At most 3^3 = 27 distinct splits regardless of input length — effectively constant.
 
------------------------------------------------------------------------------
-
-BACKTRACKING + CONFLICT SETS | O(N!) | O(N)
-
-// Place one queen per row, so only columns and the two diagonals can conflict
-// Anti-diagonal is constant along row + col
-// Main diagonal is constant along row - col
-
-function solveNQueens(n):
-    result = []
-    columns = empty set
-    diagonal = empty set          // row - col
-    antiDiagonal = empty set      // row + col
-    position = array of size n
-    backtrack(row):
-        if row == n:
-            result.add(board built from position)
-            return
-        for col from 0 to n - 1:
-            if col in columns
-               OR (row - col) in diagonal
-               OR (row + col) in antiDiagonal:
-                continue
-            // Choose
-            add col, row - col, row + col to the sets
-            position[row] = col
-            // Explore
-            backtrack(row + 1)
-            // Undo
-            remove col, row - col, row + col from the sets
-    backtrack(0)
-    return result
+backtrack(start, parts):
+    if parts.size == 4 AND start == n:
+        result.add(join(parts, '.')); return
+    if parts.size == 4 OR start == n: return
+    for len = 1 to 3:
+        if start+len > n: break
+        seg = s[start..start+len-1]
+        if len > 1 AND seg[0] == '0': break    // leading zero
+        if int(seg) > 255: break
+        parts.add(seg); backtrack(start+len, parts); parts.removeLast()
 ```
 
-> - N-Queens II only needs the count, so the board never has to be materialised.
-> - Bitmask version stores the three sets in integers and uses `available = ~(cols | diag | anti)`.
+```csharp
+public IList<string> RestoreIpAddresses(string s)
+{
+    var res = new List<string>();
+    void Bt(int start, List<string> parts)
+    {
+        if (parts.Count == 4 && start == s.Length)
+        {
+            res.Add(string.Join('.', parts));
+            return;
+        }
+        if (parts.Count == 4 || start == s.Length) return;
+        for (int len = 1; len <= 3 && start + len <= s.Length; len++)
+        {
+            string seg = s.Substring(start, len);
+            if (len > 1 && seg[0] == '0') break;
+            if (int.Parse(seg) > 255) break;
+            parts.Add(seg);
+            Bt(start + len, parts);
+            parts.RemoveAt(parts.Count - 1);
+        }
+    }
+    Bt(0, new List<string>());
+    return res;
+}
+```
+
+> **Key insight:** the search space is O(1) regardless of input length — at most 3 choices per segment across 3 cut points gives 27 paths total.
+
+---
+
+## Grid and Board Search
+
+### Word Search — LeetCode 79
+
+Given an m x n character grid, return `true` if `word` exists as a path of adjacent (horizontal/vertical) cells, each used at most once.
+
+**Example:** `board=[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word="ABCCED"` → `true`
+
+```text
+BACKTRACKING (visited matrix) | O(m · n · 4^L) | O(m · n)
+
+Mark cells in a separate boolean matrix on entry; unmark on return.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — BACKTRACKING (in-place sentinel) | O(m · n · 4^L) | O(L)
+
+Temporarily replace board[r][c] with '#' to mark it visited.
+Restore on backtrack. Space drops from O(m·n) to O(L) (stack depth only).
+
+dfs(r, c, idx):
+    if idx == word.length: return true
+    if out of bounds OR board[r][c] != word[idx]: return false
+    tmp = board[r][c]; board[r][c] = '#'
+    found = dfs(r+1,c,idx+1) || dfs(r-1,c,idx+1)
+          || dfs(r,c+1,idx+1) || dfs(r,c-1,idx+1)
+    board[r][c] = tmp
+    return found
+```
+
+```csharp
+public bool Exist(char[][] board, string word)
+{
+    int rows = board.Length, cols = board[0].Length;
+    bool Dfs(int r, int c, int idx)
+    {
+        if (idx == word.Length) return true;
+        if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] != word[idx])
+            return false;
+        char tmp = board[r][c];
+        board[r][c] = '#';
+        bool found = Dfs(r + 1, c, idx + 1) || Dfs(r - 1, c, idx + 1)
+                  || Dfs(r, c + 1, idx + 1) || Dfs(r, c - 1, idx + 1);
+        board[r][c] = tmp;
+        return found;
+    }
+    for (int r = 0; r < rows; r++)
+        for (int c = 0; c < cols; c++)
+            if (Dfs(r, c, 0)) return true;
+    return false;
+}
+```
+
+> **Key insight:** the in-place `'#'` sentinel eliminates the O(m·n) visited array — space drops to O(L) for the recursion stack alone.
+
+---
+
+### N-Queens — LeetCode 51
+
+Place `n` queens on an n x n board so no two queens share a row, column, or diagonal. Return all solutions as boards.
+
+**Example:** `n=4` → `[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]`
+
+```text
+BRUTE FORCE | O(nⁿ) | O(n)
+
+Try every column for every row; validate the full board at the end.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — BACKTRACKING + CONSTRAINT SETS | O(n!) | O(n)
+
+Place one queen per row. Track occupied columns, main diagonals (row-col),
+and anti-diagonals (row+col) for O(1) conflict checks.
+
+col[], d1[row-col+n], d2[row+col] — boolean arrays
+backtrack(row):
+    if row == n: record board; return
+    for c = 0 to n-1:
+        if col[c] OR d1[row-c+n] OR d2[row+c]: continue
+        mark; board[row][c]='Q'; backtrack(row+1); unmark; board[row][c]='.'
+```
+
+```csharp
+public IList<IList<string>> SolveNQueens(int n)
+{
+    var res = new List<IList<string>>();
+    bool[] col = new bool[n], d1 = new bool[2 * n], d2 = new bool[2 * n];
+    char[][] board = Enumerable.Range(0, n)
+        .Select(_ => Enumerable.Repeat('.', n).ToArray()).ToArray();
+    void Bt(int row)
+    {
+        if (row == n) { res.Add(board.Select(r => new string(r)).ToList()); return; }
+        for (int c = 0; c < n; c++)
+        {
+            if (col[c] || d1[row - c + n] || d2[row + c]) continue;
+            col[c] = d1[row - c + n] = d2[row + c] = true;
+            board[row][c] = 'Q';
+            Bt(row + 1);
+            col[c] = d1[row - c + n] = d2[row + c] = false;
+            board[row][c] = '.';
+        }
+    }
+    Bt(0);
+    return res;
+}
+```
+
+> **Key insight:** three boolean arrays give O(1) conflict checks; one queen per row means the search tree has at most n! leaves before pruning.
+
+---
+
+### N-Queens II — LeetCode 52
+
+Count the number of distinct N-Queens solutions (no board materialisation needed).
+
+```text
+OPTIMAL — BACKTRACKING + CONSTRAINT SETS | O(n!) | O(n)
+
+Identical to N-Queens but increment a counter instead of recording the board.
+A bitmask variant encodes the three sets as integers and uses bitwise ops for speed.
+```
+
+```csharp
+public int TotalNQueens(int n)
+{
+    int count = 0;
+    bool[] col = new bool[n], d1 = new bool[2 * n], d2 = new bool[2 * n];
+    void Bt(int row)
+    {
+        if (row == n) { count++; return; }
+        for (int c = 0; c < n; c++)
+        {
+            if (col[c] || d1[row - c + n] || d2[row + c]) continue;
+            col[c] = d1[row - c + n] = d2[row + c] = true;
+            Bt(row + 1);
+            col[c] = d1[row - c + n] = d2[row + c] = false;
+        }
+    }
+    Bt(0);
+    return count;
+}
+```
+
+> **Key insight:** omitting board construction reduces the constant factor; a bitmask version using `~(cols|diag|anti) & available` is fastest for large n.
+
+---
+
+### Sudoku Solver — LeetCode 37
+
+Fill a 9x9 Sudoku board in-place: each digit 1–9 appears exactly once per row, column, and 3x3 box.
+
+**Example:** standard Sudoku input with some cells pre-filled → completed board.
+
+```text
+OPTIMAL — BACKTRACKING + CONSTRAINT ARRAYS | O(9^m) | O(1)
+
+m = number of empty cells. Pre-fill constraint arrays from the given cells.
+For each empty cell, try digits 1–9; place if valid, recurse, undo on failure.
+
+fill row[r*9+d], col[c*9+d], box[b*9+d] from given cells  (b = r/3*3 + c/3)
+for each empty cell at pos (0..80):
+    r = pos/9, c = pos%9, b = r/3*3 + c/3
+    for d = 0 to 8:
+        if not used in row, col, box:
+            place; if solve(pos+1): return true; remove
+return false
+```
+
+```csharp
+public void SolveSudoku(char[][] board)
+{
+    bool[] row = new bool[81], col = new bool[81], box = new bool[81];
+    for (int r = 0; r < 9; r++)
+        for (int c = 0; c < 9; c++)
+            if (board[r][c] != '.')
+            {
+                int d = board[r][c] - '1';
+                row[r * 9 + d] = col[c * 9 + d] = box[(r / 3 * 3 + c / 3) * 9 + d] = true;
+            }
+    Solve(board, row, col, box, 0);
+}
+
+bool Solve(char[][] board, bool[] row, bool[] col, bool[] box, int pos)
+{
+    while (pos < 81 && board[pos / 9][pos % 9] != '.') pos++;
+    if (pos == 81) return true;
+    int r = pos / 9, c = pos % 9, b = r / 3 * 3 + c / 3;
+    for (int d = 0; d < 9; d++)
+    {
+        if (row[r * 9 + d] || col[c * 9 + d] || box[b * 9 + d]) continue;
+        row[r * 9 + d] = col[c * 9 + d] = box[b * 9 + d] = true;
+        board[r][c] = (char)('1' + d);
+        if (Solve(board, row, col, box, pos + 1)) return true;
+        row[r * 9 + d] = col[c * 9 + d] = box[b * 9 + d] = false;
+        board[r][c] = '.';
+    }
+    return false;
+}
+```
+
+> **Key insight:** flat boolean arrays indexed by `[unit * 9 + digit]` give O(1) conflict checks; advancing `pos` past filled cells avoids redundant recursion.
+
+---
+
+### Unique Paths III — LeetCode 980
+
+On a grid: start at `1`, end at `2`, obstacles are `-1`. Count paths from start to end that visit every non-obstacle cell exactly once.
+
+**Example:** `[[1,0,0,0],[0,0,0,0],[0,0,2,-1]]` → `2`
+
+```text
+OPTIMAL — BACKTRACKING | O(4^(m·n)) | O(m·n)
+
+Count total non-obstacle cells (= target). DFS marking cells -1 on entry, restoring on exit.
+A path is valid only when it reaches cell 2 with exactly 0 unvisited cells remaining.
+
+count empty cells → target
+dfs(r, c, remaining):
+    if grid[r][c] == 2: if remaining == 0: count++; return
+    tmp = grid[r][c]; grid[r][c] = -1
+    for each direction (nr, nc):
+        if in bounds AND grid[nr][nc] != -1: dfs(nr, nc, remaining-1)
+    grid[r][c] = tmp
+```
+
+```csharp
+public int UniquePathsIII(int[][] grid)
+{
+    int rows = grid.Length, cols = grid[0].Length;
+    int sr = 0, sc = 0, total = 0, count = 0;
+    for (int r = 0; r < rows; r++)
+        for (int c = 0; c < cols; c++)
+        {
+            if (grid[r][c] != -1) total++;
+            if (grid[r][c] == 1) { sr = r; sc = c; }
+        }
+    int[] dr = [-1, 1, 0, 0], dc = [0, 0, -1, 1];
+    void Dfs(int r, int c, int rem)
+    {
+        if (grid[r][c] == 2) { if (rem == 0) count++; return; }
+        int tmp = grid[r][c];
+        grid[r][c] = -1;
+        for (int d = 0; d < 4; d++)
+        {
+            int nr = r + dr[d], nc = c + dc[d];
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] != -1)
+                Dfs(nr, nc, rem - 1);
+        }
+        grid[r][c] = tmp;
+    }
+    Dfs(sr, sc, total - 1);
+    return count;
+}
+```
+
+> **Key insight:** track remaining-to-visit count alongside position — arrival at the end cell is only valid when exactly 0 unvisited cells remain.
+
+---
+
+## Divide and Conquer
+
+### Kth Largest Element — LeetCode 215
+
+Find the kth largest element in an unsorted array without fully sorting it.
+
+**Example:** `[3,2,1,5,6,4], k=2` → `5`
+
+The optimal Quickselect algorithm is detailed in [Searching and Sorting](../SearchingAndSorting/SearchingAndSorting.md).
+
+```text
+SORT | O(n log n) | O(1)
+
+Sort descending; return nums[k-1].
+
+------------------------------------------------------------------------------
+
+MIN-HEAP SIZE k | O(n log k) | O(k)
+
+Maintain a min-heap of the k largest seen. Top element is the answer.
+
+------------------------------------------------------------------------------
+
+OPTIMAL — QUICKSELECT | O(n) average, O(n²) worst | O(1)
+
+Target rank = n - k (0-indexed from smallest).
+Partition around pivot p.
+If p == target: done.
+If p > target: recurse left. Else recurse right.
+```
+
+```csharp
+public int FindKthLargest(int[] nums, int k)
+{
+    return QuickSelect(nums, 0, nums.Length - 1, nums.Length - k);
+}
+
+int QuickSelect(int[] nums, int lo, int hi, int target)
+{
+    if (lo == hi) return nums[lo];
+    int p = Partition(nums, lo, hi);
+    if (p == target) return nums[p];
+    return p > target ? QuickSelect(nums, lo, p - 1, target)
+                      : QuickSelect(nums, p + 1, hi, target);
+}
+
+int Partition(int[] nums, int lo, int hi)
+{
+    int pivot = nums[hi], i = lo;
+    for (int j = lo; j < hi; j++)
+        if (nums[j] <= pivot) { (nums[i], nums[j]) = (nums[j], nums[i]); i++; }
+    (nums[i], nums[hi]) = (nums[hi], nums[i]);
+    return i;
+}
+```
+
+> **Key insight:** Quickselect avoids a full sort — once the pivot lands at rank `n-k` we are done; see [Searching and Sorting](../SearchingAndSorting/SearchingAndSorting.md) for Lomuto vs Hoare and median-of-3 pivot strategies.
