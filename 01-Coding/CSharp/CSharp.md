@@ -32,10 +32,13 @@ using System.Text;
 ### LeetCode — method-only (most common)
 
 ```csharp
-public class Solution {
-    public int[] TwoSum(int[] nums, int target) {
+public class Solution
+{
+    public int[] TwoSum(int[] nums, int target)
+    {
         var map = new Dictionary<int, int>();
-        for (int i = 0; i < nums.Length; i++) {
+        for (int i = 0; i < nums.Length; i++)
+        {
             int need = target - nums[i];
             if (map.TryGetValue(need, out int j)) return [i, j];
             map[nums[i]] = i;
@@ -44,7 +47,8 @@ public class Solution {
     }
 
     // DFS helper as a local function — captures outer variables, no extra class field needed
-    void Dfs(int node, bool[] visited, List<int>[] graph) {
+    void Dfs(int node, bool[] visited, List<int>[] graph)
+    {
         visited[node] = true;
         foreach (int nei in graph[node])
             if (!visited[nei]) Dfs(nei, visited, graph);
@@ -60,8 +64,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-class Program {
-    static void Main() {
+class Program
+{
+    static void Main()
+    {
         // Fast I/O — essential for large input on Codeforces / AtCoder
         var cin  = new StreamReader(Console.OpenStandardInput());
         var cout = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = false };
@@ -147,7 +153,8 @@ var x = cond ? a : b;                   // ternary
 switch (x) { case 1: ...; break; default: ...; break; }
 
 // Switch expression (returns a value)
-var label = x switch {
+var label = x switch
+{
     1     => "one",
     2     => "two",
     < 0   => "negative",            // relational pattern
@@ -199,13 +206,15 @@ Predicate<int>      pos    = n => n > 0;
 ## Classes & Structs
 
 ```csharp
-class Node {                    // reference type — assignment copies the reference
+class Node                      // reference type — assignment copies the reference
+{
     public int Val;
     public Node? Next;
     public Node(int v) { Val = v; }
 }
 
-struct Point {                  // value type — assignment copies the whole struct
+struct Point                    // value type — assignment copies the whole struct
+{
     public int X, Y;
     public Point(int x, int y) { X = x; Y = y; }
 }
@@ -639,7 +648,8 @@ var (a2, b2) = (1, 2);
 (a2, b2) = (b2, a2);                   // swap
 
 // Switch expression & pattern matching (C# 8+)
-string msg = score switch {
+string msg = score switch
+{
     >= 90 => "A",
     >= 80 => "B",
     _     => "F"
@@ -660,10 +670,12 @@ int len2 = str2?.Length ?? 0;         // null-safe member access
 maybeNull ??= 42;                      // assign only if null
 
 // Local functions — ideal for DFS/BFS helpers inside a LeetCode method
-public int CountNodes(TreeNode? root) {
+public int CountNodes(TreeNode? root)
+{
     return Dfs2(root);
 
-    int Dfs2(TreeNode? node) {          // captures outer vars without extra class fields
+    int Dfs2(TreeNode? node)            // captures outer vars without extra class fields
+    {
         if (node == null) return 0;
         return 1 + Dfs2(node.Left) + Dfs2(node.Right);
     }
@@ -696,7 +708,7 @@ list.Sort((x, y) => y.CompareTo(x));                       // descending
 
 ```csharp
 // Sort int[][] by column[1] descending, then column[0] ascending
-int[][] intervals = [[1,4],[2,3],[3,5]];
+int[][] intervals = [[1, 4], [2, 3], [3, 5]];
 Array.Sort(intervals, (x, y) => x[1] != y[1] ? y[1].CompareTo(x[1]) : x[0].CompareTo(y[0]));
 
 // Comparer<T>.Create — reusable comparer object
@@ -704,14 +716,16 @@ IComparer<int> desc2 = Comparer<int>.Create((a, b) => b.CompareTo(a));
 var pq2 = new PriorityQueue<int, int>(desc2);   // max-heap
 
 // IComparer<T> implementation — for complex custom ordering
-class IntervalComparer : IComparer<int[]> {
+class IntervalComparer : IComparer<int[]>
+{
     public int Compare(int[]? x, int[]? y) => x![0].CompareTo(y![0]);
 }
 Array.Sort(intervals, new IntervalComparer());
 
 // Custom struct as dictionary key — must override Equals + GetHashCode
 // See Hashing contract details in ../Hashing/Hashing.md
-struct Pair : IEquatable<Pair> {
+struct Pair : IEquatable<Pair>
+{
     public int A, B;
     public bool Equals(Pair other) => A == other.A && B == other.B;
     public override bool Equals(object? obj) => obj is Pair p && Equals(p);

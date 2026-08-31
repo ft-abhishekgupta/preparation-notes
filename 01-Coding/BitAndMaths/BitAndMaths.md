@@ -493,8 +493,8 @@ double PolygonArea(int[] xs, int[] ys)
 // Compare distances without sqrt — use squared distances
 bool Closer(int ax, int ay, int bx, int by, int cx, int cy)
 {
-    long da = (long)(ax-cx)*(ax-cx) + (long)(ay-cy)*(ay-cy);
-    long db = (long)(bx-cx)*(bx-cx) + (long)(by-cy)*(by-cy);
+    long da = (long)(ax - cx) * (ax - cx) + (long)(ay - cy) * (ay - cy);
+    long db = (long)(bx - cx) * (bx - cx) + (long)(by - cy) * (by - cy);
     return da < db;  // a is closer to c than b is
 }
 ```

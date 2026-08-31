@@ -55,8 +55,8 @@ int[] dr = { -1, 1, 0, 0 };
 int[] dc = { 0, 0, -1, 1 };
 
 // 8-directional (knight-style or diagonal allowed)
-int[] dr8 = { -1,-1,-1, 0, 0, 1, 1, 1 };
-int[] dc8 = { -1, 0, 1,-1, 1,-1, 0, 1 };
+int[] dr8 = { -1, -1, -1, 0, 0, 1, 1, 1 };
+int[] dc8 = { -1, 0, 1, -1, 1, -1, 0, 1 };
 
 bool InBounds(int r, int c, int rows, int cols) =>
     r >= 0 && r < rows && c >= 0 && c < cols;
@@ -251,8 +251,8 @@ void FloydWarshall(int[,] dist, int n)
     for (int k = 0; k < n; k++)
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
-                if (dist[i,k] < int.MaxValue/2 && dist[k,j] < int.MaxValue/2)
-                    dist[i,j] = Math.Min(dist[i,j], dist[i,k] + dist[k,j]);
+                if (dist[i, k] < int.MaxValue / 2 && dist[k, j] < int.MaxValue / 2)
+                    dist[i, j] = Math.Min(dist[i, j], dist[i, k] + dist[k, j]);
     // dist[i][i] < 0 → negative cycle exists
 }
 ```
@@ -410,9 +410,9 @@ int Kruskal(int n, int[][] edges) // edges: [u,v,w]
     int cost = 0, used = 0;
     foreach (var e in edges)
     {
-        if (dsu.Union(e[0], e[1])) { cost += e[2]; if (++used == n-1) break; }
+        if (dsu.Union(e[0], e[1])) { cost += e[2]; if (++used == n - 1) break; }
     }
-    return used == n-1 ? cost : -1;
+    return used == n - 1 ? cost : -1;
 }
 ```
 

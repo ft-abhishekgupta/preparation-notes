@@ -909,7 +909,7 @@ Put: if exists, update + move to front.
 ```csharp
 public class LRUCache
 {
-    private class Node { public int Key, Val; public Node Prev, Next; public Node(int k=0,int v=0){Key=k;Val=v;} }
+    private class Node { public int Key, Val; public Node Prev, Next; public Node(int k = 0, int v = 0) { Key = k; Val = v; } }
     private readonly int _cap;
     private readonly Dictionary<int, Node> _map;
     private readonly Node _head, _tail;

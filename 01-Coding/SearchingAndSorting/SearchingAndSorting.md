@@ -560,7 +560,7 @@ Array.Sort(arr);                          // ascending
 Array.Sort(arr, (a, b) => b.CompareTo(a));        // descending via Comparison<T>
 
 // Sort int[][] by end time (column 1), then start time (column 0)
-int[][] intervals = { new[]{1,3}, new[]{2,4} };
+int[][] intervals = { new[] { 1, 3 }, new[] { 2, 4 } };
 Array.Sort(intervals, (a, b) => a[1] != b[1] ? a[1] - b[1] : a[0] - b[0]);
 
 // Array.Sort with parallel keys+items (sorts keys, rearranges items to match)

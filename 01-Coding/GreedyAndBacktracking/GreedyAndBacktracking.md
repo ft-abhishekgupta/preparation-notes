@@ -315,10 +315,10 @@ bool Dfs(char[][] board, string word, int r, int c, int idx)
 
     char tmp = board[r][c];
     board[r][c] = '#';  // mark visited in place
-    bool found = Dfs(board, word, r+1, c, idx+1)
-              || Dfs(board, word, r-1, c, idx+1)
-              || Dfs(board, word, r, c+1, idx+1)
-              || Dfs(board, word, r, c-1, idx+1);
+    bool found = Dfs(board, word, r + 1, c, idx + 1)
+              || Dfs(board, word, r - 1, c, idx + 1)
+              || Dfs(board, word, r, c + 1, idx + 1)
+              || Dfs(board, word, r, c - 1, idx + 1);
     board[r][c] = tmp;  // restore
     return found;
 }

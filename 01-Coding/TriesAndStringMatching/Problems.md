@@ -705,7 +705,7 @@ Bit encoding is cleaner and avoids mod — use that in an interview.
 public IList<string> FindRepeatedDnaSequences(string s)
 {
     if (s.Length <= 10) return new List<string>();
-    var map = new Dictionary<char, int> { ['A']=0, ['C']=1, ['G']=2, ['T']=3 };
+    var map = new Dictionary<char, int> { ['A'] = 0, ['C'] = 1, ['G'] = 2, ['T'] = 3 };
     var seen   = new HashSet<int>();
     var result = new HashSet<string>();
     int window = 0, mask = (1 << 20) - 1;

@@ -103,11 +103,11 @@ for (int i = 0; i < n; i++)
 int[,] P = new int[rows + 1, cols + 1];
 for (int i = 1; i <= rows; i++)
     for (int j = 1; j <= cols; j++)
-        P[i, j] = grid[i-1][j-1] + P[i-1, j] + P[i, j-1] - P[i-1, j-1];
+        P[i, j] = grid[i - 1][j - 1] + P[i - 1, j] + P[i, j - 1] - P[i - 1, j - 1];
 
 // Query rectangle (r1,c1)→(r2,c2) — 0-indexed input, 1-indexed P
 int SubRect(int r1, int c1, int r2, int c2)
-    => P[r2+1, c2+1] - P[r1, c2+1] - P[r2+1, c1] + P[r1, c1];
+    => P[r2 + 1, c2 + 1] - P[r1, c2 + 1] - P[r2 + 1, c1] + P[r1, c1];
 ```
 
 ---
