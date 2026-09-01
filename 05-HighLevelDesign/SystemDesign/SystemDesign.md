@@ -348,6 +348,8 @@ Server-Side Update Propagation
 - Vector clocks and Logical Timestamp helps
 - Funnel all message through single system first to be stamped for order
 
+---
+
 ### Managing Long Running Tasks
 
 - Background processing
@@ -536,6 +538,8 @@ Create broadcast nodes for reads, where each broadcast node handles set of users
    1. Split into different shard when becomes hot
    2. Read will need to agregated data from all shards
 
+---
+
 ### Handling Large Blob
 
 - Direct client to storage transfer
@@ -543,6 +547,67 @@ Create broadcast nodes for reads, where each broadcast node handles set of users
 > Considerations: Data sync with DB, Upload failures, lifecycle management
 
 ![alt text](image-10.png)
+
+Presigned URL - Temporary upload/download url directly from storage server
+
+- Restrictions on time, file type, file size
+
+Use CDN for frequent downloaded files
+![alt text](image-36.png)
+
+**Resumable uploads/downloads**
+
+- Chunk uploads
+- Tracked via checksum/hash of uploaded chunks
+- After completion, chunks stiched
+
+![alt text](image-37.png)
+
+**State Sync Challenges**
+
+- Actual file in storage, while files metadata in db
+- Issues
+  - Race condition of file status
+  - Orphaned Files
+  - Malicious clients
+  - Network failures
+- Solution
+  - Event notification from storage to db
+  - Periodic reconcillation
+
+![alt text](image-38.png)
+
+![alt text](image-39.png)
+
+#### When to use
+
+- Video Platform
+- Instagram / Photo sharing
+- File Sync
+- Chat Application for media
+
+#### When not to use
+
+- Small files < 10mb
+- Compliance and data inspection
+- Immediate response
+- Sync validation requirements
+
+#### Deep Dives
+
+- If upload fails at 99 percent
+  - Clients track chunks uploaded and upload session identifier
+  - Only uploads the failed chunks
+- Prevent abuse
+  - Implement data processing pipeline before allowing download
+  - Automatic content analysis
+- Handle Metadata
+  - Store and manage in DB
+- Fast downloads
+  - Direct downloads
+  - CDN downloads
+  - Range downloads over HTTP for resumable downloads
+  - Parallel chunk download
 
 ---
 

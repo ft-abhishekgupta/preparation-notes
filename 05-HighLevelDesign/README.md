@@ -63,3 +63,12 @@ High level design describes the overall architecture of a system: its components
       3. Online Auction
    6. Multi-step Processes
       1. Notification System
+      2. Multi Step Process
+      3. Payment System
+   7. Handling Large Blob
+      1. Review Dropbox
+      2. Handling Large Blob
+      3. Youtube
+   8. Managing Long Running Tasks
+      1. Leetcode Review
+   9. Proximity Based Service

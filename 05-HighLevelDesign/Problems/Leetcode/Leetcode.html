@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>SystemDesign</title>
+      <title>Leetcode</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="color-scheme" content="light dark">
@@ -8,7 +8,7 @@
       
       
       
-      <script src="https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/mermaid.min.js"></script>
+      
       
       
       
@@ -662,815 +662,95 @@ Markdown Preview Enhanced index / sidebar
     <body for="html-export">
       <div class="crossnote markdown-preview  ">
       
-<h1 id="system-design">System Design </h1>
-<p>Design complex systems that are scalable, reliable, and maintainable and solves a real world problem</p>
-<ul>
-<li>No Single Right Answer</li>
-</ul>
-<p><img src="image-2.png" alt="alt text"></p>
-<p><strong>Types of System Design Interviews</strong></p>
-<ul>
-<li><em>Product Design</em> - Uber, Whatsapp, Instagram, Twitter, Netflix</li>
-<li><em>Infrastructure Design</em> - Load Balancer, Caching, Sharding, Data Modeling, Message Queues</li>
-</ul>
-<h2 id="assessment-criteria">Assessment Criteria </h2>
-<div class="mermaid">flowchart LR
-    B["&lt;b&gt;&lt;u&gt;Problem Navigation&lt;/u&gt;&lt;/b&gt;&lt;br/&gt;• Break down the problem&lt;br/&gt;• Gather requirements&lt;br/&gt;• Prioritize important aspects&lt;br/&gt;• Develop a clear path to the solution"]
-    C["&lt;b&gt;&lt;u&gt;Solution Design&lt;/u&gt;&lt;/b&gt;&lt;br/&gt;• Apply core concepts to each part&lt;br/&gt;• Integrate the parts into a coherent design"]
-    D["&lt;b&gt;&lt;u&gt;Technical Excellence&lt;/u&gt;&lt;/b&gt;&lt;br/&gt;• Apply current technology knowledge&lt;br/&gt;• Use best practices and common patterns"]
-    E["&lt;b&gt;&lt;u&gt;Communication and Collaboration&lt;/u&gt;&lt;/b&gt;&lt;br/&gt;• Collaborate with the interviewer&lt;br/&gt;• Explain complex concepts clearly&lt;br/&gt;• Respond constructively to feedback"]
-
-    B ~~~ C ~~~ D ~~~ E
-</div><hr>
-<h2 id="delivery-framework">Delivery Framework </h2>
+<h1 id="leetcode">Leetcode </h1>
+<p>LeetCode is a platform that helps software engineers prepare for coding interviews. It offers a vast collection of coding problems, ranging from easy to hard, and provides a platform for users to answer questions and get feedback on their solutions. They also run periodic coding competitions.</p>
+<h2 id="requirements">Requirements </h2>
 <p><img src="image.png" alt="alt text"></p>
-<p><img src="image-4.png" alt="alt text"></p>
-<h3 id="1-requirements-5-mins">1. Requirements (5 Mins) </h3>
-<p>Get clear understanding of the system</p>
-<h4 id="functional-requirements">Functional Requirements </h4>
-<p>Core features of the system.</p>
-<blockquote>
-<p>"Client should be able to..."</p>
-</blockquote>
-<ul>
-<li>Ask targetted questions as if talking to client / product
-<ul>
-<li>"Does the system need to do X?"</li>
-<li>"what would happen if Y?"</li>
-</ul>
-</li>
-<li>Prioritize the top features for the design</li>
-</ul>
-<pre data-role="codeBlock" data-info="" class="language-text"><code>TWITTER
-- Users should be able to post tweets
-- Users should be able to follow other users
-- Users should be able to see tweets from users they follow
-</code></pre><h4 id="non-functional-requirements">Non Functional Requirements </h4>
-<p>System Qualities</p>
-<blockquote>
-<p>"System should be able to..." "System should be..."</p>
-</blockquote>
-<ul>
-<li>Add important non functional requirements</li>
-<li>Quantify non functional requirements when possible</li>
-</ul>
-<p><strong>Identify Non Functional Requirements</strong></p>
-<ol>
-<li><em>CAP Theorem:</em> Prioritize C or A. P is default in distributed system</li>
-<li><em>Environmental Constraints:</em> Environment on which system will work or be consumed</li>
-<li><em>Scalability:</em> Unique scaling requirements. Read/Write, Bursty Traffic, etc</li>
-<li><em>Latency:</em> Quick response requirements</li>
-<li><em>Durability:</em> Data loss protection requirements</li>
-<li><em>Security:</em> Auth, Data Protection</li>
-<li><em>Fault Tolerance:</em> Handling system failures</li>
-<li><em>Compliance:</em> Legal and regulatory compliant system</li>
-</ol>
-<pre data-role="codeBlock" data-info="" class="language-text"><code>TWITTER
-- The system should be highly available, prioritizing availability over consistency
-- The system should be able to scale to support 100M+ DAU (Daily Active Users)
-- The system should be low latency, rendering feeds in under 200ms
-</code></pre><blockquote>
-<p>Acronym to remember<br>
-"SCALE For Cloud DesignS"</p>
-</blockquote>
-<pre data-role="codeBlock" data-info="" class="language-text"><code>S- Scalability
-C - Consistency (CAP Theorem)
-A - Availability
-L - Latency
-E - Environment Constraints
-F - Fault Tolerance
-C - Compliance
-D - Durability
-S - Security
-</code></pre><h4 id="capacity-estimation">Capacity Estimation </h4>
-<p>Back of the envelop calculation for the system</p>
-<ul>
-<li>Do this later during design phase</li>
-</ul>
-<hr>
-<h3 id="2-core-entities-2-mins">2. Core Entities (2 Mins) </h3>
-<p>Identify and list the small list of core entities that defines the data objects that will be exchanged in the system, based on functional requirements.</p>
-<ul>
-<li>Name the entities with good names</li>
-<li>Can be updated later</li>
-</ul>
-<blockquote>
-<p>Nouns and Resources in the system.<br>
-Actors in the system</p>
-</blockquote>
-<pre data-role="codeBlock" data-info="" class="language-text"><code>TWITTER
-- User
-- Tweet
-- Follow
-</code></pre><hr>
-<h3 id="3-api--system-interface-design-5-mins">3. API / System Interface Design (5 Mins) </h3>
-<p>Contract between system and users.</p>
-<ul>
-<li>Just define HTTP Method, Path, Body, Response for each APIs</li>
-<li>Sensitive information like userId, should be part of auth headers</li>
-</ul>
-<blockquote>
-<p>Resources are mapped to core entities</p>
-</blockquote>
-<p><strong>API Protocol to use</strong></p>
-<ul>
-<li><em>REST (Default Choice)</em> - HTTP verbs for CRUD</li>
-<li><em>GraphQL</em> - Clients define the data required. Use when diverse clients with different data needs</li>
-<li><em>RPC</em> - S2S communication. Use for internal API with high performance requirements.</li>
-<li><em>Web Sockets / Server Sent Events</em> - Real time features</li>
-</ul>
-<pre data-role="codeBlock" data-info="" class="language-text"><code>TWITTER
-POST /v1/tweets
-body: {
-  "text": string
-}
-
-GET /v1/tweets/{tweetId} -&gt; Tweet
-
-POST /v1/follows
-body: {
-  "followee_id": string
-}
-
-GET /v1/feed -&gt; Tweet[]
-</code></pre><hr>
-<h3 id="4-data-flow-5-mins-optional">4. Data Flow (5 Mins) [Optional] </h3>
-<p>List of actions that system will perform to process input and give output.</p>
-<ul>
-<li>Only required for systems with some data processing (long sequence of actions)</li>
-</ul>
-<pre data-role="codeBlock" data-info="" class="language-text"><code>WEB CRAWLER
-- Fetch seed URLs
-- Parse HTML
-- Extract URLs
-- Store data
-- Repeat
-</code></pre><hr>
-<h3 id="5-high-level-design-10-15-mins">5. High Level Design (10-15 Mins) </h3>
-<p>Represent different component of the system and their interactions</p>
-<blockquote>
-<p>Ask which software will be used for this beforehand</p>
-</blockquote>
-<ul>
-<li>Start simple and focus on functional requirements</li>
-<li>Satisfy the APIs requirements one by one</li>
-<li>Talk through the thought process, and data flow in the system</li>
-<li>Document relevant DB entities and their fields (important ones)</li>
-</ul>
 <p><img src="image-1.png" alt="alt text"></p>
-<h3 id="6-deep-dives-10-mins">6. Deep Dives (10 Mins) </h3>
-<p>Make the HLD efficient and satisfy non functional requirements</p>
-<ul>
-<li>Address edge cases</li>
-<li>Identify and Address issues and bottlenecks</li>
-<li>Improve the design based on interviewer's feedback</li>
-<li>Proactively identify and solve issues.</li>
-<li>Give chance for interviewer to probe</li>
-</ul>
-<hr>
-<h2 id="important-problems">Important Problems </h2>
+<h2 id="core-entities">Core Entities </h2>
+<p><img src="image-2.png" alt="alt text"></p>
+<h2 id="api">API </h2>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>GET /problems?page=1&amp;limit=100 -&gt; Partial&lt;Problem&gt;[]
+
+GET /problems/:id?language={language} -&gt; Problem
+
+POST /problems/:id/submit -&gt; Submission
+{
+  code: string,
+  language: string
+}
+
+- userId not passed into the API, we can assume the user is authenticated and the userId is stored in the session
+
+GET /leaderboard/:competitionId?page=1&amp;limit=100 -&gt; Leaderboard
+</code></pre><h2 id="hld">HLD </h2>
+<h3 id="users-should-be-able-to-view-a-list-of-coding-problems">Users should be able to view a list of coding problems </h3>
 <p><img src="image-3.png" alt="alt text"></p>
-<h2 id="delivery-framework-for-infrastructure-problems">Delivery Framework for Infrastructure Problems </h2>
-<p><img src="image-13.png" alt="alt text"></p>
-<h3 id="system-interface">System Interface </h3>
+<h3 id="users-should-be-able-to-view-a-given-problem-and-code-a-solution">Users should be able to view a given problem and code a solution </h3>
+<p><img src="image-4.png" alt="alt text"></p>
+<h3 id="users-should-be-able-to-submit-their-solution-and-get-instant-feedback">Users should be able to submit their solution and get instant feedback </h3>
 <ul>
-<li>Identify core entities</li>
-<li>Define the input and output of the system</li>
-</ul>
-<h3 id="data-flow">Data flow </h3>
-<ul>
-<li>Steps data will go through to convert input to output</li>
-</ul>
-<h2 id="notes">Notes </h2>
-<ul>
-<li>Low latency is around 100 ms</li>
-<li>Scalability numbers should be attached with the context</li>
-<li>Read and write service can be separated if the scalability requirements is different</li>
-<li>Always explain why you are choosing anything, why it is better, why it will not cause any issues
-<ul>
-<li>Like for nodes replication - Say why horizontal scaling is better here, stateless behavior</li>
-</ul>
+<li>
+<p>Run in docker containers<br>
+<img src="image-5.png" alt="alt text"></p>
 </li>
-<li>DB Hops should be minimized as much as possible</li>
-<li>Dont state vague statements which requires more explainations</li>
-</ul>
-<hr>
-<h2 id="common-system-design-patterns">Common System Design Patterns </h2>
+<li>
+<p>Run in serverless functions</p>
 <ul>
-<li>A system can combine multiple aspect of these patterns for different use cases</li>
-</ul>
-<h3 id="pushing-realtime-updates">Pushing realtime updates </h3>
-<ul>
-<li>Choose protocol to push updates to clients
-<ul>
-<li>HTTP Polling (Default)</li>
-<li>Websockets</li>
-<li>SSE</li>
-</ul>
-</li>
-<li>Server side updates - Pushing updates to correct server
-<ul>
-<li>Pub/Sub</li>
-<li>Stateful servers</li>
+<li>Small stateless functions, run in response to triggers</li>
+<li>AWS Lambda, Azure Functions</li>
+<li>Issue - Cold Start Problem</li>
 </ul>
 </li>
 </ul>
-<p><img src="image-5.png" alt="alt text"></p>
-<p><strong>HTTP Poling</strong></p>
+<h3 id="users-should-be-able-to-view-a-live-leaderboard-for-competitions">Users should be able to view a live leaderboard for competitions </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>SELECT userId, COUNT(DISTINCT problemId) as numSolvedProblems, MIN(submittedAt) as lastSolveTime
+FROM submissions
+WHERE competitionId = :competitionId AND passed = true
+GROUP BY userId
+ORDER BY numSolvedProblems DESC, lastSolveTime ASC
+</code></pre><p><img src="image-6.png" alt="alt text"></p>
+<h2 id="deep-dives">Deep Dives </h2>
+<h3 id="how-will-the-system-support-isolation-and-security-when-running-user-code">How will the system support isolation and security when running user code? </h3>
+<p>Security Measures</p>
 <ul>
-<li>Works for few second latency</li>
-<li>Simple to implement, default choice</li>
-<li>Overhead of TCP connection</li>
+<li>Read only file system</li>
+<li>Limits on CPU and Memory</li>
+<li>Explicit timeouts</li>
+<li>Limit network access</li>
+<li>No system calls</li>
 </ul>
-<p><strong>Long Poling</strong></p>
+<h3 id="how-would-you-make-fetching-the-leaderboard-more-efficient">How would you make fetching the leaderboard more efficient? </h3>
 <ul>
-<li>Poling with long timeouts</li>
-<li>Server response waits till it has some updates to push</li>
-<li>Not suitable for frequent updates</li>
-</ul>
-<p><strong>SSE - Server Sent Events</strong></p>
+<li>Caching with periodic updates with a cron job : GOOD BUT OVERHEAD</li>
+<li>Redis Sorted Set with Periodic Polling
 <ul>
-<li>Server can send data anytime, Events</li>
-<li>Browser supports auto reconnection</li>
-<li>Existing HTTP infra and connection</li>
-</ul>
-<p><strong>Web Sockets</strong></p>
-<ul>
-<li>TCP - Full Duplex</li>
-<li>Stateful connection</li>
-<li>Layer 4 LB Suitable</li>
-</ul>
-<p><strong>WebRTC</strong></p>
-<ul>
-<li>Peer to Peer connection</li>
-<li>Requires lot of setup</li>
-<li>Video Calling, Multiplayer games</li>
-</ul>
-<p>IN PRACTICE - UPDATES TO CLIENT<br>
-<img src="image-14.png" alt="alt text"></p>
-<p><strong>Server Side Poling</strong></p>
-<ul>
-<li>Latency High</li>
-<li>DB Needed to save updates</li>
-<li>Not a usual solution<br>
-<img src="image-15.png" alt="alt text"></li>
-</ul>
-<p><strong>Consistent Hashing</strong></p>
-<ul>
-<li>Each server assigned a set of users</li>
-<li>Zookeeper keep track of what users connected to what servers</li>
-<li>Overhead of scaling</li>
-</ul>
-<p><img src="image-16.png" alt="alt text"></p>
-<p><strong>Pub/Sub</strong></p>
-<ul>
-<li>Clients can connect to any server, That server subscribe for that users updates</li>
-<li>Redis - Simple, No Durability</li>
-<li>Kafka - Complex, Durable, Replay capability</li>
-</ul>
-<p><img src="image-17.png" alt="alt text"></p>
-<p><img src="image-18.png" alt="alt text"></p>
-<p>IN PRACTICE - UPDATES TO SERVER<br>
-<img src="image-19.png" alt="alt text"></p>
-<ul>
-<li>Live Dashboard
-<ul>
-<li>Polling</li>
-<li>SSE + Pub/Sub</li>
-</ul>
-</li>
-<li>Chat Application
-<ul>
-<li>Depends</li>
-</ul>
-</li>
-<li>Collab Editors
-<ul>
-<li>Websockets + Consistent Hashing</li>
-</ul>
-</li>
-</ul>
-<p>Client → Server / Server → Client Communication</p>
-<table>
-<thead>
-<tr>
-<th>Technique</th>
-<th>Pros</th>
-<th>Cons</th>
-<th>When to Use</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Simple Polling</strong></td>
-<td>Very simple; stateless; no special infrastructure; works with standard HTTP; easy to explain</td>
-<td>Higher latency; limited update frequency; bandwidth/resource waste; many clients create significant overhead</td>
-<td>When <strong>real-time latency isn't critical</strong> and updates can be delayed by a few seconds</td>
-</tr>
-<tr>
-<td><strong>Long Polling</strong></td>
-<td>Near-real-time; standard HTTP; easy to implement; no special infrastructure; stateless server</td>
-<td>Higher latency than persistent connections; more HTTP overhead; resource-intensive with many clients; concurrent connection limits</td>
-<td>When you need <strong>near-real-time updates</strong> but want to keep infrastructure simple</td>
-</tr>
-<tr>
-<td><strong>SSE (Server-Sent Events)</strong></td>
-<td>Built into modern browsers; automatic reconnection; HTTP-based; efficient for frequent <strong>server → client</strong> updates; simpler than WebSockets</td>
-<td>One-way communication; browser/connection limits; some infrastructure may not support streaming; long-lived requests complicate monitoring</td>
-<td>When updates are <strong>server → client only</strong>, e.g. dashboards, notifications, AI text streaming</td>
-</tr>
-<tr>
-<td><strong>WebSockets</strong></td>
-<td>Full-duplex communication; low overhead; efficient for frequent messages; wide browser support</td>
-<td>More complex; requires persistent/stateful connections; scaling/load balancing is harder; reconnection handling required</td>
-<td>When you need <strong>frequent, low-latency, bidirectional</strong> communication, e.g. chat, collaborative apps</td>
-</tr>
-<tr>
-<td><strong>WebRTC</strong></td>
-<td>Peer-to-peer; very low latency; reduces server bandwidth/load; native audio/video support</td>
-<td>Most complex; requires signaling; NAT/firewall traversal; connection setup delay</td>
-<td><strong>Video/audio calls, gaming, peer-to-peer communication</strong>, or cases where clients communicate directly</td>
-</tr>
-</tbody>
-</table>
-<p>Server-Side Update Propagation</p>
-<table>
-<thead>
-<tr>
-<th>Technique</th>
-<th>Pros</th>
-<th>Cons</th>
-<th>When to Use</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Pull / Polling</strong></td>
-<td>Very simple; state constrained to DB; no special infrastructure; easy to implement</td>
-<td>High latency; unnecessary DB load when updates are infrequent; doesn't provide truly real-time updates</td>
-<td>Simple systems where <strong>slight delay is acceptable</strong></td>
-</tr>
-<tr>
-<td><strong>Simple Hashing</strong></td>
-<td>Predictable user → server assignment; relatively simple; enables routing messages to the correct server</td>
-<td>Changing server count can remap many users; scaling becomes disruptive; requires coordination service</td>
-<td>When you have <strong>persistent connections</strong> and a relatively stable number of servers</td>
-</tr>
-<tr>
-<td><strong>Consistent Hashing</strong></td>
-<td>Minimal connection movement when scaling; predictable assignment; works well with stateful connections; easy to add/remove servers</td>
-<td>More complex; requires coordination/service for routing information; connection state can be lost if a server fails</td>
-<td><strong>WebSocket/SSE systems with persistent connections</strong> that need to scale dynamically</td>
-</tr>
-<tr>
-<td><strong>Pub/Sub</strong></td>
-<td>Efficient broadcasting to many clients; minimizes state in endpoint servers; easy endpoint-server load balancing; decouples update source from connections</td>
-<td>Pub/Sub can become bottleneck/SPOF; extra network hop/latency; many-to-many connections between Pub/Sub and endpoint servers</td>
-<td>When <strong>many clients need the same updates</strong> and you want scalable, loosely coupled architecture</td>
-</tr>
-</tbody>
-</table>
-<p><strong>How do you handle connection failures and reconnection</strong></p>
-<ul>
-<li>Heartbeat to check if connection still active</li>
-<li>Sequence number for messages to track last received</li>
-<li>Per User Message Queue</li>
-</ul>
-<p><strong>What happens when a single user has millions of followers who all need the same update?</strong></p>
-<ul>
-<li>Batching and Heirarchichal Distribution<br>
-<img src="image-20.png" alt="alt text"></li>
-</ul>
-<p><strong>How do you maintain message ordering across distributed servers</strong></p>
-<ul>
-<li>Vector clocks and Logical Timestamp helps</li>
-<li>Funnel all message through single system first to be stamped for order</li>
-</ul>
-<hr>
-<h3 id="managing-long-running-tasks">Managing Long Running Tasks </h3>
-<ul>
-<li>Background processing</li>
-<li>Meesage queue for job coordination</li>
-<li>Workers pools for</li>
-</ul>
-<p><img src="image-6.png" alt="alt text"></p>
-<hr>
-<h3 id="dealing-with-contention--race-condition">Dealing with Contention / Race condition </h3>
-<ul>
-<li>Prevent race condition and ensure data consistency
-<ul>
-<li>Concurrency control</li>
-<li>Atomic Transaction and Locking</li>
-<li>Distributed Locks, 2PC, Queue based serialization</li>
+<li>Leaderboard data stored as sorted set</li>
+<li>Updated on DB writes</li>
 </ul>
 </li>
 </ul>
 <p><img src="image-7.png" alt="alt text"></p>
-<p><strong>Solution</strong> 1. Compare and Set 2. Locking</p>
-<p>OPERATION ON SAME DB ROW</p>
-<ol>
-<li>Conditional Write - SIMPLE SOLUTION - Transaction
-<ol>
-<li>DB has row level locking by default, so write queries are send with condition (<em>WHERE CLAUSE</em>)</li>
-<li>Thus compare and set operation do not require 2 db calls, between which another can also call</li>
-<li>If transaction needs multiple writes, make one dependent on another's result</li>
-<li><img src="image-21.png" alt="alt text"></li>
-<li>If tickets also has seat number, then implement the locking/ticket counter at seat level</li>
-</ol>
-</li>
-<li>Explicit Locking for complex logic
-<ol>
-<li>Pessimistic Locking
-<ol>
-<li>DB results are locked for everyone unless released after processing</li>
-<li>When collision is high</li>
-</ol>
-</li>
-<li>Optimistic concurrency control
-<ol>
-<li>Assumes conflicts are rare</li>
-<li>Using versioning to control incorrect writes</li>
-<li>DB query reads the version of data, and only writes if it still the same version</li>
-<li><img src="image-22.png" alt="alt text"></li>
-<li>Retry needed</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<blockquote>
-<p>Transaction + Pessimistic Locking for Serialization</p>
-</blockquote>
-<p>WRITE SKEW: When writes and reads are dependent on each other, even though same row is not read<br>
-Example - Delete my row if someone else is already present</p>
-<p>Solution - DB Isolation Levels - Serializable<br>
-<img src="image-23.png" alt="alt text"></p>
+<h3 id="how-would-the-system-scale-to-support-competitions-with-100000-users">How would the system scale to support competitions with 100,000 users? </h3>
 <ul>
-<li>Serializable is very costly as DB has to check all the transactions.</li>
-<li>Instead convert the 2 row problem into single row problem by doing conditional write or locking</li>
+<li>Dynamic horizontal scaling</li>
+<li>With Queues</li>
 </ul>
-<p>OUTSIDE DB LOCKING</p>
-<ul>
-<li>Hold lock as data instead of locking inside a DB transaction</li>
-<li>Lifetime can be more than a single db transaction</li>
-<li><strong>Distributed Lock</strong>
-<ul>
-<li>Redis wih TTL - Lock stored in redis that auto expires after ttl
-<ul>
-<li>Inmemory and quick</li>
-</ul>
-</li>
-<li>Database column to store the person holding the lock</li>
-<li>Zookeeper
-<ul>
-<li>Doesnt double grant or corrupt data</li>
-<li>Managed distributed lock</li>
-<li>Overhead of maintenance</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>IN PRACTICE</p>
-<ul>
-<li>Start simple then complex</li>
-</ul>
-<p><img src="image-24.png" alt="alt text"></p>
-<p>DEEP DIVES<br>
-<strong>How do you prevent deadlocks with pessimistic locking?</strong><br>
-<img src="image-25.png" alt="alt text"></p>
-<ul>
-<li>Grab lock in a prederministic order</li>
-<li>Also modern databases already detects any deadlocks and handle them by retrying</li>
-</ul>
-<p><strong>How to handle ABA problem with optimistic concurrency?</strong><br>
-Read v1 version, then v2 happens and then again version is back to v1 when we are about to write.<br>
-So choose the version number that is monotonic<br>
-Ex - Based on review count (But if someone deletes)</p>
-<p><strong>What about performance when everyone wants same resource?</strong><br>
-<img src="image-26.png" alt="alt text"></p>
-<p>If strong consistency needed on one hot row, use queue. Throughput limited<br>
-<img src="image-27.png" alt="alt text"></p>
-<hr>
-<h3 id="scaling-reads">Scaling Reads </h3>
-<ul>
-<li>Within DB optimizations
-<ul>
-<li>Indexing, Denormalization, Vertical Scaling</li>
-</ul>
-</li>
-<li>Scale horizontally
-<ul>
-<li>Read Replica, Sharding (Functional or Shard Key Based)</li>
-</ul>
-</li>
-<li>Caching
-<ul>
-<li>Application, CDN</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>Considerations: Managing cache, replication lag, hot keys</p>
-</blockquote>
 <p><img src="image-8.png" alt="alt text"></p>
-<h4 id="deep-dives-on-scaling-reads">Deep Dives on Scaling Reads </h4>
+<h3 id="how-would-the-system-handle-running-test-cases">How would the system handle running test cases? </h3>
 <ul>
-<li>Queries takes longer
-<ul>
-<li>Indexing</li>
+<li>Write test case once</li>
+<li>Serialize and deserialize input output for each runtime</li>
 </ul>
-</li>
-<li>Still reads need scaling
-<ul>
-<li>Spinning Disk to SSDs</li>
-<li>Data Freq access data Skewed &gt; Add Cache</li>
-<li>Else &gt; Add Replicas</li>
-</ul>
-</li>
-<li>Hot Cache / Key
-<ul>
-<li>Request Cohelesense</li>
-<li>Cache Key Fanout</li>
-</ul>
-</li>
-<li>Cache Invalidation / Updates immediately
-<ul>
-<li>On write, delete key from cache &gt; Still cache can read old version from db replica</li>
-<li>Cache Versioning</li>
-</ul>
-</li>
-</ul>
-<h3 id="scaling-writes">Scaling Writes </h3>
-<p>In Order</p>
-<ul>
-<li>Vertical Scaling and DB Choice</li>
-<li>Sharding and Vertical partitioning
-<ul>
-<li>Read Fan Out</li>
-</ul>
-</li>
-<li>Queues and load shedding
-<ul>
-<li>Eventual Consistency</li>
-</ul>
-</li>
-<li>Batching and Aggregation
-<ul>
-<li>Latency</li>
-</ul>
-</li>
-</ul>
-<h4 id="vertical-scaling">Vertical Scaling </h4>
-<p>Use better hardware</p>
-<h4 id="db-choice">DB Choice </h4>
-<p>Use cassandra db for write heavy workloads, append-only commit log architecture. Read suffers.<br>
-Postgres updates BTree on every insert</p>
-<h4 id="sharding">Sharding </h4>
-<p>Example Redis</p>
-<p>Good Shard Key</p>
-<h4 id="vertical-partitioning">Vertical Partitioning </h4>
-<p>Columns are divided into different db - Specialized table in specialized database. Different data on different type of dbs</p>
-<h4 id="queue">Queue </h4>
-<ul>
-<li>For bursty traffic, for short lived</li>
-<li>Buffer / Queue</li>
-</ul>
-<h4 id="load-shedding">Load Shedding </h4>
-<ul>
-<li>Drop updates / writes which are not much important</li>
-<li>Newer update can overwrite</li>
-</ul>
-<h4 id="batching">Batching </h4>
-<p>Group write together at application layer / queue, then do batch updates</p>
-<ul>
-<li>Data loss can occur so need some recovery mechanism</li>
-</ul>
-<h4 id="intermediate-processing-layer">Intermediate processing layer </h4>
-<ul>
-<li>Batches some event and then flushes that to db</li>
-<li>Like Updates Batcher</li>
-</ul>
-<blockquote>
-<p>DB Layer Batching also possible</p>
-</blockquote>
-<h4 id="aggregation">Aggregation </h4>
-<p>Aggregate incomming writes into processors, Batch and Update<br>
-Create broadcast nodes for reads, where each broadcast node handles set of users feeds<br>
-<img src="image-12.png" alt="alt text"></p>
-<p><strong>Deep Dives</strong></p>
-<ol>
-<li>Increase shard / db capacity without downtime
-<ol>
-<li>Create new db in parallel</li>
-<li>Do dual write, copy historical data</li>
-<li>Swtch</li>
-</ol>
-</li>
-<li>Hot Key
-<ol>
-<li>Split into different shard when becomes hot</li>
-<li>Read will need to agregated data from all shards</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h3 id="handling-large-blob">Handling Large Blob </h3>
-<ul>
-<li>Direct client to storage transfer</li>
-</ul>
-<blockquote>
-<p>Considerations: Data sync with DB, Upload failures, lifecycle management</p>
-</blockquote>
-<p><img src="image-10.png" alt="alt text"></p>
-<p>Presigned URL - Temporary upload/download url directly from storage server</p>
-<ul>
-<li>Restrictions on time, file type, file size</li>
-</ul>
-<p>Use CDN for frequent downloaded files<br>
-<img src="image-36.png" alt="alt text"></p>
-<p><strong>Resumable uploads/downloads</strong></p>
-<ul>
-<li>Chunk uploads</li>
-<li>Tracked via checksum/hash of uploaded chunks</li>
-<li>After completion, chunks stiched</li>
-</ul>
-<p><img src="image-37.png" alt="alt text"></p>
-<p><strong>State Sync Challenges</strong></p>
-<ul>
-<li>Actual file in storage, while files metadata in db</li>
-<li>Issues
-<ul>
-<li>Race condition of file status</li>
-<li>Orphaned Files</li>
-<li>Malicious clients</li>
-<li>Network failures</li>
-</ul>
-</li>
-<li>Solution
-<ul>
-<li>Event notification from storage to db</li>
-<li>Periodic reconcillation</li>
-</ul>
-</li>
-</ul>
-<p><img src="image-38.png" alt="alt text"></p>
-<p><img src="image-39.png" alt="alt text"></p>
-<h4 id="when-to-use">When to use </h4>
-<ul>
-<li>Video Platform</li>
-<li>Instagram / Photo sharing</li>
-<li>File Sync</li>
-<li>Chat Application for media</li>
-</ul>
-<h4 id="when-not-to-use">When not to use </h4>
-<ul>
-<li>Small files &lt; 10mb</li>
-<li>Compliance and data inspection</li>
-<li>Immediate response</li>
-<li>Sync validation requirements</li>
-</ul>
-<h4 id="deep-dives">Deep Dives </h4>
-<ul>
-<li>If upload fails at 99 percent
-<ul>
-<li>Clients track chunks uploaded and upload session identifier</li>
-<li>Only uploads the failed chunks</li>
-</ul>
-</li>
-<li>Prevent abuse
-<ul>
-<li>Implement data processing pipeline before allowing download</li>
-<li>Automatic content analysis</li>
-</ul>
-</li>
-<li>Handle Metadata
-<ul>
-<li>Store and manage in DB</li>
-</ul>
-</li>
-<li>Fast downloads
-<ul>
-<li>Direct downloads</li>
-<li>CDN downloads</li>
-<li>Range downloads over HTTP for resumable downloads</li>
-<li>Parallel chunk download</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="multi-step-process">Multi-Step Process </h3>
-<ul>
-<li>Workflows coordination</li>
-<li>Server orchestration, workflow engines</li>
-<li>Event driven systems</li>
-<li>State Management, Retry Logic, Failure recovery</li>
-</ul>
-<p><img src="image-11.png" alt="alt text"></p>
-<p>ISSUES WITH SIMPLE FLOW IN SINGLE NODE SYSTEM</p>
-<ul>
-<li>Crashes, Retry</li>
-</ul>
-<p><img src="image-35.png" alt="alt text"></p>
-<p>SOLUTION-</p>
-<ul>
-<li>Choreography</li>
-<li>Orchestration</li>
-</ul>
-<p><strong>Sagas and Compensations</strong></p>
-<ul>
-<li>Sagas are group of sequential steps that gets completed one at a time</li>
-<li>If something fails, compensation actions are also performed in reverse order</li>
-<li>Compensation can also fail, so need their own retry and idempotency logic</li>
-</ul>
-<p><img src="image-28.png" alt="alt text"></p>
-<p><img src="image-29.png" alt="alt text"></p>
-<p><strong>Choreography</strong></p>
-<ul>
-<li>Instead of storing the current step, store stream of steps that got here</li>
-<li>Durable Log - Kafka</li>
-<li>Workers are subscribe to it, react based on states, needs to be idempotent</li>
-<li>Workers can scale independently</li>
-<li>IMPLICIT WORKFLOW</li>
-<li>CONS - Adding new step in between requires lot of changes</li>
-</ul>
-<p><img src="image-30.png" alt="alt text"></p>
-<p><img src="image-31.png" alt="alt text"></p>
-<p><strong>Orchestration Engines</strong></p>
-<ul>
-<li>Temporal, AWS Step Function</li>
-<li><strong>Workflow</strong> - Deterministic code that has the entire flow,</li>
-<li><strong>Activities</strong> - Idempotent actions</li>
-<li>History stored in db. Replay happens without issues</li>
-</ul>
-<p><img src="image-32.png" alt="alt text"></p>
-<p><img src="image-33.png" alt="alt text"></p>
-<p>DEEP DIVES<br>
-<strong>How do you handle updates to workflow?</strong></p>
-<ul>
-<li>Versioning</li>
-<li>Patching</li>
-</ul>
-<p><strong>How to make sure a step runs exactly once?</strong></p>
-<ul>
-<li>Idempotency Key</li>
-<li>Double check before replaying any step</li>
-</ul>
-<p><strong>How do we manage history size</strong></p>
-<ul>
-<li>Keep activity input output small</li>
-<li>Continue as new - Create a new worflow with current state as start</li>
-</ul>
-<p>WHEN TO USE WHEN NOT TO<br>
-<img src="image-34.png" alt="alt text"></p>
-<hr>
-<h3 id="proximity-based-services">Proximity Based Services </h3>
-<ul>
-<li>Geospacial Indexes</li>
-</ul>
+<h2 id="final-design">Final Design </h2>
+<p><img src="image-9.png" alt="alt text"></p>
 
       </div>
       
       
     
     
-    <script type="module">
-// TODO: If ZenUML gets integrated into mermaid in the future,
-//      we can remove the following lines.
-
-
-var MERMAID_CONFIG = ({"startOnLoad":false});
-if (typeof MERMAID_CONFIG !== 'undefined') {
-  MERMAID_CONFIG.startOnLoad = false
-  MERMAID_CONFIG.cloneCssStyles = false
-  MERMAID_CONFIG.theme = "default"
-}
-
-mermaid.initialize(MERMAID_CONFIG || {})
-if (typeof(window['Reveal']) !== 'undefined') {
-  function mermaidRevealHelper(event) {
-    var currentSlide = event.currentSlide
-    var diagrams = currentSlide.querySelectorAll('div.mermaid')
-    for (var i = 0; i < diagrams.length; i++) {
-      var diagram = diagrams[i]
-      if (!diagram.hasAttribute('data-processed')) {
-        mermaid.init(null, diagram, ()=> {
-          Reveal.slide(event.indexh, event.indexv)
-        })
-      }
-    }
-  }
-  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
-  Reveal.addEventListener('ready', mermaidRevealHelper)
-  await mermaid.run({
-    nodes: document.querySelectorAll('div.mermaid')
-  })
-} else {
-  await mermaid.run({
-    nodes: document.querySelectorAll('div.mermaid')
-  })
-}
-</script>
+    
     
     
     
