@@ -187,6 +187,12 @@ Represent different component of the system and their interactions
 
 ![alt text](image-1.png)
 
+NOTES:
+
+- Add API Gateway to route between different microservices
+- Single db for multiple microservices - Simplicity, fault tolerance via replications
+- Separate out microservice when there is different read write pattern - Needs separate scaling
+
 ### 6. Deep Dives (10 Mins)
 
 Make the HLD efficient and satisfy non functional requirements
@@ -358,7 +364,76 @@ Server-Side Update Propagation
 
 ![alt text](image-6.png)
 
----
+- Split long running task into 2 parts: Return Job Id to user, Add work to queue for async processing
+  - Decouple request acceptance with request processing
+
+ADVANTAGES
+
+- Quick user response, better experience
+- Independent scaling
+- Queue maintain durable jobs
+- Fault Isolation
+- Better resource utilization
+
+TRADE-OFFS
+
+- System complexity
+- Eventual consistency
+- Infra for job status tracking
+- Monitoring overhead
+
+#### How to implement
+
+**Message Queue**
+
+- Kafka (Default) - Append only log, High throughput, Ordering within partition, Replay message, Fan out
+- Redis with BullMQ - Simple and fast. But not durable on crashes
+- AWS SQS - Managed, Scalable, 1MB message limit, Gurantees message delivery
+- Rebbit MQ- Requires self hosting and management, Enterprise level
+
+**Workers**
+
+- Normal Servers - (Default) - Self managed machines, Simple
+- Serverless functions - No server managements, Auto scaling, Pay for use. Azure functions, AWS Lambda
+  - Limits - Cold start, limited execution time, less storage
+- Container based - Docker containers, k8 handles orchestration, scaling, deployment. Complex than normal server, but more flexible than serverless
+
+![alt text](image-40.png)
+
+When to use in interviews
+
+- When there is specific slow operation
+- Scaling needs or Failure requirements
+- Different operation needs different hardware
+- Math does not works
+
+Example - Video platform, Photo sharing, Ride sharing, Payment processing, File Sync
+
+**Deep Dives**
+
+- Handling Failures
+  - If worker crashes - Job will be picked by another worker
+  - How to know worker crash - Heartbeat mechanism
+  - SQS: Visibility timeout, Kafka: Session timeout, RabbitMQ: Heartbeat interval
+- Handling repeated failures
+  - DLQ
+- Prevent duplicate work
+  - Idempotency Keys
+  - ![alt text](image-41.png)
+- Bursty Traffic on Queueu
+  - Back pressure on queue: Dont accept new jobs if queue close to full
+  - Autoscale workers
+- Handling mixed workloads
+  - Separate queues and workers group
+  - Small task - Fast queues, multiple small workers
+  - Long Tasks - Slow queue, few big workers
+  - ![alt text](image-42.png)
+- Orchestration of job dependencies
+  - Multi step jobs
+  - Simple Jobs - Workers queues next steps
+  - Complex Jobs - Workflow Orchestrators - AWS Step Function, Temporal
+
+## ![alt text](image-43.png)
 
 ### Dealing with Contention / Race condition
 
@@ -689,3 +764,76 @@ WHEN TO USE WHEN NOT TO
 ### Proximity Based Services
 
 - Geospacial Indexes
+
+1D Data stored in BTree, so indexing easy.
+SOLUTION
+
+- _Custom Tree_
+  - KD, BKD, R, R-Star, Quadtree
+  - Used for polygions, shapes
+- _Single Key for Lat/Long - Encoded Keys_
+  - Geohash, S2, H3
+  - Used for points at scale
+  - Used in Redis, MongoDB, Uber
+
+![alt text](image-46.png)
+
+![alt text](image-47.png)
+
+**Quad Tree**
+
+- Every point on map divided into 4 quads
+- Sub divided if more points in any quad
+- Different number of levels for different location
+- Each node can be at different disk location - Random access
+
+![alt text](image-49.png)
+
+**K-D Tree**
+
+- Divide data either horizontally or vertically, one at a time
+
+**B-K-D Tree (Block K-D Tree)**
+
+- Multiple points in same block of data
+- Used by Elastic search
+
+**R-Tree**
+
+- Minimum bounding rectangles
+- Nearby rectangles grouped together, Overlapping
+- Same levels of depth
+- Production Grade
+- Indexes lines, polygons and points
+
+![alt text](image-50.png)
+
+**R(Star)-Tree**
+
+- Less overlapping on insertion
+
+**GeoHash**
+
+- Divide world into 32 blocks ~ Represent one character
+- Then again divide each block into 32 ~ Another character
+- Final location is a string
+- String sharing prefix are near each other
+- In Redis
+- Edgecase - On boundary, Solution : Search on 3z3
+
+![alt text](image-48.png)
+
+**Google's-S2**
+
+- Earth not flat, thus grid location near pole thin vs location near equator
+- S2 - Project earch on cube so that each face of equal size
+- Used in MongoDB
+- ![alt text](image-44.png)
+
+**Uber-H3**
+
+- Uses Hexagon cells
+- Makes neighbouring cells equidistance
+- 64bit id for each cell
+- Prefix same for nearby cells
+- ![alt text](image-45.png)
