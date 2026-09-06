@@ -104,10 +104,10 @@ Modifiers are keywords used to define the accessibility of classes, methods, and
 
 | Access Modifier | Description                                                        | Access Level | Within Derived Class | Outside Class | Outside Assembly |
 | --------------- | ------------------------------------------------------------------ | ------------ | -------------------- | ------------- | ---------------- |
-| Public          | The member is accessible from any other code.                      | High         | Yes                  | Yes           | Yes              |
-| Private         | The member is accessible only within the class.                    | Low          | No                   | No            | No               |
-| Protected       | The member is accessible within the class and its derived classes. | Medium       | Yes                  | No            | No               |
-| Internal        | The member is accessible only within the same assembly.            | Medium       | No                   | Yes           | No               |
+| Public          | The member is accessible from any other code.                      | High         | ✅                   | ✅            | ✅               |
+| Private         | The member is accessible only within the class.                    | Low          | ❌                   | ❌            | ❌               |
+| Protected       | The member is accessible within the class and its derived classes. | Medium       | ✅                   | ❌            | ❌               |
+| Internal        | The member is accessible only within the same assembly.            | Medium       | ❌                   | ✅            | ❌               |
 
 ## Constructor
 

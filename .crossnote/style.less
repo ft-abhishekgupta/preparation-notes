@@ -1,7 +1,9 @@
 /* Please visit the URL below for more information: */
 /*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
 
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@300;400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap");
+/* (css) keeps this a plain CSS @import: Less must not fetch it at build time,
+   otherwise an offline/blocked export aborts style compilation. */
+@import (css) url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@300;400;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap");
 
 html,
 body {

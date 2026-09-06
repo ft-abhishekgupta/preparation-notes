@@ -183,6 +183,24 @@ function defaultDescription(markdownFile, title) {
   return `Notes on ${topic}.`;
 }
 
+/**
+ * crossnote swallows `style.less` compile errors: instead of throwing it returns a
+ * stylesheet containing `.crossnote { display: none !important; }`, so every exported
+ * page silently renders blank. Catch that here and abort before any file is written.
+ */
+function assertGlobalCssCompiled(globalCss) {
+  if (typeof globalCss === 'string' && globalCss.includes('Failed to compile `style.less`')) {
+    const detail = /Failed to compile `style\.less`\.\s*([\s\S]*?)"\s*!important;/.exec(globalCss);
+    throw new Error(
+      `Failed to compile .crossnote/style.less — aborting so no blank HTML is written.\n` +
+        `${(detail?.[1] ?? '').trim()}\n\n` +
+        `Note: Less resolves \`@import url(...)\` over the network at build time. ` +
+        `Use \`@import (css) url(...)\` for remote stylesheets so the import is emitted as ` +
+        `plain CSS and left for the browser to fetch.`,
+    );
+  }
+}
+
 async function exportMarkdownFiles(markdownFiles) {
   const { Notebook, loadConfigsInDirectory, wrapNodeFSAsApi } = require('crossnote');
 
@@ -190,6 +208,8 @@ async function exportMarkdownFiles(markdownFiles) {
   const config = fs.existsSync(CROSSNOTE_DIR)
     ? await loadConfigsInDirectory(CROSSNOTE_DIR, fsApi, true)
     : {};
+
+  assertGlobalCssCompiled(config.globalCss);
 
   const notebook = await Notebook.init({
     notebookPath: REPO_ROOT,

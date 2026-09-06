@@ -1,13 +1,5 @@
 ## Concurrency and Thread Safety
 
-<!-- Race conditions
-Deadlocks
-Thread safety
-Atomic operations
-Critical sections
-Producer-consumer
-Thread-safe singleton -->
-
 Concurrency occurs when 2 or more process/thread tries to change same resource
 
 **Process** - An isolated container with its own address space and resources, to run a set of instructions.
@@ -17,81 +9,6 @@ Concurrency occurs when 2 or more process/thread tries to change same resource
 - But shares the heap, globals, and open resources with other threads in the same process
 
 > Operation from different thread can interleave (Both in multiprocessor/single processor system)
-
-## Atomics
-
-Thread safe operation on single variable without locks
-
-```cs
-using System.Threading;
-
-int counter = 0;
-Interlocked.Increment(ref counter);  // Thread-safe increment
-```
-
-## Locks (Mutexes)
-
-Provides mutual exclusion. Only one thread can execute until lock is held
-
-```cs
-private readonly object _lock = new object();
-
-lock (_lock)
-{
-    // Only one thread can be here at a time
-    balance += amount;
-}
-```
-
-## Semaphores
-
-Counting locks, N permits.
-
-```cs
-using System.Threading;
-
-var permits = new SemaphoreSlim(5);  // Allow 5 concurrent operations
-await permits.WaitAsync();  // Block if no permits available
-try
-{
-    DoWork();
-}
-finally
-{
-    permits.Release();  // Always release, even on exception
-}
-```
-
-## Condition Variables
-
-Thread wait efficiently for a condition to become true, release lock and sleeps otherwise.
-
-```cs
-using System.Threading;
-
-private readonly object _lock = new object();
-
-lock (_lock)
-{
-    while (!condition)
-    {
-        Monitor.Wait(_lock);  // Release lock and sleep
-    }
-    // Condition is now true
-}
-```
-
-## Blocking Queues
-
-Thread safe producer consumer handoff.
-
-```cs
-using System.Collections.Concurrent;
-
-var queue = new BlockingCollection<Task>(boundedCapacity: 100);
-queue.Add(task);     // Blocks if queue is full
-var t = queue.Take();  // Blocks if queue is empty
-```
 
 ---
 
@@ -844,3 +761,63 @@ SOLUTIONS
 ### Conclusion
 
 ![alt text](image-3.png)
+
+---
+
+## Final Concurrency Decision Guide
+
+```text
+START: What concurrency problem are you solving?
+|
++-- 1. CORRECTNESS: Shared state may be corrupted
+|   |
+|   +-- Can shared mutable state be avoided?
+|   |   +-- Yes -> Use immutable data or thread confinement
+|   |   +-- No  -> What must change atomically?
+|   |       +-- One independent value
+|   |       |   -> Use atomic operations or a CAS loop
+|   |       +-- Multiple values or one invariant
+|   |           +-- Moderate contention / cannot partition
+|   |           |   -> Use one coarse-grained lock [default]
+|   |           +-- High contention / can partition by resource
+|   |               -> Use fine-grained locking
+|   |
+|   +-- Examples: counters, seat booking, inventory, bank accounts
+|
++-- 2. COORDINATION: Work needs ordering, waiting, or handoff
+|   |
+|   +-- Must the work run asynchronously?
+|   |   +-- No  -> Handle it inline
+|   |   +-- Yes -> What kind of coordination is needed?
+|   |       +-- Simple task handoff or burst buffering
+|   |       |   -> Use a bounded blocking queue [default]
+|   |       +-- Many independent stateful entities communicating
+|   |           -> Consider the actor model
+|   |
+|   +-- Examples: background jobs, email delivery, bursty requests
+|
++-- 3. SCARCITY: Demand exceeds limited capacity
+    |
+    +-- Is the goal to enforce a limit?
+    |   +-- Limit concurrent operations
+    |   |   +-- Need to hand out actual reusable resources?
+    |   |       +-- Yes -> Use a blocking queue as a resource pool
+    |   |       +-- No  -> Use a semaphore with N permits [default]
+    |   +-- Limit total resource consumption
+    |       -> Use semaphore permits as resource units
+    |
+    +-- Is the goal to improve utilization?
+        +-- Uneven task duration  -> Work stealing
+        +-- Many small operations -> Batching
+        +-- Load changes over time -> Adaptive sizing
+
+    Examples: connection pools, API limits, memory budgets, worker pools
+```
+
+### Final Checklist
+
+- Prefer no shared mutable state; otherwise protect the complete invariant.
+- Bound queues and pools, define backpressure, and use timeouts or cancellation.
+- Release locks, permits, and pooled resources in `finally` blocks.
+- Define graceful shutdown for workers and actors.
+- Measure contention, queue depth, wait time, throughput, and resource utilization before optimizing.
